@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import Registration from "./Pages/Registration/Registration";
 
 function App() {
   return (
     <>
-      Hello World
+      <Registration />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

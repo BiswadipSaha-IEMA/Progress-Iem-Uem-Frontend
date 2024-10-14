@@ -5,16 +5,17 @@ import shapes from "../../assets/shapes.png";
 function ChangePasswordComp() {
   return (
     <>
-      <div className="relative p-4 flex">
+      <div className="relative p-4 flex
+      md:flex-col lg:flex-row">
         {/* left part => image in background & some text over it*/}
         <div className="w-full h-full">
-          <img className="w-[38%]" src={backgroundImg} alt="background image" />
+          <img className="md:w-[52%] lg:w-[38%]" src={backgroundImg} alt="background image" />
           <div className="w-auto absolute top-[10%] text-white pl-[2%]">
-            <h1 className="text-5xl font-bold mb-2">Change Password</h1>
-            <h1 className="text-5xl font-bold mb-2">
+            <h1 className="md:text-3xl lg:text-5xl font-bold lg:mb-2">Change Password</h1>
+            <h1 className="md:text-[1.7rem] lg:text-5xl font-bold mb-2">
               Keep Your Account Secure
             </h1>
-            <p className="text-xl mt-6">
+            <p className="md:text-sm lg:text-xl lg:mt-6">
               Enter your current password and choose a new one. <br></br>
               Make sure it’s strong and unique to protect your information.
             </p>
@@ -22,7 +23,7 @@ function ChangePasswordComp() {
         </div>
 
         {/* right part => change password, set new password, update */}
-        <div className="w-[22%] absolute left-[42%] top-[10%]">
+        <div className="absolute md:left-[55%] lg:left-[42%] top-[10%] lg:w-[22%]">
           <form className="flex flex-col gap-3">
             <h1 className="font-bold text-3xl mb-8">Change Your Password</h1>
             <input
@@ -50,9 +51,11 @@ function ChangePasswordComp() {
         {/* right side 3d image */}
       </div>
 
-    <div className="relative"> 
+    <div > 
       <div>
-        <img className="absolute bottom-0 right-0 w-auto h-auto" src={shapes} alt="shapes image" />
+        <img className="absolute bottom-0 right-0 
+        md:w-[20rem]
+        lg:w-auto lg:h-auto" src={shapes} alt="shapes image" />
       </div>
       </div>
     </>

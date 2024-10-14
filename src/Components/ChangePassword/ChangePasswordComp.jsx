@@ -55,7 +55,7 @@ function ChangePasswordComp() {
       <div>
         <img className="absolute bottom-0 right-0 
         md:w-[20rem]
-        lg:w-auto lg:h-auto" src={shapes} alt="shapes image" />
+        lg:w-[38rem] lg:h-auto" src={shapes} alt="shapes image" />
       </div>
       </div>
     </>

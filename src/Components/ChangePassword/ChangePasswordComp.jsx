@@ -2,7 +2,7 @@ import React from "react";
 import backgroundImg from "../../assets/background.png";
 import shapes from "../../assets/shapes.png";
 
-function ChangePasswordComp() {
+export default function ChangePasswordComp() {
   return (
     <>
       <div className="relative p-4 flex

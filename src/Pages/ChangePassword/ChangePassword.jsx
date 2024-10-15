@@ -1,8 +1,11 @@
 import React from 'react'
+import ChangePasswordComp from '../../Components/ChangePassword/ChangePasswordComp'
 
 function ChangePassword() {
   return (
-    <div>ChangePassword</div>
+    <div>
+      <ChangePasswordComp/>
+    </div>
   )
 }
 

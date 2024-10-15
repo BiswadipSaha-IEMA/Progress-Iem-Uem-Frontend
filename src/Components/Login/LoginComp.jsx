@@ -22,9 +22,9 @@ function LoginComp() {
     }))
   }
   return (
-    <div className='flex w-full h-screen overflow-x-clip overflow-y-clip'>
-      <div className="w-1/2 p-12 mt-[-2rem]">
-        <img src={loginPic} alt='login' className='w-full h-[94vh] object-cover rounded-xl' />
+    <div className='flex overflow-hidden'>
+      <div className="w-1/2 relative ml-2">
+        <img src={loginPic} alt='login' className='h-[100vh] w-[40vw] p-8 object-cover rounded-[3rem]' />
         <div className="absolute top-[-.8rem] left-0 z-2 text-white p-20">
           <h2 className='text-4xl font-semibold'>Welcome Back</h2>
           <h2 className='text-4xl font-semibold mb-2'>Sign In to Your Account</h2>
@@ -32,9 +32,9 @@ function LoginComp() {
         </div>
       </div>
       <div className="w-1/2 relative">
-        <div className="flex flex-col mt-20 gap-4 w-3/5">
+        <div className="flex flex-col mt-20 gap-4 w-3/5 ml-[-6rem]">
           <h2 className='font-semibold text-4xl'>Sign In</h2>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+          <form className='flex flex-col gap-4 text-lg' onSubmit={handleSubmit}>
             <input className='bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400' placeholder='Email Address' type='email' name='email' value={login.email} onChange={handleChange}/>
             <input className='bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400' placeholder='Password' type='password' name='password' value={login.password} onChange={handleChange}/>
             <a href='#' className='text-[#03A8FD] text-right'>Forget Password?</a>

@@ -34,6 +34,10 @@ function RegistrationComp({
     startResendTimer();
   };
 
+  const handleGenereteOtp=()=>{
+    
+  }
+
   const handleOtpChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setOtp(value);

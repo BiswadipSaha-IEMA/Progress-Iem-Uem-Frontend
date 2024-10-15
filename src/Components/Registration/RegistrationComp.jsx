@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-
-function Registration() {
-  return (
-    <div>Registration</div>
-  )
-}
-
-export default Registration
-=======
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -146,4 +135,3 @@ function RegistrationComp() {
 }
 
 export default RegistrationComp;
->>>>>>> a0063061b8131f7291ead9ec4f890fe4737d2aee

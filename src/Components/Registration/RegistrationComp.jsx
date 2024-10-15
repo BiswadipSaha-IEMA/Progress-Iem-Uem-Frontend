@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function RegistrationComp() {
-  const [otp, setOtp] = useState("");
 
-  const handleChange = (e) => {
-    const value = e.target.value.replace(/\D/g, ""); // Only allows numbers
-    setOtp(value);
-  };
+  const navigate = useNavigate();
+
+  // const [otp, setOtp] = useState("");
+
+  // const handleChange = (e) => {
+  //   const value = e.target.value.replace(/\D/g, ""); // Only allows numbers
+  //   setOtp(value);
+  // };
 
   return (
     <div className="relative flex h-screen">
@@ -43,7 +47,7 @@ function RegistrationComp() {
                 Verify
               </button>
             </div>
-            <div className="flex items-center gap-x-2">
+            {/* <div className="flex items-center gap-x-2">
               <input
                 type="text"
                 inputMode="numeric"
@@ -60,7 +64,7 @@ function RegistrationComp() {
                   Resend in 01:59
                 </span>
               </div>
-            </div>
+            </div> */}
             <input
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
               type="password"
@@ -110,7 +114,10 @@ function RegistrationComp() {
               </div>
               <div className="text-[#7B7B7B]">
                 Already have an account?{" "}
-                <span className="text-[#00A8FF] font-semibold cursor-pointer">
+                <span
+                  className="text-[#00A8FF] font-semibold cursor-pointer"
+                  onClick={() => navigate("/login")}
+                >
                   Sign in
                 </span>
               </div>

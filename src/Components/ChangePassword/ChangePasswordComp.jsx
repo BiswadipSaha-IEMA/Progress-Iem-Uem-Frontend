@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import backgroundImg from "../../assets/background.png";
 import shapes from "../../assets/shapes.png";
@@ -63,3 +64,14 @@ function ChangePasswordComp() {
 }
 
 export default ChangePasswordComp;
+=======
+import React from 'react'
+
+function ChangePasswordComp() {
+  return (
+    <div>ChangePasswordComponent</div>
+  )
+}
+
+export default ChangePasswordComp
+>>>>>>> a0063061b8131f7291ead9ec4f890fe4737d2aee

@@ -4,7 +4,7 @@ import ChangePasswordComp from './Components/ChangePassword/ChangePasswordComp'
 function App() {
   return (
     <>
-     <ChangePasswordComp/>
+     
     </>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import ChangePasswordComp from '../../Components/ChangePassword/ChangePasswordComp'
+import ChangePasswordComp from '../../Components/ChangePassword/ChangePasswordCompSigned'
 
 function ChangePassword() {
   return (

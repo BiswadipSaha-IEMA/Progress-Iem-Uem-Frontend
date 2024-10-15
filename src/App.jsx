@@ -1,18 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Registration from "./Pages/Registration/Registration";
-import Login from "./Pages/Login/Login";
-import ChangePassword from "./Pages/ChangePassword/ChangePassword";
+import { BrowserRouter } from "react-router-dom"; 
+import { Provider } from "react-redux"; 
+import AppRouter from "./AppRoutes";
+import store from './Store/Store';  
+import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Registration />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-      </Routes>
-    </Router>
+    <Provider store={store}> 
+      <BrowserRouter> 
+        <AppRouter />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

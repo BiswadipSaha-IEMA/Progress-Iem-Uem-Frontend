@@ -20,13 +20,13 @@ function Login() {
   }, [userLogin, navigate]);
 
   useEffect(() => {
-    if (submitted) {
+    if (submitted && email!=='' && password!=='') {
       const userData = { name: email, token: "abc123" };
       dispatch(login(userData));
       contextLogin(userData);
       navigate("/");
     }
-  }, [submitted, email, dispatch, contextLogin, navigate]);
+  }, [submitted, email, password, dispatch, contextLogin, navigate]);
 
   return (
     <div>

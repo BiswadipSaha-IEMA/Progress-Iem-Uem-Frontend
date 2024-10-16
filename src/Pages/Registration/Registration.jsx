@@ -28,7 +28,7 @@ function Registration() {
           const userData = { name: onRegister.email, token: 'abc123' };
           dispatch(login(userData));
           contextLogin(userData);
-          navigate('/home');
+          navigate('/');
     }
   
     

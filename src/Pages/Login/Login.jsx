@@ -15,7 +15,7 @@ function Login() {
 
   useEffect(() => {
     if (userLogin && sessionStorage.getItem("user")) {
-      navigate("/home");
+      navigate("/");
     }
   }, [userLogin, navigate]);
 
@@ -24,7 +24,7 @@ function Login() {
       const userData = { name: email, token: "abc123" };
       dispatch(login(userData));
       contextLogin(userData);
-      navigate("/home");
+      navigate("/");
     }
   }, [submitted, email, dispatch, contextLogin, navigate]);
 

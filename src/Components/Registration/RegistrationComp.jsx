@@ -34,8 +34,16 @@ function RegistrationComp({
     startResendTimer();
   };
 
-  const handleGenereteOtp=()=>{
-    
+  const handleGenereteOtp=(e)=>{
+    e.preventDefault();
+    if(email!==null || email!== ''){
+      setCheckSubmit(true);
+      generateOtp();
+      startResendTimer();
+    }
+    else{
+      alert('you must enter valid email')
+    }
   }
 
   const handleOtpChange = (e) => {
@@ -45,6 +53,7 @@ function RegistrationComp({
 
   const handleResendOtp = () => {
     if (resendTimer === 0) {
+      generateOtp();
       generateOtp();
       startResendTimer();
     }
@@ -119,12 +128,14 @@ function RegistrationComp({
                 required
               />
               {!checkSubmit && (
-                <button
-                  type="submit"
+                <div
                   className="absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700]"
+                  onClick={()=>{
+                    handleGenereteOtp()
+                  }}
                 >
                   Verify
-                </button>
+                </div>
               )}
             </div>
 

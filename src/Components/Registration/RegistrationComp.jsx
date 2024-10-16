@@ -35,7 +35,7 @@ function RegistrationComp({
   };
 
   const handleGenereteOtp=(e)=>{
-    e.preventDefault();
+    // e.preventDefault();
     if(email!==null || email!== ''){
       setCheckSubmit(true);
       generateOtp();

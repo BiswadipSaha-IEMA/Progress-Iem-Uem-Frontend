@@ -7,28 +7,15 @@ import ForgetPassword from "../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
 
 function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
-  // const[login,setLogin]=useState({
-  //   email:'',
-  //   password:''
-  // })
-  // const handleSubmit=(e)=>{
-  //   e.preventDefault()
-  //   console.log("submitted:",login)
-  // }
-  // const handleChange=(e)=>{
-  //   const {name,value}=e.target;
-  //   setLogin((prevLogin)=>({
-  //     ...prevLogin,
-  //     [name]:value
-  //   }))
-  // }
   const [forgetPassword, setForgetPassword] = useState(false);
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setHandleLogin(true);
   };
+
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   return (
     <div className="flex overflow-hidden">
@@ -73,20 +60,21 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <a
-              href="#"
-              className="text-[#03A8FD] text-right"
-              onClick={() => {
-                setForgetPassword(true);
-              }}
-            >
-              Forget Password?
-            </a>
+            <div className="w-full flex justify-end">
+              <span
+                className="text-[#03A8FD] text-right cursor-pointer"
+                onClick={() => {
+                  setForgetPassword(true);
+                }}
+              >
+                Forget Password?
+              </span>
+            </div>
             <div className="flex justify-center">
               <button
                 type="submit"
                 className="bg-[#03A8FD] p-2 text-white rounded-xl w-1/3"
-                onClick={handleSubmit}
+                disabled={!isFormValid} // Disable button if form is not valid
               >
                 Sign In
               </button>
@@ -109,11 +97,14 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
           </div>
           <div className="flex justify-center text-[#7B7B7B]">
             Don't have an account?
-            <span className="text-[#03A8FD] font-bold cursor-pointer"
-            onClick={()=>{
-              navigate('/')
-            }}
-            >Register Now</span>
+            <span
+              className="text-[#03A8FD] font-bold cursor-pointer"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Register Now
+            </span>
           </div>
         </div>
         <img
@@ -122,7 +113,9 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
           className="absolute right-[-22rem] bottom-[-18rem] w-full h-[90vh] object-cover"
         />
       </div>
-      {forgetPassword && <ForgetPassword setForgetPassword={setForgetPassword}/>}
+      {forgetPassword && (
+        <ForgetPassword setForgetPassword={setForgetPassword} />
+      )}
     </div>
   );
 }

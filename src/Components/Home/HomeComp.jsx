@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PencilIcon, UserIcon } from "lucide-react";
 import "../Home/styles.css";
 import profileImg from "../../assets/dp.jpeg";
 import editIcon from "../../assets/edit.jpeg";
+import { AuthContext } from "../../Context/AuthContext";
+import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 
 export default function HomeComp() {
   const [editMode, setEditMode] = useState(false);
+  const {logout: contextLogout}= useContext(AuthContext)
+
+  const [ChangePassword, setChangePassword]= useState(false)
 
   return (
     <div className="account-page">
@@ -94,12 +99,27 @@ export default function HomeComp() {
           <button className="remove-picture-button">
             Remove Profile Picture
           </button>
-          <button className="font-semibold change-password-button">
+          <button className="font-semibold change-password-button"
+          onClick={()=>{
+            setChangePassword(true)
+          }}
+          >
             Change Account Password
           </button>
-          <button className="font-semibold logout-button">Log Out</button>
+          <button className="font-semibold logout-button"
+          onClick={()=>{
+            contextLogout()
+          }}
+          >Log Out</button>
         </div>
       </div>
+      {
+        ChangePassword && (
+          <>
+            <ChangePasswordCompSigned setForgetPassword={setChangePassword}/>
+          </>
+        )
+      }
     </div>
   );
 }

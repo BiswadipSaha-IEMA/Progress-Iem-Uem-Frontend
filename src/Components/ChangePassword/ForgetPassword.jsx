@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import OtpInput from "react-otp-input";
 import ChangePasswordCompSigned from "./ChangePasswordCompSigned";
@@ -7,21 +7,60 @@ export default function ForgetPassword({ setForgetPassword }) {
   const [sendOtp, setSendOtp] = useState(false);
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [otp, setOtp] = useState("");
-  const [otpVerifid, setOtpVerified]= useState(false)
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [email, setEmail] = useState("");
+  const [timer, setTimer] = useState(120);
+  const [resendAvailable, setResendAvailable] = useState(false);
+
+  useEffect(() => {
+    let countdown;
+    if (sendOtp && timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      setResendAvailable(true);
+      clearInterval(countdown);
+    }
+    return () => clearInterval(countdown);
+  }, [sendOtp, timer]);
 
   const generateOtp = () => {
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
     setGeneratedOtp(otp);
     console.log("Generated OTP:", otp);
+    setResendAvailable(false); 
+    setTimer(120);
   };
 
   const handleOtpVerified = () => {
     if (generatedOtp === otp) {
       console.log("OTP verified successfully!");
-      setOtpVerified(true)
+      setOtpVerified(true);
     } else {
       console.log("Incorrect OTP. Please try again.");
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email) {
+      setSendOtp(true);
+      generateOtp();
+    }
+  };
+
+  const handleResendOtp = () => {
+    if (resendAvailable) {
+      generateOtp();
+    }
+  };
+
+  const formatTimer = () => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
@@ -37,24 +76,21 @@ export default function ForgetPassword({ setForgetPassword }) {
         </div>
         {sendOtp === false && (
           <>
-            <form type='submit' className="flex flex-col gap-3">
+            <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
               <h1 className="font-bold text-3xl mb-8">Forget Password</h1>
 
               <input
                 className="w-[100%] bg-gray-100 pl-4 p-2 rounded-lg font-400"
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
 
               <button
-              type="submit"
+                type="submit"
                 className="bg-[#03A8FD] w-[8rem] m-auto mt-5 py-1 rounded-lg text-white text-lg"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSendOtp(true);
-                  generateOtp();
-                }}
               >
                 Send OTP
               </button>
@@ -62,10 +98,10 @@ export default function ForgetPassword({ setForgetPassword }) {
           </>
         )}
 
-        {sendOtp === true && otpVerifid===false && (
+        {sendOtp === true && otpVerified === false && (
           <>
             <div className="text-[2rem] font-[700]">Verify Your OTP</div>
-            <div className="text-[12px] mb-5">
+            <div className="text-[12px] mb-5 ">
               We’ve sent an OTP to your registered mobile number and email.
               Please enter the code below to complete your verification.
             </div>
@@ -74,7 +110,7 @@ export default function ForgetPassword({ setForgetPassword }) {
                 value={otp}
                 onChange={setOtp}
                 numInputs={4}
-                renderSeparator={<span>-</span>}
+                renderSeparator={<span className="text-[#7B7B7B]">-</span>}
                 renderInput={(props) => <input {...props} placeholder="0" />}
                 inputStyle={{
                   border: "2px solid #7B7B7B",
@@ -84,11 +120,16 @@ export default function ForgetPassword({ setForgetPassword }) {
                   height: "50px",
                   width: "50px",
                   gridAutoFlow: false,
-                }}
-                focusStyle={{
-                  border: "2px solid #7B7B7B",
+                  outline: "none",
                 }}
               />
+              <div className="flex justify-start items-start w-[45%] mt-1 mb-5 select-none">
+                Didn’t receive it?{" "}
+                <span className={`ml-2 font-[500] ${!resendAvailable ? "text-gray-500" : "text-[#00A8FF] cursor-pointer"}`} onClick={handleResendOtp}>
+                  {timer===0? `Resend OTP`:
+                    `Resend in ${formatTimer()}`}
+                </span>
+              </div>
               <div
                 className="text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] cursor-pointer"
                 onClick={handleOtpVerified}
@@ -98,13 +139,12 @@ export default function ForgetPassword({ setForgetPassword }) {
             </div>
           </>
         )}
-        {
-          otpVerifid && (
-            <>
-              <ChangePasswordCompSigned setForgetPassword={setForgetPassword}/>
-            </>
-          )
-        }
+
+        {otpVerified && (
+          <>
+            <ChangePasswordCompSigned setForgetPassword={setForgetPassword} />
+          </>
+        )}
       </div>
     </div>
   );

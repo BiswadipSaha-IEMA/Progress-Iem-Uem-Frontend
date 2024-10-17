@@ -22,7 +22,7 @@ function Login() {
 
   useEffect(() => {
     if (submitted && email!=='' && password!=='') {
-      const userData = { name: email, token: {accessToken} };
+      const userData = { token: accessToken };
       if(userData.token!=null){
         console.log(accessToken)
         dispatch(login(userData));

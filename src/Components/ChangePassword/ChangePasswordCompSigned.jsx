@@ -8,8 +8,7 @@ export default function ChangePasswordCompSigned({ setForgetPassword }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Password validation
+   
     if (newPassword === "" || confirmPassword === "") {
       setError("Both fields are required");
       return;
@@ -19,7 +18,6 @@ export default function ChangePasswordCompSigned({ setForgetPassword }) {
     } else {
       setError("");
       console.log("Password successfully updated");
-      // Add the logic to update the password here
     }
   };
 

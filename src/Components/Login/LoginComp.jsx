@@ -74,7 +74,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
               <button
                 type="submit"
                 className="bg-[#03A8FD] p-2 text-white rounded-xl w-1/3"
-                disabled={!isFormValid} // Disable button if form is not valid
+                disabled={!isFormValid}
               >
                 Sign In
               </button>

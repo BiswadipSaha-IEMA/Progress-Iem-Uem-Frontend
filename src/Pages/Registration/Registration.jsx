@@ -17,13 +17,13 @@ function Registration() {
   const navigate = useNavigate();
   const [onRegister, setOnRegister]= useState({
     email: null,
-    token:'token@123',
+    token:null,
   })
 
 
 
   useEffect(() => {
-    if(onRegister.email!==null){
+    if(onRegister.token!==null){
       sessionStorage.clear()
           const userData = { name: onRegister.email, token: 'abc123' };
           dispatch(login(userData));
@@ -32,7 +32,9 @@ function Registration() {
     }
   
     
-  }, [onRegister])
+  }, 
+  [onRegister]
+)
   
 
   return (

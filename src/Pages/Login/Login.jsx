@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
+  
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function Login() {
 
   useEffect(() => {
     if (submitted && email!=='' && password!=='') {
-      const userData = { name: email, token: "abc123" };
+      const userData = { name: email, token: 'soham@123' };
       dispatch(login(userData));
       contextLogin(userData);
       navigate("/");

@@ -28,17 +28,21 @@ function RegistrationComp({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (confirmPassword !== formData.password) {
+      alert("Password and Confirm Password should be same");
+      return;
+    }
     try {
       const response = await axios.post(
         `${URL}/api/v1/users/register`,
         formData
       );
-      console.log("Registration successful:", response.data);
-      navigate('/login');
+      console.log(response.data.message);
+      navigate("/login");
       setSuccessfullyRegistered(true);
       setFormData(response.data);
     } catch (error) {
-      console.error("Error Registering:", error);
+      console.error(error.data.response.message);
     }
   };
 
@@ -47,12 +51,15 @@ function RegistrationComp({
       const response = await axios.post(`${URL}/api/v1/otp/sendOtp`, {
         email: formData.email,
       });
-      console.log("OTP Generation successful:", response.data);
-      console.log(response.data);
+      console.log(response.data.message);
       setGeneratedOtp(response.data.otp);
+      if (!response.data.success) {
+        alert("failed");
+      }
       setVerifyEmail(true);
     } catch (error) {
-      console.error(error.message);
+      console.log(error.response.data.message);
+      alert(error.response.data.message);
     }
   };
 
@@ -62,13 +69,13 @@ function RegistrationComp({
         email: formData.email,
         otp: otp,
       });
-      console.log("OTP Verification successful:", response.data);
+      console.log(response.data.message);
+      alert(response.data.message);
       setOtpVerified(true);
       setOptCheck(otp);
-      console.log("Error",response.message);
     } catch (error) {
-      console.error("OTP verification error:", error.resposne.message);
-      alert("OTP verification failed. Please check the OTP and try again.");
+      console.log(error.response.data.message);
+      alert(error.response.data.message);
     }
   };
 
@@ -178,9 +185,7 @@ function RegistrationComp({
                 required
               />
             </div>
-            <div
-              className="flex flex-col items-center gap-y-5"
-            >
+            <div className="flex flex-col items-center gap-y-5">
               <div className="relative w-full">
                 <input
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white pr-10"

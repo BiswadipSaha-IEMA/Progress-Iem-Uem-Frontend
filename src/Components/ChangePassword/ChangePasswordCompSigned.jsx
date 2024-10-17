@@ -30,7 +30,6 @@ export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
    }
 
   }
-
   
   if (passwordCheck) {
     ChangePassword();
@@ -44,7 +43,6 @@ export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
     if (newPassword === confirmPassword) {
       passwordCheck = true;
     }
-
 
     // Password validation
     if (newPassword === "" || confirmPassword === "") {

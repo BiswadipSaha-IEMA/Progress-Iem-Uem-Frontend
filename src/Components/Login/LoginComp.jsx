@@ -6,7 +6,7 @@ import { FaApple } from "react-icons/fa";
 import ForgetPassword from "../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
 
-function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
+function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -27,6 +27,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
 
       if(response.ok){
         const result=await response.json()
+        setAccessToken(result.data.accessToken)
         console.log(result)
         setHandleLogin(true)
       }

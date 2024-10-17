@@ -28,54 +28,95 @@ function RegistrationComp({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (confirmPassword !== formData.password) {
       alert("Password and Confirm Password should be same");
       return;
     }
+
     try {
-      const response = await axios.post(
-        `${URL}/api/v1/users/register`,
-        formData
-      );
-      console.log(response.data.message);
-      navigate("/login");
+      const response = await fetch(`${URL}/api/v1/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Set the content type to JSON
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data.message);
+      const { accessToken, refreshToken } = data.data;
+      sessionStorage.setItem("accessToken", accessToken); // Store access token
+      sessionStorage.setItem("refreshToken", refreshToken);
       setSuccessfullyRegistered(true);
-      setFormData(response.data);
+      setFormData(data.data.user);
+      console.log(data.data.refreshToken);
     } catch (error) {
-      console.error(error.data.response.message);
+      console.error("Error:", error.response.data.data.message);
     }
   };
 
   const generateOtp = async () => {
     try {
-      const response = await axios.post(`${URL}/api/v1/otp/sendOtp`, {
-        email: formData.email,
+      const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }), // Send email in the request body
       });
-      console.log(response.data.message);
-      setGeneratedOtp(response.data.otp);
-      if (!response.data.success) {
-        alert("failed");
+
+      if (!response.ok) {
+        // Check if response is not successful
+        const errorData = await response.json(); // Parse error data
+        throw new Error(errorData.message); // Throw error with message
       }
-      setVerifyEmail(true);
+
+      const data = await response.json(); // Parse response data
+      console.log(data.message);
+      setGeneratedOtp(data.otp); // Set OTP state
+
+      if (!data.success) {
+        alert("failed"); // Alert if OTP generation failed
+      }
+
+      setVerifyEmail(true); // Set email verification state
     } catch (error) {
-      console.log(error.response.data.message);
-      alert(error.response.data.message);
+      console.log("Error:", error.response.data.data.message); // Log error message
+      alert(error.response.data.data.message); // Display error message
     }
   };
-
   const verifyOtp = async () => {
     try {
-      const response = await axios.patch(`${URL}/api/v1/otp/verifyOtp`, {
-        email: formData.email,
-        otp: otp,
+      const response = await fetch(`${URL}/api/v1/otp/verifyOtp`, {
+        method: "PATCH", // Specify the request method
+        headers: {
+          "Content-Type": "application/json", // Set content type to JSON
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          otp: otp,
+        }), // Send email and otp in the request body
       });
-      console.log(response.data.message);
-      alert(response.data.message);
-      setOtpVerified(true);
-      setOptCheck(otp);
+
+      if (!response.ok) {
+        // Check if response is not successful
+        const errorData = await response.json(); // Parse error data
+        throw new Error(errorData.message); // Throw error with message
+      }
+
+      const data = await response.json(); // Parse response data
+      console.log(data.message);
+      alert(data.message); // Alert success message
+      setOtpVerified(true); // Update OTP verified state
+      setOptCheck(otp); // Set OTP check state
     } catch (error) {
-      console.log(error.response.data.message);
-      alert(error.response.data.message);
+      console.log("Error:", error.response.data.message); // Log error message
+      alert(error.response.data.message); // Display error message
     }
   };
 

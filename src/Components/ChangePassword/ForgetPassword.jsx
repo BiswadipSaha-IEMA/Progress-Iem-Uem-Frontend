@@ -26,11 +26,36 @@ export default function ForgetPassword({ setForgetPassword }) {
     return () => clearInterval(countdown);
   }, [sendOtp, timer]);
 
-  const generateOtp = () => {
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    setGeneratedOtp(otp);
-    console.log("Generated OTP:", otp);
-    setResendAvailable(false); 
+  const generateOtp = async () => {
+    //const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+    try {
+      const response = await fetch('http://192.168.90.24:5000/api/v1/otp/sendotp', {
+        method: 'POST',
+        headers : {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: email})
+      });
+  
+      const data =  await response.json();
+  
+      if(response.ok){
+        // otp send  successfully
+        console.log("Otp sent :", data);
+        setGeneratedOtp(otp);
+        setResendAvailable(false);
+      }else{
+        console.log("Otp not sent, Error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+    // setGeneratedOtp(otp);
+    // console.log("Generated OTP:", otp);
+    // setResendAvailable(false); 
     setTimer(120);
   };
 

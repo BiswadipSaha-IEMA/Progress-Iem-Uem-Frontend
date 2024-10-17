@@ -76,7 +76,7 @@ export default function ForgetPassword({ setForgetPassword }) {
      const data = await response.json();
  
      if(response.ok){
-       console.log(" verified");
+       console.log(" verified", data);
        setOtpVerified(true);
      }else{
        console.log("Incorrect otp, try again", data);
@@ -193,7 +193,7 @@ export default function ForgetPassword({ setForgetPassword }) {
 
         {otpVerified && (
           <>
-            <ChangePasswordCompSigned setForgetPassword={setForgetPassword} />
+            <ChangePasswordCompSigned email={email} setForgetPassword={setForgetPassword} />
           </>
         )}
       </div>

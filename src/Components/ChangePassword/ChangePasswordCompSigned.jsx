@@ -1,13 +1,48 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 
-export default function ChangePasswordCompSigned({ setForgetPassword }) {
+export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  let passwordCheck = false;
 
+ useEffect(()=>{
+  
+  const ChangePassword = async () =>{
+    try {
+      const response = await fetch('http://192.168.90.24:5000/api/v1/users/forgotPassword ',{
+       method : 'POST',
+       headers:{
+         'Content-Type': 'application/json',
+       },
+       body : JSON.stringify({email:email,  newPassword:newPassword})
+      });
+      const data = await response.json();
+      if (response.ok) {
+         console.log("password changed", data);
+      }else{
+       console.log("password not changed")
+      }
+   } catch (error) {
+     console.error("Error Occured" ,error);
+   }
+
+  }
+  
+  if (passwordCheck) {
+    ChangePassword();
+  }
+
+ }, [passwordCheck]);
+
+// console.log(email)
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (newPassword === confirmPassword) {
+      passwordCheck = true;
+    }
 
     // Password validation
     if (newPassword === "" || confirmPassword === "") {

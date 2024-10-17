@@ -26,21 +26,72 @@ export default function ForgetPassword({ setForgetPassword }) {
     return () => clearInterval(countdown);
   }, [sendOtp, timer]);
 
-  const generateOtp = () => {
-    const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    setGeneratedOtp(otp);
-    console.log("Generated OTP:", otp);
-    setResendAvailable(false); 
+  const generateOtp = async () => {
+    //const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+    try {
+      const response = await fetch('http://192.168.90.24:5000/api/v1/otp/sendotp', {
+        method: 'POST',
+        headers : {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email: email})
+      });
+  
+      const data =  await response.json();
+  
+      if(response.ok){
+        // otp send  successfully
+        console.log("Otp sent :", data);
+        setGeneratedOtp(otp);
+        setResendAvailable(false);
+      }else{
+        console.log("Otp not sent, Error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // setGeneratedOtp(otp);
+    // console.log("Generated OTP:", otp);
+    // setResendAvailable(false); 
     setTimer(120);
   };
 
-  const handleOtpVerified = () => {
-    if (generatedOtp === otp) {
-      console.log("OTP verified successfully!");
-      setOtpVerified(true);
-    } else {
-      console.log("Incorrect OTP. Please try again.");
-    }
+  const handleOtpVerified = async () => {
+
+    // calling otp  verification api
+   try {
+     const response = await fetch('http://192.168.90.24:5000/api/v1/otp/verifyOtp', {
+       method: 'PATCH',
+       headers : {
+         'Content-Type': 'application/json',
+       },
+       body : JSON.stringify({
+         email: email,
+         otp : otp
+       })
+ 
+     })
+     const data = await response.json();
+ 
+     if(response.ok){
+       console.log(" verified", data);
+       setOtpVerified(true);
+     }else{
+       console.log("Incorrect otp, try again", data);
+     }
+   } catch (error) {
+    console.log('error verifying otp' , error);
+    
+   }
+
+    // if (generatedOtp === otp) {
+    //   console.log("OTP verified successfully!");
+    //   setOtpVerified(true);
+    // } else {
+    //   console.log("Incorrect OTP. Please try again.");
+    // }
   };
 
   const handleSubmit = (e) => {
@@ -142,7 +193,7 @@ export default function ForgetPassword({ setForgetPassword }) {
 
         {otpVerified && (
           <>
-            <ChangePasswordCompSigned setForgetPassword={setForgetPassword} />
+            <ChangePasswordCompSigned email={email} setForgetPassword={setForgetPassword} />
           </>
         )}
       </div>

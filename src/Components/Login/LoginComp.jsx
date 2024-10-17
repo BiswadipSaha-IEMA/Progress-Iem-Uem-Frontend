@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import loginPic from "../../assets/login.png";
 import decorate from "../../assets/decorate.png";
 import { FcGoogle } from "react-icons/fc";
@@ -39,10 +39,6 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
       console.error(error)
     }
   };
-
-  // useEffect(()=>{
-  //     console.log("first")
-  // },[setHandleLogin])
 
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 

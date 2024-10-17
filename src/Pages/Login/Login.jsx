@@ -37,6 +37,7 @@ function Login() {
         setPassword={setPassword}
         setHandleLogin={setSubmitted}
       />
+      {setSubmitted(false)}
     </div>
   );
 }

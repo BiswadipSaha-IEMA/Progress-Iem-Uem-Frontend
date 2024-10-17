@@ -9,6 +9,7 @@ function Login() {
   const [email, setEmail] = useState("");
   
   const [password, setPassword] = useState("");
+  const [accessToken, setAccessToken] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
   const { login: contextLogin, userLogin } = useContext(AuthContext);
@@ -22,10 +23,13 @@ function Login() {
 
   useEffect(() => {
     if (submitted && email!=='' && password!=='') {
-      const userData = { name: email, token: 'soham@123' };
-      dispatch(login(userData));
-      contextLogin(userData);
-      navigate("/");
+      const userData = { token: accessToken };
+      if(userData.token!=null){
+        console.log(accessToken)
+        dispatch(login(userData));
+        contextLogin(userData);
+        navigate("/");
+      }
     }
   }, [submitted, email, password, dispatch, contextLogin, navigate]);
 
@@ -37,6 +41,8 @@ function Login() {
         password={password}
         setPassword={setPassword}
         setHandleLogin={setSubmitted}
+        accessToken={accessToken}
+        setAccessToken={setAccessToken}
       />
     </div>
   );

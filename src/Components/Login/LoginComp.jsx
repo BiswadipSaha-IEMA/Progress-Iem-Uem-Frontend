@@ -6,13 +6,39 @@ import { FaApple } from "react-icons/fa";
 import ForgetPassword from "../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
 
-function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
+function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    setHandleLogin(true);
+    const data={
+      email:email,
+      password:password,
+    }
+    try{
+      const response=await fetch('http://192.168.1.221:5000/api/v1/users/login',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if(response.ok){
+        const result=await response.json()
+        setAccessToken(result.data.accessToken)
+        console.log(result)
+        setHandleLogin(true)
+      }
+      else{
+        const errorData=await response.json()
+        console.log(errorData)
+      }
+    }
+    catch(error){
+      console.error(error)
+    }
   };
 
   const isFormValid = email.trim() !== "" && password.trim() !== "";
@@ -36,10 +62,10 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
           </p>
         </div>
       </div>
-      <div className="w-1/2 relative">
-        <div className="flex flex-col mt-20 gap-4 w-3/5 ml-[-6rem]">
-          <h2 className="font-semibold text-4xl">Sign In</h2>
-          <form className="flex flex-col gap-4 text-lg" onSubmit={handleSubmit}>
+      <div className="w-1/2 relative mt-4">
+        <div className="flex flex-col mt-20 gap-12 w-3/5 ml-[-6rem] text-xl">
+          <h2 className="font-semibold text-5xl">Sign In</h2>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
               placeholder="Email Address"
@@ -73,8 +99,8 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin }) {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-[#03A8FD] p-2 text-white rounded-xl w-1/3"
-                disabled={!isFormValid}
+                className={`bg-[#03A8FD] p-2 text-white rounded-xl w-1/3 ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
+                disabled={!isFormValid} // Disable button if form is not valid
               >
                 Sign In
               </button>

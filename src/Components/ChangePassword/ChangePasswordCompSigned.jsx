@@ -54,7 +54,6 @@ export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
     } else {
       setError("");
       console.log("Password successfully updated");
-      // Add the logic to update the password here
     }
   };
 

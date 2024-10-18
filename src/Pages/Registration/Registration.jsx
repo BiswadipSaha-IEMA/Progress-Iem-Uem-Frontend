@@ -15,19 +15,21 @@ function Registration() {
   const { login: contextLogin, userLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [onRegister, setOnRegister] = useState({
-    accessToken: null,
-    refreshToken: null,
+    email: null,
+    accesstoken: null,
+    refreshtoken: null,
   });
 
   useEffect(() => {
-    if (onRegister.token !== null) {
+    if (onRegister.accesstoken !== null) {
       sessionStorage.clear();
-      const userData = { token: onRegister.accessToken };
+      const userData = {
+        email: onRegister.email,
+        accesstoken: onRegister.accesstoken,
+        refreshtoken: onRegister.refreshtoken,
+      };
       dispatch(login(userData));
-      contextLogin({
-        accessToken: onRegister.accessToken,
-        refreshToken: onRegister.refreshToken,
-      });
+      contextLogin(userData);
       navigate("/");
     }
   }, [onRegister]);

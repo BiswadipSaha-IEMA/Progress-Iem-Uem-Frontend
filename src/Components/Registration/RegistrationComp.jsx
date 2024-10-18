@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useNavigation } from "react-router-dom";
-import axios from "axios";
 
 const URL = "http://192.168.1.221:5000";
 
@@ -48,13 +47,16 @@ function RegistrationComp({
       }
 
       const data = await response.json();
-      console.log(data.message);
       const { accessToken, refreshToken } = data.data;
       sessionStorage.setItem("accessToken", accessToken); // Store access token
       sessionStorage.setItem("refreshToken", refreshToken);
+      setOnRegister({
+        email: formData.email,
+        accessToken,
+        refreshToken,
+      });
       setSuccessfullyRegistered(true);
       setFormData(data.data.user);
-      console.log(data.data.refreshToken);
     } catch (error) {
       console.error("Error:", error.response.data.data.message);
     }
@@ -77,7 +79,6 @@ function RegistrationComp({
       }
 
       const data = await response.json(); // Parse response data
-      console.log(data.message);
       setGeneratedOtp(data.otp); // Set OTP state
 
       if (!data.success) {
@@ -110,7 +111,6 @@ function RegistrationComp({
       }
 
       const data = await response.json(); // Parse response data
-      console.log(data.message);
       alert(data.message); // Alert success message
       setOtpVerified(true); // Update OTP verified state
       setOptCheck(otp); // Set OTP check state
@@ -120,32 +120,16 @@ function RegistrationComp({
     }
   };
 
-  // const generateOtp = () => {
-  //   const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  //   setGeneratedOtp(otp);
-  //   console.log("Generated OTP:", otp);
-  //   setOptCheck(otp);
-  // };
-
-  // const handleEmailSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Email submitted:", email);
-  //   setSuccessfullyRegistered(true);
-  //   setCheckSubmit(true);
-  //   generateOtp();
-  //   startResendTimer();
-  // };
-
-  // const handleGenereteOtp = (e) => {
-  //   // e.preventDefault();
-  //   if (email !== null || email !== "") {
-  //     setCheckSubmit(true);
-  //     generateOtp();
-  //     startResendTimer();
-  //   } else {
-  //     alert("you must enter valid email");
-  //   }
-  // };
+  const handleGenereteOtp = (e) => {
+    // e.preventDefault();
+    if (email !== null || email !== "") {
+      setCheckSubmit(true);
+      generateOtp();
+      startResendTimer();
+    } else {
+      alert("you must enter valid email");
+    }
+  };
 
   const handleOtpChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");

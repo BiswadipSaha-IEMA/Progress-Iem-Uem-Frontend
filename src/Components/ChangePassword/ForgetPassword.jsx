@@ -116,7 +116,8 @@ export default function ForgetPassword({ setForgetPassword }) {
 
   return (
     <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-      <div className="bg-white py-10 px-10 rounded-[14px] min-w-[500px] flex flex-col alertcontent relative max-w-[700px]">
+      <div className="bg-white py-10 px-10 rounded-[14px] w-[350px] lg:w-[500px] flex flex-col alertcontent relative max-w-[700px]
+      ">
         <div
           className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
           onClick={() => {
@@ -128,7 +129,7 @@ export default function ForgetPassword({ setForgetPassword }) {
         {sendOtp === false && (
           <>
             <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-              <h1 className="font-bold text-3xl mb-8">Forget Password</h1>
+              <h1 className="mb-2 md:mb-8 text-[1.6rem] font-bold sm:text-3xl">Forget Password</h1>
 
               <input
                 className="w-[100%] bg-gray-100 pl-4 p-2 rounded-lg font-400"
@@ -141,7 +142,7 @@ export default function ForgetPassword({ setForgetPassword }) {
 
               <button
                 type="submit"
-                className="bg-[#03A8FD] w-[8rem] m-auto mt-5 py-1 rounded-lg text-white text-lg"
+                className="bg-[#03A8FD] w-[6.5rem] sm:w-[8rem] m-auto mt-5 py-1 rounded-lg text-white text-lg"
               >
                 Send OTP
               </button>
@@ -151,12 +152,12 @@ export default function ForgetPassword({ setForgetPassword }) {
 
         {sendOtp === true && otpVerified === false && (
           <>
-            <div className="text-[2rem] font-[700]">Verify Your OTP</div>
+            <div className="text-[1.4rem] md:text-[2rem] mb-2 font-[700]">Verify Your OTP</div>
             <div className="text-[12px] mb-5 ">
               We’ve sent an OTP to your registered mobile number and email.
               Please enter the code below to complete your verification.
             </div>
-            <div className="w-full flex flex-col align-middle items-center justify-center gap-3">
+            <div className="flex flex-col items-center justify-center w-full gap-3 align-middle">
               <OtpInput
                 value={otp}
                 onChange={setOtp}
@@ -174,7 +175,7 @@ export default function ForgetPassword({ setForgetPassword }) {
                   outline: "none",
                 }}
               />
-              <div className="flex justify-start items-start w-[45%] mt-1 mb-5 select-none">
+              <div className="flex gap-3 justify-start items-start lg:w-[45%] mt-3 mb-5 select-none">
                 Didn’t receive it?{" "}
                 <span className={`ml-2 font-[500] ${!resendAvailable ? "text-gray-500" : "text-[#00A8FF] cursor-pointer"}`} onClick={handleResendOtp}>
                   {timer===0? `Resend OTP`:

@@ -37,9 +37,35 @@ export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
 
  }, [passwordCheck]);
 
+
+
+//Password Validation Rule
+const validatePassword = (newPassword) =>{
+  const hasUpperCase =  /[A-Z]/.test(newPassword);
+  const hasLowerCase = /[a-z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]]/.test(newPassword);
+  const hasLength = newPassword.length >=0;
+
+  if(!hasUpperCase) return " Password must have at least one uppercase letter";
+  if(!hasLowerCase) return "  Password must have at least one lowercase letter";
+  if(!hasNumber) return "  Password must have at least one number"; 
+  if(!hasSpecialChar) return "  Password must have at least one special character";
+  if(!hasLength) return "  Password must be at least 8 characters long";
+
+  return null;
+};
+
 // console.log(email)
   const handleSubmit = (e) => {
     e.preventDefault();
+    // call  the function to validate the password
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
     if (newPassword === confirmPassword) {
       passwordCheck = true;
     }

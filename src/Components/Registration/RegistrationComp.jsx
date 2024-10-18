@@ -98,13 +98,12 @@ function RegistrationComp({
       const data = await response.json();
       const { accessToken, refreshToken } = data.data;
   
-      // Store tokens
-      setAccessTok(accessToken); // Set correct token
+      
+      setAccessTok(accessToken); 
   
-      // Pass the tokens and email back to parent component
       setOnRegister({
         email: formData.email,
-        accesstoken: accessToken,  // Correctly set accessToken here
+        accesstoken: accessToken, 
         refreshtoken: refreshToken,
       });
   

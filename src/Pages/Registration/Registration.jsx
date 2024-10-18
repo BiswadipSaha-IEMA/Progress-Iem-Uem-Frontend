@@ -19,7 +19,6 @@ function Registration() {
 
   useEffect(() => {
     if (onRegister.accesstoken && onRegister.accesstoken !== null) {
-      console.log(onRegister.accesstoken)
       sessionStorage.clear();
       const userData = {
         email: onRegister.email,

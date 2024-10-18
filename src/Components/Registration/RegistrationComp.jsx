@@ -3,7 +3,7 @@ import { useNavigate, useNavigation } from "react-router-dom";
 import { usePostReq } from "../../hooks/useHttp";
 
 // const URL = "http://192.168.1.221:5000";
-const URL = "http://192.168.90.24:5000";
+const URL = "http://192.168.1.221:8000";
 
 function RegistrationComp({
   email,
@@ -22,6 +22,7 @@ function RegistrationComp({
   const [verifyEmail, setVerifyEmail] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resendTimer, setResendTimer] = useState(120);
@@ -78,7 +79,7 @@ function RegistrationComp({
     e.preventDefault();
 
     if (confirmPassword !== formData.password) {
-      alert("Password and Confirm Password should be same");
+      
       return;
     }
 
@@ -110,38 +111,6 @@ function RegistrationComp({
     }
   };
 
-  // const generateOtp = async () => {
-  //   try {
-  //     const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email: formData.email }), // Send email in the request body
-  //     });
-
-  //     if (!response.ok) {
-  //       // Check if response is not successful
-  //       const errorData = await response.json(); // Parse error data
-  //       throw new Error(errorData.message); // Throw error with message
-  //     }
-
-  //     const data = await response.json(); // Parse response data
-  //     setGeneratedOtp(data.otp); // Set OTP state
-
-  //     if (!data.success) {
-  //       alert("failed"); // Alert if OTP generation failed
-  //     }
-
-  //     setVerifyEmail(true); // Set email verification state
-  //   } catch (error) {
-  //     console.log("Error:", error.response.data.data.message); // Log error message
-  //     alert(error.response.data.data.message); // Display error message
-  //   }
-  // };
-
-  const [isVerifyBtn, setIsVerifyBtn] = useState(false);
-
   const generateOtp = async () => {
     if(formData.email.trim!=='') setIsVerifyBtn(true)
     try {
@@ -156,8 +125,8 @@ function RegistrationComp({
         setVerifyEmail(true);
       }
     } catch (error) {
-      // console.log("Error:", error);
-      // alert("Error generating OTP");
+      console.log("Error:", error.response.data.data.message); // Log error message
+      alert(error.response.data.data.message); // Display error message
     }
   };
 
@@ -180,13 +149,11 @@ function RegistrationComp({
         throw new Error(errorData.message); // Throw error with message
       }
 
-      const data = await response.json(); // Parse response data
-      alert(data.message); // Alert success message
+      
       setOtpVerified(true); // Update OTP verified state
       setOptCheck(otp); // Set OTP check state
     } catch (error) {
       console.log("Error:", error.response.data.message); // Log error message
-      alert(error.response.data.message); // Display error message
     }
   };
 
@@ -239,7 +206,6 @@ function RegistrationComp({
     e.preventDefault();
     if (otp === generatedOtp) {
       setOtpVerified(true);
-      console.log("OTP verified successfully");
     } else {
       alert("Invalid OTP, please try again.");
     }
@@ -253,21 +219,21 @@ function RegistrationComp({
   //   }
   // };
 
-  // const isVerifyBtn = email.trim() !== "";
+  const isVerifyBtn = email.trim() !== "";
 
   return (
     <div className="relative flex h-screen">
-      <div className="flex sm:p-4 p-[3rem] relative flex h-screen">
-        <div className="flex w-1/2 hidden sm:block">
+      <div className="flex sm:p-4 p-[3rem] relative flex h-screen max-[1621px]:w-full">
+        <div className="flex w-1/2 max-[1621px]:hidden">
           <img
             src="./src/assets/RegisterBg.png"
             alt="bg"
             className="object-cover h-full rounded-[1.25rem]"
           />
         </div>
-        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2 w-full">
+        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2">
           <h1 className="text-5xl font-semibold">Register Now</h1>
-          <div onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-4 md:flex-row">
               <input
                 className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -306,10 +272,9 @@ function RegistrationComp({
                 {!verifyEmail && (
                   <div
                     className={`absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] ${
-                      isVerifyBtn ? "cursor-pointer" : "cursor-pointer"
+                      isVerifyBtn ? "cursor-pointer" : "cursor-not-allowed"
                     }`}
-                    onClick={generateOtp}
-                    disabled={!formData.email}
+                    onClick={isValidEmail(formData.email) ? generateOtp : undefined} 
                   >
                     Verify
                   </div>
@@ -368,18 +333,17 @@ function RegistrationComp({
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="password"
                   placeholder="Password"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
+                  value={formData.password} // Use password from formData
+                  onChange={handlePasswordChange}
                   required
                 />
+                {error && <p style={{ color: "red" }}>{error}</p>}
                 <input
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="password"
                   placeholder="Confirm Password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={handleConfirmPasswordChange}
                   required
                 />
               </>

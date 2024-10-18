@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useNavigation } from "react-router-dom";
 
 // const URL = "http://192.168.1.221:5000";
-const URL = "http://192.168.90.24:5000";
+const URL = "http://192.168.1.221:8000";
 
 function RegistrationComp({
   email,
@@ -21,6 +21,7 @@ function RegistrationComp({
   const [verifyEmail, setVerifyEmail] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resendTimer, setResendTimer] = useState(120);
@@ -76,7 +77,7 @@ function RegistrationComp({
     e.preventDefault();
 
     if (confirmPassword !== formData.password) {
-      alert("Password and Confirm Password should be same");
+      
       return;
     }
 
@@ -111,6 +112,49 @@ function RegistrationComp({
     }
   };
 
+  const validatePassword = (value) => {
+    const minLength = 8;
+    const hasAlphanumeric = /(?=.*[a-zA-Z])(?=.*\d)/.test(value); // At least one letter and one number
+    const hasSpecialChar = /[!@#$%^&*]/.test(value); // At least one special character
+
+    if (value.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (!hasAlphanumeric) {
+      return "Password must contain at least one letter and one number.";
+    }
+    if (!hasSpecialChar) {
+      return "Password must contain at least one special character (!@#$%^&*).";
+    }
+
+    return ""; // No error
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setFormData({ ...formData, password: value }); // Update password in formData
+
+    // Validate the new password
+    const validationMessage = validatePassword(value);
+    setError(validationMessage);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    // Check if confirm password matches
+    if (value !== formData.password) {
+      setError("Passwords do not match.");
+    } else {
+      // Clear error if they match
+      const validationMessage = validatePassword(formData.password);
+      if (!validationMessage) {
+        setError("");
+      }
+    }
+  };
+
   const generateOtp = async () => {
     try {
       const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
@@ -137,7 +181,6 @@ function RegistrationComp({
       setVerifyEmail(true); // Set email verification state
     } catch (error) {
       console.log("Error:", error.response.data.data.message); // Log error message
-      alert(error.response.data.data.message); // Display error message
     }
   };
   const verifyOtp = async () => {
@@ -159,13 +202,11 @@ function RegistrationComp({
         throw new Error(errorData.message); // Throw error with message
       }
 
-      const data = await response.json(); // Parse response data
-      alert(data.message); // Alert success message
+      
       setOtpVerified(true); // Update OTP verified state
       setOptCheck(otp); // Set OTP check state
     } catch (error) {
       console.log("Error:", error.response.data.message); // Log error message
-      alert(error.response.data.message); // Display error message
     }
   };
 
@@ -218,7 +259,6 @@ function RegistrationComp({
     e.preventDefault();
     if (otp === generatedOtp) {
       setOtpVerified(true);
-      console.log("OTP verified successfully");
     } else {
       alert("Invalid OTP, please try again.");
     }
@@ -232,21 +272,24 @@ function RegistrationComp({
   //   }
   // };
 
-  const isVerifyBtn = email.trim() !== "";
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   return (
     <div className="relative flex h-screen">
-      <div className="flex sm:p-4 p-[3rem] relative flex h-screen">
-        <div className="flex w-1/2 hidden sm:block">
+      <div className="flex sm:p-4 p-[3rem] relative flex h-screen max-[1621px]:w-full">
+        <div className="flex w-1/2 max-[1621px]:hidden">
           <img
             src="./src/assets/RegisterBg.png"
             alt="bg"
             className="object-cover h-full rounded-[1.25rem]"
           />
         </div>
-        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2 w-full">
+        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2">
           <h1 className="text-5xl font-semibold">Register Now</h1>
-          <div onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-4 md:flex-row">
               <input
                 className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -284,10 +327,11 @@ function RegistrationComp({
                 {!verifyEmail && (
                   <div
                     className={`absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] ${
-                      isVerifyBtn ? "cursor-pointer" : "cursor-not-allowed"
+                      !isValidEmail(formData.email)
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
                     }`}
-                    onClick={generateOtp}
-                    disabled={!formData.email}
+                    onClick={isValidEmail(formData.email) ? generateOtp : undefined} 
                   >
                     Verify
                   </div>
@@ -346,18 +390,17 @@ function RegistrationComp({
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="password"
                   placeholder="Password"
-                  value={formData.password}
-                  onChange={(e) =>
-                    setFormData({ ...formData, password: e.target.value })
-                  }
+                  value={formData.password} // Use password from formData
+                  onChange={handlePasswordChange}
                   required
                 />
+                {error && <p style={{ color: "red" }}>{error}</p>}
                 <input
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="password"
                   placeholder="Confirm Password"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={handleConfirmPasswordChange}
                   required
                 />
               </>

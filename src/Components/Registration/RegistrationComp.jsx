@@ -4,7 +4,6 @@ import { useNavigate, useNavigation } from "react-router-dom";
 // const URL = "http://192.168.1.221:5000";
 const URL = "http://192.168.90.24:5000";
 
-
 function RegistrationComp({
   email,
   setEmail,
@@ -27,13 +26,13 @@ function RegistrationComp({
   const [resendTimer, setResendTimer] = useState(120);
   const navigate = useNavigate();
 
-  const [accessTok, setAccessTok]=useState('')
+  const [accessTok, setAccessTok] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     setOnRegister({
-      accesstoken:accessTok
-    })
-  },[accessTok])
+      accesstoken: accessTok,
+    });
+  }, [accessTok]);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -73,15 +72,14 @@ function RegistrationComp({
   //   }
   // };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (confirmPassword !== formData.password) {
       alert("Password and Confirm Password should be same");
       return;
     }
-  
+
     try {
       const response = await fetch(`${URL}/api/v1/users/register`, {
         method: "POST",
@@ -90,31 +88,28 @@ function RegistrationComp({
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       const { accessToken, refreshToken } = data.data;
-  
-      
-      setAccessTok(accessToken); 
-  
+
+      setAccessTok(accessToken);
+
       setOnRegister({
         email: formData.email,
-        accesstoken: accessToken, 
+        accesstoken: accessToken,
         refreshtoken: refreshToken,
       });
-  
+
       setSuccessfullyRegistered(true);
       setFormData(data.data.user);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
-
 
   const generateOtp = async () => {
     try {
@@ -174,14 +169,22 @@ function RegistrationComp({
     }
   };
 
-  const handleGenereteOtp = (e) => {
-    // e.preventDefault();
-    if (email !== null || email !== "") {
-      setCheckSubmit(true);
-      generateOtp();
-      startResendTimer();
-    } else {
-      alert("you must enter valid email");
+  // const handleGenereteOtp = (e) => {
+  //   // e.preventDefault();
+  //   if (email !== null || email !== "") {
+  //     setCheckSubmit(true);
+  //     generateOtp();
+  //     startResendTimer();
+  //   } else {
+  //     alert("you must enter valid email");
+  //   }
+  // };
+
+  const handleNameChange = (e) => {
+    const { name, value } = e.target;
+    // Allow only alphabetic characters (A-Z or a-z) and spaces
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -229,20 +232,22 @@ function RegistrationComp({
   //   }
   // };
 
+  const isVerifyBtn = email.trim() !== "";
+
   return (
     <div className="relative flex h-screen">
-      <div className="flex p-4 w-4/5">
-        <div className="flex w-1/2">
+      <div className="flex sm:p-4 p-[3rem] relative flex h-screen">
+        <div className="flex w-1/2 hidden sm:block">
           <img
             src="./src/assets/RegisterBg.png"
             alt="bg"
             className="object-cover h-full rounded-[1.25rem]"
           />
         </div>
-        <div className="flex flex-col p-8 gap-y-8 justify-center w-1/2">
+        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2 w-full">
           <h1 className="text-5xl font-semibold">Register Now</h1>
           <div onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-            <div className="flex gap-x-4">
+            <div className="flex flex-col gap-4 md:flex-row">
               <input
                 className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                 type="text"
@@ -278,16 +283,19 @@ function RegistrationComp({
                 />
                 {!verifyEmail && (
                   <div
-                    className="absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] cursor-pointer"
+                    className={`absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] ${
+                      isVerifyBtn ? "cursor-pointer" : "cursor-not-allowed"
+                    }`}
                     onClick={generateOtp}
+                    disabled={!formData.email}
                   >
                     Verify
                   </div>
                 )}
               </div>
-              <div className="flex gap-x-2" onSubmit={handleOtpSubmit}>
-                {verifyEmail && !otpVerified && (
-                  <>
+              {verifyEmail && !otpVerified && (
+                <>
+                  <div className="relative w-full" onSubmit={handleOtpSubmit}>
                     <input
                       type="text"
                       inputMode="numeric"
@@ -298,26 +306,10 @@ function RegistrationComp({
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
                       required
                     />
-                    <div>
-                      Didn’t receive it?{" "}
-                      <span
-                        className={`text-[#00A8FF] font-semibold cursor-pointer ${
-                          resendTimer > 0 ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
-                        onClick={generateOtp}
-                      >
-                        {resendTimer > 0
-                          ? `Resend in ${Math.floor(resendTimer / 60)
-                              .toString()
-                              .padStart(2, "0")}:${(resendTimer % 60)
-                              .toString()
-                              .padStart(2, "0")}`
-                          : "Resend OTP"}
-                      </span>
-                    </div>
+
                     <button
                       type="button"
-                      className="text-[#00A8FF] font-semibold py-2 px-8 rounded-lg"
+                      className="absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
                         verifyOtp();
@@ -326,9 +318,26 @@ function RegistrationComp({
                     >
                       Verify
                     </button>
-                  </>
-                )}
-              </div>
+                  </div>
+                  <div className="w-full flex items-end justify-end">
+                    Didn’t receive it?{" "}
+                    <span
+                      className={`text-[#00A8FF] font-semibold cursor-pointer ${
+                        resendTimer > 0 ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      onClick={generateOtp}
+                    >
+                      {resendTimer > 0
+                        ? `Resend in ${Math.floor(resendTimer / 60)
+                            .toString()
+                            .padStart(2, "0")}:${(resendTimer % 60)
+                            .toString()
+                            .padStart(2, "0")}`
+                        : "Resend OTP"}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
 
             {
@@ -371,36 +380,20 @@ function RegistrationComp({
           </div>
 
           <div className="flex flex-col gap-y-12">
-            <div className="border-b border-b-[#7B7B7B] flex justify-center">
+            {/* <div className="border-b border-b-[#7B7B7B] flex justify-center">
               <div className=" px-8 inline-block text-[#7B7B7B] font-medium bg-white transform translate-y-1/2 text-xl">
                 or continue with
               </div>
-            </div>
+            </div> */}
             <div className="flex flex-col justify-center items-center gap-y-6">
-              <div className="flex justify-between gap-x-4">
+              {/* <div className="flex justify-between gap-x-4">
                 <button className="font-semibold border-2 border-[#D1D3DE] p-4 rounded-lg">
-                  <div className="flex justify-center items-center gap-x-2">
-                    <img
-                      src="./src/assets/google.png"
-                      alt="google"
-                      height={24}
-                      width={24}
-                    />
-                    Register with Google
-                  </div>
+                  Register with Google
                 </button>
                 <button className="font-semibold border-2 border-[#D1D3DE] p-4 rounded-lg">
-                  <div className="flex justify-center items-center gap-x-2">
-                    <img
-                      src="./src/assets/apple.png"
-                      alt="apple"
-                      height={24}
-                      width={24}
-                    />
-                    Register with Apple
-                  </div>
+                  Register with Apple
                 </button>
-              </div>
+              </div> */}
               <div className="text-[#7B7B7B]">
                 Already have an account?{" "}
                 <span
@@ -420,7 +413,7 @@ function RegistrationComp({
       <img
         src="./src/assets/Image.png"
         alt="bg"
-        className="absolute top-0 right-0 object-cover"
+        className="absolute top-0 right-0 object-cover hidden sm:block -z-20"
       />
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useNavigation } from "react-router-dom";
 
 // const URL = "http://192.168.1.221:5000";
-const URL = "http://192.168.90.24:5000";
+const URL = "http://192.168.1.221:8000";
 
 function RegistrationComp({
   email,
@@ -236,15 +236,15 @@ function RegistrationComp({
 
   return (
     <div className="relative flex h-screen">
-      <div className="flex sm:p-4 p-[3rem] relative flex h-screen">
-        <div className="flex w-1/2 hidden sm:block">
+      <div className="flex sm:p-4 p-[3rem] relative flex h-screen max-[1621px]:w-full">
+        <div className="flex w-1/2 max-[1621px]:hidden">
           <img
             src="./src/assets/RegisterBg.png"
             alt="bg"
             className="object-cover h-full rounded-[1.25rem]"
           />
         </div>
-        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2 w-full">
+        <div className="flex flex-col md:p-[6rem] p-0 gap-y-8 justify-center md:w-1/2">
           <h1 className="text-5xl font-semibold">Register Now</h1>
           <div onSubmit={handleSubmit} className="flex flex-col gap-y-5">
             <div className="flex flex-col gap-4 md:flex-row">

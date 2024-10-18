@@ -124,9 +124,10 @@ export default function HomeComp() {
 
       {
         <ManagePopUp
-          setConfirmationPopupShow={ChangePassword}
-          setFormSave={() => setChangePassword(false)}
-          manageState="form"
+          setConfirmationPopupShow={''}
+          setSave={''}
+          setUtilFor="text"
+          takeData={''}
         >
           <ChangePasswordCompSigned setForgetPassword={setChangePassword} />
         </ManagePopUp>

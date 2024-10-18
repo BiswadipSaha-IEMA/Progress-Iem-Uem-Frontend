@@ -1,0 +1,37 @@
+.alertcontainer {
+    backdrop-filter: blur(15px);
+    transition: backdrop-filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out forwards;
+    opacity: 0;
+  }
+  
+  .alertcontent {
+    animation: scaleIn 0.4s cubic-bezier(0.47, 1.64, 0.41, 0.8) forwards;
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  
+
+  @keyframes fadeIn {
+    0% {
+      backdrop-filter: blur(0px);
+      opacity: 0;
+    }
+    100% {
+      backdrop-filter: blur(15px);
+      opacity: 1;
+    }
+  }
+  
+
+  @keyframes scaleIn {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  

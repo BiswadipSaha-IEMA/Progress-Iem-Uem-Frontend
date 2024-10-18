@@ -5,6 +5,7 @@ import profileImg from "../../assets/dp.jpeg";
 import editIcon from "../../assets/edit.jpeg";
 import { AuthContext } from "../../Context/AuthContext";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
+import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 
 export default function HomeComp() {
   const [editMode, setEditMode] = useState(false);
@@ -119,6 +120,16 @@ export default function HomeComp() {
             <ChangePasswordCompSigned setForgetPassword={setChangePassword}/>
           </>
         )
+      }
+
+      {
+        <ManagePopUp
+          setConfirmationPopupShow={ChangePassword}
+          setFormSave={() => setChangePassword(false)}
+          manageState="form"
+        >
+          <ChangePasswordCompSigned setForgetPassword={setChangePassword} />
+        </ManagePopUp>
       }
     </div>
   );

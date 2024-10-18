@@ -17,7 +17,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
       password:password,
     }
     try{
-      const response=await fetch('http://192.168.1.221:5000/api/v1/users/login',{
+      const response=await fetch('http://192.168.90.24:5000/api/v1/users/login',{
         method:'POST',
         headers:{
           'Content-Type':'application/json',

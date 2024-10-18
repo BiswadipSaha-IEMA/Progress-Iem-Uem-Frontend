@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useNavigation } from "react-router-dom";
 
-const URL = "http://192.168.1.221:5000";
+// const URL = "http://192.168.1.221:5000";
+const URL = "http://192.168.90.24:5000";
+
 
 function RegistrationComp({
   email,
@@ -25,42 +27,95 @@ function RegistrationComp({
   const [resendTimer, setResendTimer] = useState(120);
   const navigate = useNavigate();
 
+  const [accessTok, setAccessTok]=useState('')
+
+  useEffect(()=>{
+    setOnRegister({
+      accesstoken:accessTok
+    })
+  },[accessTok])
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (confirmPassword !== formData.password) {
+  //     alert("Password and Confirm Password should be same");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`${URL}/api/v1/users/register`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json", // Set the content type to JSON
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     const { accessToken, refreshToken } = data.data;
+  //     // sessionStorage.setItem("accessToken", accessToken); // Store access token
+  //     // sessionStorage.setItem("refreshToken", refreshToken);
+  //     setAccessTok(accessTok)
+  //     setOnRegister({
+  //       email: formData.email,
+  //       // accessToken,
+  //       // refreshToken,
+  //     });
+  //     setSuccessfullyRegistered(true);
+  //     setFormData(data.data.user);
+  //   } catch (error) {
+  //     console.error("Error:", error.response.data.data.message);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (confirmPassword !== formData.password) {
       alert("Password and Confirm Password should be same");
       return;
     }
-
+  
     try {
       const response = await fetch(`${URL}/api/v1/users/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
       const data = await response.json();
       const { accessToken, refreshToken } = data.data;
-      sessionStorage.setItem("accessToken", accessToken); // Store access token
-      sessionStorage.setItem("refreshToken", refreshToken);
+  
+      // Store tokens
+      setAccessTok(accessToken); // Set correct token
+  
+      // Pass the tokens and email back to parent component
       setOnRegister({
         email: formData.email,
-        accessToken,
-        refreshToken,
+        accesstoken: accessToken,  // Correctly set accessToken here
+        refreshtoken: refreshToken,
       });
+  
       setSuccessfullyRegistered(true);
       setFormData(data.data.user);
     } catch (error) {
-      console.error("Error:", error.response.data.data.message);
+      console.error("Error:", error);
     }
   };
+  
+
 
   const generateOtp = async () => {
     try {

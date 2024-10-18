@@ -15,13 +15,11 @@ function Registration() {
   const { login: contextLogin, userLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [onRegister, setOnRegister] = useState({
-    email: null,
-    accesstoken: null,
-    refreshtoken: null,
   });
 
   useEffect(() => {
-    if (onRegister.accesstoken !== null) {
+    if (onRegister.accesstoken && onRegister.accesstoken !== null) {
+      console.log(onRegister.accesstoken)
       sessionStorage.clear();
       const userData = {
         email: onRegister.email,

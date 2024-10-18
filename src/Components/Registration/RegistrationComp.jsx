@@ -3,7 +3,7 @@ import { useNavigate, useNavigation } from "react-router-dom";
 import { usePostReq } from "../../hooks/useHttp";
 
 // const URL = "http://192.168.1.221:5000";
-const URL = "http://192.168.1.221:8000";
+const URL = "http://192.168.90.24:5000";
 
 function RegistrationComp({
   email,
@@ -28,7 +28,7 @@ function RegistrationComp({
   const [resendTimer, setResendTimer] = useState(120);
   const navigate = useNavigate();
   const [postReq] = usePostReq();
-
+  const [afterSend, setAfterSend]= useState(false);
   const [accessTok, setAccessTok] = useState("");
 
   useEffect(() => {
@@ -75,6 +75,46 @@ function RegistrationComp({
   //   }
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (confirmPassword !== formData.password) {
+      
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`${URL}/api/v1/users/register`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     const { accessToken, refreshToken } = data.data;
+
+  //     setAccessTok(accessToken);
+
+  //     setOnRegister({
+  //       email: formData.email,
+  //       accesstoken: accessToken,
+  //       refreshtoken: refreshToken,
+  //     });
+
+  //     setSuccessfullyRegistered(true);
+  //     setFormData(data.data.user);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,8 +151,84 @@ function RegistrationComp({
     }
   };
 
+
+  const validatePassword = (value) => {
+    const minLength = 8;
+    const hasAlphanumeric = /(?=.*[a-zA-Z])(?=.*\d)/.test(value); // At least one letter and one number
+    const hasSpecialChar = /[!@#$%^&*]/.test(value); // At least one special character
+
+    if (value.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (!hasAlphanumeric) {
+      return "Password must contain at least one letter and one number.";
+    }
+    if (!hasSpecialChar) {
+      return "Password must contain at least one special character (!@#$%^&*).";
+    }
+
+    return ""; // No error
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setFormData({ ...formData, password: value }); // Update password in formData
+
+    // Validate the new password
+    const validationMessage = validatePassword(value);
+    setError(validationMessage);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    // Check if confirm password matches
+    if (value !== formData.password) {
+      setError("Passwords do not match.");
+    } else {
+      // Clear error if they match
+      const validationMessage = validatePassword(formData.password);
+      if (!validationMessage) {
+        setError("");
+      }
+    }
+  };
+
+  // const generateOtp = async () => {
+  //   try {
+  //     const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email: formData.email }), // Send email in the request body
+  //     });
+
+  //     if (!response.ok) {
+  //       // Check if response is not successful
+  //       const errorData = await response.json(); // Parse error data
+  //       throw new Error(errorData.message); // Throw error with message
+  //     }
+
+  //     const data = await response.json(); // Parse response data
+  //     setGeneratedOtp(data.otp); // Set OTP state
+
+  //     if (!data.success) {
+  //       alert("failed"); // Alert if OTP generation failed
+  //     }
+
+  //     setVerifyEmail(true); // Set email verification state
+  //   } catch (error) {
+  //     console.log("Error:", error.response.data.data.message); // Log error message
+  //   }
+  // };
+
+
+  // const [isVerifyBtn,setIsVerifyBtn]= useState(false)
+
   const generateOtp = async () => {
-    if(formData.email.trim!=='') setIsVerifyBtn(true)
+    if(formData.email.trim!=='') setVerifyEmail(true)
     try {
       const json = await postReq("api/v1/otp/sendOtp", {
         email: formData.email,
@@ -121,14 +237,16 @@ function RegistrationComp({
       if (!json.success) {
         alert("Failed to generate OTP");
       } else {
-        
+        setAfterSend(true)
         setVerifyEmail(true);
       }
     } catch (error) {
-      console.log("Error:", error.response.data.data.message); // Log error message
-      alert(error.response.data.data.message); // Display error message
+      // console.log("Error:", error.response.data.data.message); // Log error message
+      // alert(error.response.data.data.message); // Display error message
     }
   };
+
+
 
   const verifyOtp = async () => {
     try {
@@ -219,7 +337,10 @@ function RegistrationComp({
   //   }
   // };
 
-  const isVerifyBtn = email.trim() !== "";
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   return (
     <div className="relative flex h-screen">
@@ -266,13 +387,15 @@ function RegistrationComp({
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  disabled={isVerifyBtn}
                   required
+                  disabled={afterSend}
                 />
                 {!verifyEmail && (
                   <div
                     className={`absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] ${
-                      isVerifyBtn ? "cursor-pointer" : "cursor-not-allowed"
+                      !isValidEmail(formData.email)
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
                     }`}
                     onClick={isValidEmail(formData.email) ? generateOtp : undefined} 
                   >

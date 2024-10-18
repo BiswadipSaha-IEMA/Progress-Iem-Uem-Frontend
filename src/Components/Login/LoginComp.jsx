@@ -5,41 +5,59 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import ForgetPassword from "../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
+import { usePostReq } from "../../hooks/useHttp";
 
 function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
+  const [postReq] = usePostReq()
 
-  const handleSubmit =async (e) => {
+  // const handleSubmit =async (e) => {
+  //   e.preventDefault();
+  //   const data={
+  //     email:email,
+  //     password:password,
+  //   }
+  //   try{
+  //     const response=await fetch('http://192.168.90.24:5000/api/v1/users/login',{
+  //       method:'POST',
+  //       headers:{
+  //         'Content-Type':'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+
+  //     if(response.ok){
+  //       const result=await response.json()
+  //       setAccessToken(result.data.accessToken)
+  //       console.log(result)
+  //       setHandleLogin(true)
+  //     }
+  //     else{
+  //       const errorData=await response.json()
+  //       console.log(errorData)
+  //     }
+  //   }
+  //   catch(error){
+  //     console.error(error)
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data={
-      email:email,
-      password:password,
-    }
-    try{
-      const response=await fetch('http://192.168.90.24:5000/api/v1/users/login',{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-        },
-        body: JSON.stringify(data),
-      })
+    const data = { email, password };
 
-      if(response.ok){
-        const result=await response.json()
-        setAccessToken(result.data.accessToken)
-        console.log(result)
-        setHandleLogin(true)
-      }
-      else{
-        const errorData=await response.json()
-        console.log(errorData)
-      }
+    try {
+        const json = await postReq('api/v1/users/login', data);
+        if (json) {
+            setAccessToken(json.data.accessToken);
+            setHandleLogin(true);
+        }
+    } catch (error) {
+        console.error("Error during login:", error.message);
     }
-    catch(error){
-      console.error(error)
-    }
-  };
+};
+
 
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 

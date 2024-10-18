@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useNavigation } from "react-router-dom";
+import { usePostReq } from "../../hooks/useHttp";
 
 // const URL = "http://192.168.1.221:5000";
 const URL = "http://192.168.90.24:5000";
@@ -25,6 +26,7 @@ function RegistrationComp({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resendTimer, setResendTimer] = useState(120);
   const navigate = useNavigate();
+  const [postReq] = usePostReq();
 
   const [accessTok, setAccessTok] = useState("");
 
@@ -81,20 +83,17 @@ function RegistrationComp({
     }
 
     try {
-      const response = await fetch(`${URL}/api/v1/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // const response = await fetch(`${URL}/api/v1/users/register`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      const json = await postReq("api/v1/users/register", formData);
 
-      const data = await response.json();
-      const { accessToken, refreshToken } = data.data;
+      const { accessToken, refreshToken } = json.data;
 
       setAccessTok(accessToken);
 
@@ -105,41 +104,63 @@ function RegistrationComp({
       });
 
       setSuccessfullyRegistered(true);
-      setFormData(data.data.user);
+      setFormData(json.data.user);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  // const generateOtp = async () => {
+  //   try {
+  //     const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email: formData.email }), // Send email in the request body
+  //     });
+
+  //     if (!response.ok) {
+  //       // Check if response is not successful
+  //       const errorData = await response.json(); // Parse error data
+  //       throw new Error(errorData.message); // Throw error with message
+  //     }
+
+  //     const data = await response.json(); // Parse response data
+  //     setGeneratedOtp(data.otp); // Set OTP state
+
+  //     if (!data.success) {
+  //       alert("failed"); // Alert if OTP generation failed
+  //     }
+
+  //     setVerifyEmail(true); // Set email verification state
+  //   } catch (error) {
+  //     console.log("Error:", error.response.data.data.message); // Log error message
+  //     alert(error.response.data.data.message); // Display error message
+  //   }
+  // };
+
+  const [isVerifyBtn, setIsVerifyBtn] = useState(false);
+
   const generateOtp = async () => {
+    if(formData.email.trim!=='') setIsVerifyBtn(true)
     try {
-      const response = await fetch(`${URL}/api/v1/otp/sendOtp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: formData.email }), // Send email in the request body
+      const json = await postReq("api/v1/otp/sendOtp", {
+        email: formData.email,
       });
 
-      if (!response.ok) {
-        // Check if response is not successful
-        const errorData = await response.json(); // Parse error data
-        throw new Error(errorData.message); // Throw error with message
+      if (!json.success) {
+        alert("Failed to generate OTP");
+      } else {
+        
+        setVerifyEmail(true);
       }
-
-      const data = await response.json(); // Parse response data
-      setGeneratedOtp(data.otp); // Set OTP state
-
-      if (!data.success) {
-        alert("failed"); // Alert if OTP generation failed
-      }
-
-      setVerifyEmail(true); // Set email verification state
     } catch (error) {
-      console.log("Error:", error.response.data.data.message); // Log error message
-      alert(error.response.data.data.message); // Display error message
+      // console.log("Error:", error);
+      // alert("Error generating OTP");
     }
   };
+
   const verifyOtp = async () => {
     try {
       const response = await fetch(`${URL}/api/v1/otp/verifyOtp`, {
@@ -232,7 +253,7 @@ function RegistrationComp({
   //   }
   // };
 
-  const isVerifyBtn = email.trim() !== "";
+  // const isVerifyBtn = email.trim() !== "";
 
   return (
     <div className="relative flex h-screen">
@@ -279,12 +300,13 @@ function RegistrationComp({
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
+                  disabled={isVerifyBtn}
                   required
                 />
                 {!verifyEmail && (
                   <div
                     className={`absolute right-3 top-2 text-[#00A8FF] bg-[#fff] font-semibold py-2 px-8 rounded-lg border hover:bg-[#000] hover:text-[#fff] hover:font-[700] ${
-                      isVerifyBtn ? "cursor-pointer" : "cursor-not-allowed"
+                      isVerifyBtn ? "cursor-pointer" : "cursor-pointer"
                     }`}
                     onClick={generateOtp}
                     disabled={!formData.email}

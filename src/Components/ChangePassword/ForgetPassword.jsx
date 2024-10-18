@@ -175,7 +175,7 @@ export default function ForgetPassword({ setForgetPassword }) {
                   outline: "none",
                 }}
               />
-              <div className="flex gap-3 justify-start items-start lg:w-[45%] mt-3 mb-5 select-none">
+              <div className="flex items-start justify-start gap-3 mt-3 mb-5 select-none">
                 Didn’t receive it?{" "}
                 <span className={`ml-2 font-[500] ${!resendAvailable ? "text-gray-500" : "text-[#00A8FF] cursor-pointer"}`} onClick={handleResendOtp}>
                   {timer===0? `Resend OTP`:

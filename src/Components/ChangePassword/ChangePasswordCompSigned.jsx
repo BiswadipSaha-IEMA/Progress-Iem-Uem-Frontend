@@ -12,7 +12,7 @@ export default function ChangePasswordCompSigned({ setForgetPassword, email }) {
   
   const ChangePassword = async () =>{
     try {
-      const response = await fetch('http://192.168.90.24:5000/api/v1/users/forgotPassword ',{
+      const response = await fetch('http://192.168.29.203:5000/api/v1/users/forgotPassword ',{
        method : 'POST',
        headers:{
          'Content-Type': 'application/json',

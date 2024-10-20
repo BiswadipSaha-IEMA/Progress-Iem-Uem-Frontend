@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import ErrorLottie from "../../../Lottie/ErrorLottie";
+import Lottie2 from 'react-lottie';
 import "./styles.css";
 
-const ManagePopUp = ({
-  setPopupShow,
-  setSave,
-  setUtilFor,
-  takeData,
-}) => {
+const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   const [formData, setFormData] = useState({
     projectName: "",
     file: null,
@@ -53,12 +50,21 @@ const ManagePopUp = ({
     }
   };
 
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: ErrorLottie,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
-    <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+    <>
+    {setUtilFor === "form" ? (
+          <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
       <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]">
-        {setUtilFor === "form" ? (
-          <>
-            <div
+      <div
               className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
               onClick={() => {
                 setConfirmationPopupShow(false);
@@ -137,22 +143,39 @@ const ManagePopUp = ({
                 Submit Paper
               </button>
             </form>
-          </>
-        ) : (
-          <>
-            <header className="text-[2rem] font-[700]">Dummy Text</header>
-            <body>
-              <p className="w-[800px]">
-                {takeData}
-              </p>
-            </body>
-            <footer>
-
-            </footer>
-          </>
-        )}
+          
       </div>
-    </div>
+      </div>
+            
+        ) : 
+          setUtilFor === "error" ?
+          <>
+            <div className=" fixed top-0 left-0 h-[100vh] w-[100vw] z-[400] flex justify-center items-center bg-[#1414145e] backdrop-blur-md alertcontainer1">
+            <div className="alertcontent1 bg-[#ffffff]  rounded-md flex flex-col justify-center items-center px-[12%] py-10 gap-1">
+            <header className="text-[2rem] font-[700]">
+              <Lottie2 options={defaultOptions} height={100} width={100} />
+            </header>
+            <main>
+              <p className="text-[30px] font-[700] ">{takeData}</p>
+            </main>
+            <footer className="text-[20px] mt-10 font-[700] bg-blue-600 text-white px-4 py-2 rounded-md select-none cursor-pointer"
+            onClick={() => {
+              setPopupShow(false);
+            }}
+            >
+              Okay
+            </footer>
+              </div>
+              </div>
+
+          </>
+          :
+          <></>
+        }
+
+    </>
+        
+      
   );
 };
 

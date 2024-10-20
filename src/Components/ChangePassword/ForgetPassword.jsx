@@ -30,7 +30,7 @@ export default function ForgetPassword({ setForgetPassword }) {
     //const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     try {
-      const response = await fetch('http://192.168.90.24:5000/api/v1/otp/sendotp', {
+      const response = await fetch('http://192.168.29.203:5000/api/v1/otp/sendotp', {
         method: 'POST',
         headers : {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function ForgetPassword({ setForgetPassword }) {
 
     // calling otp  verification api
    try {
-     const response = await fetch('http://192.168.90.24:5000/api/v1/otp/verifyOtp', {
+     const response = await fetch('http://192.168.29.203:5000/api/v1/otp/verifyOtp', {
        method: 'PATCH',
        headers : {
          'Content-Type': 'application/json',

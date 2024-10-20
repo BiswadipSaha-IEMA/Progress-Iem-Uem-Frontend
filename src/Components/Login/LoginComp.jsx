@@ -11,6 +11,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
   const [postReq] = usePostReq()
+  const [loading, setLoading] = useState(false);
 
   // const handleSubmit =async (e) => {
   //   e.preventDefault();
@@ -44,6 +45,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
   // };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const data = { email, password };
 
@@ -53,6 +55,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);
         }
+        setLoading(false);
     } catch (error) {
         console.error("Error during login:", error.message);
     }
@@ -119,7 +122,9 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
                 className={`bg-[#03A8FD] p-2 min-w-20 text-white rounded-xl w-1/3 ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
                 disabled={!isFormValid} // Disable button if form is not valid
               >
-                Sign In
+                {
+              loading?<>Sign In...</>:<>Sign In</>
+              }
               </button>
             </div>
           </form>
@@ -141,7 +146,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
           <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
             Don't have an account?
             <span
-              className="text-[#03A8FD] font-bold cursor-pointer"
+              className="text-[#03A8FD] font-[500] cursor-pointer"
               onClick={() => {
                 navigate("/");
               }}

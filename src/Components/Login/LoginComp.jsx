@@ -55,9 +55,11 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);
         }
-        setLoading(false);
     } catch (error) {
         console.error("Error during login:", error.message);
+    }
+    finally{
+      setLoading(false);
     }
 };
 

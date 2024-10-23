@@ -5,6 +5,7 @@ import Registration from "./Pages/Registration/Registration";
 import Login from "./Pages/Login/Login";
 import ChangePassword from "./Pages/ChangePassword/ChangePassword";
 import Home from "./Pages/Home/Home";
+import Student from "./Pages/Student/Student";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const AppRouter = () => {
       {userLogin? (
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/student" element={<Student />} />
         </Routes>
       ) : (
         <Routes>

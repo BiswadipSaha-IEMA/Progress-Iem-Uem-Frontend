@@ -1,0 +1,134 @@
+{/* <div className="px-10">
+        <div className="flex py-5 items-center justify-between">
+          <img src={IEM} alt="IEM" className="h-20 w-16 mr-4" />
+
+          <div className="text-[1rem] lg:text-[3rem] md:text-[2rem] font-[700]">
+            Progress IEM-UEM
+          </div>
+
+          <img src={UEM} alt="IEM" className="h-20 w-16 mr-4" />
+        </div>
+        <>
+          <div>
+            <h1 className="text-[1.5rem] font-[500] ">Books Published</h1>
+            <div className="border mt-5 rounded-md">
+              <DataTable
+                columns={columnsBp}
+                data={booksPublishedData}
+                defaultSortField="serial"
+                defaultSortAsc={true}
+                striped
+              ></DataTable>
+            </div>
+          </div>
+        </>
+        <>
+          <div>
+            <h1 className="text-[1.5rem] font-[500] mt-10">
+              Research Paper Published (Grade-A) -(SCI, SCIE, Scopus, WoS, ESCI,
+              Nature)
+            </h1>
+            <div className="border mt-5 rounded-md">
+              <DataTable
+                columns={columns}
+                data={researchPapersGradeAData}
+                defaultSortField="serial"
+                defaultSortAsc={true}
+                striped
+              ></DataTable>
+            </div>
+          </div>
+        </>
+        <>
+          <div>
+            <h1 className="text-[1.5rem] font-[500] mt-10">
+              Research Paper Published: (Grade-B) - (UGC Care)
+            </h1>
+            <div className="border mt-5 rounded-md">
+              <DataTable
+                columns={columns}
+                data={researchPapersGradeBData}
+                defaultSortField="serial"
+                defaultSortAsc={true}
+                striped
+              ></DataTable>
+            </div>
+          </div>
+        </>
+        <>
+          <div className="mb-10">
+            <h1 className="text-[1.5rem] font-[500] mt-10">
+              Research Paper Published: (Grade-C) - Others
+            </h1>
+            <div className="border mt-5 rounded-md">
+              <DataTable
+                columns={columns}
+                data={researchPapersGradeCData}
+                defaultSortField="serial"
+                defaultSortAsc={true}
+                striped
+              ></DataTable>
+            </div>
+          </div>
+        </>
+      </div> */}
+
+
+      // const columns = [
+      //   {
+      //     name: "SL. No.",
+      //     selector: (row) => row.serial,
+      //   },
+      //   {
+      //     name: "Name",
+      //     selector: (row) => row.name,
+      //   },
+      //   {
+      //     name: "Journal/conference/Bookchapter",
+      //     selector: (row) => row.journal_name,
+      //   },
+      //   {
+      //     name: "Paper Name",
+      //     selector: (row) => row.paper_name,
+      //   },
+      //   {
+      //     name: "Vol. No.",
+      //     selector: (row) => row.vol,
+      //   },
+      //   {
+      //     name: "Issue No.",
+      //     selector: (row) => row.issue,
+      //   },
+      //   {
+      //     name: "pp No.",
+      //     selector: (row) => row.pp,
+      //   },
+      //   {
+      //     name: "Published Date",
+      //     selector: (row) => row.published_date,
+      //     format: (row) => new Date(row.published_date).toLocaleDateString("en-US"),
+      //   },
+      //   {
+      //     name: "Submitted Forms",
+      //     selector: (row) => row.submitted,
+      //   },
+      //   {
+      //     name: <div className="flex justify-center w-full items-center">update form</div>,
+      //     cell: (row) => (
+      //       <div className="flex gap-4 flex-col py-2">
+      //         <button
+      //           className="bg-blue-500 text-white px-2 py-2 w-32 rounded"
+      //           onClick={() => handleButtonClick(row)}
+      //         >
+      //           Update Form
+      //         </button>
+      //         <button
+      //           className="bg-blue-500 text-white px-2 py-2 w-32 rounded"
+      //           onClick={() => handleButtonClick(row)}
+      //         >
+      //           Add Form
+      //         </button>
+      //       </div>
+      //     ),
+      //   },
+      // ];

@@ -6,7 +6,7 @@ import Verified from '../../Lottie/Verified.json'
 
 // const URL = "http://192.168.1.221:5000";
 // const URL = "http://192.168.90.24:5000";
-const URL = "http://localhost:5000";
+// const URL = "http://localhost:5000";
 
 function RegistrationComp({
   email,
@@ -111,10 +111,12 @@ function RegistrationComp({
         accesstoken: accessToken || "",
         refreshtoken: refreshToken || "",
       });
-      setLoading(false);
       setSuccessfullyRegistered(true);
     } catch (error) {
       console.error("Registration error:", error);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -220,7 +222,6 @@ function RegistrationComp({
         const json = await postReq("api/v1/otp/sendOtp", {
           email: formData.email,
         });
-        setLoadingVerify(false);
 
         
         if (!json.success) {
@@ -239,6 +240,9 @@ function RegistrationComp({
         }
       } catch (error) {
         console.error("Error generating OTP:", error);
+      }
+      finally{
+        setLoadingVerify(false);
       }
     }
   };
@@ -572,7 +576,7 @@ function RegistrationComp({
   <img
     src="./src/assets/Image.png"
     alt="bg"
-    className="absolute top-0 right-0 object-cover z-20"
+    className="absolute top-0 right-0 object-cover z-[-20]"
   />
 </div>
 

@@ -10,21 +10,21 @@ export default function SuperAdminDashboard() {
   const [showProfile, setShowProfile] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
 
-  useEffect(() => {
-    const fetchCounts = async () => {
-      try {
-        const response = await fetch(
-          "http://192.168.1.221:5000/api/v1/document/getAllPublications"
-        );
-        const data = await response.json();
-        setFormCount(data.count);
-      } catch (error) {
-        console.error("Error fetching form count:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCounts = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://192.168.1.221:5000/api/v1/document/getAllPublications"
+  //       );
+  //       const data = await response.json();
+  //       setFormCount(data.count);
+  //     } catch (error) {
+  //       console.error("Error fetching form count:", error);
+  //     }
+  //   };
 
-    fetchCounts();
-  }, []);
+  //   fetchCounts();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">

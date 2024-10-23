@@ -3,7 +3,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import MemberCard from '../MemberCard/MemberCard'
-import Sidebar from '../Sidebar';
+import Sidebar from '../SideBar/Sidebar';
 import { Menu } from 'lucide-react';
 
 const AddUserComp = () => {
@@ -16,7 +16,8 @@ const AddUserComp = () => {
             sidebar ? "lg:w-[calc(100% - 340px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
           } bg-[url('/src/assets/image2.svg')]`}
         >
-            <button onClick={()=>{setSidebar(!sidebar)}}><Menu /></button>
+            <button className='bg-slate-200 p-2 rounded' onClick={()=>{setSidebar(!sidebar)}}><Menu /></button>
+            
             <div className="flex justify-between items-center">
                 <div className="w-[83%] relative flex items-center">
                     <button className="absolute text-3xl left-2"><CiSearch/></button>

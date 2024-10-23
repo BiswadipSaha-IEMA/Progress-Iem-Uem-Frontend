@@ -16,65 +16,205 @@ import {
 
 import "./customScrollbar.css";
 import { RxCrossCircled } from "react-icons/rx";
+import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
+import Lottie from "react-lottie";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState(booksPublishedData);
   const [originalData] = useState(booksPublishedData);
 
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: NoFilesPresent,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   const columnsBp = [
     {
-      name: <div className="w-full flex justify-center">SL. No.</div>,
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          SL. No.
+        </div>
+      ),
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-gray-800">
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
           {row.serial}
         </div>
       ),
       sortable: true,
     },
     {
-      name: <div className="w-full flex justify-center">Name</div>,
+      name: <div className="w-full select-none flex justify-center">Name</div>,
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-gray-800">
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
           {row.name}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">Book Name</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.book}
         </div>
       ),
     },
     {
       name: (
-        <div className="w-full flex justify-center">
-          Book Name Along With ISBN/ISSN No.
+        <div className="w-full select-none flex justify-center">
+          ISBN/ISSN No.
         </div>
       ),
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-gray-800">
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
           {row.issn_isbn}
         </div>
       ),
     },
     {
-      name: <div className="w-full flex justify-center">Publisher Name</div>,
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Publisher Name
+        </div>
+      ),
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-gray-800">
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
           {row.publisher_name}
         </div>
       ),
     },
     {
-      name: <div className="w-full flex justify-center">Published Date</div>,
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Published Date
+        </div>
+      ),
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-gray-800">
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
           {new Date(row.published_date).toLocaleDateString("en-US")}
         </div>
       ),
     },
     {
-      name: <div className="w-full flex justify-center">Submitted Forms</div>,
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Submitted Forms
+        </div>
+      ),
       cell: (row) => (
-        <div className="w-full flex justify-center items-center text-blue-500">
+        <div className="w-full select-none flex justify-center items-center text-blue-500">
           {row.submitted}
         </div>
       ),
     },
+  ];
+
+  const columns = [
+    {
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          SL. No.
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+          {row.serial}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: <div className="w-full select-none flex justify-center">Name</div>,
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.name}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Journal/conference/Bookchapter
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.journal_name}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">Paper Name</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.paper_name}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">Vol. No.</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.vol}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">Issue No.</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.issue}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">pp No.</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.pp}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Published Date
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {new Date(row.published_date).toLocaleDateString("en-US")}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Submitted Forms
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-blue-500">
+          {row.submitted}
+        </div>
+      ),
+    },
+    
   ];
 
   const handleSearch = (event) => {
@@ -129,47 +269,53 @@ function StudentComp() {
         <img src={UEM} alt="UEM" className="h-20 w-16 mr-4" />
       </div>
 
-      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-10 mr-10 mb-10">
-        <div className="flex flex-col sm:flex-row justify-between items-center">
-          <div className="flex items-center gap-5 mb-4 sm:mb-0">
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
-            <div className="text-[20px] sm:text-[25px] font-semibold">Book Published</div>
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+              Book Published
+            </div>
           </div>
 
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
-              className="outline-none w-full sm:w-[400px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               onChange={handleSearch}
-              placeholder="Search with Name or ISSN or ISBN number"
+              placeholder="Search with Name or ISS..."
             />
-            <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" 
-            />
+            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
           </div>
         </div>
 
-        <div className="w-full flex mt-5 justify-end gap-3 flex-wrap">
-          <div className="border rounded-md border-[#b4b7bd] px-2 py-1">
-            <CiFilter className="text-[2rem] text-[#b4b7bd]" />
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
           </div>
-          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-5 py-1">
-            <GoSortDesc className="text-[2rem] text-[#b4b7bd]" />
-            <div className="text-[#b4b7bd]">Sort: Chronological</div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
           </div>
+
           <div
-            className="border rounded-md border-[#b4b7bd] flex items-center px-3 gap-5 cursor-pointer"
-            onClick={() => {
-              setCalendarShow(true);
-            }}
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
           >
-            <div className="text-[#b4b7bd] font-semibold">{"<"}</div>
-            <div className="text-[#b4b7bd] font-semibold">{currentMonth}</div>
-            <div className="text-[#b4b7bd] font-semibold">{">"}</div>
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
           </div>
+
           {calendarShow && (
             <div
               id="calendar-overlay"
-              className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
               onClick={handleCloseCalendar}
             >
               <div className="bg-white p-4 rounded-lg shadow-lg">
@@ -179,29 +325,311 @@ function StudentComp() {
           )}
         </div>
 
-        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar">
-          <DataTable
-            columns={columnsBp}
-            data={recordsOfBp}
-            defaultSortField="serial"
-            defaultSortAsc={true}
-            customStyles={{
-              headCells: {
-                style: {
-                  backgroundColor: "#def4ff",
-                  color: "#333",
-                  fontWeight: "bold",
-                  textAlign: "center",
+        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
+          {recordsOfBp.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <Lottie options={defaultOptions} height={200} width={200} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Files Submitted
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsBp}
+              data={recordsOfBp}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
                 },
-              },
-              headRow: {
-                style: {
-                  backgroundColor: "#def4ff",
-                  border: "none",
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
                 },
-              },
-            }}
-          />
+              }}
+              className="mt-10"
+            />
+          )}
+        </div>
+      </div>
+
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+  <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+    <div className="flex items-center gap-5 mb-4 sm:mb-0">
+      <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+      <div className="text-[20px] sm:text-[25px] font-semibold">
+        Research Paper Published (Grade-A) -(SCI, SCIE, Scopus, WoS, ESCI, Nature)
+      </div>
+    </div>
+
+    <div className="relative w-full sm:w-auto">
+      <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+      <input
+        className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+        onChange={handleSearch}
+        placeholder="Search with Name or ISS..."
+      />
+    </div>
+  </div>
+
+  <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+    <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+      <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+    </div>
+
+    <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+      <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+      <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">Sort: Chronological</div>
+    </div>
+
+    <div
+      className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+      onClick={() => setCalendarShow(true)}
+    >
+      <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">{currentMonth}</div>
+    </div>
+
+    {calendarShow && (
+      <div
+        id="calendar-overlay"
+        className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
+        onClick={handleCloseCalendar}
+      >
+        <div className="bg-white p-4 rounded-lg shadow-lg">
+          <Calendar onChange={onDateChange} />
+        </div>
+      </div>
+    )}
+  </div>
+
+  {/* DataTable Container */}
+  <div className="mt-10 h-[250px] overflow-auto custom-scrollbar">
+    {researchPapersGradeAData.length === 0 ? (
+      <div className="flex flex-col items-center justify-center h-full">
+        <Lottie options={defaultOptions} height={200} width={200} />
+        <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+          No Files Submitted
+        </div>
+      </div>
+    ) : (
+      <DataTable
+        columns={columns}
+        data={researchPapersGradeAData}
+        defaultSortField="serial"
+        defaultSortAsc={true}
+        customStyles={{
+          headCells: {
+            style: {
+              backgroundColor: "#def4ff",
+              color: "#333",
+              fontWeight: "bold",
+              textAlign: "center",
+            },
+          },
+          headRow: {
+            style: {
+              backgroundColor: "#def4ff",
+              border: "none",
+            },
+          },
+        }}
+        className="mt-0" // Adjust this if needed
+      />
+    )}
+  </div>
+</div>
+
+
+
+
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+              Book Published
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              onChange={handleSearch}
+              placeholder="Search with Name or ISS..."
+            />
+            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
+          </div>
+        </div>
+
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
+              onClick={handleCloseCalendar}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
+          {recordsOfBp.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <Lottie options={defaultOptions} height={200} width={200} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Files Submitted
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsBp}
+              data={recordsOfBp}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-10"
+            />
+          )}
+        </div>
+      </div>
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+              Book Published
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              onChange={handleSearch}
+              placeholder="Search with Name or ISS..."
+            />
+            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
+          </div>
+        </div>
+
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
+              onClick={handleCloseCalendar}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
+          {recordsOfBp.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <Lottie options={defaultOptions} height={200} width={200} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Files Submitted
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsBp}
+              data={recordsOfBp}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-10"
+            />
+          )}
         </div>
       </div>
     </>

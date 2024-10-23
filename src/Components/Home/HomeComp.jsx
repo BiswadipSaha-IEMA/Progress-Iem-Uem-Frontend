@@ -2,7 +2,8 @@ import React, { useContext, useState } from "react";
 import { Menu, X, FilePenLine } from "lucide-react";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 import { AuthContext } from "../../Context/AuthContext";
-import Sidebar from "../Sidebar";
+// import Sidebar from "../Sidebar";
+import Sidebar from '../SideBar/Sidebar'
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);

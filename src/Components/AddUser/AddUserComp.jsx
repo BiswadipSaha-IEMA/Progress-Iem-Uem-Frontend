@@ -3,14 +3,14 @@ import { CiSquarePlus } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import MemberCard from '../MemberCard/MemberCard'
-// import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import { Menu } from 'lucide-react';
 
 const AddUserComp = () => {
     const [sidebar,setSidebar]=useState(false)
   return (
     <div className="flex">
-        {/* <Sidebar showProfile={sidebar} /> */}
+        <Sidebar showProfile={sidebar} />
         <div
           className={`flex-grow rounded-lg mb-8 duration-300 ${
             sidebar ? "lg:w-[calc(100% - 340px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
@@ -41,6 +41,41 @@ export default AddUserComp
 
 
 const data=[
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
+    {
+        phone:'64641313687',
+        email:'ahsdfkh@mail.com',
+        dept:'CSE'
+    },
     {
         phone:'64641313687',
         email:'ahsdfkh@mail.com',

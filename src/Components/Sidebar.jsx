@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   LayoutDashboard,
@@ -6,13 +5,12 @@ import {
   SlidersHorizontal,
   KeyRound,
   LogOut,
-  FilePenLine
+  FilePenLine,
 } from "lucide-react";
 
 const Sidebar = ({ showProfile }) => {
   return (
     <>
-      
       <div
         className={`fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${
           showProfile ? "translate-x-0" : "-translate-x-full"
@@ -44,14 +42,14 @@ const ProfileContent = () => {
           alt="Profile"
           className="w-32 h-32 rounded-full object-cover mt-10"
         />
-        <span className="absolute mt-10 ml-28 bg-gray-300  text-xs p-1 font-bold top-5  text-black rounded-md">
+        <span className="absolute mt-10 ml-28 bg-gray-300 text-xs p-1 font-bold top-5 text-black rounded-md shadow-md">
           Student
         </span>
       </div>
       <div className="flex-grow ">
         <button className="w-full py-2 mb-2 rounded-md text-black bg-gray-200 hover:bg-gray-300 transition-colors flex items-center justify-center  font-semibold mr-2  gap-2 ">
-         <FilePenLine />Change Profile Picture
-          
+          <FilePenLine />
+          Change Profile Picture
         </button>
         <button className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800">
           Remove Profile Picture

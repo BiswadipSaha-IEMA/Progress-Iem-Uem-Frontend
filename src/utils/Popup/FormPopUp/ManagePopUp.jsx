@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { FiX } from "react-icons/fi";
 import ErrorLottie from "../../../Lottie/ErrorLottie";
-import Lottie2 from 'react-lottie';
+import Lottie2 from "react-lottie";
 import "./styles.css";
 
 const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
@@ -50,6 +51,10 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     }
   };
 
+  // const handleClosePopup = () => {
+  //   setIsPopupVisible(false);
+  // };
+
   const defaultOptions = {
     loop: false,
     autoplay: true,
@@ -61,10 +66,10 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
   return (
     <>
-    {setUtilFor === "form" ? (
-          <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-      <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]">
-      <div
+      {setUtilFor === "form" ? (
+        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+          <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]">
+            <div
               className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
               onClick={() => {
                 setConfirmationPopupShow(false);
@@ -143,39 +148,87 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 Submit Paper
               </button>
             </form>
-          
-      </div>
-      </div>
-            
-        ) : 
-          setUtilFor === "error" ?
-          <>
-            <div className=" fixed top-0 left-0 h-[100vh] w-[100vw] z-[400] flex justify-center items-center bg-[#1414145e] backdrop-blur-md alertcontainer1">
+          </div>
+        </div>
+      ) : setUtilFor === "error" ? (
+        <>
+          <div className=" fixed top-0 left-0 h-[100vh] w-[100vw] z-[400] flex justify-center items-center bg-[#1414145e] backdrop-blur-md alertcontainer1">
             <div className="alertcontent1 bg-[#ffffff]  rounded-md flex flex-col justify-center items-center px-[12%] py-10 gap-1">
-            <header className="text-[2rem] font-[700]">
-              <Lottie2 options={defaultOptions} height={100} width={100} />
-            </header>
-            <main>
-              <p className="text-[30px] font-[700] ">{takeData}</p>
-            </main>
-            <footer className="text-[20px] mt-10 font-[700] bg-blue-600 text-white px-4 py-2 rounded-md select-none cursor-pointer"
-            onClick={() => {
-              setPopupShow(false);
-            }}
-            >
-              Okay
-            </footer>
-              </div>
-              </div>
+              <header className="text-[2rem] font-[700]">
+                <Lottie2 options={defaultOptions} height={100} width={100} />
+              </header>
+              <main>
+                <p className="text-[30px] font-[700] ">{takeData}</p>
+              </main>
+              <footer
+                className="text-[20px] mt-10 font-[700] bg-blue-600 text-white px-4 py-2 rounded-md select-none cursor-pointer"
+                onClick={() => {
+                  setPopupShow(false);
+                }}
+              >
+                Okay
+              </footer>
+            </div>
+          </div>
+        </>
+      ) : setUtilFor === "modarator" ? (
+        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+          {/* <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]"> */}
+            {/* // <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"> */}
+              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+                <div className="flex justify-between p-5">
+                  <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+                    User Registration
+                  </h2>
+                  <div
+                    className="bg-[#D9D9D9] flex items-center justify-center w-[50px] h-[50px] rounded-3xl cursor-pointer"
+                    
+                  >
+                    <FiX className="text-[#555555]" size={30} onClick={()=>setPopupShow(false)}/>
+                  </div>
+                </div>
+                <hr />
 
-          </>
-          :
-          <></>
-        }
+                <div className="flex flex-col gap-2 p-5 max-h-[70vh] overflow-y-auto">
+                  <div className="flex flex-col gap-2">
+                    <p>Name</p>
+                    <input
+                      type="text"
+                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                      placeholder="Enter Your Name"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <p>Phone No</p>
+                    <input
+                      type="tel"
+                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                      placeholder="Your Mobile Number"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <p>Email Address</p>
+                    <input
+                      type="email"
+                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                      placeholder="Your Email Address"
+                    />
+                  </div>
 
+                  <div className="flex flex-col justify-center items-center mt-5">
+                    <button className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {/* // </div> */}
+          </div>
+        // </div>
+      ) : (
+        <></>
+      )}
     </>
-        
-      
   );
 };
 

@@ -7,6 +7,8 @@ import ChangePassword from "./Pages/ChangePassword/ChangePassword";
 import Home from "./Pages/Home/Home";
 import Student from "./Pages/Student/Student";
 import AddUser from "./Pages/AddUser/AddUser";
+import AddFaculty from "./Pages/AddFaculty/AddFaculty";
+import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -21,7 +23,8 @@ const AppRouter = () => {
           <Route path="/student" element={<Student />} />
           <Route path="/adduser" element={<AddUser />} />
           {/* <Route path="/" element={<Registration />} /> */}
-          <Route path="/" element={<Home />} />
+          <Route path="/addfaculty" element={<AddFaculty />} />
+          <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/student" element={<Student />} />
           <Route path="/login" element={<Login />} />
         </Routes>

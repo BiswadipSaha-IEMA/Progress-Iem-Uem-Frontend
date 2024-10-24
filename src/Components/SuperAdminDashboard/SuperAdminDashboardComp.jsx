@@ -3,12 +3,19 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 // import { NavLink } from 'react-router-dom';
 
-import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
-export default function SuperAdminDashboard() {
-  const [formCount, setFormCount] = useState(0);
+
+import Sidebar from "../SideBar/Sidebar";
+
+export default function SuperAdminDashboardComp() {
+  const [formCount, setFormCount] = useState(0);  
   const [showProfile, setShowProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const toggleProfile = () => setShowProfile((prev) => !prev);
+
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   const fetchCounts = async () => {
@@ -25,6 +32,45 @@ export default function SuperAdminDashboard() {
 
   //   fetchCounts();
   // }, []);
+
+  useEffect(() =>{
+    const fetchCounts = async () =>{
+      setLoading(true);
+    
+    try{
+      const response = await fetch(
+        "http://192.168.1.221:5000/api/v1/document/getAllPublications"
+      );
+
+      const data = await response.json();
+      if(data && typeof data.count === 'number'){
+        setFormCount(data.count);
+      }else{
+        setFormCount(0);
+      }
+     
+    }catch(error){
+      console.error("Error fetching form count: ",error);
+      setFormCount(0);  
+    }finally{
+      setLoading(false);  
+    }
+
+  };
+
+  fetchCounts();
+  },[]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+          <p className="mt-4 text-xl text-gray-700">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -43,7 +89,7 @@ export default function SuperAdminDashboard() {
       </div>
 
       <div
-        className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[96vh] lg:p-8 space-y-6 duration-300 ${
+        className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[96vh] lg:p-6 space-y-6 duration-300 ${
           showProfile
             ? "lg:w-[calc(100% - 320px)] lg:ml-[320px]"
             : "lg:w-full lg:ml-0"
@@ -71,12 +117,12 @@ export default function SuperAdminDashboard() {
 
           <div className="flex-1 p-6 sm:p-16 relative bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex flex-col items-center rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
             {/* Place the Count value inside the Faculty div */}
-            <div className="absolute top-4 right-4 flex flex-col items-center">
-              <p className="text-xl text-black">{formCount} Pending Forms</p>
+            <div className="absolute top-[-10px] right-[-10px] flex flex-col items-center bg-blue-600 shadow-lg px-3 py-1 rounded-md">
+              <p className="text-xl text-white font-[500]">{formCount}</p>
             </div>
 
             <div className="bg-[url('/src/assets/faculty.svg')] bg-cover bg-center mb-4 h-24 w-24 sm:h-28 sm:w-28 text-gray-600" />
-            <button className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" onClick={() => navigate("/addfaculty")}>
               Faculty
             </button>
           </div>

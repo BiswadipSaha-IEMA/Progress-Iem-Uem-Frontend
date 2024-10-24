@@ -50,7 +50,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
     const data = { email, password };
 
     try {
-        const json = await postReq('api/v1/users/login', data);
+        const json = await postReq('api/v1/superAdmin/login', data);
         if (json) {
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);

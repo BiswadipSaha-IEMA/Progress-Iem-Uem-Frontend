@@ -25,7 +25,7 @@ function Registration() {
         accesstoken: onRegister.accesstoken,
         refreshtoken: onRegister.refreshtoken,
       };
-      dispatch(login(userData));
+      dispatch(login(JSON.parse(userData)));
       contextLogin(userData);
       navigate("/");
     }

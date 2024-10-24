@@ -17,8 +17,9 @@ function RegistrationComp({
   setOnRegister,
 }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    // firstName: "",
+    // lastName: "",
+    name:'',
     email: "",
     password: "",
   });

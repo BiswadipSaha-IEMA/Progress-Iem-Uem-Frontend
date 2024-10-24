@@ -3,6 +3,7 @@ import { Menu, X, FilePenLine } from "lucide-react";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 import { AuthContext } from "../../Context/AuthContext";
 import Sidebar from "../Sidebar";
+import { useLocation } from 'react-router-dom';
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
@@ -10,12 +11,15 @@ export default function HomeComp() {
   const { logout } = useContext(AuthContext);
 
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const location = useLocation();
+
+  
 
   return (
-    <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">
+    <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden ">
       {/* Main Content Area */}
       <div
-        className={`flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 ${
+        className={`left-4 flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 ${
           showProfile ? " " : ""
         }`}
       >

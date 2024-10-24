@@ -6,14 +6,17 @@ import {
   KeyRound,
   LogOut,
   FilePenLine,
+  UserRound
 } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ showProfile }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isEdit = location.pathname === "/edit";
   const isSuper = location.pathname === "/SuperAdminDashboard";
-  const isAddMod = location.pathname === "/AddModaretor";
+  const isAddMod = location.pathname === "/AddModerator";
+  const isAddFac = location.pathname === "/AddFaculty";
 
   return (
     <>
@@ -22,7 +25,13 @@ const Sidebar = ({ showProfile }) => {
           showProfile ? "translate-x-0" : "-translate-x-full"
         } overflow-y-auto`}
       >
-        <ProfileContent isEdit={isEdit} isSuper={isSuper} isAddMod={isAddMod} />
+        <ProfileContent 
+          isEdit={isEdit} 
+          isSuper={isSuper} 
+          isAddMod={isAddMod} 
+          isAddFac={isAddFac} 
+          navigate={navigate}
+        />
       </div>
 
       <div
@@ -30,13 +39,19 @@ const Sidebar = ({ showProfile }) => {
           showProfile ? "translate-x-0 h-full" : "-translate-x-full"
         } overflow-y-auto`}
       >
-        <ProfileContent isEdit={isEdit} isSuper={isSuper} isAddMod={isAddMod} />
+        <ProfileContent 
+          isEdit={isEdit} 
+          isSuper={isSuper} 
+          isAddMod={isAddMod} 
+          isAddFac={isAddFac} 
+          navigate={navigate}
+        />
       </div>
     </>
   );
 };
 
-const ProfileContent = ({ isEdit, isSuper,isAddMod }) => {
+const ProfileContent = ({ isEdit, isSuper, isAddMod, isAddFac, navigate }) => {
   return (
     <>
       <div className="flex justify-center mb-4 relative">
@@ -63,50 +78,65 @@ const ProfileContent = ({ isEdit, isSuper,isAddMod }) => {
         >
           Remove Profile Picture
         </button>
-        <button
-          className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
-            isSuper ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
-          }`}
-          aria-label="Super Admin Dashboard"
-        >
-          <LayoutDashboard color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
-          Super Admin Dashboard
-        </button>
-        <button
-          className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
-            isAddMod ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
-          }`}
-          aria-label="Add Moderator"
-        >
-          <UserRoundPen color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
-          Add Moderator
-        </button>
-        <button
-          className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
-            isEdit ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
-          }`}
-          aria-label="Edit Account Details"
-        >
-          <SlidersHorizontal color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
-          Edit Account Details
-        </button>
-        <button
-          className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
-          aria-label="Change Password"
-        >
-          <KeyRound color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
-          Change Password
-        </button>
-        <button
-          className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
-          aria-label="Log Out"
-        >
-          <LogOut color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
-          Log Out
-        </button>
+        <SidebarButton 
+          isActive={isSuper} 
+          ariaLabel="Super Admin Dashboard" 
+          icon={<LayoutDashboard color="#03A8FD" />} 
+          label="Super Admin Dashboard" 
+          onClick={() => navigate('/SuperAdminDashboard')} 
+        />
+        <SidebarButton 
+          isActive={isAddMod} 
+          ariaLabel="Add Moderator" 
+          icon={<UserRoundPen color="#03A8FD" />} 
+          label="Add Moderator" 
+          onClick={() => navigate('/AddModerator')} 
+        />
+        <SidebarButton 
+          isActive={isAddFac} 
+          ariaLabel="Add Faculty" 
+          icon={<UserRound color="#03A8FD" />} 
+          label="Add Faculty" 
+          onClick={() => navigate('/AddFaculty')} 
+        />
+        <SidebarButton 
+          isActive={isEdit} 
+          ariaLabel="Edit Account Details" 
+          icon={<SlidersHorizontal color="#03A8FD" />} 
+          label="Edit Account Details" 
+          onClick={() => navigate('/edit')} 
+        />
+        <SidebarButton 
+          ariaLabel="Change Password" 
+          icon={<KeyRound color="#03A8FD" />} 
+          label="Change Password" 
+          onClick={() => navigate('/change-password')} // Adjust the path as needed
+        />
+        <SidebarButton 
+          ariaLabel="Log Out" 
+          icon={<LogOut  />} 
+          label="Log Out" 
+          onClick={() => navigate('/logout')} // Adjust the path as needed
+        />
       </div>
     </>
   );
 };
+
+const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
+  <button
+    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+      isActive ? "text-white bg-blue-500" : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
+    }`}
+    aria-label={ariaLabel}
+    onClick={onClick}
+  >
+    <span className={`mr-2 ${isActive ? "text-white" : " hover:text-white"}`}>
+      {React.cloneElement(icon, { color: isActive ? "white" : undefined })}
+    </span>
+    {label}
+  </button>
+);
+
 
 export default Sidebar;

@@ -18,10 +18,14 @@ import "./customScrollbar.css";
 import { RxCrossCircled } from "react-icons/rx";
 import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
 import Lottie from "react-lottie";
+import { usePostReq } from "../../hooks/useHttp";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState(booksPublishedData);
   const [originalData] = useState(booksPublishedData);
+  const {postReq}= usePostReq()
+
+
 
   const defaultOptions = {
     loop: false,
@@ -31,6 +35,19 @@ function StudentComp() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+  // const accessToken= sessionStorage.getItem('user')
+  // console.log('====================================');
+  // console.log(typeof(accessToken));
+  // const
+  // console.log('====================================');
+
+  // const allInfo= async()=>{
+  //   const response= await postReq('/document/getAllPublications',
+  //     {},
+
+  //   )
+  // }
 
   const columnsBp = [
     {

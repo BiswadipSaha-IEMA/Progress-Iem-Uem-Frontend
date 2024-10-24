@@ -8,7 +8,7 @@ import { Menu } from 'lucide-react';
 
 import gsap from 'gsap';
 
-const AddUserComp = () => {
+const AddFacultyComp = () => {
     const [sidebar, setSidebar] = useState(false);
 
     return (
@@ -30,13 +30,13 @@ const AddUserComp = () => {
                 <button className="absolute right-2 text-3xl"><IoIosCloseCircleOutline /></button>
             </div>
             <button className='bg-[#03A8FD] p-1 text-lg right-0 rounded-lg flex items-center pl-4 pr-4 text-white'>
-                Add New User 
+                Add New Faculty 
                 <div className="text-2xl"><CiSquarePlus /></div>
             </button>
         </div>
 
         <div className="bg-white p-4 flex flex-wrap w-full mt-8 rounded-lg">
-            <Cards role={'user'} sidebar={sidebar}/>
+            <Cards role={'faculty'} sidebar={sidebar}/>
         </div>
     </div>
 </div>
@@ -44,7 +44,7 @@ const AddUserComp = () => {
     );
 }
 
-export default AddUserComp;
+export default AddFacultyComp;
 
 
 

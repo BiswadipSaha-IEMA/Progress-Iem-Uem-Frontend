@@ -12,7 +12,8 @@ import { useLocation } from "react-router-dom";
 const Sidebar = ({ showProfile }) => {
   const location = useLocation();
   const isEdit = location.pathname === "/edit";
-  
+  const isSuper = location.pathname === "/SuperAdminDashboard";
+  const isAddMod = location.pathname === "/AddModaretor";
 
   return (
     <>
@@ -21,21 +22,21 @@ const Sidebar = ({ showProfile }) => {
           showProfile ? "translate-x-0" : "-translate-x-full"
         } overflow-y-auto`}
       >
-        <ProfileContent isEdit={isEdit}  />
+        <ProfileContent isEdit={isEdit} isSuper={isSuper} isAddMod={isAddMod} />
       </div>
 
       <div
-        className={`fixed inset-y-0 left-0 ${showProfile?'left-4': 'left-0'} w-80 lg:h-[90vh] mt-6  bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
+        className={`fixed inset-y-0 left-0 ${showProfile ? 'left-4' : 'left-0'} w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
           showProfile ? "translate-x-0 h-full" : "-translate-x-full"
         } overflow-y-auto`}
       >
-        <ProfileContent isEdit={isEdit}  />
+        <ProfileContent isEdit={isEdit} isSuper={isSuper} isAddMod={isAddMod} />
       </div>
     </>
   );
 };
 
-const ProfileContent = ({ isEdit }) => {
+const ProfileContent = ({ isEdit, isSuper,isAddMod }) => {
   return (
     <>
       <div className="flex justify-center mb-4 relative">
@@ -49,38 +50,57 @@ const ProfileContent = ({ isEdit }) => {
         </span>
       </div>
       <div className="flex-grow">
-        <button className="w-full py-2 mb-2 rounded-md text-black bg-gray-200 hover:bg-gray-300 transition-colors flex items-center justify-center font-semibold mr-2 gap-2">
+        <button
+          className="w-full py-2 mb-2 rounded-md text-black bg-gray-200 hover:bg-gray-300 transition-colors flex items-center justify-center font-semibold mr-2 gap-2"
+          aria-label="Change Profile Picture"
+        >
           <FilePenLine />
           Change Profile Picture
         </button>
-        <button className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800">
+        <button
+          className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800"
+          aria-label="Remove Profile Picture"
+        >
           Remove Profile Picture
         </button>
-        <button className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300">
+        <button
+          className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+            isSuper ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
+          }`}
+          aria-label="Super Admin Dashboard"
+        >
           <LayoutDashboard color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
           Super Admin Dashboard
         </button>
-        <button className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300">
+        <button
+          className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+            isAddMod ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
+          }`}
+          aria-label="Add Moderator"
+        >
           <UserRoundPen color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
           Add Moderator
         </button>
         <button
           className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
-            isEdit
-              ? "text-[#03A8FD] bg-blue-50"
-              : isView
-              ? "text-black"
-              : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
+            isEdit ? "text-[#03A8FD] bg-blue-50" : "text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
           }`}
+          aria-label="Edit Account Details"
         >
           <SlidersHorizontal color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
           Edit Account Details
         </button>
-        <button className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300">
+        <button
+          className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
+          aria-label="Change Password"
+        >
           <KeyRound color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
           Change Password
         </button>
-        <button className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300">
+        <button
+          className="w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start text-black hover:text-[#03A8FD] hover:bg-blue-50 active:bg-blue-50 duration-300"
+          aria-label="Log Out"
+        >
           <LogOut color="#03A8FD" className="w-4 h-4 ml-7 mr-2" />
           Log Out
         </button>

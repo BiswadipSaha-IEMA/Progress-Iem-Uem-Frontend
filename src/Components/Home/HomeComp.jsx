@@ -24,7 +24,7 @@ export default function HomeComp() {
             className="bg-slate-200 p-2 rounded"
             aria-label="Toggle profile"
           >
-            {showProfile ? <X className="h-5 w-5 z-40" /> : <Menu className="h-5 w-5" />}
+            {showProfile ? <X className="h-5 w-5 z-40 right-20" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 

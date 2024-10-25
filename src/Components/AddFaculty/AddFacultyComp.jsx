@@ -111,7 +111,7 @@ const Cards = ({ sidebar }) => {
         { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
       );
     }
-  }, [userData]); // Animate when userData changes
+  }, [userData]); 
 
   return (
     <>

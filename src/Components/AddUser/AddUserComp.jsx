@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CiSquarePlus } from "react-icons/ci";
-import { CiSearch } from "react-icons/ci";
+import { CiSquarePlus, CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { RiUserAddFill } from "react-icons/ri";
 import MemberCard from "../MemberCard/MemberCard";
@@ -77,16 +76,8 @@ const AddUserComp = () => {
 const Cards = ({ sidebar }) => {
   const currentDiv = useRef([]);
   const [getReq] = useGetReq();
-  const [userData, setUserData] = useState([]); // Initialize as an empty array
+  const [userData, setUserData] = useState([]);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
-
-  useEffect(() => {
-    gsap.fromTo(
-      currentDiv.current,
-      { opacity: 0, y: 50, scaleX: 0 },
-      { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
-    );
-  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -94,20 +85,37 @@ const Cards = ({ sidebar }) => {
         const data = await getReq('api/v1/user/getAllUsers', accessToken);
         console.log(data.data);
 
-        // Ensure data.data is an array before setting
         if (Array.isArray(data.data)) {
           setUserData(data.data);
         } else {
           console.error("Fetched data is not an array:", data.data);
-          setUserData([]); // Reset to an empty array if data is not as expected
+          setUserData([]);
         }
       } catch (error) {
-        console.error("Error fetching super admin data:", error);
+        console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
-  }, []); // Include dependencies
+  }, []); 
+
+  useEffect(() => {
+    const animateCards = () => {
+      gsap.fromTo(
+        currentDiv.current,
+        { opacity: 0, y: 50, scaleX: 0 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
+      );
+    };
+
+    // Initial animation on mount
+    animateCards();
+
+    // Animation when userData updates
+    if (userData.length > 0) {
+      animateCards();
+    }
+  }, [userData]);
 
   return (
     <>
@@ -117,7 +125,7 @@ const Cards = ({ sidebar }) => {
           ref={(ele) => (currentDiv.current[index] = ele)}
           className={`${sidebar ? "ml-12" : "lg:ml-0"}`}
         >
-          <MemberCard role={element.role} data={element} /> {/* Pass individual user data and role */}
+          <MemberCard role={element.role} data={element} />
         </div>
       ))}
     </>

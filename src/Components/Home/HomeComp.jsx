@@ -3,43 +3,62 @@ import { Menu, X, FilePenLine } from "lucide-react";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 import { AuthContext } from "../../Context/AuthContext";
 // import Sidebar from "../Sidebar";
-import Sidebar from '../SideBar/Sidebar'
-import { useGetReq } from "../../hooks/useHttp";
+import Sidebar from "../SideBar/Sidebar";
+import { useGetReq, usePutReq } from "../../hooks/useHttp";
+import PopupModal from "../Popup Modal/PopupModal";
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
   const [ChangePassword, setChangePassword] = useState(false);
   const { logout } = useContext(AuthContext);
+  const [superAdminData, setSuperAdminData] = useState({});
+  const [showForm, setShowForm] = useState(false);
 
   const [getReq, { error, loading }] = useGetReq();
+  const [putReq, { errorReq, putLoading }] = usePutReq();
 
   const toggleProfile = () => setShowProfile((prev) => !prev);
-  const token = sessionStorage.getItem('user');
-  const accessToken= JSON.parse(token)
-  console.log(accessToken.token);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   
+  const handleClick = () => {
+    setShowForm(true);
+  };
+
+  const handleClose = () => {
+    setShowForm(false);
+  };
 
   useEffect(() => {
     const fetchSuperAdminData = async () => {
       try {
         
-        const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken.token);
+        const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken);
         console.log(data.data);
+        setSuperAdminData(data.data);
 
-        // Assuming getReq is an async function
-        // const data = await getReq('api/v1/superAdmin/getSuperAdmin', { headers: header });
-        // console.log(data);
       } catch (error) {
-        console.error('Error fetching super admin data:', error);
+        console.error("Error fetching super admin data:", error);
       }
     };
 
     fetchSuperAdminData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  
+    const handleSubmit = async (formData) => {
+      try {
+        const dataToUpdate = { name: formData.name,
+          address: formData.address,
+          phone: formData.phone,
+          email: formData.email,
+         }; 
+        const data = await putReq('api/v1/superAdmin/editSuperAdmin', dataToUpdate, accessToken);
+        console.log(data);
+        setSuperAdminData(data.data);
+      } catch (error) {
+        console.error('Error updating data:', error);
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">
@@ -85,17 +104,17 @@ export default function HomeComp() {
                   Personal Details
                 </h2>
 
-                <button className="text-black font-semibold mr-2 flex gap-2">
+                <button className="text-black font-semibold mr-2 flex gap-2" onClick={handleClick}>
                   Edit <FilePenLine />
                 </button>
+                {showForm && <PopupModal onClose={handleClose} onSubmit={handleSubmit}/>}
               </div>
               <div className="flex flex-col gap-2 text-black">
                 <p className="mt-2">
-                  <strong>Name:</strong> Kartik Dubey
+                  <strong>Name:</strong> {superAdminData.name}
                 </p>
                 <p>
-                  <strong>Address:</strong> Biswa Bangla Sarani, Rajarhat,
-                  Action Area III, Kolkata, 700159
+                  <strong>Address:</strong> {superAdminData.address}
                 </p>
               </div>
             </section>
@@ -106,34 +125,36 @@ export default function HomeComp() {
                 <h2 className="text-xl text-cyan-400 font-semibold mb-2">
                   Contact Details
                 </h2>
-                <button className="text-black font-semibold mr-2 flex gap-2">
-                  Edit <FilePenLine />
-                </button>
               </div>
               <div className="flex flex-col gap-2 text-black">
                 <p className="mt-2">
-                  <strong>Phone No.:</strong> 9123456789{" "}
+                  <strong>Phone No.:</strong> {superAdminData.phone}
                   <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
                     Primary
                   </span>
                 </p>
                 <p>
-                  <strong>Email:</strong> Kartikdubey11234@gmail.com{" "}
+                  <strong>Email:</strong> {superAdminData.email}
                   <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
                     Primary
                   </span>
                 </p>
-                <p>
-                  <strong>Secondary Phone No.:</strong> 9123456789
-                </p>
-                <p>
-                  <strong>Secondary Email:</strong> -
-                </p>
+                {/* {superAdminData.secondaryPhone && (
+                  <p>
+                    <strong>Secondary Phone No.:</strong>{" "}
+                    superAdminData.secondaryPhone
+                  </p>
+                )}
+                {superAdminData.secondaryEmail && (
+                  <p>
+                    <strong>Secondary Email:</strong> -
+                  </p>
+                )} */}
               </div>
             </section>
 
             {/* Account Settings Section */}
-            <section className="mb-6">
+            {/* <section className="mb-6">
               <div className="flex border-b-2 border-gray-700 justify-between items-center">
                 <h2 className="text-xl text-cyan-400 font-semibold mb-2">
                   Account Settings
@@ -150,16 +171,7 @@ export default function HomeComp() {
                   <strong>Joined On:</strong> January 1, 2021
                 </p>
               </div>
-            </section>
-
-            <div className="flex justify-end gap-4 mt-8">
-              <button className="px-4 py-2 rounded-md font-medium bg-gray-200 text-black hover:bg-gray-300 transition-colors mt-52">
-                Cancel
-              </button>
-              <button className="px-4 py-2 rounded-md font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors mt-52">
-                Apply Changes
-              </button>
-            </div>
+            </section> */}
           </div>
 
           {/* Profile Section */}

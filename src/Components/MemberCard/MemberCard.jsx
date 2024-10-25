@@ -12,13 +12,13 @@ const MemberCard = ({role,data}) => {
             <div className="ml-6 p-3">
                 <div className="flex justify-end">
                     <button className='bg-[#03A8FD] p-2 rounded-lg flex items-center gap-2'>
-                        <div className="text-2xl"><TbEdit /></div>
-                        Edit
+                        <div className="text-2xl text-[#fff]"><TbEdit /></div>
+                        <div className='text-[#fff]'>Edit</div>
                     </button>
                 </div>
                 <div className="flex justify-start gap-4 my-2">
                     <div className="text-[#03A8FD] text-3xl">Soham Dutta</div>
-                    <div className="bg-[#DCF3FF] flex items-center px-1 rounded-lg text-sm">{role}</div>
+                    <div className="bg-[#DCF3FF] flex items-center  rounded-lg text-sm px-3">{role}</div>
                 </div>
                 <div className='w-[96%] flex text-center border border-[#D2D2D2]'></div>
                 <div className="flex flex-col">

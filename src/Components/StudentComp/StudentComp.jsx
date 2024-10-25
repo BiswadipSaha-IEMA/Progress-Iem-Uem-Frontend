@@ -762,8 +762,10 @@ function StudentComp() {
       </div>
 
       {
-        setBpPopUp && <ManagePopUp
+        bpPopUp && <ManagePopUp
           setUtilFor={'viewBPTable'}
+          setPopupShow={setBpPopUp}
+          takeData={[columnsBp, recordsOfBp]}
         />
       }
     </>

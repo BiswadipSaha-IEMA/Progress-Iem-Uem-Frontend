@@ -1,11 +1,11 @@
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #557ebb transparent;
+  scrollbar-color: #0f5dd1 transparent;
   scrollbar-gutter:  100px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
+  width: thin;
   height: 10px;
   border-radius: 50% !important;
 }
@@ -31,7 +31,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:horizontal {
-  background-color: #444e61;
+  background-color: #547fce;
   border-radius: 20px;
   border: 2px solid transparent;
   box-sizing: border-box;

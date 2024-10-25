@@ -17,16 +17,16 @@ const AppRouter = () => {
       {userLogin? (
         <Routes>
           <Route path="/" element={<Home />} />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path="/student" element={<Student />} />
-          <Route path="/adduser" element={<AddUser />} />
-          <Route path="/addfaculty" element={<AddFaculty />} />
-          {/* <Route path="/" element={<SuperAdminDashboard />} /> */}
           <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/edit" element={<Home />} />
           <Route path="/student" element={<Student />} />
+          <Route path="/student" element={<Student />} />
+          <Route path="/adduser" element={<AddUser />} />
+          <Route path="/addfaculty" element={<AddFaculty />} />
+        </Routes>
+      ) : (
+        <Routes>
+          {/* <Route path="/" element={<SuperAdminDashboard />} /> */}
           <Route path="/login" element={<Login />} />
         </Routes>
       )}

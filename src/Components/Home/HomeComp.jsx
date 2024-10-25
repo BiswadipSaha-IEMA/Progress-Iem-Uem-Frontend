@@ -18,13 +18,13 @@ export default function HomeComp() {
       {/* Main Content Area */}
       <div className={` flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300`}>
         {/* Hamburger Menu for Mobile and Desktop */}
-        <div className="absolute top-4 left-4 z-10 p-2 mr-4">
+        <div className="absolute top-4 left-4 z-10 p-2 right-2 mr-4">
           <button
             onClick={toggleProfile}
-            className="bg-slate-200 p-2 rounded"
+            className="bg-slate-200 p-2 mt-1 ml-1  rounded"
             aria-label="Toggle profile"
           >
-            {showProfile ? <X className="h-5 w-5 z-40 right-20" /> : <Menu className="h-5 w-5" />}
+            {showProfile ? <X className="h-4 w-4 z-40  " /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
 

@@ -187,7 +187,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
                 onClick={() => setPopupShow(false)}
               >
-                <RxCross2 />
+                <RxCross2 className="text-white"/>
               </div>
             </div>
             <hr />

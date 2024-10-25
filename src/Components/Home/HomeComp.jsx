@@ -1,17 +1,66 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Menu, X, FilePenLine } from "lucide-react";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 import { AuthContext } from "../../Context/AuthContext";
-import Sidebar from '../SideBar/Sidebar'; 
+// import Sidebar from "../Sidebar";
+import Sidebar from "../SideBar/Sidebar";
+import { useGetReq, usePutReq } from "../../hooks/useHttp";
+import PopupModal from "../Popup Modal/PopupModal";
 import { useLocation } from 'react-router-dom';
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const { logout } = useContext(AuthContext);
+  const [superAdminData, setSuperAdminData] = useState({});
+  const [showForm, setShowForm] = useState(false);
+
+  const [getReq, { error, loading }] = useGetReq();
+  const [putReq, { errorReq, putLoading }] = usePutReq();
   const location = useLocation();
 
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  
+  const handleClick = () => {
+    setShowForm(true);
+  };
+
+  const handleClose = () => {
+    setShowForm(false);
+  };
+
+  useEffect(() => {
+    const fetchSuperAdminData = async () => {
+      try {
+        
+        const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken);
+        console.log(data.data);
+        setSuperAdminData(data.data);
+
+      } catch (error) {
+        console.error("Error fetching super admin data:", error);
+      }
+    };
+
+    fetchSuperAdminData();
+  }, []);
+
+  
+    const handleSubmit = async (formData) => {
+      try {
+        const dataToUpdate = { name: formData.name,
+          address: formData.address,
+          phone: formData.phone,
+          email: formData.email,
+         }; 
+        const data = await putReq('api/v1/superAdmin/editSuperAdmin', dataToUpdate, accessToken);
+        console.log(data);
+        setSuperAdminData(data.data);
+      } catch (error) {
+        console.error('Error updating data:', error);
+      }
+    };
 
   return (
     <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">
@@ -36,35 +85,61 @@ export default function HomeComp() {
             {/* Personal Details Section */}
             <section className="mb-6">
               <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">Personal Details</h2>
-                <button className="text-black font-semibold mr-2 flex gap-2">
+                <h2 className="text-xl text-cyan-400 font-semibold mb-2">
+                  Personal Details
+                </h2>
+
+                <button className="text-black font-semibold mr-2 flex gap-2" onClick={handleClick}>
                   Edit <FilePenLine />
                 </button>
+                {showForm && <PopupModal onClose={handleClose} onSubmit={handleSubmit}/>}
               </div>
               <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2"><strong>Name:</strong> Kartik Dubey</p>
-                <p><strong>Address:</strong> Biswa Bangla Sarani, Rajarhat, Action Area III, Kolkata, 700159</p>
+                <p className="mt-2">
+                  <strong>Name:</strong> {superAdminData.name}
+                </p>
+                <p>
+                  <strong>Address:</strong> {superAdminData.address}
+                </p>
               </div>
             </section>
 
             {/* Contact Details Section */}
             <section className="mb-6">
               <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">Contact Details</h2>
-                <button className="text-black font-semibold mr-2 flex gap-2">
-                  Edit <FilePenLine />
-                </button>
+                <h2 className="text-xl text-cyan-400 font-semibold mb-2">
+                  Contact Details
+                </h2>
               </div>
               <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2"><strong>Phone No.:</strong> 9123456789 <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">Primary</span></p>
-                <p><strong>Email:</strong> Kartikdubey11234@gmail.com <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">Primary</span></p>
-                <p><strong>Secondary Phone No.:</strong> 9123456789</p>
-                <p><strong>Secondary Email:</strong> -</p>
+                <p className="mt-2">
+                  <strong>Phone No.:</strong> {superAdminData.phone}
+                  <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
+                    Primary
+                  </span>
+                </p>
+                <p>
+                  <strong>Email:</strong> {superAdminData.email}
+                  <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
+                    Primary
+                  </span>
+                </p>
+                {/* {superAdminData.secondaryPhone && (
+                  <p>
+                    <strong>Secondary Phone No.:</strong>{" "}
+                    superAdminData.secondaryPhone
+                  </p>
+                )}
+                {superAdminData.secondaryEmail && (
+                  <p>
+                    <strong>Secondary Email:</strong> -
+                  </p>
+                )} */}
               </div>
             </section>
 
             {/* Account Settings Section */}
-            <section className="mb-6">
+            {/* <section className="mb-6">
               <div className="flex border-b-2 border-gray-700 justify-between items-center">
                 <h2 className="text-xl text-cyan-400 font-semibold mb-2">Account Settings</h2>
                 <button className="text-black font-semibold mr-2 flex gap-2">
@@ -75,16 +150,7 @@ export default function HomeComp() {
                 <p className="mt-2"><strong>Account Type:</strong> Premium</p>
                 <p><strong>Joined On:</strong> January 1, 2021</p>
               </div>
-            </section>
-
-            <div className="flex justify-end gap-4 mt-8">
-              <button className="px-4 py-2 rounded-md font-medium bg-gray-200 text-black hover:bg-gray-300 transition-colors">
-                Cancel
-              </button>
-              <button className="px-4 py-2 rounded-md font-medium bg-blue-500 text-white hover:bg-blue-600 transition-colors">
-                Apply Changes
-              </button>
-            </div>
+            </section> */}
           </div>
 
           {/* Profile Section */}

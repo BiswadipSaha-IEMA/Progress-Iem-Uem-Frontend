@@ -14,10 +14,15 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   });
 
   const [fileError, setFileError] = useState(null);
+  const [selectedStream, setSelectedStream] = useState("");
 
   const isFormFilled = Object.values(formData).every(
     (value) => value !== "" && value !== null
   );
+
+  const handleStreamClick = (stream) => {
+    setSelectedStream(stream);
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -173,58 +178,73 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "modarator" ? (
         <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-          {/* <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]"> */}
-            {/* // <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"> */}
-              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
-                <div className="flex justify-between p-5">
-                  <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
-                    User Registration
-                  </h2>
-                  <div
-                    className="bg-[#D9D9D9] flex items-center justify-center w-[50px] h-[50px] rounded-3xl cursor-pointer"
-                    
-                  >
-                    <FiX className="text-[#555555]" size={30} onClick={()=>setPopupShow(false)}/>
-                  </div>
-                </div>
-                <hr />
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
+            <div className="flex justify-between p-5">
+              <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+                User Registration
+              </h2>
+              <div
+                className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
+                onClick={() => setPopupShow(false)}
+              >
+                <RxCross2 />
+              </div>
+            </div>
+            <hr />
 
-                <div className="flex flex-col gap-2 p-5 max-h-[70vh] overflow-y-auto">
-                  <div className="flex flex-col gap-2">
-                    <p>Name</p>
-                    <input
-                      type="text"
-                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
-                      placeholder="Enter Your Name"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <p>Phone No</p>
-                    <input
-                      type="tel"
-                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
-                      placeholder="Your Mobile Number"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <p>Email Address</p>
-                    <input
-                      type="email"
-                      className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
-                      placeholder="Your Email Address"
-                    />
-                  </div>
+            <div className="flex flex-col gap-2 p-5 max-h-[70vh] overflow-y-auto">
+              <div className="flex flex-col gap-2">
+                <p>Name</p>
+                <input
+                  type="text"
+                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                  placeholder="Enter Your Name"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <p>Phone No</p>
+                <input
+                  type="tel"
+                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                  placeholder="Your Mobile Number"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <p>Email Address</p>
+                <input
+                  type="email"
+                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                  placeholder="Your Email Address"
+                />
+              </div>
 
-                  <div className="flex flex-col justify-center items-center mt-5">
-                    <button className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer">
-                      Add
-                    </button>
-                  </div>
+              <div className="flex flex-col gap-2 mt-4">
+                <p>Stream</p>
+                <div className="flex gap-4">
+                  {["CSE", "CSIT", "BioTech"].map((stream) => (
+                    <div
+                      key={stream}
+                      onClick={() => handleStreamClick(stream)}
+                      className={`py-2 px-4 rounded-md cursor-pointer ${
+                        selectedStream === stream
+                          ? "bg-black text-white"
+                          : "bg-[#F0F0F0] text-[#a6adb7]"
+                      }`}
+                    >
+                      {stream} 
+                    </div>
+                  ))}
                 </div>
               </div>
-            {/* // </div> */}
+
+              <div className="flex flex-col justify-center items-center mt-5">
+                <button className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer">
+                  Add
+                </button>
+              </div>
+            </div>
           </div>
-        // </div>
+        </div>
       ) : (
         <></>
       )}

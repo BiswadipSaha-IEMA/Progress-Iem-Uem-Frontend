@@ -14,14 +14,22 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   });
 
   const [fileError, setFileError] = useState(null);
-  const [selectedStream, setSelectedStream] = useState("");
+  const [selectedStreams, setSelectedStreams] = useState([]);
+  const [streamString, setStreamString] = useState("");
 
   const isFormFilled = Object.values(formData).every(
     (value) => value !== "" && value !== null
   );
 
   const handleStreamClick = (stream) => {
-    setSelectedStream(stream);
+    setSelectedStreams((prev) => {
+      const updatedStreams = prev.includes(stream)
+        ? prev.filter((s) => s !== stream)
+        : [...prev, stream];
+
+      setStreamString(updatedStreams.join(", "));
+      return updatedStreams;
+    });
   };
 
   const handleFileChange = (e) => {
@@ -55,10 +63,6 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
       setFormSave(true);
     }
   };
-
-  // const handleClosePopup = () => {
-  //   setIsPopupVisible(false);
-  // };
 
   const defaultOptions = {
     loop: false,
@@ -187,7 +191,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
                 onClick={() => setPopupShow(false)}
               >
-                <RxCross2 className="text-white"/>
+                <RxCross2 className="text-white" />
               </div>
             </div>
             <hr />
@@ -217,25 +221,47 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   placeholder="Your Email Address"
                 />
               </div>
+              <div className="flex flex-col gap-2">
+                <p>University/Institute Name</p>
+                <input
+                  type="name"
+                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
+                  placeholder="University Name"
+                />
+              </div>
 
               <div className="flex flex-col gap-2 mt-4">
                 <p>Stream</p>
                 <div className="flex gap-4">
+                  {/* {["CSE", "CSIT", "AIML"].map((stream) => (
+                    <div
+                      key={stream}
+                      onClick={handleStreamClick(stream)}
+                      className=""
+                    >
+                      {stream}
+                    </div>
+                  ))} */}
+
                   {["CSE", "CSIT", "BioTech"].map((stream) => (
                     <div
                       key={stream}
                       onClick={() => handleStreamClick(stream)}
                       className={`py-2 px-4 rounded-md cursor-pointer ${
-                        selectedStream === stream
+                        selectedStreams.includes(stream)
                           ? "bg-black text-white"
                           : "bg-[#F0F0F0] text-[#a6adb7]"
                       }`}
                     >
-                      {stream} 
+                      {stream}
                     </div>
                   ))}
                 </div>
               </div>
+
+              {/* <div className="mt-4">
+            <p>Selected Streams: {streamString}</p> {/* Display selected streams 
+          </div> */}
 
               <div className="flex flex-col justify-center items-center mt-5">
                 <button className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer">

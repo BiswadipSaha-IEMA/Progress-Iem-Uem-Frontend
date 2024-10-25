@@ -24,6 +24,8 @@ const AppRouter = () => {
           <Route path="/student" element={<Student />} />
           <Route path="/adduser" element={<AddUser />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
+          
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
       )  : (
         <Routes>

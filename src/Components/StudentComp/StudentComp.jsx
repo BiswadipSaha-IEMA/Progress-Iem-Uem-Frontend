@@ -37,6 +37,7 @@ function StudentComp() {
   useState(null);
   const [originalData] = useState(bookDataArrState);
   const [bpPopUp, setBpPopUp]= useState(false)
+  const [filteredRecords, setFilteredRecords]= useState(false)
 
   const defaultOptions = {
     loop: false,
@@ -134,6 +135,15 @@ function StudentComp() {
   useEffect(() => {
     if (gradeCDataArrState !== null) setRecordsOfGB(gradeCDataArrState);
   }, [gradeCDataArrState]);
+
+  useEffect(()=>{
+    console.log('====================================');
+    console.log("hvbvikhoigbuyfybukbj",recordsOfBp);
+    console.log('====================================');
+    setRecordsOfBp(recordsOfBp)
+    if(recordsOfBp==='')
+      setRecordsOfBp(bookDataArrState)
+  },[recordsOfBp])
 
   // useEffect(()=>{
   //   if(bookDataArr!==null && bookDataSubmittedArrState!== null){
@@ -337,15 +347,18 @@ function StudentComp() {
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
-    const filteredData = originalData?.filter((row) => {
-      return (
-        row.name.toLowerCase().includes(searchValue) ||
-        row.issn_isbn.toLowerCase().includes(searchValue) ||
-        row.publisher_name.toLowerCase().includes(searchValue)
-      );
-    });
+    console.log('====================================');
+    console.log(searchValue);
+    console.log('====================================');
+  
+    const filteredData = recordsOfBp.filter((row) =>
+      row.name.toLowerCase().includes(searchValue)
+    );
+    // console.log("iugcibqb", filteredData)
     setRecordsOfBp(filteredData);
   };
+
+  
 
   const [currentMonth, setCurrentMonth] = useState(
     new Date().toLocaleString("default", { month: "long" })
@@ -442,11 +455,11 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {researchPapersGradeAData.length === 0 ? (
+          {recordsOfBp.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={200} width={200} />
+              <Lottie options={defaultOptions} height={150} width={150} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
-                No Files Submitted
+                No Records Found
               </div>
             </div>
           ) : (
@@ -475,7 +488,7 @@ function StudentComp() {
             />
           )}
         </div>
-        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]"
+        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000] mt-10"
         onClick={()=>{
           setBpPopUp(true)
         }}

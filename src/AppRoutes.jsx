@@ -17,6 +17,7 @@ const AppRouter = () => {
       {userLogin? (
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/edit" element={<Home />} />
           <Route path="/student" element={<Student />} />
@@ -24,9 +25,11 @@ const AppRouter = () => {
           <Route path="/adduser" element={<AddUser />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
         </Routes>
-      ) : (
+      )  : (
         <Routes>
+          <Route path="/" element={<Registration />} />
           {/* <Route path="/" element={<SuperAdminDashboard />} /> */}
+
           <Route path="/login" element={<Login />} />
         </Routes>
       )}

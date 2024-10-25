@@ -14,7 +14,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const isEdit = location.pathname === "/edit";
+  const isEdit = location.pathname === "/";
   const isSuper = location.pathname === "/SuperAdminDashboard";
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
@@ -116,7 +116,7 @@ const ProfileContent = ({
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
-          onClick={() => navigate("/edit")}
+          onClick={() => navigate("/")}
         />
         <SidebarButton
           isActive={isChangePasswords}

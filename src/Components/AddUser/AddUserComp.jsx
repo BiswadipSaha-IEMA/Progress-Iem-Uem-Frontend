@@ -16,7 +16,7 @@ const AddUserComp = () => {
   const [utilFor, setUtilFor] = useState("");
 
   const handleAddUserClick = () => {
-    setUtilFor("moderator");
+    setUtilFor("userAdd");
     setShowPopup(true);
   };
 

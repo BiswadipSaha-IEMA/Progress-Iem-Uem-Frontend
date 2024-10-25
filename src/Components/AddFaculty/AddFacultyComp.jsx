@@ -16,7 +16,7 @@ const AddFacultyComp = () => {
   const [utilFor, setUtilFor] = useState("");
 
   const handleAddUserClick = () => {
-    setUtilFor("moderator");
+    setUtilFor("Faculty");
     setShowPopup(true);
   };
 

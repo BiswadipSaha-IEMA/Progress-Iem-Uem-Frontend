@@ -22,12 +22,19 @@ import { useGetReq } from "../../hooks/useHttp";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
+  const [recordsOfGA, setRecordsOfGA] = useState([]);
+  const [recordsOfGB, setRecordsOfGB] = useState([]);
+  const [recordsOfGC, setRecordsOfGC] = useState([]);
   const [originalData] = useState(booksPublishedData);
   const [getReq] = useGetReq();
-  const [storeData, setStoreData] = useState(null)
-  const bookDataArr= []
-  const [bookDataArrState, setBookDataArrState]= useState(null)
-  const [bookDataSubmittedArrState, setBookDataSubmittedArrState]= useState(null)
+  const [storeData, setStoreData] = useState(null);
+  const bookDataArr = [];
+  const [bookDataArrState, setBookDataArrState] = useState(null);
+  const [gradeADataArrState, setGradeADataArrState] = useState(null);
+  const [gradeBDataArrState, setGradeBDataArrState] = useState(null);
+  const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
+  const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
+    useState(null);
 
   const defaultOptions = {
     loop: false,
@@ -47,41 +54,85 @@ function StudentComp() {
     const allInfo = async () => {
       const response = await getReq(
         "api/v1/document/getAllPublications",
-       accessToken
+        accessToken
       );
-      if(response.success){
-        setStoreData(response.data.data)
-        setBookDataSubmittedArrState(response.data.userSubmittedCounts)
-        console.log(response)
+      if (response.success) {
+        setStoreData(response.data.data);
+        setBookDataSubmittedArrState(response.data.userSubmittedCounts);
+        console.log(response);
       }
-      
     };
-    allInfo()
+    allInfo();
   }, []);
 
   useEffect(() => {
     console.log(storeData);
-    if(storeData!==null){
-      console.log(bookDataSubmittedArrState)
+    if (storeData !== null) {
+      console.log(bookDataSubmittedArrState);
       const booksData = storeData.map((item) => {
-        return item.publicationType === 'Book';
+        return item.publicationType === "Book";
       });
 
-      for(let i=0;i<booksData.length;i++){
-        if(booksData[i]===true){
-          bookDataArr.push(storeData[i])
+      for (let i = 0; i < booksData.length; i++) {
+        if (booksData[i] === true) {
+          bookDataArr.push(storeData[i]);
         }
       }
-      setBookDataArrState(bookDataArr)
+      setBookDataArrState(bookDataArr);
     }
   }, [storeData]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(bookDataArrState);
-    if(bookDataArrState!==null)
-      setRecordsOfBp(bookDataArrState);
-  })
+    if (bookDataArrState !== null) setRecordsOfBp(bookDataArrState);
+  });
+
+  useEffect(() => {
+    if (storeData !== null) {
+      const gradeAData = storeData.filter(
+        (item) => item.publicationGrade === "Grade-A"
+      );
+      setGradeADataArrState(gradeAData);
+    }
+
+    if (gradeADataArrState !== null) console.log(gradeADataArrState);
+  }, [storeData]);
   
+  useEffect(() => {
+    if (gradeADataArrState !== null) setRecordsOfGA(gradeADataArrState);
+  }, [gradeADataArrState]);
+  
+  
+  useEffect(() => {
+    if (storeData !== null) {
+      const gradeBData = storeData.filter(
+        (item) => item.publicationGrade === "Grade-B"
+      );
+      setGradeBDataArrState(gradeBData);
+    }
+    
+    if (gradeBDataArrState !== null) console.log(gradeBDataArrState);
+  }, [storeData]);
+  
+  useEffect(() => {
+    if (gradeBDataArrState !== null) setRecordsOfGB(gradeBDataArrState);
+  }, [gradeBDataArrState]);
+  
+  useEffect(() => {
+    if (storeData !== null) {
+      const gradeCData = storeData.filter(
+        (item) => item.publicationGrade === "Grade-C"
+      );
+      setGradeBDataArrState(gradeCData);
+    }
+    
+    if (gradeCDataArrState !== null) console.log(gradeCDataArrState);
+  }, [storeData]);
+  
+  useEffect(() => {
+    if (gradeCDataArrState !== null) setRecordsOfGB(gradeCDataArrState);
+  }, [gradeCDataArrState]);
+
   // useEffect(()=>{
   //   if(bookDataArr!==null && bookDataSubmittedArrState!== null){
   //     for(let i=0; i<bookDataSubmittedArrState.length;i++){
@@ -95,11 +146,6 @@ function StudentComp() {
   //     }
   //   }
   // })
-  
-
-  
-
-  
 
   const columnsBp = [
     {
@@ -209,13 +255,15 @@ function StudentComp() {
     },
     {
       name: (
-        <div className="w-full select-none flex justify-center">
-          Journal/conference/Bookchapter
+        <div className="w-full h-full overflow-hidden flex-wrap select-none flex justify-center items-center">
+          <div>Journal</div>
+          <div>/conference/</div>
+          <div>Bookchapter</div>
         </div>
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {row.journal_name}
+          {row.journalName}
         </div>
       ),
     },
@@ -225,7 +273,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {row.paper_name}
+          {row.title}
         </div>
       ),
     },
@@ -267,7 +315,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {new Date(row.published_date).toLocaleDateString("en-US")}
+          {row.date}
         </div>
       ),
     },
@@ -338,11 +386,11 @@ function StudentComp() {
       </div>
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
-        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
-          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Book Published
+              Books Published
             </div>
           </div>
 
@@ -353,7 +401,6 @@ function StudentComp() {
               onChange={handleSearch}
               placeholder="Search with Name or ISS..."
             />
-            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
           </div>
         </div>
 
@@ -373,17 +420,15 @@ function StudentComp() {
             className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
             onClick={() => setCalendarShow(true)}
           >
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
             <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
               {currentMonth}
             </div>
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
           </div>
 
           {calendarShow && (
             <div
               id="calendar-overlay"
-              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
               onClick={handleCloseCalendar}
             >
               <div className="bg-white p-4 rounded-lg shadow-lg">
@@ -393,9 +438,10 @@ function StudentComp() {
           )}
         </div>
 
-        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
-          {recordsOfBp?.length === 0 ? (
-            <div className="flex flex-col items-center justify-center">
+        {/* DataTable Container */}
+        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+          {researchPapersGradeAData.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Files Submitted
@@ -423,7 +469,7 @@ function StudentComp() {
                   },
                 },
               }}
-              className="mt-10"
+              className="mt-0" // Adjust this if needed
             />
           )}
         </div>
@@ -484,7 +530,7 @@ function StudentComp() {
         </div>
 
         {/* DataTable Container */}
-        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar">
+        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
           {researchPapersGradeAData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
@@ -495,7 +541,7 @@ function StudentComp() {
           ) : (
             <DataTable
               columns={columns}
-              data={researchPapersGradeAData}
+              data={recordsOfGA}
               defaultSortField="serial"
               defaultSortAsc={true}
               customStyles={{
@@ -519,13 +565,13 @@ function StudentComp() {
           )}
         </div>
       </div>
-
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
-        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
-          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Book Published
+              Research Paper Published (Grade-B) -(SCI, SCIE, Scopus, WoS, ESCI,
+              Nature)
             </div>
           </div>
 
@@ -536,7 +582,6 @@ function StudentComp() {
               onChange={handleSearch}
               placeholder="Search with Name or ISS..."
             />
-            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
           </div>
         </div>
 
@@ -556,17 +601,15 @@ function StudentComp() {
             className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
             onClick={() => setCalendarShow(true)}
           >
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
             <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
               {currentMonth}
             </div>
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
           </div>
 
           {calendarShow && (
             <div
               id="calendar-overlay"
-              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
               onClick={handleCloseCalendar}
             >
               <div className="bg-white p-4 rounded-lg shadow-lg">
@@ -576,9 +619,10 @@ function StudentComp() {
           )}
         </div>
 
-        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
-          {recordsOfBp.length === 0 ? (
-            <div className="flex flex-col items-center justify-center">
+        {/* DataTable Container */}
+        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+          {researchPapersGradeAData.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Files Submitted
@@ -586,8 +630,8 @@ function StudentComp() {
             </div>
           ) : (
             <DataTable
-              columns={columnsBp}
-              data={recordsOfBp}
+              columns={columns}
+              data={recordsOfGB}
               defaultSortField="serial"
               defaultSortAsc={true}
               customStyles={{
@@ -606,17 +650,18 @@ function StudentComp() {
                   },
                 },
               }}
-              className="mt-10"
+              className="mt-0" // Adjust this if needed
             />
           )}
         </div>
       </div>
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
-        <div className="flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center md:justify-between md:items-start">
-          <div className="flex items-center gap-5 mb-4 sm:mb-0 md:items-start md:justify-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Book Published
+              Research Paper Published (Grade-C) -(SCI, SCIE, Scopus, WoS, ESCI,
+              Nature)
             </div>
           </div>
 
@@ -627,7 +672,6 @@ function StudentComp() {
               onChange={handleSearch}
               placeholder="Search with Name or ISS..."
             />
-            {/* <RxCrossCircled className="absolute top-3 text-[#b4b7bd] text-[20px] right-2" /> */}
           </div>
         </div>
 
@@ -647,17 +691,15 @@ function StudentComp() {
             className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
             onClick={() => setCalendarShow(true)}
           >
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{"<"}</div> */}
             <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
               {currentMonth}
             </div>
-            {/* <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.25rem] font-semibold">{">"}</div> */}
           </div>
 
           {calendarShow && (
             <div
               id="calendar-overlay"
-              className="fixed top-[150px]  bg-opacity-50 flex justify-center items-center sm:items-center left-[-30px] z-50 "
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
               onClick={handleCloseCalendar}
             >
               <div className="bg-white p-4 rounded-lg shadow-lg">
@@ -667,9 +709,10 @@ function StudentComp() {
           )}
         </div>
 
-        <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
-          {recordsOfBp.length === 0 ? (
-            <div className="flex flex-col items-center justify-center">
+        {/* DataTable Container */}
+        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+          {researchPapersGradeAData.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Files Submitted
@@ -677,8 +720,8 @@ function StudentComp() {
             </div>
           ) : (
             <DataTable
-              columns={columnsBp}
-              data={recordsOfBp}
+              columns={columns}
+              data={recordsOfGC}
               defaultSortField="serial"
               defaultSortAsc={true}
               customStyles={{
@@ -697,7 +740,7 @@ function StudentComp() {
                   },
                 },
               }}
-              className="mt-10"
+              className="mt-0" // Adjust this if needed
             />
           )}
         </div>

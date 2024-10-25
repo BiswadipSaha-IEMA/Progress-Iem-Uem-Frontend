@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CiSquarePlus, CiSearch } from "react-icons/ci";
+import { CiSquarePlus } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { RiUserAddFill } from "react-icons/ri";
 import MemberCard from "../MemberCard/MemberCard";
@@ -80,14 +81,6 @@ const Cards = ({ sidebar }) => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
-    gsap.fromTo(
-      currentDiv.current,
-      { opacity: 0, y: 50, scaleX: 0 },
-      { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
-    );
-  }, []);
-
-  useEffect(() => {
     const fetchUserData = async () => {
       try {
         const data = await getReq('api/v1/user/getAllUsers', accessToken);
@@ -107,6 +100,16 @@ const Cards = ({ sidebar }) => {
 
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (userData.length > 0) {
+      gsap.fromTo(
+        currentDiv.current,
+        { opacity: 0, y: 50, scaleX: 0 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
+      );
+    }
+  }, [userData]);
 
   return (
     <>

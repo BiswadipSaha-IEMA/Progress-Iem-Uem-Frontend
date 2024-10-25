@@ -16,7 +16,7 @@ const AddFacultyComp = () => {
   const [utilFor, setUtilFor] = useState("");
 
   const handleAddUserClick = () => {
-    setUtilFor("moderator");
+    setUtilFor("Faculty");
     setShowPopup(true);
   };
 
@@ -81,21 +81,13 @@ const Cards = ({ sidebar }) => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
-    gsap.fromTo(
-      currentDiv.current,
-      { opacity: 0, y: 50, scaleX: 0 },
-      { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
-    );
-  }, []);
-
-  useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const data = await getReq("api/v1/user/getAllUsers", accessToken);
+        const data = await getReq('api/v1/user/getAllUsers', accessToken);
         console.log(data.data);
 
         if (Array.isArray(data.data)) {
-          const filteredData = data.data.filter((user) => user.role === "Faculty");
+          const filteredData = data.data.filter(user => user.role === "Faculty");
           setUserData(filteredData);
         } else {
           console.error("Fetched data is not an array:", data.data);
@@ -108,6 +100,16 @@ const Cards = ({ sidebar }) => {
 
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (userData.length > 0) {
+      gsap.fromTo(
+        currentDiv.current,
+        { opacity: 0, y: 50, scaleX: 0 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
+      );
+    }
+  }, [userData]);
 
   return (
     <>

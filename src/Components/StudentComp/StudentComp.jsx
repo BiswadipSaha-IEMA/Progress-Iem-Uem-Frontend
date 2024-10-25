@@ -19,13 +19,13 @@ import { RxCrossCircled } from "react-icons/rx";
 import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
 import Lottie from "react-lottie";
 import { useGetReq } from "../../hooks/useHttp";
+import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
   const [recordsOfGA, setRecordsOfGA] = useState([]);
   const [recordsOfGB, setRecordsOfGB] = useState([]);
   const [recordsOfGC, setRecordsOfGC] = useState([]);
-  const [originalData] = useState(booksPublishedData);
   const [getReq] = useGetReq();
   const [storeData, setStoreData] = useState(null);
   const bookDataArr = [];
@@ -34,7 +34,9 @@ function StudentComp() {
   const [gradeBDataArrState, setGradeBDataArrState] = useState(null);
   const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
   const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
-    useState(null);
+  useState(null);
+  const [originalData] = useState(bookDataArrState);
+  const [bpPopUp, setBpPopUp]= useState(false)
 
   const defaultOptions = {
     loop: false,
@@ -335,7 +337,7 @@ function StudentComp() {
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
-    const filteredData = originalData.filter((row) => {
+    const filteredData = originalData?.filter((row) => {
       return (
         row.name.toLowerCase().includes(searchValue) ||
         row.issn_isbn.toLowerCase().includes(searchValue) ||
@@ -439,7 +441,7 @@ function StudentComp() {
         </div>
 
         {/* DataTable Container */}
-        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {researchPapersGradeAData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
@@ -469,10 +471,15 @@ function StudentComp() {
                   },
                 },
               }}
-              className="mt-0" // Adjust this if needed
+              className="mt-0"
             />
           )}
         </div>
+        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]"
+        onClick={()=>{
+          setBpPopUp(true)
+        }}
+        >View Full Data</div>
       </div>
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
@@ -530,7 +537,7 @@ function StudentComp() {
         </div>
 
         {/* DataTable Container */}
-        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {researchPapersGradeAData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
@@ -560,11 +567,14 @@ function StudentComp() {
                   },
                 },
               }}
-              className="mt-0" // Adjust this if needed
+              className="mt-0"
             />
           )}
         </div>
+        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>
       </div>
+
+
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -620,7 +630,7 @@ function StudentComp() {
         </div>
 
         {/* DataTable Container */}
-        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {researchPapersGradeAData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
@@ -654,7 +664,10 @@ function StudentComp() {
             />
           )}
         </div>
+        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>
       </div>
+
+
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -710,7 +723,7 @@ function StudentComp() {
         </div>
 
         {/* DataTable Container */}
-        <div className="mt-10 h-[250px] overflow-auto custom-scrollbar rounded-[10px]">
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {researchPapersGradeAData.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
               <Lottie options={defaultOptions} height={200} width={200} />
@@ -744,7 +757,15 @@ function StudentComp() {
             />
           )}
         </div>
+
+        {recordsOfGC?.length>0 && <div className="w-full cursor-pointer h-[50px] text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>}
       </div>
+
+      {
+        setBpPopUp && <ManagePopUp
+          setUtilFor={'viewBPTable'}
+        />
+      }
     </>
   );
 }

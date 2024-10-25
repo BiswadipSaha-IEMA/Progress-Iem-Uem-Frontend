@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ManagePopUp from "../utils/Popup/FormPopUp/ManagePopUp";
 
 
-const mainURL = "http://192.168.90.24:5000";
+// const mainURL = "http://192.168.90.24:5000";
+const mainURL = "http://192.168.1.221:5000";
 // const mainURL = "http://localhost:5000";
 
 const ErrorHandleContext = createContext();
@@ -74,7 +75,7 @@ export const useGetReq = () => {
 
             if (!response.ok) {
                 if (response.status === 403 || response.status === 401) {
-                    navigate("/login", { replace: true });
+                    // navigate("/login", { replace: true });
                     throw new Error("Unauthorized Access");
                 }
                 showErrorPopUp(data.message);

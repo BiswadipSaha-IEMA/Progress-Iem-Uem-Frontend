@@ -1,16 +1,45 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Menu, X, FilePenLine } from "lucide-react";
 import ChangePasswordCompSigned from "../ChangePassword/ChangePasswordCompSigned";
 import { AuthContext } from "../../Context/AuthContext";
 // import Sidebar from "../Sidebar";
 import Sidebar from '../SideBar/Sidebar'
+import { useGetReq } from "../../hooks/useHttp";
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
   const [ChangePassword, setChangePassword] = useState(false);
   const { logout } = useContext(AuthContext);
 
+  const [getReq, { error, loading }] = useGetReq();
+
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const token = sessionStorage.getItem('user');
+  const accessToken= JSON.parse(token)
+  console.log(accessToken.token);
+  
+
+  useEffect(() => {
+    const fetchSuperAdminData = async () => {
+      try {
+        
+        const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken.token);
+        console.log(data.data);
+
+        // Assuming getReq is an async function
+        // const data = await getReq('api/v1/superAdmin/getSuperAdmin', { headers: header });
+        // console.log(data);
+      } catch (error) {
+        console.error('Error fetching super admin data:', error);
+      }
+    };
+
+    fetchSuperAdminData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">

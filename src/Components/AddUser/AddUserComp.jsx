@@ -1,22 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CiSquarePlus } from "react-icons/ci";
-import { CiSearch } from "react-icons/ci";
+import { CiSquarePlus, CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { RiUserAddFill } from "react-icons/ri";
 import MemberCard from "../MemberCard/MemberCard";
 import Sidebar from "../SideBar/Sidebar";
 import { Menu } from "lucide-react";
-
+import { useGetReq } from "../../hooks/useHttp";
 import gsap from "gsap";
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 
 const AddUserComp = () => {
   const [sidebar, setSidebar] = useState(false);
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState(false);
   const [utilFor, setUtilFor] = useState("");
 
   const handleAddUserClick = () => {
-    setUtilFor("modarator");
+    setUtilFor("userAdd");
     setShowPopup(true);
   };
 
@@ -27,9 +26,7 @@ const AddUserComp = () => {
         {sidebar && (
           <button
             className={`bg-slate-200 p-2 rounded absolute lxs:hidden`}
-            onClick={() => {
-              setSidebar(!sidebar);
-            }}
+            onClick={() => setSidebar(!sidebar)}
           >
             <Menu />
           </button>
@@ -37,18 +34,11 @@ const AddUserComp = () => {
       </div>
       <div
         className={`flex-grow rounded-lg mb-8 duration-300 ${
-          sidebar
-            ? "lg:w-[calc(100%-320px)] lg:ml-[320px]"
-            : "lg:w-full lg:ml-0"
+          sidebar ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
         } bg-[url('/src/assets/image2.svg')]`}
       >
         <div className="flex justify-between items-center mt-4">
-          <button
-            className={`bg-slate-200 p-2 rounded `}
-            onClick={() => {
-              setSidebar(!sidebar);
-            }}
-          >
+          <button className={`bg-slate-200 p-2 rounded`} onClick={() => setSidebar(!sidebar)}>
             <Menu />
           </button>
           <div className="w-[83%] relative flex items-center ml-4">
@@ -60,33 +50,19 @@ const AddUserComp = () => {
               <IoIosCloseCircleOutline />
             </button>
           </div>
-
           <button
             className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg text-base p-4 right-0 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 gap-2"
             onClick={handleAddUserClick}
           >
             <span className="hidden lg:block">Add Moderator</span>
-
             <div className="text-2xl">
               <RiUserAddFill size={20} />
-              {/* <CiSquarePlus /> */}
             </div>
           </button>
-
-          {/* <button
-            className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-14 lg:text-lg text-base p-3 right-0 rounded-lg lg:rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 gap-2"
-            onClick={handleAddUserClick}
-          >
-            Add Moderator
-            <div className="text-2xl">
-              <RiUserAddFill size={20}/>
-              
-            </div>
-          </button> */}
         </div>
 
         <div className="bg-white p-4 flex flex-wrap w-full mt-8 rounded-lg">
-          <Cards role={"user"} sidebar={sidebar} />
+          <Cards sidebar={sidebar} />
         </div>
       </div>
 
@@ -97,98 +73,63 @@ const AddUserComp = () => {
   );
 };
 
-export default AddUserComp;
-
-const data = [
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-  {
-    phone: "64641313687",
-    email: "ahsdfkh@mail.com",
-    dept: "CSE",
-  },
-];
-
-const Cards = ({ role, sidebar }) => {
+const Cards = ({ sidebar }) => {
   const currentDiv = useRef([]);
+  const [getReq] = useGetReq();
+  const [userData, setUserData] = useState([]);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
-    gsap.fromTo(
-      currentDiv.current,
-      {
-        opacity: 0,
-        y: 50,
-        scaleX: 0,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.2,
-        duration: 2,
-        scaleX: 1,
-        ease: "elastic",
+    const fetchUserData = async () => {
+      try {
+        const data = await getReq('api/v1/user/getAllUsers', accessToken);
+        console.log(data.data);
+
+        if (Array.isArray(data.data)) {
+          setUserData(data.data);
+        } else {
+          console.error("Fetched data is not an array:", data.data);
+          setUserData([]);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    );
-  }, []);
+    };
+
+    fetchUserData();
+  }, []); 
+
+  useEffect(() => {
+    const animateCards = () => {
+      gsap.fromTo(
+        currentDiv.current,
+        { opacity: 0, y: 50, scaleX: 0 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
+      );
+    };
+
+    // Initial animation on mount
+    animateCards();
+
+    // Animation when userData updates
+    if (userData.length > 0) {
+      animateCards();
+    }
+  }, [userData]);
 
   return (
     <>
-      {data.map((element, index) => (
+      {userData.map((element, index) => (
         <div
           key={index}
           ref={(ele) => (currentDiv.current[index] = ele)}
           className={`${sidebar ? "ml-12" : "lg:ml-0"}`}
-          // className="w-[calc(100%/4)] m-12"
-          // className={`w-[calc(100%)] lg:w-[calc(100%/4)] md:w-[calc(100%/4)]
-          //      ${sidebar? 'm-12':'m-32 md:m-24 sm:1 lg:m-2'}`
-          // }
         >
-          <MemberCard role={role} data={element} />
+          <MemberCard role={element.role} data={element} />
         </div>
       ))}
     </>
   );
 };
+
+export default AddUserComp;

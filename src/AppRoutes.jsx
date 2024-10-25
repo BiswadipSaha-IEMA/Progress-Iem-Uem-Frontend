@@ -18,18 +18,20 @@ const AppRouter = () => {
       {userLogin? (
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/addmoderator" element={<AddModerator/>} />
-          <Route path="/edit" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/student" element={<Student />} />
           <Route path="/student" element={<Student />} />
-          <Route path="/adduser" element={<AddUser />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
+          <Route path="/adduser" element={<AddUser />} />
+          <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
+          
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
       )  : (
         <Routes>
           <Route path="/" element={<Registration />} />
-          {/* <Route path="/" element={<SuperAdminDashboard />} /> */}
+          <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       )}

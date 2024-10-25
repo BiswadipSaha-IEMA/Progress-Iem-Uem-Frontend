@@ -124,7 +124,7 @@ export default function ForgetPassword({ setForgetPassword }) {
             setForgetPassword(false);
           }}
         >
-          <RxCross2 />
+          <RxCross2 className="text-white"/>
         </div>
         {sendOtp === false && (
           <>

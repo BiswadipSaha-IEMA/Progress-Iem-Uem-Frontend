@@ -17,7 +17,9 @@ const MemberCard = ({role,data}) => {
                     </button>
                 </div>
                 <div className="flex justify-start gap-4 my-2">
+
                     <div className="text-[#03A8FD] text-3xl">{data.name} </div>
+
                     <div className="bg-[#DCF3FF] flex items-center  rounded-lg text-sm px-3">{role}</div>
                 </div>
                 <div className='w-[96%] flex text-center border border-[#D2D2D2]'></div>

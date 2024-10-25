@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     
     useEffect(() => {
         const checkLoginStatus = async () => {
-            const storedUserData = await sessionStorage.getItem('user');
+            const storedUserData = await sessionStorage.getItem('token');
             if (storedUserData) {
                 setUserData(JSON.parse(storedUserData));
                 setUserLogin(true);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (user) => {
         setUserData(user);
         setUserLogin(true);
-        await sessionStorage.setItem('user', JSON.stringify(user));
+        await sessionStorage.setItem('token',JSON.stringify(user.token));
     };
 
     const logout = async () => {

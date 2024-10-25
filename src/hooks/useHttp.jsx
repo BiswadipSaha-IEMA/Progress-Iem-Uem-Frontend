@@ -41,7 +41,7 @@ export const usePostReq = () => {
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
           navigate("/login", { replace: true });
-          sessionStorage.clear()
+          sessionStorage.clear();
           throw new Error("Unauthorized Access");
         }
         showErrorPopUp(data.message);
@@ -79,7 +79,7 @@ export const useGetReq = () => {
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
           navigate("/login", { replace: true });
-          sessionStorage.clear()
+          sessionStorage.clear();
           throw new Error("Unauthorized Access");
         }
         showErrorPopUp(data.message);
@@ -176,6 +176,47 @@ export const usePatchReq = () => {
   };
 
   return [patchReq, { error, loading }];
+};
+
+export const usePutReq = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { showErrorPopUp } = useErrorHandle();
+
+  const putReq = async (url, body, token) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${mainURL}/${url}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 403 || response.status === 401) {
+          navigate("/", { replace: true });
+          sessionStorage.clear();
+          throw new Error("Unauthorized Access");
+        }
+        showErrorPopUp(data.message);
+        throw new Error(data.message || "Error Occurred");
+      }
+      return data;
+    } catch (error) {
+      showErrorPopUp(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return [putReq, { error, loading }];
 };
 
 export const ErrorPopupProvider = ({ children }) => {

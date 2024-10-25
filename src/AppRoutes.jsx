@@ -29,7 +29,6 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<Registration />} />
           {/* <Route path="/" element={<SuperAdminDashboard />} /> */}
-
           <Route path="/login" element={<Login />} />
         </Routes>
       )}

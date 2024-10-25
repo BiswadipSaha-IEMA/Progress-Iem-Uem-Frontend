@@ -1,12 +1,24 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 const PopupModal = ({ onClose, onSubmit }) => {
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-    phone: '',
-    email: '',
+    name: "",
+    address: "",
+    phone: "",
+    email: "",
   });
+
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/; // Adjust the regex for your phone number format
+    return phoneRegex.test(phone);
+  };
+
+  const validateEmail = (email) => {
+    // Basic email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,12 +26,71 @@ const PopupModal = ({ onClose, onSubmit }) => {
       ...prevData,
       [name]: value,
     }));
+
+    if (name === "phone") {
+      const numericValue = value.replace(/[^0-9]/g, ''); // Keep only numeric characters
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: numericValue,
+      }));
+
+      // Validate phone number
+      if (!validatePhone(numericValue)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "Phone number must be 10 digits long.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "",
+        }));
+      }
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+
+    if (name === "email") {
+      if (!validateEmail(value)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Please enter a valid email address.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "",
+        }));
+      }
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    onClose();
+
+    // Final validation before submission
+    if (validatePhone(formData.phone) && validateEmail(formData.email)) {
+      onSubmit(formData); // Call the function passed from the parent
+      onClose();
+    } else {
+      // Set errors for submission failure
+      if (!validatePhone(formData.phone)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phone: "Phone number must be 10 digits long.",
+        }));
+      }
+
+      if (!validateEmail(formData.email)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Please enter a valid email address.",
+        }));
+      }
+    }
   };
 
   return (
@@ -66,6 +137,7 @@ const PopupModal = ({ onClose, onSubmit }) => {
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
             />
+            {errors.phone && <p className="text-red-500">{errors.phone}</p>}
           </div>
           <div className="mb-4">
             <label
@@ -94,7 +166,6 @@ const PopupModal = ({ onClose, onSubmit }) => {
               type="file"
               id="file"
               name="file"
-              
               className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>

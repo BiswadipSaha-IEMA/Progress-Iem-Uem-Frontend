@@ -21,9 +21,13 @@ import Lottie from "react-lottie";
 import { useGetReq } from "../../hooks/useHttp";
 
 function StudentComp() {
-  const [recordsOfBp, setRecordsOfBp] = useState(booksPublishedData);
+  const [recordsOfBp, setRecordsOfBp] = useState([]);
   const [originalData] = useState(booksPublishedData);
   const [getReq] = useGetReq();
+  const [storeData, setStoreData] = useState(null)
+  const bookDataArr= []
+  const [bookDataArrState, setBookDataArrState]= useState(null)
+  const [bookDataSubmittedArrState, setBookDataSubmittedArrState]= useState(null)
 
   const defaultOptions = {
     loop: false,
@@ -45,11 +49,55 @@ function StudentComp() {
         "api/v1/document/getAllPublications",
        accessToken
       );
-      console.log(response.data.data)
+      if(response.success){
+        setStoreData(response.data.data)
+        setBookDataSubmittedArrState(response.data.userSubmittedCounts)
+        console.log(response)
+      }
       
     };
     allInfo()
   }, []);
+
+  useEffect(() => {
+    console.log(storeData);
+    if(storeData!==null){
+      console.log(bookDataSubmittedArrState)
+      const booksData = storeData.map((item) => {
+        return item.publicationType === 'Book';
+      });
+
+      for(let i=0;i<booksData.length;i++){
+        if(booksData[i]===true){
+          bookDataArr.push(storeData[i])
+        }
+      }
+      setBookDataArrState(bookDataArr)
+    }
+  }, [storeData]);
+
+  useEffect(()=>{
+    console.log(bookDataArrState);
+    if(bookDataArrState!==null)
+      setRecordsOfBp(bookDataArrState);
+  })
+  
+  useEffect(()=>{
+    if(bookDataArr!==null && bookDataSubmittedArrState!== null){
+      for(let i=0; i<bookDataSubmittedArrState.length;i++){
+        // const margeData= bookDataArr.forEach((element)=>{
+        //   if(element.createdBy=== bookDataSubmittedArrState.)
+        // })
+        console.log('====================================');
+        console.log('nnklnbdlqendqledlqbndlednb');
+        console.log('====================================');
+        console.log(bookDataSubmittedArrState)
+      }
+    }
+  })
+  
+
+  
 
   const columnsBp = [
     {
@@ -80,7 +128,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {row.book}
+          {row.title}
         </div>
       ),
     },
@@ -92,7 +140,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {row.issn_isbn}
+          {row.isbn}
         </div>
       ),
     },
@@ -104,7 +152,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {row.publisher_name}
+          {row.publisher}
         </div>
       ),
     },
@@ -116,7 +164,7 @@ function StudentComp() {
       ),
       cell: (row) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800">
-          {new Date(row.published_date).toLocaleDateString("en-US")}
+          {row.date}
         </div>
       ),
     },
@@ -344,7 +392,7 @@ function StudentComp() {
         </div>
 
         <div className="mt-10 rounded-lg h-[250px] overflow-scroll overflow-x-hidden custom-scrollbar flex justify-center align-middle items-center">
-          {recordsOfBp.length === 0 ? (
+          {recordsOfBp?.length === 0 ? (
             <div className="flex flex-col items-center justify-center">
               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">

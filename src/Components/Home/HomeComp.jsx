@@ -6,16 +6,18 @@ import { AuthContext } from "../../Context/AuthContext";
 import Sidebar from "../SideBar/Sidebar";
 import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import PopupModal from "../Popup Modal/PopupModal";
+import { useLocation } from 'react-router-dom';
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
-  const [ChangePassword, setChangePassword] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
   const { logout } = useContext(AuthContext);
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false);
 
   const [getReq, { error, loading }] = useGetReq();
   const [putReq, { errorReq, putLoading }] = usePutReq();
+  const location = useLocation();
 
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -63,39 +65,22 @@ export default function HomeComp() {
   return (
     <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">
       {/* Main Content Area */}
-      <div
-        className={`flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 ${
-          showProfile ? " " : ""
-        }`}
-      >
+      <div className={` flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300`}>
         {/* Hamburger Menu for Mobile and Desktop */}
-        <div className="absolute top-4 left-4 z-10 p-2 mr-4">
+        <div className="absolute top-4 left-4 z-10 p-2 right-2 mr-4">
           <button
             onClick={toggleProfile}
-            className="bg-slate-200 p-2 rounded"
+            className="bg-slate-200 p-2 mt-1 ml-1  rounded"
             aria-label="Toggle profile"
           >
-            {showProfile ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {showProfile ? <X className="h-4 w-4 z-40  " /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
 
         {/* Main Content Section */}
-        <div
-          className={`flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 overflow-hidden`}
-        >
-          {/* Main Content Section */}
-          <div
-            className={`bg-white bg-cover bg-center shadow-md flex-grow p-8 rounded-lg mb-8 duration-300 ${
-              showProfile ? "lg:w-[calc()] lg:ml-[320px]" : "lg:w-full lg:ml-0"
-            } bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}
-          >
-            <h1 className="text-black text-2xl font-bold mb-6">
-              Account Details
-            </h1>
+        <div className={`flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 overflow-hidden `}>
+          <div className={` gap-8 bg-white bg-cover bg-center shadow-md flex-grow p-8 rounded-lg mb-8 left-10 duration-300 ${showProfile ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
+            <h1 className="text-black text-2xl font-bold mb-6">Account Details</h1>
 
             {/* Personal Details Section */}
             <section className="mb-6">
@@ -156,20 +141,14 @@ export default function HomeComp() {
             {/* Account Settings Section */}
             {/* <section className="mb-6">
               <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">
-                  Account Settings
-                </h2>
+                <h2 className="text-xl text-cyan-400 font-semibold mb-2">Account Settings</h2>
                 <button className="text-black font-semibold mr-2 flex gap-2">
                   Edit <FilePenLine />
                 </button>
               </div>
               <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2">
-                  <strong>Account Type:</strong> Premium
-                </p>
-                <p>
-                  <strong>Joined On:</strong> January 1, 2021
-                </p>
+                <p className="mt-2"><strong>Account Type:</strong> Premium</p>
+                <p><strong>Joined On:</strong> January 1, 2021</p>
               </div>
             </section> */}
           </div>
@@ -178,10 +157,9 @@ export default function HomeComp() {
           <Sidebar showProfile={showProfile} />
         </div>
       </div>
-      {ChangePassword && (
-        <>
-          <ChangePasswordCompSigned setForgetPassword={setChangePassword} />
-        </>
+
+      {changePassword && (
+        <ChangePasswordCompSigned setForgetPassword={setChangePassword} />
       )}
     </div>
   );

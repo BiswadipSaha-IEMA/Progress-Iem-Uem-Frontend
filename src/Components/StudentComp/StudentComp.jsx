@@ -46,7 +46,7 @@ function StudentComp() {
   useEffect(() => {
     const allInfo = async () => {
       const response = await getReq(
-        "api/v1/document/getAllPublications",
+        "api/v1/document/getAllPublications", 
        accessToken
       );
       if(response.success){

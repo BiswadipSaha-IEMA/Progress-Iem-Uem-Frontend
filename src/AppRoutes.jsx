@@ -9,6 +9,7 @@ import Student from "./Pages/Student/Student";
 import AddUser from "./Pages/AddUser/AddUser";
 import AddModerator from "./Pages/AddModerator/AddModerator";
 import AddFaculty from "./Pages/AddFaculty/AddFaculty";
+import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -16,8 +17,8 @@ const AppRouter = () => {
     <>
       {userLogin? (
         <Routes>
-          <Route path="/" element={<Home />} />
-
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/edit" element={<Home />} />
           <Route path="/student" element={<Student />} />

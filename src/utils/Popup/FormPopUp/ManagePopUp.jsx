@@ -175,7 +175,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
           {/* <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]"> */}
             {/* // <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"> */}
-              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
                 <div className="flex justify-between p-5">
                   <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
                     User Registration

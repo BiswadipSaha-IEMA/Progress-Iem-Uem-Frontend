@@ -82,19 +82,21 @@ function StudentComp() {
       setRecordsOfBp(bookDataArrState);
   })
   
-  useEffect(()=>{
-    if(bookDataArr!==null && bookDataSubmittedArrState!== null){
-      for(let i=0; i<bookDataSubmittedArrState.length;i++){
-        // const margeData= bookDataArr.forEach((element)=>{
-        //   if(element.createdBy=== bookDataSubmittedArrState.)
-        // })
-        console.log('====================================');
-        console.log('nnklnbdlqendqledlqbndlednb');
-        console.log('====================================');
-        console.log(bookDataSubmittedArrState)
-      }
-    }
-  })
+  // useEffect(()=>{
+  //   if(bookDataArr!==null && bookDataSubmittedArrState!== null){
+  //     for(let i=0; i<bookDataSubmittedArrState.length;i++){
+  //       // const margeData= bookDataArr.forEach((element)=>{
+  //       //   if(element.createdBy=== bookDataSubmittedArrState.)
+  //       // })
+  //       console.log('====================================');
+  //       console.log('nnklnbdlqendqledlqbndlednb');
+  //       console.log('====================================');
+  //       console.log(bookDataSubmittedArrState)
+  //     }
+  //   }
+  // })
+  
+
   
 
   

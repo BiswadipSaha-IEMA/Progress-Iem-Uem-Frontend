@@ -7,17 +7,9 @@ import Sidebar from '../SideBar/Sidebar';
 import { Menu } from 'lucide-react';
 
 import gsap from 'gsap';
-import ManagePopUp from '../../utils/Popup/FormPopUp/ManagePopUp';
 
-const AddUserComp = () => {
+const AddFacultyComp = () => {
     const [sidebar, setSidebar] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);  // State to control popup visibility
-    const [utilFor, setUtilFor] = useState('');
-
-    const handleAddUserClick = () => {
-        setUtilFor('modarator'); 
-        setShowPopup(true);
-    };
 
     return (
         <div className="flex w-full overflow-x-hidden">
@@ -37,29 +29,22 @@ const AddUserComp = () => {
                 <input className='w-full rounded-lg p-2 pl-12 focus:border-[#03A8FD] focus:shadow-[#03A8FD]' />
                 <button className="absolute right-2 text-3xl"><IoIosCloseCircleOutline /></button>
             </div>
-            <button className='bg-[#03A8FD] p-1 text-lg right-0 rounded-lg flex items-center pl-4 pr-4 text-white' onClick={handleAddUserClick}>
-                Add New User 
+            <button className='bg-[#03A8FD] p-1 text-lg right-0 rounded-lg flex items-center pl-4 pr-4 text-white'>
+                Add New Faculty 
                 <div className="text-2xl"><CiSquarePlus /></div>
             </button>
         </div>
 
         <div className="bg-white p-4 flex flex-wrap w-full mt-8 rounded-lg">
-            <Cards role={'user'} sidebar={sidebar}/>
+            <Cards role={'faculty'} sidebar={sidebar}/>
         </div>
     </div>
-    
-    {showPopup && (
-                <ManagePopUp 
-                    setPopupShow={setShowPopup}
-                    setUtilFor={utilFor}
-                />
-            )}
 </div>
 
     );
 }
 
-export default AddUserComp;
+export default AddFacultyComp;
 
 
 

@@ -78,7 +78,7 @@ const ProfileContent = ({
         >
           Kartik Dubay
         </span>
-        <span className="flex absolute ml-20 text-base opacity-75 p-2 top-20 text-black rounded-md">
+        <span className="flex absolute ml-20 text-base opacity-70 p-2 top-20 text-black rounded-md">
           Super Admin
         </span>
       </div>

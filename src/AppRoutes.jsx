@@ -23,7 +23,7 @@ const AppRouter = () => {
           <Route path="/student" element={<Student />} />
           <Route path="/student" element={<Student />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
-          <Route path="/adduser" element={<AddUser />} />
+          <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
           
           <Route path="/changepassword" element={<ChangePassword />} />

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   UserRoundPen,
   SlidersHorizontal,
   KeyRound,
   LogOut,
-  FilePenLine,
   UserRound,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-const Sidebar = ({ showProfile, isChangePasswords }) => {
+import { useGetReq } from "../../hooks/useHttp";
+// import {username} from "../SuperAdminDashboard/SuperAdminDashboardComp"
+const Sidebar = ({ showProfile, isChangePasswords,username }) => {
+  const [superAdminData, setSuperAdminData] = useState({});
+  const [getReq, { error, loading }] = useGetReq();
+  
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -19,14 +22,15 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
 
+
+
   return (
     <>
       <div
-        className={` fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${
-          showProfile ? "translate-x-0" : "-translate-x-full"
-        } overflow-y-auto`}
+        className={`fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${showProfile ? "translate-x-0" : "-translate-x-full"} overflow-y-auto`}
       >
         <ProfileContent
+          username={username}
           isEdit={isEdit}
           isSuper={isSuper}
           isAddMod={isAddMod}
@@ -37,13 +41,10 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
       </div>
 
       <div
-        className={`fixed inset-y-0 left-0 ${
-          showProfile ? "left-4" : "left-0"
-        } w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
-          showProfile ? "translate-x-0 h-full" : "-translate-x-full"
-        } overflow-y-auto`}
+        className={`fixed inset-y-0 left-0 ${showProfile ? "left-4" : "left-0"} w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${showProfile ? "translate-x-0 h-full" : "-translate-x-full"} `}
       >
         <ProfileContent
+          username={username}
           isEdit={isEdit}
           isSuper={isSuper}
           isAddMod={isAddMod}
@@ -57,6 +58,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
 };
 
 const ProfileContent = ({
+  username,
   isEdit,
   isSuper,
   isAddMod,
@@ -70,23 +72,17 @@ const ProfileContent = ({
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-20 h-20 rounded-full  mt-10"
+          className="w-20 h-20 rounded-full mt-10"
         />
-        <span
-          className="  p-2 flex absolute 
-         ml-20  text-xl  font-bold top-14 text-black rounded-md"
-        >
-          Kartik Dubay
+        <span className="p-2 flex absolute ml-20 text-xm font-bold top-14 text-black rounded-md">
+        {username}
         </span>
         <span className="flex absolute ml-20 text-base opacity-70 p-2 top-20 text-black rounded-md">
           Super Admin
         </span>
       </div>
+      <div className="border-b"></div>
       <div className="flex-grow">
-        <button
-          className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800"
-          aria-label="Remove Profile Picture"
-        ></button>
         <SidebarButton
           isActive={isSuper}
           ariaLabel="Super Admin Dashboard"
@@ -115,13 +111,13 @@ const ProfileContent = ({
           label="Edit Account Details"
           onClick={() => navigate("/")}
         />
-        <SidebarButton
+        {/* <SidebarButton
           isActive={isChangePasswords}
           ariaLabel="Change Password"
           icon={<KeyRound />}
           label="Change Password"
           onClick={() => navigate("/changepassword")}
-        />
+        /> */}
         <SidebarButton
           ariaLabel="Log Out"
           icon={<LogOut />}
@@ -136,16 +132,12 @@ const ProfileContent = ({
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
     className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start ${
-      isActive
-        ? "text-white bg-blue-500"
-        : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
+      isActive ? "text-white bg-blue-500" : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
     }`}
     aria-label={ariaLabel}
     onClick={onClick}
   >
-    <span
-      className={`p-2  mr-2 ${isActive ? "text-white" : "hover:text-white"}`}
-    >
+    <span className={`p-2 mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
       {React.cloneElement(icon, { color: isActive ? "white" : undefined })}
     </span>
     {label}

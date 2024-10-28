@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   LayoutDashboard,
   UserRoundPen,
@@ -8,25 +8,22 @@ import {
   FilePenLine,
   UserRound,
 } from "lucide-react";
-import {AuthContext} from "../../Context/AuthContext";
-import { replace, useLocation, useNavigate } from "react-router-dom";
-import { logout } from "../../Store/Action";
-// import { logout } from "../../Store/Action";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const {logout} = useContext(AuthContext)
   
-  const isSuper = location.pathname === "/";
-  const isEdit = location.pathname === "/editAcc";
+  const isEdit = location.pathname === "/";
+  const isSuper = location.pathname === "/SuperAdminDashboard";
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
+  
 
   return (
     <>
       <div
-        className={`left-2 fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${
+        className={` fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${
           showProfile ? "translate-x-0" : "-translate-x-full"
         } overflow-y-auto`}
       >
@@ -70,36 +67,38 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex justify-center mb-4 relative">
+      <div className="flex left-5 bottom-4 mb-2 mt-6 relative">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-32 h-32 rounded-full object-cover mt-10"
+          className="w-20 h-20 rounded-full  mt-10"
         />
-        <span className="absolute mt-10 ml-28 bg-gray-300 text-xs p-1 font-bold top-5 text-black rounded-md shadow-md">
-          Student
+        <span className="  p-2 flex absolute 
+         ml-20  text-xl  font-bold top-14 text-black rounded-md">
+         Kartik Dubay
+          
         </span>
+        <span className=" flex absolute 
+         ml-20  text-xs p-2  top-20 text-black rounded-md">
+         Super Admin
+          
+        </span>
+        
       </div>
       <div className="flex-grow">
-        <button
-          className="w-full py-2 mb-2 rounded-md text-black bg-gray-200 hover:bg-gray-300 transition-colors flex items-center justify-center font-semibold mr-2 gap-2"
-          aria-label="Change Profile Picture"
-        >
-          <FilePenLine />
-          Change Profile Picture
-        </button>
+        
         <button
           className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800"
           aria-label="Remove Profile Picture"
         >
-          Remove Profile Picture
+         
         </button>
         <SidebarButton
           isActive={isSuper}
           ariaLabel="Super Admin Dashboard"
           icon={<LayoutDashboard />}
           label="Super Admin Dashboard"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/SuperAdminDashboard")}
         />
         <SidebarButton
           isActive={isAddMod}
@@ -120,7 +119,7 @@ const ProfileContent = ({
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
-          onClick={() => navigate("/editAcc")}
+          onClick={() => navigate("/")}
         />
         <SidebarButton
           isActive={isChangePasswords}
@@ -133,13 +132,7 @@ const ProfileContent = ({
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
-          onClick={
-            () => {
-            logout()
-            sessionStorage.clear();
-            navigate("/login",{replace: true})
-          }
-        }
+          onClick={() => navigate("/logout")}
         />
       </div>
     </>
@@ -148,7 +141,7 @@ const ProfileContent = ({
 
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
-    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+    className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start ${
       isActive
         ? "text-white bg-blue-500"
         : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
@@ -156,7 +149,7 @@ const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
     aria-label={ariaLabel}
     onClick={onClick}
   >
-    <span className={`mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
+    <span className={`p-2  mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
       {React.cloneElement(icon, { color: isActive ? "white" : undefined })}
     </span>
     {label}

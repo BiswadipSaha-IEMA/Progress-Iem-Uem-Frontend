@@ -18,8 +18,8 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
   const navigate = useNavigate();
   const {logout} = useContext(AuthContext)
   
-  const isEdit = location.pathname === "/";
-  const isSuper = location.pathname === "/SuperAdminDashboard";
+  const isSuper = location.pathname === "/";
+  const isEdit = location.pathname === "/editAcc";
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
 
@@ -99,7 +99,7 @@ const ProfileContent = ({
           ariaLabel="Super Admin Dashboard"
           icon={<LayoutDashboard />}
           label="Super Admin Dashboard"
-          onClick={() => navigate("/SuperAdminDashboard")}
+          onClick={() => navigate("/")}
         />
         <SidebarButton
           isActive={isAddMod}
@@ -120,7 +120,7 @@ const ProfileContent = ({
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/editAcc")}
         />
         <SidebarButton
           isActive={isChangePasswords}

@@ -7,6 +7,8 @@ import { GoSortDesc } from "react-icons/go";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import DataTable from "react-data-table-component";
+import { TfiMenuAlt } from "react-icons/tfi";
+
 import {
   booksPublishedData,
   researchPapersGradeAData,
@@ -20,6 +22,8 @@ import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
 import Lottie from "react-lottie";
 import { useGetReq } from "../../hooks/useHttp";
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
+import { FaLongArrowAltLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
@@ -34,10 +38,14 @@ function StudentComp() {
   const [gradeBDataArrState, setGradeBDataArrState] = useState(null);
   const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
   const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
-  useState(null);
+    useState(null);
   const [originalData] = useState(bookDataArrState);
-  const [bpPopUp, setBpPopUp]= useState(false)
-  const [filteredRecords, setFilteredRecords]= useState(false)
+  const [bpPopUp, setBpPopUp] = useState(false);
+  const [raPopUp, setRaPopUp] = useState(false);
+  const [rbPopUp, setRbPopUp] = useState(false);
+  const [rcPopUp, setRcPopUp] = useState(false);
+  const [filteredRecords, setFilteredRecords] = useState(false);
+  const navigate = useNavigate();
 
   const defaultOptions = {
     loop: false,
@@ -100,12 +108,11 @@ function StudentComp() {
 
     if (gradeADataArrState !== null) console.log(gradeADataArrState);
   }, [storeData]);
-  
+
   useEffect(() => {
     if (gradeADataArrState !== null) setRecordsOfGA(gradeADataArrState);
   }, [gradeADataArrState]);
-  
-  
+
   useEffect(() => {
     if (storeData !== null) {
       const gradeBData = storeData.filter(
@@ -113,14 +120,29 @@ function StudentComp() {
       );
       setGradeBDataArrState(gradeBData);
     }
-    
+
     if (gradeBDataArrState !== null) console.log(gradeBDataArrState);
   }, [storeData]);
-  
+
+  useEffect(() => {
+    if (storeData !== null) {
+      const gradeCData = storeData.filter(
+        (item) => item.publicationGrade === "Grade-C"
+      );
+      setGradeCDataArrState(gradeCData);
+    }
+
+    if (gradeCDataArrState !== null) console.log(gradeCDataArrState);
+  }, [storeData]);
+
   useEffect(() => {
     if (gradeBDataArrState !== null) setRecordsOfGB(gradeBDataArrState);
   }, [gradeBDataArrState]);
-  
+
+  useEffect(() => {
+    if (gradeCDataArrState !== null) setRecordsOfGC(gradeCDataArrState);
+  }, [gradeCDataArrState]);
+
   useEffect(() => {
     if (storeData !== null) {
       const gradeCData = storeData.filter(
@@ -128,22 +150,21 @@ function StudentComp() {
       );
       setGradeBDataArrState(gradeCData);
     }
-    
+
     if (gradeCDataArrState !== null) console.log(gradeCDataArrState);
   }, [storeData]);
-  
+
   useEffect(() => {
     if (gradeCDataArrState !== null) setRecordsOfGB(gradeCDataArrState);
   }, [gradeCDataArrState]);
 
-  useEffect(()=>{
-    console.log('====================================');
-    console.log("hvbvikhoigbuyfybukbj",recordsOfBp);
-    console.log('====================================');
-    setRecordsOfBp(recordsOfBp)
-    if(recordsOfBp==='')
-      setRecordsOfBp(bookDataArrState)
-  },[recordsOfBp])
+  useEffect(() => {
+    console.log("====================================");
+    console.log("hvbvikhoigbuyfybukbj", recordsOfBp);
+    console.log("====================================");
+    setRecordsOfBp(recordsOfBp);
+    if (recordsOfBp === "") setRecordsOfBp(bookDataArrState);
+  }, [recordsOfBp]);
 
   // useEffect(()=>{
   //   if(bookDataArr!==null && bookDataSubmittedArrState!== null){
@@ -347,18 +368,56 @@ function StudentComp() {
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
-    console.log('====================================');
+    console.log("====================================");
     console.log(searchValue);
-    console.log('====================================');
-  
+    console.log("====================================");
+
     const filteredData = recordsOfBp.filter((row) =>
       row.name.toLowerCase().includes(searchValue)
     );
     // console.log("iugcibqb", filteredData)
     setRecordsOfBp(filteredData);
+    if (searchValue === "") setRecordsOfBp(bookDataArrState);
   };
+  const handleSearchRa = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
 
-  
+    const filteredData = recordsOfGA.filter((row) =>
+      row.name.toLowerCase().includes(searchValue)
+    );
+    // console.log("iugcibqb", filteredData)
+    setRecordsOfGA(filteredData);
+    if (searchValue === "") setRecordsOfGA(gradeADataArrState);
+  };
+  const handleSearchRb = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
+
+    const filteredData = recordsOfGB.filter((row) =>
+      row.name.toLowerCase().includes(searchValue)
+    );
+    // console.log("iugcibqb", filteredData)
+    setRecordsOfGB(filteredData);
+    if (searchValue === "") setRecordsOfGB(gradeBDataArrState);
+  };
+  const handleSearchRc = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
+
+    const filteredData = recordsOfGC.filter((row) =>
+      row.name.toLowerCase().includes(searchValue)
+    );
+    // console.log("iugcibqb", filteredData)
+    setRecordsOfGC(filteredData);
+    if (searchValue === "") setRecordsOfGC(gradeCDataArrState);
+  };
 
   const [currentMonth, setCurrentMonth] = useState(
     new Date().toLocaleString("default", { month: "long" })
@@ -380,8 +439,17 @@ function StudentComp() {
 
   return (
     <>
-      <div className="flex justify-between px-5 sm:px-10 py-5">
+      <div className="flex justify-between px-5 sm:px-10 py-5 relative">
         <img src={IEM} alt="IEM" className="h-20 w-16 mr-4" />
+        <div
+          className="absolute bottom-0 flex items-center gap-2 cursor-pointer"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <FaLongArrowAltLeft className="text-[1rem]" />
+          <div className="font-[700]">Back</div>
+        </div>
         <div className="relative mt-4 sm:mt-10">
           <div
             className="text-[2rem] sm:text-[4rem] lg:text-[6rem] font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent"
@@ -488,12 +556,24 @@ function StudentComp() {
             />
           )}
         </div>
-        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000] mt-10"
-        onClick={()=>{
-          setBpPopUp(true)
-        }}
-        >View Full Data</div>
+        {recordsOfBp?.length > 2 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => {
+                setBpPopUp(true);
+              }}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Research Paper Published (Grade-A) -(SCI, SCIE, Scopus, WoS, ESCI,
+        Nature) */}
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
@@ -509,7 +589,7 @@ function StudentComp() {
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
               className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearch}
+              onChange={handleSearchRa}
               placeholder="Search with Name or ISS..."
             />
           </div>
@@ -551,11 +631,11 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {researchPapersGradeAData.length === 0 ? (
+          {recordsOfGA.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={200} width={200} />
+              <Lottie options={defaultOptions} height={150} width={150} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
-                No Files Submitted
+                No Records Found
               </div>
             </div>
           ) : (
@@ -584,9 +664,24 @@ function StudentComp() {
             />
           )}
         </div>
-        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>
+        {recordsOfGA?.length > 2 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => {
+                setRaPopUp(true);
+              }}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Research Paper Published (Grade-B) -(SCI, SCIE, Scopus, WoS, ESCI,
+        Nature) */}
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
@@ -602,7 +697,7 @@ function StudentComp() {
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
               className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearch}
+              onChange={handleSearchRb}
               placeholder="Search with Name or ISS..."
             />
           </div>
@@ -644,11 +739,11 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {researchPapersGradeAData.length === 0 ? (
+          {recordsOfGB.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={200} width={200} />
+              <Lottie options={defaultOptions} height={150} width={150} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
-                No Files Submitted
+                No Records Found
               </div>
             </div>
           ) : (
@@ -677,9 +772,24 @@ function StudentComp() {
             />
           )}
         </div>
-        <div className="w-full h-[50px] cursor-pointer text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>
+        {recordsOfGB?.length > 2 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => {
+                setRbPopUp(true);
+              }}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Research Paper Published (Grade-C) -(SCI, SCIE, Scopus, WoS, ESCI,
+        Nature) */}
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
@@ -695,7 +805,7 @@ function StudentComp() {
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
               className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearch}
+              onChange={handleSearchRc}
               placeholder="Search with Name or ISS..."
             />
           </div>
@@ -737,11 +847,11 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {researchPapersGradeAData.length === 0 ? (
+          {recordsOfGC.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={200} width={200} />
+              <Lottie options={defaultOptions} height={150} width={150} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
-                No Files Submitted
+                No Records Found
               </div>
             </div>
           ) : (
@@ -771,16 +881,50 @@ function StudentComp() {
           )}
         </div>
 
-        {recordsOfGC?.length>0 && <div className="w-full cursor-pointer h-[50px] text-[#fff] flex justify-center items-center font-[700] rounded-md bg-[#000]">View Full Data</div>}
+        {recordsOfGC?.length > 2 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => {
+                setRcPopUp(true);
+              }}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {
-        bpPopUp && <ManagePopUp
-          setUtilFor={'viewBPTable'}
+      {bpPopUp && (
+        <ManagePopUp
+          setUtilFor={"viewBPTable"}
           setPopupShow={setBpPopUp}
           takeData={[columnsBp, recordsOfBp]}
         />
-      }
+      )}
+      {raPopUp && (
+        <ManagePopUp
+          setUtilFor={"viewRATable"}
+          setPopupShow={setRaPopUp}
+          takeData={[columns, recordsOfGA]}
+        />
+      )}
+      {rbPopUp && (
+        <ManagePopUp
+          setUtilFor={"viewRBTable"}
+          setPopupShow={setRbPopUp}
+          takeData={[columns, recordsOfGB]}
+        />
+      )}
+      {rcPopUp && (
+        <ManagePopUp
+          setUtilFor={"viewRCTable"}
+          setPopupShow={setRcPopUp}
+          takeData={[columns, recordsOfGC]}
+        />
+      )}
     </>
   );
 }

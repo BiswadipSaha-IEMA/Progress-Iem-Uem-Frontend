@@ -9,8 +9,9 @@ import Student from "./Pages/Student/Student";
 import AddUser from "./Pages/AddUser/AddUser";
 import AddModerator from "./Pages/AddModerator/AddModerator";
 import AddFaculty from "./Pages/AddFaculty/AddFaculty";
-import Faculty from "./Pages/Faculty/Faculty";
+// import Faculty from "./Pages/Faculty/Faculty";
 import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
+import Faculty from "./Pages/Faculty/Faculty";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -22,11 +23,11 @@ const AppRouter = () => {
           <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/editAcc" element={<Home />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/faculty" element={<Faculty />} />
+          {/* <Route path="/student" element={<Student />} /> */}
+          <Route path="/viewdata" element={<Student />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
+          <Route path="/faculty" element={<Faculty />} />
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
           
           <Route path="/changepassword" element={<ChangePassword />} />

@@ -8,6 +8,7 @@ import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import PopupModal from "../Popup Modal/PopupModal";
 import { useLocation } from 'react-router-dom';
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
@@ -82,80 +83,82 @@ export default function HomeComp() {
 
         {/* Main Content Section */}
         <div className={`flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300 overflow-hidden `}>
-          <div className={` gap-8 bg-white bg-cover bg-center shadow-md flex-grow p-8 rounded-lg mb-8 left-10 duration-300 ${showProfile ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
-            <h1 className="text-black text-2xl font-bold mb-6">Account Details</h1>
+          <div className={` gap-8  bg-cover bg-center shadow-md flex-grow p-8 rounded-lg mb-8 left-10 duration-300 ${showProfile ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
+            <h1 className="text-black text-2xl font-bold mb-6"> Edit Account Details</h1>
 
-            {/* Personal Details Section */}
-            <section className="mb-6">
-              <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">
-                  Personal Details
-                </h2>
 
-                <button className="text-black font-semibold mr-2 flex gap-2" onClick={()=>{
-                  setShowForm(true);
-                }}>
-                  Edit <FilePenLine />
-                </button>
-                {showForm && <ManagePopUp setUtilFor={'accountDetails'} takeData={handleSubmit} setPopupShow={setShowForm}/>}
-              </div>
-              <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2">
-                  <strong>Name:</strong> {superAdminData.name}
-                </p>
-                <p>
-                  <strong>Address:</strong> {superAdminData.address}
-                </p>
-              </div>
-            </section>
+            <div >
+ 
+ {/* second div */}
+ <div className="bg-white rounded-2xl h-[38vh]">
 
-            {/* Contact Details Section */}
-            <section className="mb-6">
-              <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">
-                  Contact Details
-                </h2>
-              </div>
-              <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2">
-                  <strong>Phone No.:</strong> {superAdminData.phone}
-                  <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
-                    Primary
-                  </span>
-                </p>
-                <p>
-                  <strong>Email:</strong> {superAdminData.email}
-                  <span className="bg-blue-100 text-cyan-400 text-xs px-1 rounded">
-                    Primary
-                  </span>
-                </p>
-                {/* {superAdminData.secondaryPhone && (
-                  <p>
-                    <strong>Secondary Phone No.:</strong>{" "}
-                    superAdminData.secondaryPhone
-                  </p>
-                )}
-                {superAdminData.secondaryEmail && (
-                  <p>
-                    <strong>Secondary Email:</strong> -
-                  </p>
-                )} */}
-              </div>
-            </section>
+   {/* drag & drop  file upload div */}
+   <div >
+     
+   </div>
 
-            {/* Account Settings Section */}
-            {/* <section className="mb-6">
-              <div className="flex border-b-2 border-gray-700 justify-between items-center">
-                <h2 className="text-xl text-cyan-400 font-semibold mb-2">Account Settings</h2>
-                <button className="text-black font-semibold mr-2 flex gap-2">
-                  Edit <FilePenLine />
-                </button>
-              </div>
-              <div className="flex flex-col gap-2 text-black">
-                <p className="mt-2"><strong>Account Type:</strong> Premium</p>
-                <p><strong>Joined On:</strong> January 1, 2021</p>
-              </div>
-            </section> */}
+   {/* profile image div */}
+   <div>
+     <img src={superAdminData.image} alt="profile image"/>
+
+     <div>
+       <button>Change Profile Picture</button>
+       <button>Delete</button>
+     </div>
+   </div>
+
+
+ </div>
+
+ {/* third div */}
+ <div className="bg-white rounded-xl mt-5 min-h-[40vh] p-10">
+   <form action="">
+
+     <div>
+       <p className="font-semibold"> Name :</p>
+       <div className="flex justify-center items-center gap-2">
+       <input className="bg-gray-200 w-full p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.name} />
+      <FaRegEdit/>
+      </div>
+     </div>
+
+     <div className="mt-5">
+       <p className="font-semibold">Address :</p>
+       <div className="flex justify-center items-center gap-2"> 
+       <input className="bg-gray-200 w-full p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.address} />
+      <FaRegEdit/>
+      </div>
+     </div>
+     <div className="flex gap-8"> 
+     <div className="mt-5">
+       <p className="font-semibold">Phone No :</p>
+       <div className="flex justify-center items-center gap-2"> 
+       <input className="bg-gray-200 w-[40vw] p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.phone} />
+       <FaRegEdit />
+       </div>
+     </div>
+     <div className="mt-5">
+       <p className="font-semibold">Email :</p>
+       <div className="flex justify-center items-center gap-2"> 
+       <input className="bg-gray-200 w-[40vw] p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.email} />
+       <FaRegEdit />
+       </div>
+     </div>
+     </div>
+     {/* 2 buttons */}
+     <div className="flex float-end gap-3 mt-5">
+       <button className="bg-gray-200 rounded-lg px-5 py-2">Cancel</button>
+       <button className="bg-[#03A8FD] rounded-lg px-5 py-2">Apply Changes</button>
+     </div>
+
+   </form>
+
+ </div>
+</div>
+            
+
+           
+           
           </div>
 
           {/* Profile Section */}

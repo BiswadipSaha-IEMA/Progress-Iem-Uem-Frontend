@@ -109,12 +109,19 @@ export default function SuperAdminDashboardComp() {
 
       <div className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 ${showProfile ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
         
-        <div className="bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
+        <div className="bg-[url('/src/assets/vector_main.svg')] relative bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
+        <div className="absolute top-[-10px] right-[-10px] flex flex-col items-center bg-blue-600 shadow-lg px-3 py-1 rounded-md">
+              <p className="text-xl text-white font-[500]">{formCount}</p>
+            </div>
           <h2 className="mb-4 text-center text-xl font-semibold">
             Click Here to View All Data and Submissions
           </h2>
           <div className="flex justify-center">
-            <button className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button 
+            onClick={()=>{
+              navigate('/viewdata')
+            }}
+            className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               View Data
             </button>
           </div>
@@ -130,9 +137,7 @@ export default function SuperAdminDashboardComp() {
           </div>
 
           <div className="flex-1 p-6 sm:p-16 relative bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex flex-col items-center rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-            <div className="absolute top-[-10px] right-[-10px] flex flex-col items-center bg-blue-600 shadow-lg px-3 py-1 rounded-md">
-              <p className="text-xl text-white font-[500]">{formCount}</p>
-            </div>
+            
 
             <div className="bg-[url('/src/assets/faculty.svg')] bg-cover bg-center mb-4 h-24 w-24 sm:h-28 sm:w-28 text-gray-600" />
             <button className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" onClick={() => navigate("/addfaculty")}>

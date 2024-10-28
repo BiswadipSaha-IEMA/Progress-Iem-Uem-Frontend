@@ -21,8 +21,8 @@ const AppRouter = () => {
           <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/editAcc" element={<Home />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/student" element={<Student />} />
+          <Route path="/viewdata" element={<Student />} />
+          {/* <Route path="/student" element={<Student />} /> */}
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

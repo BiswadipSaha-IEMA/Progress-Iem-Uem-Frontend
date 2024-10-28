@@ -9,6 +9,9 @@ import PopupModal from "../Popup Modal/PopupModal";
 import { useLocation } from 'react-router-dom';
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import DragDrop from "./DragDrop";
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
@@ -90,20 +93,24 @@ export default function HomeComp() {
             <div >
  
  {/* second div */}
- <div className="bg-white rounded-2xl h-[38vh]">
+ <div className="bg-white rounded-2xl flex h-[38vh]">
 
    {/* drag & drop  file upload div */}
-   <div >
-     
+   <div className=" w-[50%] h-full flex justify-center items-center">
+      <DragDrop/>
    </div>
 
    {/* profile image div */}
-   <div>
+   <div className="flex w-[50%] flex-col justify-center items-center">
      <img src={superAdminData.image} alt="profile image"/>
 
-     <div>
-       <button>Change Profile Picture</button>
-       <button>Delete</button>
+     <div className="flex gap-2 mt-4">
+       <button className="bg-[#03A8FD] font-semibold rounded-lg px-5 py-2 text-white flex justify-center items-center gap-2">
+        <FaUser className="text-2xl"/>
+         Change Profile Picture</button>
+       <button className="border-2 rounded-lg px-1 border-red-400 ">
+        <MdDeleteOutline className="text-3xl text-red-500"/>
+       </button>
      </div>
    </div>
 
@@ -118,7 +125,7 @@ export default function HomeComp() {
        <p className="font-semibold"> Name :</p>
        <div className="flex justify-center items-center gap-2">
        <input className="bg-gray-200 w-full p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.name} />
-      <FaRegEdit/>
+      <FaRegEdit className="text-2xl"/>
       </div>
      </div>
 
@@ -126,7 +133,7 @@ export default function HomeComp() {
        <p className="font-semibold">Address :</p>
        <div className="flex justify-center items-center gap-2"> 
        <input className="bg-gray-200 w-full p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.address} />
-      <FaRegEdit/>
+      <FaRegEdit className="text-2xl"/>
       </div>
      </div>
      <div className="flex gap-8"> 
@@ -134,14 +141,14 @@ export default function HomeComp() {
        <p className="font-semibold">Phone No :</p>
        <div className="flex justify-center items-center gap-2"> 
        <input className="bg-gray-200 w-[40vw] p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.phone} />
-       <FaRegEdit />
+       <FaRegEdit className="text-2xl"/>
        </div>
      </div>
      <div className="mt-5">
        <p className="font-semibold">Email :</p>
        <div className="flex justify-center items-center gap-2"> 
        <input className="bg-gray-200 w-[40vw] p-2 rounded-lg mt-2" type="text" placeholder={superAdminData.email} />
-       <FaRegEdit />
+       <FaRegEdit className="text-2xl" />
        </div>
      </div>
      </div>

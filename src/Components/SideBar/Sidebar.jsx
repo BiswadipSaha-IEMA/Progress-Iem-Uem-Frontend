@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetReq } from "../../hooks/useHttp";
+import { logout } from "../../Store/Action";
 // import {username} from "../SuperAdminDashboard/SuperAdminDashboardComp"
 const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const [superAdminData, setSuperAdminData] = useState({});
@@ -17,8 +18,8 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isEdit = location.pathname === "/";
-  const isSuper = location.pathname === "/SuperAdminDashboard";
+  const isSuper = location.pathname === "/";
+  const isEdit = location.pathname === "/editAcc";
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
 
@@ -41,7 +42,7 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
       </div>
 
       <div
-        className={`fixed inset-y-0 left-0 ${showProfile ? "left-4" : "left-0"} w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${showProfile ? "translate-x-0 h-full" : "-translate-x-full"} `}
+        className={`fixed inset-y-0 left-0 ${showProfile ? "left-4" : "left-0"} w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-2xl transform transition-transform duration-300 hidden lg:flex flex-col ${showProfile ? "translate-x-0 h-full" : "-translate-x-full"} `}
       >
         <ProfileContent
           username={username}
@@ -88,7 +89,7 @@ const ProfileContent = ({
           ariaLabel="Super Admin Dashboard"
           icon={<LayoutDashboard />}
           label="Super Admin Dashboard"
-          onClick={() => navigate("/SuperAdminDashboard")}
+          onClick={() => navigate("/")}
         />
         <SidebarButton
           isActive={isAddMod}
@@ -109,7 +110,7 @@ const ProfileContent = ({
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/editAcc")}
         />
         {/* <SidebarButton
           isActive={isChangePasswords}
@@ -122,7 +123,14 @@ const ProfileContent = ({
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
-          onClick={() => navigate("/logout")}
+          onClick={
+
+            ()=>{
+              logout();
+              navigate("/login");
+              sessionStorage.clear()
+            }
+          }
         />
       </div>
     </>

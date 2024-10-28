@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   LayoutDashboard,
   UserRoundPen,
@@ -8,11 +8,15 @@ import {
   FilePenLine,
   UserRound,
 } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {AuthContext} from "../../Context/AuthContext";
+import { replace, useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../Store/Action";
+// import { logout } from "../../Store/Action";
 
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const {logout} = useContext(AuthContext)
   
   const isEdit = location.pathname === "/";
   const isSuper = location.pathname === "/SuperAdminDashboard";
@@ -129,7 +133,13 @@ const ProfileContent = ({
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
-          onClick={() => navigate("/logout")}
+          onClick={
+            () => {
+            logout()
+            sessionStorage.clear();
+            navigate("/login",{replace: true})
+          }
+        }
         />
       </div>
     </>

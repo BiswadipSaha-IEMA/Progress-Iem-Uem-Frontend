@@ -7,9 +7,11 @@ import Sidebar from "../SideBar/Sidebar";
 import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import PopupModal from "../Popup Modal/PopupModal";
 import { useLocation } from 'react-router-dom';
+import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 
 export default function HomeComp() {
   const [showProfile, setShowProfile] = useState(false);
+  
   const [changePassword, setChangePassword] = useState(false);
   const { logout } = useContext(AuthContext);
   const [superAdminData, setSuperAdminData] = useState({});
@@ -22,13 +24,13 @@ export default function HomeComp() {
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   
-  const handleClick = () => {
-    setShowForm(true);
-  };
+  // const handleClick = () => {
+  //   setShowForm(true);
+  // };
 
-  const handleClose = () => {
-    setShowForm(false);
-  };
+  // const handleClose = () => {
+  //   setShowForm(false);
+  // };
 
   useEffect(() => {
     const fetchSuperAdminData = async () => {
@@ -57,6 +59,7 @@ export default function HomeComp() {
         const data = await putReq('api/v1/superAdmin/editSuperAdmin', dataToUpdate, accessToken);
         console.log(data);
         setSuperAdminData(data.data);
+        console.log(data)
       } catch (error) {
         console.error('Error updating data:', error);
       }
@@ -89,10 +92,12 @@ export default function HomeComp() {
                   Personal Details
                 </h2>
 
-                <button className="text-black font-semibold mr-2 flex gap-2" onClick={handleClick}>
+                <button className="text-black font-semibold mr-2 flex gap-2" onClick={()=>{
+                  setShowForm(true);
+                }}>
                   Edit <FilePenLine />
                 </button>
-                {showForm && <PopupModal onClose={handleClose} onSubmit={handleSubmit}/>}
+                {showForm && <ManagePopUp setUtilFor={'accountDetails'} takeData={handleSubmit} setPopupShow={setShowForm}/>}
               </div>
               <div className="flex flex-col gap-2 text-black">
                 <p className="mt-2">

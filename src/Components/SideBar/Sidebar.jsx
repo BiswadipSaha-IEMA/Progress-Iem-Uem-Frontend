@@ -13,12 +13,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const isEdit = location.pathname === "/";
   const isSuper = location.pathname === "/SuperAdminDashboard";
   const isAddMod = location.pathname === "/AddModerator";
   const isAddFac = location.pathname === "/AddFaculty";
-  
 
   return (
     <>
@@ -73,26 +72,21 @@ const ProfileContent = ({
           alt="Profile"
           className="w-20 h-20 rounded-full  mt-10"
         />
-        <span className="  p-2 flex absolute 
-         ml-20  text-xl  font-bold top-14 text-black rounded-md">
-         Kartik Dubay
-          
+        <span
+          className="  p-2 flex absolute 
+         ml-20  text-xl  font-bold top-14 text-black rounded-md"
+        >
+          Kartik Dubay
         </span>
-        <span className=" flex absolute 
-         ml-20  text-xs p-2  top-20 text-black rounded-md">
-         Super Admin
-          
+        <span className="flex absolute ml-20 text-base opacity-75 p-2 top-20 text-black rounded-md">
+          Super Admin
         </span>
-        
       </div>
       <div className="flex-grow">
-        
         <button
           className="w-full py-2 mb-2 text-red-500 bg-transparent hover:text-red-600 transition-colors text-sm border-b border-gray-800"
           aria-label="Remove Profile Picture"
-        >
-         
-        </button>
+        ></button>
         <SidebarButton
           isActive={isSuper}
           ariaLabel="Super Admin Dashboard"
@@ -149,7 +143,9 @@ const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
     aria-label={ariaLabel}
     onClick={onClick}
   >
-    <span className={`p-2  mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
+    <span
+      className={`p-2  mr-2 ${isActive ? "text-white" : "hover:text-white"}`}
+    >
       {React.cloneElement(icon, { color: isActive ? "white" : undefined })}
     </span>
     {label}

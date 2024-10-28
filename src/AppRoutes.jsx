@@ -9,6 +9,7 @@ import Student from "./Pages/Student/Student";
 import AddUser from "./Pages/AddUser/AddUser";
 import AddModerator from "./Pages/AddModerator/AddModerator";
 import AddFaculty from "./Pages/AddFaculty/AddFaculty";
+import Faculty from "./Pages/Faculty/Faculty";
 import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
 
 const AppRouter = () => {
@@ -23,6 +24,7 @@ const AppRouter = () => {
           <Route path="/editAcc" element={<Home />} />
           <Route path="/student" element={<Student />} />
           <Route path="/student" element={<Student />} />
+          <Route path="/faculty" element={<Faculty />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

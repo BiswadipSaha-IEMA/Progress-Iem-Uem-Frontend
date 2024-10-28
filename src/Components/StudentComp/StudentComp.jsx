@@ -556,7 +556,7 @@ function StudentComp() {
             />
           )}
         </div>
-        {recordsOfBp?.length > 2 && (
+        {recordsOfBp?.length > 1 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div

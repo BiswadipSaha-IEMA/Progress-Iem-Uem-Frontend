@@ -55,7 +55,7 @@ const AddModeratorComp = () => {
             className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg text-base p-4 right-0 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 gap-2"
             onClick={handleAddUserClick}
           >
-            <span className="hidden lg:block">Add Faculty</span>
+            <span className="hidden lg:block">Add Moderator</span>
             <div className="text-2xl">
               <RiUserAddFill size={20} />
             </div>
@@ -84,7 +84,7 @@ const Cards = ({ sidebar }) => {
     const fetchUserData = async () => {
       try {
         const data = await getReq('api/v1/user/getAllUsers', accessToken);
-        console.log(data.data);
+        // console.log(data.data);
 
         if (Array.isArray(data.data)) {
           const filteredData = data.data.filter(user => user.role === "moderator");

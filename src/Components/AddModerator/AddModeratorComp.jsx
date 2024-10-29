@@ -63,7 +63,7 @@ const AddModeratorComp = () => {
         </div>
 
         <div className="bg-white p-4 flex flex-wrap w-full mt-8 rounded-lg">
-          <Cards sidebar={sidebar} />
+          <Cards sidebar={sidebar} showPopup={showPopup} />
         </div>
       </div>
 
@@ -74,7 +74,7 @@ const AddModeratorComp = () => {
   );
 };
 
-const Cards = ({ sidebar }) => {
+const Cards = ({ sidebar, showPopup }) => {
   const currentDiv = useRef([]);
   const [getReq] = useGetReq();
   const [userData, setUserData] = useState([]); // Initialize as an empty array
@@ -99,7 +99,7 @@ const Cards = ({ sidebar }) => {
     };
 
     fetchUserData();
-  }, []); 
+  }, [showPopup]); 
 
   useEffect(() => {
     if (userData.length > 0) {

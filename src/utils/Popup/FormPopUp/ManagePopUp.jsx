@@ -10,12 +10,14 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiFilter, CiSearch } from "react-icons/ci";
 import { GoSortDesc } from "react-icons/go";
 import "../../../Components/StudentComp/customScrollbar.css";
-// import { usePostReq } from "../../../hooks/useHttp";
+import { usePostReq } from "../../../hooks/useHttp";
 // import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import gsap from "gsap";
 
 const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   const [errors, setErrors] = useState({});
+  const [loading, setLoading]= useState(false)
+  const [postReq] = usePostReq()
 
   const validatePhone = (phone) => {
     const phoneRegex = /^[0-9]{10}$/; // Adjust the regex for your phone number format
@@ -99,6 +101,8 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
 
 
+
+
   const [fileError, setFileError] = useState(null);
   const [selectedStream, setSelectedStream] = useState("");
 
@@ -109,6 +113,25 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   // const handleStreamClick = (stream) => {
   //   setSelectedStream(stream);
   // };
+
+  //for moderator form
+  const [moderatorData, setModeratorData] = useState({
+    role: "moderator",
+    name: "",
+    contact: "",
+    email: "",
+    college: "",
+    department: [],
+  });
+
+  //for moderator form
+  const handleModeratorInputChange = (e) => {
+    const { name, value } = e.target;
+    setModeratorData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -126,12 +149,111 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     }
   };
 
+  //for moderator form
+  const arrOfStreams=[]
+  const handleStreamClick = (stream) => {
+    // setSelectedStream((prev) => {
+      // const updatedStreams = prev.includes(stream)
+      //   ? prev.filter((s) => s !== stream)
+      //   : [...prev, stream];
+
+      // const newStreamString = updatedStreams.join(", ");
+      // // console.log(newStreamString)
+      // setStreamString(newStreamString);
+      // setModeratorData((prevData) => ({
+      //   ...prevData,
+      //   department: newStreamString,
+      // }));
+
+      // return updatedStreams;
+
+    // });
+    if(!arrOfStreams.includes(stream)){
+      arrOfStreams.push(stream)
+      setModeratorData((prevData) => ({
+        ...prevData,
+        department: arrOfStreams
+    }
+  ))
+}
+
+    console.log(arrOfStreams)
+    
+    
+  };
+
+// const handleStreamClick = (stream) => {
+//   setSelectedStream((prev) => {
+//     const updatedStreams = prev.includes(stream)
+//       ? prev.filter((s) => s !== stream)
+//       : [...prev, stream];
+//     return updatedStreams;
+//   });
+// };
+
+// useEffect(() => {
+//   setModeratorData((prevData) => ({
+//     ...prevData,
+//     department: ,
+//   }));
+// }, [selectedStream]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  console.log(accessToken);
+
+  //for moderator form
+  // const handleModeratorSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // if (!isFormFilled) return alert("Please fill in all fields");
+
+  //   setLoading(true);
+
+  //   console.log(moderatorData)
+
+  //   try {
+  //     const response = await postReq("/api/v1/user/addUser", 
+  //       { ...moderatorData, contentAccess: "edit" },
+  //       accessToken,
+  //     );
+
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       setLoading(false);
+  //       console.log("Moderator Registered: ", result);
+  //     } else {
+  //       console.error("Error registering moderator: ", response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error("Network error:", error);
+  //   }
+  // };
+
+  const handleModeratorSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await postReq("api/v1/user/addUser", 
+        { ...moderatorData, contentAccess: "edit" },
+        accessToken,
+      );
+
+      console.log(response)
+      if(response.success){
+        setPopupShow(false)
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -150,16 +272,16 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   //   (value) => value !== "" && value !== null
   // );
 
-  const handleStreamClick = (stream) => {
-    setSelectedStream((prev) => {
-      const updatedStreams = prev.includes(stream)
-        ? prev.filter((s) => s !== stream)
-        : [...prev, stream];
+  // const handleStreamClick = (stream) => {
+  //   setSelectedStream((prev) => {
+  //     const updatedStreams = prev.includes(stream)
+  //       ? prev.filter((s) => s !== stream)
+  //       : [...prev, stream];
 
-      setStreamString(updatedStreams.join(", "));
-      return updatedStreams;
-    });
-  };
+  //     setStreamString(updatedStreams.join(", "));
+  //     return updatedStreams;
+  //   });
+  // };
 
   // const handleFileChange = (e) => {
   //   const file = e.target.files[0];
@@ -356,6 +478,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 <p>Name</p>
                 <input
                   type="text"
+                  name="name"
+                  value={moderatorData.name}
+                  onChange={handleModeratorInputChange}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Enter Your Name"
                 />
@@ -364,6 +489,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 <p>Phone No</p>
                 <input
                   type="tel"
+                  name="contact"
+                  value={moderatorData.contact}
+                  onChange={handleModeratorInputChange}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Your Mobile Number"
                 />
@@ -372,6 +500,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 <p>Email Address</p>
                 <input
                   type="email"
+                  name="email"
+                  value={moderatorData.email}
+                  onChange={handleModeratorInputChange}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Your Email Address"
                 />
@@ -380,6 +511,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 <p>University/Institute Name</p>
                 <input
                   type="name"
+                  name="college"
+                  value={moderatorData.college}
+                  onChange={handleModeratorInputChange}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="University Name"
                 />
@@ -388,16 +522,6 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               <div className="flex flex-col gap-2 mt-4">
                 <p>Stream</p>
                 <div className="flex gap-4">
-                  {/* {["CSE", "CSIT", "AIML"].map((stream) => (
-                    <div
-                      key={stream}
-                      onClick={handleStreamClick(stream)}
-                      className=""
-                    >
-                      {stream}
-                    </div>
-                  ))} */}
-
                   {["CSE", "CSIT", "BioTech"].map((stream) => (
                     <div
                       key={stream}
@@ -419,7 +543,10 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
           </div> */}
 
               <div className="flex flex-col justify-center items-center mt-5">
-                <button className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer">
+                <button
+                  className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
+                  onClick={handleModeratorSubmit}
+                >
                   Add
                 </button>
               </div>

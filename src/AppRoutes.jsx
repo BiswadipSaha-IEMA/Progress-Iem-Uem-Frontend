@@ -12,6 +12,7 @@ import AddFaculty from "./Pages/AddFaculty/AddFaculty";
 import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
 import  ModeratorComp  from "./Components/Moderator/ModeratorComp";
 import  ModeratorDashboard  from "./Components/Moderator/Dashboard/ModeratorDashboard";
+import ModeratorSignUp from "./Pages/Moderator/SignUp/ModeratorSignUp";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -21,14 +22,15 @@ const AppRouter = () => {
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
           <Route path="/addmoderator" element={<AddModerator/>} />
-          <Route path="/" element={<Home />} />
-          <Route path="/student" element={<Student />} />
-          <Route path="/student" element={<Student />} />
+          <Route path="/" element={<SuperAdminDashboard />} />
+          <Route path="/editAcc" element={<Home />} />
+          <Route path="/viewdata" element={<Student />} />
+          {/* <Route path="/student" element={<Student />} /> */}
           <Route path="/moderator" element={<ModeratorComp />} />
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderatordashboard" element={<ModeratorDashboard />} />
-          <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
+          {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
           
           <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
@@ -37,6 +39,8 @@ const AppRouter = () => {
           <Route path="/" element={<Registration />} />
           <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/moderator/signup" element={< ModeratorSignUp/>} />
+
         </Routes>
       )}
     

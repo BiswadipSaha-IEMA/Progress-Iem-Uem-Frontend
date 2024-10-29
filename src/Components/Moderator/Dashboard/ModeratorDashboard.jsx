@@ -7,9 +7,9 @@ import { FacultyCard } from "../FacultyCard/FacultyCard";
 import MemberCard from "../../MemberCard/MemberCard";
 export default function ModeratorDashboard() {
   const [formCount, setFormCount] = useState(0);
-  const [pendingData, setPendingData] = useState();
   const [showProfile, setShowProfile] = useState(false);
   const [loading, setLoading] = useState(false); 
+  const [pendingData, setPendingData] = useState([]);
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false); 
 
@@ -52,18 +52,17 @@ export default function ModeratorDashboard() {
         const response = await getReq("api/v1/document/getAllPublications", accessToken);
         if (response.success) {
           setFormCount(response.data.pendingCount);
-          console.log("Publication Count Response:", response.data.data);
-          response.data.data
+          // console.log("Publication Count Response:", response.data.data);
+          const filteredData=response.data.data
           .filter((publication)=>publication.status==='Pending')
-          .forEach((publication) => {
-              console.log("Pending Publication:", publication);
-          });
+          setPendingData(filteredData)
+          console.log(filteredData)
         }
   
         // Fetch super admin data
         const superAdminResponse = await getReq("api/v1/superAdmin/getSuperAdmin", accessToken);
         if (superAdminResponse.success) {
-          console.log("Super Admin Data:", superAdminResponse.data);
+          // console.log("Super Admin Data:", superAdminResponse.data);
           setSuperAdminData(superAdminResponse.data);
         }
       } catch (error) {
@@ -72,7 +71,7 @@ export default function ModeratorDashboard() {
     };
   
     allInfo();
-  }, [accessToken,pendingData]);
+  }, [accessToken]);
   
 
   if (loading) {
@@ -124,7 +123,7 @@ export default function ModeratorDashboard() {
             <button className="text-white bg-[#03A8FD] rounded-lg sm:w-60 ">View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row flex-wrap">
-            {pendingData&&<FacultyCard data={pendingData} />}
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
           </div>
         </div>
 

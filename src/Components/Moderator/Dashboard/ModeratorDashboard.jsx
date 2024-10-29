@@ -60,11 +60,11 @@ export default function ModeratorDashboard() {
         }
   
         // Fetch super admin data
-        const superAdminResponse = await getReq("api/v1/superAdmin/getSuperAdmin", accessToken);
-        if (superAdminResponse.success) {
-          // console.log("Super Admin Data:", superAdminResponse.data);
-          setSuperAdminData(superAdminResponse.data);
-        }
+        // const superAdminResponse = await getReq("api/v1/user/getSuperAdmin", accessToken);
+        // if (superAdminResponse.success) {
+        //   // console.log("Super Admin Data:", superAdminResponse.data);
+        //   setSuperAdminData(superAdminResponse.data);
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -109,7 +109,11 @@ export default function ModeratorDashboard() {
             Click Here to View All Data and Submissions
           </h2>
           <div className="flex justify-center">
-            <button className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button 
+            onClick={()=>{
+              navigate('/moderator/viewdata')
+            }}
+            className="rounded-md bg-blue-500 px-4 sm:px-6 py-2 text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               View Data
             </button>
           </div>

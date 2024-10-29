@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import loginPic from "../../../assets/login.png";
 import decorate from "../../../assets/decorate.png";
 import { FcGoogle } from "react-icons/fc";
@@ -7,13 +7,11 @@ import ForgetPassword from "../../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
+function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
   const [postReq] = usePostReq()
   const [loading, setLoading] = useState(false);
-  const [passwordCheck, setPasswordCheck]= useState('')
-
 
   // const handleSubmit =async (e) => {
   //   e.preventDefault();
@@ -52,21 +50,10 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
     const data = { email, password };
 
     try {
-        const json = await postReq('api/v1/user/changePassword', 
-          {
-            email:email,
-            oldPassword: passwordCheck,
-            newPassword: password
-          }
-        );
-        // if (json) {
-        //     setAccessToken(json.data.accessToken);
-        //     setHandleLogin(true);
-        //     console.log(json);
-            
-        // }
-        if(json.success){
-          navigate('/moderator/login')
+        const json = await postReq('api/v1/user/login', data);
+        if (json) {
+            setAccessToken(json.data.accessToken);
+            setHandleLogin(true);
         }
     } catch (error) {
         console.error("Error during login:", error.message);
@@ -112,22 +99,6 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
                 setEmail(e.target.value);
               }}
             />
-            {/* <div className="flex  items-center gap-3"> */}
-            <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 w-full"
-              placeholder="Password"
-              required
-              type="password"
-              name="password"
-              value={passwordCheck}
-              onChange={(e) => setPasswordCheck(e.target.value)}
-            />
-            {/* <div className="border px-2 py-3 rounded-lg"
-            onClick={(passwordCheck)=>{
-              checkVerifyEmail(passwordCheck)
-            }}
-            >Verify</div>
-            </div> */}
             <input
               className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
               placeholder="Password"
@@ -137,7 +108,6 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            
             <div className="w-full flex justify-end">
               <span
                 className="text-[#03A8FD] text-right cursor-pointer"
@@ -201,4 +171,4 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
   );
 }
 
-export default ModeratorSignUpComp;
+export default FacultySignInComp;

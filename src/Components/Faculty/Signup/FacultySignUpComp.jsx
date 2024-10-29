@@ -7,7 +7,7 @@ import ForgetPassword from "../../ChangePassword/ForgetPassword";
 import { useNavigate } from "react-router-dom";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
+function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLogin, accessToken, setAccessToken }) {
   const [forgetPassword, setForgetPassword] = useState(false);
   const navigate = useNavigate();
   const [postReq] = usePostReq()
@@ -66,7 +66,7 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
             
         // }
         if(json.success){
-          navigate('/moderator/login')
+          navigate('/faculty/login')
         }
     } catch (error) {
         console.error("Error during login:", error.message);
@@ -201,4 +201,4 @@ function ModeratorSignUpComp({ email, setEmail, password, setPassword, setHandle
   );
 }
 
-export default ModeratorSignUpComp;
+export default FacultySignUpComp;

@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import LoginComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
+// import LoginComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
 import { useDispatch } from "react-redux";
 import { login } from "../../../Store/Action";
 import { AuthContext } from "../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import ModeratorSignUpComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
+// import ModeratorSignUpComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
+import FacultySignUpComp from "../../../Components/Faculty/Signup/FacultySignUpComp";
 
-function ModeratorSignUp() {
+function FacultySignUp() {
   const [email, setEmail] = useState("");
   
   const [password, setPassword] = useState("");
@@ -37,7 +38,7 @@ function ModeratorSignUp() {
 
   return (
     <div>
-      <ModeratorSignUpComp
+      <FacultySignUpComp
         email={email}
         setEmail={setEmail}
         password={password}
@@ -50,4 +51,4 @@ function ModeratorSignUp() {
   );
 }
 
-export default ModeratorSignUp;
+export default FacultySignUp;

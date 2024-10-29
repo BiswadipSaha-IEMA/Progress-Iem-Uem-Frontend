@@ -1,25 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import LoginComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
+// import ModeratorSignInComp from "../../../Components/Moderator/Login/ModeratorSignInComp";
 import { useDispatch } from "react-redux";
 import { login } from "../../../Store/Action";
 import { AuthContext } from "../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import ModeratorSignUpComp from "../../../Components/Moderator/SignUp/ModeratorSignUpComp";
+import ModeratorSignInComp from "../../../Components/Moderator/Login/ModeratorSignInComp";
 
-function ModeratorSignUp() {
+function ModeratorSignIn() {
   const [email, setEmail] = useState("");
   
   const [password, setPassword] = useState("");
   const [accessToken, setAccessToken] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
-  const [verifyModerator, setVerifyModerator] = useState(false)
   const { login: contextLogin, userLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (userLogin && sessionStorage.getItem("token")) {
-      navigate("/");
+      navigate("/moderator/dashboard");
     }
   }, [userLogin, navigate]);
 
@@ -30,14 +29,14 @@ function ModeratorSignUp() {
         console.log(accessToken)
         dispatch(login(userData));
         contextLogin(userData);
-        navigate("/");
+        navigate("/moderator/dashboard");
       }
     }
   }, [submitted, email, password, dispatch, contextLogin, navigate]);
 
   return (
     <div>
-      <ModeratorSignUpComp
+      <ModeratorSignInComp
         email={email}
         setEmail={setEmail}
         password={password}
@@ -50,4 +49,4 @@ function ModeratorSignUp() {
   );
 }
 
-export default ModeratorSignUp;
+export default ModeratorSignIn;

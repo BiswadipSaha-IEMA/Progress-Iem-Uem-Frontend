@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   LayoutDashboard,
   UserRoundPen,
@@ -9,15 +9,17 @@ import {
   UserRound,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../../Store/Action";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+  const {logout}= useContext(AuthContext)
   const isEdit = location.pathname === "/";
-  const isSuper = location.pathname === "/SuperAdminDashboard";
-  const isAddMod = location.pathname === "/AddModerator";
-  const isAddFac = location.pathname === "/AddFaculty";
+  const isSuper = location.pathname === "/moderator/dashboard";
+  // const isAddMod = location.pathname === "/AddModerator";
+  // const isAddFac = location.pathname === "/AddFaculty";
 
   return (
     <>
@@ -27,10 +29,10 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
         } overflow-y-auto`}
       >
         <ProfileContent
-          isEdit={isEdit}
+          // isEdit={isEdit}
           isSuper={isSuper}
-          isAddMod={isAddMod}
-          isAddFac={isAddFac}
+          // isAddMod={isAddMod}
+          // isAddFac={isAddFac}
           isChangePasswords={isChangePasswords}
           navigate={navigate}
         />
@@ -44,10 +46,10 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
         } overflow-y-auto`}
       >
         <ProfileContent
-          isEdit={isEdit}
+          // isEdit={isEdit}
           isSuper={isSuper}
-          isAddMod={isAddMod}
-          isAddFac={isAddFac}
+          // isAddMod={isAddMod}
+          // isAddFac={isAddFac}
           isChangePasswords={isChangePasswords}
           navigate={navigate}
         />
@@ -90,14 +92,14 @@ const ProfileContent = ({
           onClick={() => navigate("/SuperAdminDashboard")}
         />
         <SidebarButton
-          isActive={isEdit}
+          // isActive={isEdit}
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
           onClick={() => navigate("/")}
         />
         <SidebarButton
-          isActive={isChangePasswords}
+          // isActive={isChangePasswords}
           ariaLabel="Change Password"
           icon={<KeyRound />}
           label="Change Password"
@@ -107,7 +109,11 @@ const ProfileContent = ({
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
-          onClick={() => navigate("/logout")}
+          onClick={() => {
+            logout()
+            sessionStorage.clear()
+            navigate('/moderator/login')
+          }}
         />
       </div>
     </>

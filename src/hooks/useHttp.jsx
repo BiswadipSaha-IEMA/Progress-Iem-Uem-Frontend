@@ -1,13 +1,13 @@
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ManagePopUp from "../utils/Popup/FormPopUp/ManagePopUp";
 
 
 
-// const mainURL = "http://192.168.1.221:5000";
+const mainURL = "http://192.168.1.176:5000";
 // const mainURL = "http://localhost:5000";
 
-const mainURL = "http://192.168.90.24:8080";
+// const mainURL = "http://192.168.90.24:8080";
 // const mainURL = "http://localhost:8080";
 
 
@@ -16,6 +16,7 @@ const ErrorHandleContext = createContext();
 export const useErrorHandle = () => useContext(ErrorHandleContext);
 
 export const usePostReq = () => {
+  
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,9 +41,21 @@ export const usePostReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          navigate("/login", { replace: true });
-          sessionStorage.clear();
-          throw new Error("Unauthorized Access");
+          if(paramData.pathname.split('/')[1]=== 'moderator'){
+            navigate("/moderator/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+            navigate("/faculty/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else{
+            navigate("/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
         }
         showErrorPopUp(data.message);
         throw new Error(data.message || "Error Occurred");
@@ -60,6 +73,8 @@ export const usePostReq = () => {
 };
 
 export const useGetReq = () => {
+  const paramData= useLocation()
+  console.log(paramData.pathname.split('/')[1])
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -78,9 +93,21 @@ export const useGetReq = () => {
       const data = await response.json();
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          navigate("/login", { replace: true });
-          sessionStorage.clear();
-          throw new Error("Unauthorized Access");
+          if(paramData.pathname.split('/')[1]=== 'moderator'){
+            navigate("/moderator/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+            navigate("/faculty/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else{
+            navigate("/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
         }
         showErrorPopUp(data.message);
         throw new Error(data.message || "Error Occurred");
@@ -118,9 +145,21 @@ export const useDeleteReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          navigate("/login", { replace: true });
-          sessionStorage.clear();
-          throw new Error("Unauthorized Access");
+          if(paramData.pathname.split('/')[1]=== 'moderator'){
+            navigate("/moderator/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+            navigate("/faculty/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else{
+            navigate("/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
         }
         showErrorPopUp(data.message);
         throw new Error(data.message || "Error Occurred");
@@ -159,9 +198,21 @@ export const usePatchReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          navigate("/", { replace: true });
-          sessionStorage.clear();
-          throw new Error("Unauthorized Access");
+          if(paramData.pathname.split('/')[1]=== 'moderator'){
+            navigate("/moderator/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+            navigate("/faculty/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else{
+            navigate("/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
         }
         showErrorPopUp(data.message);
         throw new Error(data.message || "Error Occurred");
@@ -200,9 +251,21 @@ export const usePutReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          navigate("/", { replace: true });
-          sessionStorage.clear();
-          throw new Error("Unauthorized Access");
+          if(paramData.pathname.split('/')[1]=== 'moderator'){
+            navigate("/moderator/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+            navigate("/faculty/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
+          else{
+            navigate("/login", { replace: true });
+            sessionStorage.clear();
+            throw new Error("Unauthorized Access");
+          }
         }
         showErrorPopUp(data.message);
         throw new Error(data.message || "Error Occurred");

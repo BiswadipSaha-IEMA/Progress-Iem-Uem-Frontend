@@ -84,7 +84,7 @@ const Cards = ({ sidebar, showPopup }) => {
     const fetchUserData = async () => {
       try {
         const data = await getReq('api/v1/user/getAllUsers', accessToken);
-        console.log(data.data);
+        // console.log(data.data);
 
         if (Array.isArray(data.data)) {
           const filteredData = data.data.filter(user => user.role === "moderator");

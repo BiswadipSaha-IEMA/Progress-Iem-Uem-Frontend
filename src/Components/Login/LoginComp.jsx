@@ -67,7 +67,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="flex sm:flex-row flex-col ml-[20vw] sm:ml-0 overflow-hidden h-screen">
+    <div className="flex min-h-[100vh] sm:flex-row flex-col sm:ml-0 overflow-hidden">
       <div className="w-1/2 sm:block hidden relative ml-2">
         <img
           src={loginPic}
@@ -85,7 +85,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
         </div>
       </div>
       <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] ">
-        <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full xs:w-[24rem] pr-[8rem] sm:pr-0">
+        <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full pl-[1rem] pr-[1rem] sm:pr-0">
           <h2 className="font-semibold text-5xl">Sign In</h2>
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
             <input
@@ -156,14 +156,14 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
               Register Now
             </span>
           </div>
-          <img
+          
+        </div>
+      </div>
+      <img
           src={decorate}
           alt="decoration"
-          className="absolute right-[-40vw] bottom-[-44vh] lg:absolute lg:right-[-22rem] 2xl:right-[-30vw] lg:bottom-[-18rem] lg:h-[90vh] object-cover md:hidden lg:block"
+          className="absolute inset right-0 bottom-0 z-[-22] object-cover"
         />
-        </div>
-        
-      </div>
       {forgetPassword && (
         <ForgetPassword setForgetPassword={setForgetPassword} />
       )}

@@ -3,11 +3,8 @@ import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 
 export const FacultyCard = ({data}) => {
-  // if(data.pending==='Pending')
-  //   console.log(data)
-  // console.log(data.publicationGrade)
   return (
-    <div className='w-[100%] sm:w-[24rem] p-7 rounded-xl' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}>
+    <div className='w-[100%] sm:w-[26rem] p-7 rounded-xl' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}>
       <div className="font-semibold text-[25px] sm:text-[35px] text-[#555555] truncate " title={data.name}>{data.name}</div>
       <div className="flex sm:items-center justify-between flex-col sm:flex-row gap-4 text-[14px]">
         <div className="bg-[#115476] p-1 w-12 flex justify-center rounded-lg text-[#EEF3F5] font-semibold">CSE</div>

@@ -104,7 +104,7 @@ export default function HomeComp() {
               showProfile
                 ? "lg:w-[calc(100%-320px)] lg:ml-[320px]"
                 : "lg:w-full lg:ml-0"
-            } bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}
+            } bg-[url('/src/assets/image2.svg')] `}
           >
             <h1 className="text-black text-2xl font-bold mb-6">
               {" "}
@@ -113,17 +113,17 @@ export default function HomeComp() {
 
             <div className="h-[100%]">
               {/* second div */}
-              <div className="bg-white rounded-2xl flex h-[45%]">
+              <div className="bg-white rounded-2xl flex h-[40%] justify-center items-center">
                 {/* drag & drop  file upload div */}
-                <div className=" w-[50%] h-full flex justify-center items-center">
+                {/* <div className=" w-[50%] h-full flex justify-center items-center">
                   <DragDrop />
-                </div>
+                </div> */}
 
                 {/* profile image div */}
                 <div className="flex w-[50%] flex-col justify-center items-center">
                   <img className="border-[3px] rounded-[50%] border-[#03A8FD]"  src="/src/assets/dp.jpeg" alt="profile image" />
 
-                  <div className="flex gap-2 mt-4">
+                  {/* <div className="flex gap-2 mt-4">
                     <button className="bg-[#03A8FD] font-semibold rounded-lg px-5 py-2 text-white flex justify-center items-center gap-2">
                       <FaUser className="text-2xl" />
                       Change Profile Picture
@@ -131,12 +131,12 @@ export default function HomeComp() {
                     <button>
                       <MdDeleteOutline className="text-3xl text-red-500" />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
               {/* third div */}
-              <div className="bg-white rounded-xl mt-5 min-h-[40vh] p-10">
+              <div className="bg-white rounded-xl mt-5 mb-5 min-h-[42vh] p-10">
                 <form action="">
                   <div>
                     <p className="font-semibold"> Name :</p>
@@ -191,10 +191,10 @@ export default function HomeComp() {
                   </div>
                   {/* 2 buttons */}
                   <div className="flex float-end gap-3 mt-5">
-                    <button className="bg-gray-200 rounded-lg px-5 py-2">
+                    {/* <button className="bg-gray-200 rounded-lg px-5 py-2">
                       Cancel
-                    </button>
-                    <button className="bg-[#03A8FD] rounded-lg px-5 py-2">
+                    </button> */}
+                    <button className="bg-[#03A8FD] text-[#fff] rounded-lg px-5 py-2">
                       Apply Changes
                     </button>
                   </div>

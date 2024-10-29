@@ -158,11 +158,11 @@ export default function SuperAdminDashboardComp() {
             <p><span className="font-semibold">Email:</span> {superAdminData.email}
               <span className="ml-2 rounded-lg bg-blue-100 px-2 py-1 text-xs text-cyan-500">Primary</span>
             </p>
-            {/* Include other fields as necessary */}
+            
           </div>
         </div>
 
-        <Sidebar showProfile={showProfile} />
+        <Sidebar showProfile={showProfile} username = {superAdminData.name} />
       </div>
     </div>
   );

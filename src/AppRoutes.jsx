@@ -31,7 +31,7 @@ const AppRouter = () => {
           <Route path="/editAcc" element={<Home />} />
           <Route path="/viewdata" element={<Student />} />
           {/* <Route path="/student" element={<Student />} /> */}
-          <Route path="/moderator" element={<ModeratorComp />} />
+          {/* <Route path="/moderator" element={<ModeratorComp />} /> */}
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />

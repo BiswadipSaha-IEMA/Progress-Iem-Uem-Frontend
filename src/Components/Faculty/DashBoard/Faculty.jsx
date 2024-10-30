@@ -14,6 +14,7 @@ export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
   const [researchData, setResearchData] = useState([]);
+  const [seminarData, setSeminarData]= useState([])
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate= useNavigate()
 
@@ -160,6 +161,12 @@ export default function Faculty() {
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
+                    else if(item.title==='Research Paper Grade A')
+                      navigate('/faculty/researchpapergradea')
+                    else if(item.title==='Research Paper Grade B')
+                      navigate('/faculty/researchpapergradeb')
+                    else if(item.title==='Research Paper Grade C')
+                      navigate('/faculty/researchpapergradec')
                 }}
                 >
                   View All

@@ -4,12 +4,14 @@ import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
 import FacultyCardBP from './FacultyCardBP'
 import { FaBookBookmark } from 'react-icons/fa6'
-import { usePostReq } from '../../../hooks/useHttp'
+import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 
 function FacultyBookPublished() {
     const BpNumber=30
     const [showPopUp, setShowPopUp] = useState(false)
-    const [postReq]= usePostReq()
+    const [data, setData]= useState([])
+    const [getReq] = useGetReq()
+    
 
     
     
@@ -18,12 +20,19 @@ function FacultyBookPublished() {
     useEffect(()=>{
         const getBPData= async()=>{
            try {
-            
+            const response= await getReq('api/v1/document/getAllPublications',
+                accessToken
+            )
+            if(response.success){
+                console.log(response.data)
+            } 
+
+
            } catch (error) {
-            
+            console.log(error)
            }
-            
         }
+        getBPData()
     },[showPopUp])
     
 

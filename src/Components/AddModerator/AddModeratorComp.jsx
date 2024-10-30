@@ -62,7 +62,7 @@ const AddModeratorComp = () => {
           </button>
         </div>
 
-        <div className="bg-white p-4 flex flex-wrap w-full mt-8 rounded-lg">
+        <div className="bg-white justify-center pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup} />
         </div>
       </div>

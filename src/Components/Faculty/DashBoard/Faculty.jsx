@@ -7,14 +7,15 @@ import { LuLoader } from "react-icons/lu";
 import rolebg from "../../../assets/rolebg.png";
 import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
-import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
-  const navigate= useNavigation()
+  const navigate= useNavigate()
 
   const [getReq] = useGetReq();
 

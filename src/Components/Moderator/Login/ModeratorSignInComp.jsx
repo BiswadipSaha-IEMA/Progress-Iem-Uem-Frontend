@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginPic from "../../../assets/login.png";
+import loginPic from "../../../assets/moderatorSignIn.png";
 import decorate from "../../../assets/decorate.png";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
@@ -86,10 +86,13 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
       </div>
       <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] ">
         <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full xs:w-[24rem] pr-[8rem] sm:pr-0">
-          <h2 className="font-semibold text-5xl">Sign In</h2>
+        <div className="flex">
+            <h2 className="font-semibold text-4xl font-poppins">Sign In as&nbsp;</h2>
+            <h2 className="font-semibold text-4xl text-[#03A8FD] font-poppins">{" "}Moderator</h2>
+          </div>
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
+              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 font-poppins"
               placeholder="Email Address"
               required
               type="email"
@@ -100,7 +103,7 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
               }}
             />
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
+              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 font-poppins"
               placeholder="Password"
               required
               type="password"
@@ -108,7 +111,8 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="w-full flex justify-end">
+
+            {/* <div className="w-full flex justify-end">
               <span
                 className="text-[#03A8FD] text-right cursor-pointer"
                 onClick={() => {
@@ -117,11 +121,12 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
               >
                 Forget Password?
               </span>
-            </div>
-            <div className="flex justify-center">
+            </div> */}
+
+            <div className="flex justify-center py-10">
               <button
                 type="submit"
-                className={`bg-[#03A8FD] p-2 min-w-20 text-white rounded-xl w-1/3 ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
+                className={`bg-[#03A8FD] p-2 min-w-20 text-white rounded-xl font-poppins w-1/3 ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
                 disabled={!isFormValid} // Disable button if form is not valid
               >
                 {
@@ -145,15 +150,15 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
               Sign In with Apple
             </button>
           </div> */}
-          <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
-            Don't have an account?
+          <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] font-poppins">
+            Don't have an account?&nbsp;
             <span
-              className="text-[#03A8FD] font-[500] cursor-pointer"
+              className="text-[#03A8FD] font-[500] cursor-pointer font-poppins"
               onClick={() => {
-                navigate("/");
+                navigate("/moderator/signup");
               }}
             >
-              Register Now
+              Sign Up
             </span>
           </div>
           <img

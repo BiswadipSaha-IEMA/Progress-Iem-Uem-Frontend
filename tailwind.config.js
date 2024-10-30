@@ -9,7 +9,10 @@ export default {
       screens:{
         'xs':'320px',
         'lxs':'1024px'
-      }
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],

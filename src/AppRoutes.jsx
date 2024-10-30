@@ -19,6 +19,8 @@ import FacultySignIn from "./Pages/Faculty/SignIn/FacultySignIn";
 import FacultySignUp from "./Pages/Faculty/SignUp/FacultySignUp";
 import FacultyPage from "./Pages/Faculty/DashBoard/FacultyPage";
 import FacultyBookPublishedPage from "./Pages/Faculty/FacultyBookPublished/FacultyBookPublishedPage";
+import FacultyWorkshopOrganizedPage from "./Pages/Faculty/FacultyWorkshopOrganized/FacultyWorkshopOrganizedPage";
+import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/FacultyIndustrialTourPage";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -39,6 +41,8 @@ const AppRouter = () => {
           <Route path="/moderator/viewdata" element={< BookPublishedPage/>} />
           <Route path="/faculty/dashboard" element={< FacultyPage/>} />
           <Route path="/faculty/viewbookpublished" element={< FacultyBookPublishedPage/>} />
+          <Route path="/faculty/viewIndustrialTour" element={< FacultyIndustrialTourPage/>} />
+          <Route path="/faculty/viewworkshoporganized" element={< FacultyWorkshopOrganizedPage/>} />
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
           
           <Route path="/changepassword" element={<ChangePassword />} />

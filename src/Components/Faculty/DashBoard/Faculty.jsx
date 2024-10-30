@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
+  const [ConfOrg, setConfOrg] = useState([]);
+  const [WorkOrg, setWorkOrg] = useState([]);
+  const [IndTour, setIndTour] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate= useNavigate()
@@ -45,9 +48,61 @@ export default function Faculty() {
         console.error("Error fetching data:", error);
       }
     };
+    const getConfInfo= async()=>{
+      try{
+        const response= await getReq("api/v1/document/getAllEvents", accessToken)
+        console.log(response)
+        if(response.success){
+          setConfOrg(response.data.data)
+        }
+      }catch(error){
+        console.error("Error fetching data:", error)
+      }
+    }
+    //Workshop Organized
+    const getWorkInfo= async()=>{
+      try{
+        const response= await getReq("api/v1/document/getAllMoocs", accessToken)
+        console.log(response)
+        if(response.success){
+          setWorkOrg(response.data.data)  
+        }
+      }catch(error){
+        console.error("Error fetching data:", error)
+      }
+    }
+
+    const getIndTour= async()=>{
+      try{
+        const response= await getReq("api/v1/document/getAllMoocs", accessToken)
+        console.log(response)
+        if(response.success){
+          setIndTour(response.data.data)  
+        }
+      }catch(error){
+        console.error("Error fetching data:", error)
+      }
+    }
     
     allInfo();
+    getConfInfo();
+    getWorkInfo();
+    getIndTour();
   }, [accessToken]);
+
+  useEffect(()=>{
+    console.log(ConfOrg)
+  },[ConfOrg ])
+
+  useEffect(()=>{
+    console.log(WorkOrg)
+  },[WorkOrg ]) 
+
+  useEffect(()=>{
+    console.log(IndTour)
+  },[IndTour ]) 
+
+
   
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -83,6 +138,28 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+    {
+      title: "Conference Organized",
+      details: ConfOrg.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Workshop Organized",
+      details: WorkOrg.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Industrial Tour",
+      details: WorkOrg.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
+    },
+
   ];
 
   const getStatusStyles = (status) => {
@@ -160,6 +237,13 @@ export default function Faculty() {
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
+                    else if( item.title==="Conference Organized")
+                      navigate('/faculty/viewconferenceorganized')
+                    else if(item.title==="Workshop Organized")
+                      navigate('/faculty/viewworkshoporganized')
+                    else if(item.title==="Industrial Tour")
+                      navigate('/faculty/viewIndustrialTour')
+                  
                 }}
                 >
                   View All

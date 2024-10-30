@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
+  const [ConfOrg, setConfOrg] = useState([]);
+  const [Lecture, setLecture] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate= useNavigate()
@@ -42,12 +44,47 @@ export default function Faculty() {
           );
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching publications:", error);
       }
     };
+  
+    const getConfInfo = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setConfOrg(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+  
+    const getLecture = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setLecture(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching lectures:", error);
+      }
+    };
+  
     
     allInfo();
+    getConfInfo();
+    getLecture();
   }, [accessToken]);
+  
+
+  useEffect(()=>{
+    console.log(ConfOrg)
+  },[ConfOrg])
+  useEffect(()=>{
+    console.log(Lecture)
+  },[Lecture])
   
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -83,6 +120,31 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+    {
+      title: "Conference",
+      details: ConfOrg
+        .filter(paper => paper.eventType === "Conference")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
+    {
+      title: "Talks and Distinguished Lecture Series",
+      details: Lecture
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    }
+    
+    // {
+    //   title: "Conference Attended",
+    //   details: ConfOrg.map((paper) => ({
+    //     title: paper.topicName,
+    //     status: paper.status,
+    //   })),
+    // },
   ];
 
   const getStatusStyles = (status) => {
@@ -160,6 +222,13 @@ export default function Faculty() {
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
+                    else if( item.title==="Conference")
+                      navigate('/faculty/viewconferenceorganized')
+                    else if( item.title==="Talks and Distinguished Lecture Series")
+                      navigate('/faculty/viewLecture')
+                   
+                    
+                  
                 }}
                 >
                   View All

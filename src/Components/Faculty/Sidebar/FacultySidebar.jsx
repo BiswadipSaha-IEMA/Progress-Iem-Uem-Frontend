@@ -43,7 +43,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
           showProfile ? "left-4" : "left-0"
         } w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
           showProfile ? "translate-x-0 h-full" : "-translate-x-full"
-        } overflow-y-auto`}
+        } `}
       >
         <ProfileContent
           // isEdit={isEdit}
@@ -68,13 +68,13 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex justify-center mb-4 relative">
+      <div className="flex left-5 bottom-4 mb-2 mt-6 relative">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-32 h-32 rounded-full object-cover mt-10"
+          className="  w-20 h-20 rounded-full mt-10"
         />
-        <span className="absolute mt-10 ml-28 bg-gray-300 text-xs p-1 font-bold top-5 text-black rounded-md shadow-md">
+        <span className="p-2 flex absolute ml-20 text-xm font-bold top-14 text-black rounded-md">
           FACULTY
         </span>
       </div>
@@ -122,7 +122,7 @@ const ProfileContent = ({
 
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
-    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center p-4 justify-start ${
       isActive
         ? "text-white bg-[#03A8FD]"
         : "text-black hover:text-white hover:bg-[#03A8FD] active:bg-blue-50 duration-300"

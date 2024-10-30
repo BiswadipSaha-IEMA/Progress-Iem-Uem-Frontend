@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
+  const [Moocs, setMoocs] = useState([]);
+  const [TriMentor, setTriMentor] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate= useNavigate()
@@ -46,8 +48,49 @@ export default function Faculty() {
       }
     };
     
+    const getMoocs = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setMoocs(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const getTrimentor = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setTriMentor(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    
+    // Call all the asynchronous functions
     allInfo();
+    getMoocs();
+    getTrimentor();
   }, [accessToken]);
+
+  // Debugging useEffect to log Moocs and TriMentor updates
+  useEffect(() => {
+    console.log("Moocs:", Moocs);
+  }, [Moocs]);
+
+  useEffect(() => {
+    console.log("TriMentor:", TriMentor);
+  }, [TriMentor]);
+
+  
+
+  
+  
   
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -79,6 +122,20 @@ export default function Faculty() {
     {
       title: "Research Paper Grade C",
       details: groupResearchByGrade("Grade-C").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "MOOCs",
+      details: Moocs.map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Tri-Mentoring System",
+      details: TriMentor.map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
@@ -160,6 +217,12 @@ export default function Faculty() {
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
+                    else if( item.title==="MOOCs")
+                      navigate('/faculty/viewmooc')
+                    else if( item.title==="MOOCs")
+                      navigate('/faculty/viewmooc')
+                    else if( item.title==="Tri-Mentoring System")
+                      navigate('/faculty/viewrtrimentor')
                 }}
                 >
                   View All

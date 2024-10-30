@@ -160,6 +160,8 @@ export default function Faculty() {
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
+                    else if(item.title==='Research Paper Grade A')
+                      navigate('/faculty/researchpapergradea')
                 }}
                 >
                   View All

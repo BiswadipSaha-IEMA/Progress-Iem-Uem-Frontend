@@ -21,7 +21,7 @@ const AddFacultyComp = () => {
   };
 
   return (
-    <div className="flex w-full overflow-x-hidden">
+    <div className="flex flex-col overflow-x-hidden">
       <div className="relative">
         <Sidebar showProfile={sidebar} />
         {sidebar && (

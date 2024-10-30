@@ -56,7 +56,7 @@ export default function ModeratorDashboard() {
           const filteredData=response.data.data
           .filter((publication)=>publication.status==='Pending')
           setPendingData(filteredData)
-          console.log(filteredData)
+          // console.log(filteredData)
         }
   
         // Fetch super admin data
@@ -87,7 +87,7 @@ export default function ModeratorDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="absolute top-4 left-4 z-10 p-2 mr-4">
+      <div className="absolute top-8 left-6 z-10 p-2 mr-4">
         <button
           onClick={toggleProfile}
           className="bg-slate-200 p-2 rounded absolute lsx:hidden"
@@ -100,11 +100,11 @@ export default function ModeratorDashboard() {
       <div className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 ${showProfile ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
         
         <div className="bg-[url('/src/assets/mdash.svg')] bg-cover bg-center h-60 rounded-lg flex items-center justify-center p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-          <h2 className="mb-4 text-center text-xl text-[#437F9E] sm:text-[5rem] text-[2.5rem] font-semibold">
+          <h2 className="mb-4 text-center text-xl text-[#437F9E] sm:text-[4.2rem] text-[2.5rem] font-semibold">
             MODERATOR
           </h2>
         </div>
-        <div className="bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
+        <div className="bg-[url('/src/assets/vector_main.svg')] h-52 flex flex-col justify-center bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
           <h2 className="mb-4 text-center text-xl font-semibold">
             Click Here to View All Data and Submissions
           </h2>
@@ -123,11 +123,13 @@ export default function ModeratorDashboard() {
         {/* Account - details Section */}
         <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex gap-8 flex-col">
           <div className="flex justify-between">
-            <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[36px]">Request Approval</h2>
-            <button className="text-white bg-[#03A8FD] rounded-lg sm:w-60 ">View all pending requests</button>
+            <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[30.2px]">Request Approval</h2>
+            <button className="text-white bg-[#03A8FD] rounded-lg sm:w-60 "
+              onClick={()=>{navigate("/moderator/pendingrequests")}}
+            >View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row flex-wrap">
-            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+            {pendingData&&pendingData.slice(0,2).map((data)=><FacultyCard key={data.id} data={data} />)}
           </div>
         </div>
 

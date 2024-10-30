@@ -67,7 +67,7 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="flex sm:flex-row flex-col ml-[20vw] sm:ml-0 overflow-hidden h-screen">
+    <div className="flex min-h-[100vh] sm:flex-row flex-col sm:ml-0 overflow-hidden">
       <div className="w-1/2 sm:block hidden relative ml-2">
         <img
           src={loginPic}
@@ -159,14 +159,13 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
               Sign Up
             </span>
           </div>
-          <img
-          src={decorate}
-          alt="decoration"
-          className="absolute right-[-40vw] bottom-[-44vh] lg:absolute lg:right-[-22rem] 2xl:right-[-30vw] lg:bottom-[-18rem] lg:h-[90vh] object-cover md:hidden lg:block"
-        />
         </div>
-        
       </div>
+      <img
+        src={decorate}
+        alt="decoration"
+        className="absolute inset right-0 bottom-0 z-[-22] object-cover"
+      />
       {forgetPassword && (
         <ForgetPassword setForgetPassword={setForgetPassword} />
       )}

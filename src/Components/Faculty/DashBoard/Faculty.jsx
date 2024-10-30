@@ -7,12 +7,14 @@ import { LuLoader } from "react-icons/lu";
 import rolebg from "../../../assets/rolebg.png";
 import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
+import { useNavigation } from "react-router-dom";
 
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const navigate= useNavigation()
 
   const [getReq] = useGetReq();
 
@@ -152,7 +154,13 @@ export default function Faculty() {
                   <FaBookBookmark className="text-blue-700 w-[2rem] h-[2rem]" />
                   <h1 className="font-semibold text-[1.5rem]">{item.title}</h1>
                 </div>
-                <button className="bg-[#03A8FD] text-white p-1 rounded-md w-[7rem]">
+                <button className="bg-[#03A8FD] text-white p-1 rounded-md w-[7rem]"
+                onClick={()=>{
+                    console.log(item)
+                    if(item.title==="Books Published")
+                      navigate('/faculty/viewbookpublished')
+                }}
+                >
                   View All
                 </button>
               </div>

@@ -5,11 +5,14 @@ import { VscDiffAdded } from 'react-icons/vsc'
 import FacultyCardBP from './FacultyCardBP'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq, usePostReq } from '../../../hooks/useHttp'
+import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
+import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
 
 function FacultyBookPublished() {
     const BpNumber=30
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData]= useState([])
+    const [data1, setData1]= useState([])
     const [getReq] = useGetReq()
     
     
@@ -27,6 +30,7 @@ function FacultyBookPublished() {
             if(response.success){
                 console.log(response.data)
                 setData(response.data.data)
+                setData1(response.data.data)
             } 
 
 
@@ -36,6 +40,18 @@ function FacultyBookPublished() {
         }
         getBPData()
     },[showPopUp])
+    
+
+
+    const handleSearch=(event)=>{
+        if(data){
+            const searchData= event.target.value;
+            const filteredData=data1.filter(item=>item.title.toLowerCase().includes(searchData.toLowerCase()))
+            setData(filteredData)
+            if(searchData==='')
+                setData(data1)
+        }
+    }
     
 
 
@@ -50,13 +66,18 @@ function FacultyBookPublished() {
             <input
                 type="text"
                 placeholder="search for a book"
+                onChange={handleSearch}
                 className="w-full py-2 px-10 md:px-12 font-[400] text-[16px] md:text-[18px] outline-none border-[#03A8FD] backdrop-blur-lg shadow-[0_0_8px_2px_rgba(3,168,253,0.7)] rounded-md"
             />
             <RxCross2 className="absolute right-2 top-2 md:right-3 md:top-3 border-[#979da7] border-[2px] rounded-full text-[1rem] md:text-[1.2rem] p-1 cursor-pointer" />
         </div>
 
 
-        <div className="bg-[#03A8FD] text-[#fff] flex justify-center items-center rounded-md w-[300px] py-2 cursor-pointer">
+        <div className="bg-[#03A8FD] text-[#fff] flex justify-center items-center rounded-md w-[300px] py-2 cursor-pointer"
+            onClick={()=>{
+                setShowPopUp(true)
+            }}
+        >
             <div className="w-full flex justify-center items-center gap-2 md:gap-3 text-[1rem] md:text-[1.15rem]">
                 Publish New Book
                 <VscDiffAdded className="text-[1.3rem] md:text-[1.5rem] mt-1" />
@@ -74,13 +95,26 @@ function FacultyBookPublished() {
 
 
             <div className="flex flex-wrap gap-4 md:gap-8 w-full h-full">
-                <FacultyCardBP status="pending" date="01/05/2000" name="Biswadip Saha" ISBN="00000000" />
-                <FacultyCardBP status="approved" date="01/05/2000" name="Biswadip Saha" ISBN="00000000" />
-                <FacultyCardBP status="rejected" date="01/05/2000" name="Biswadip Saha" ISBN="00000000" />
+                {/* <FacultyCardBP status="pending" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" />
+                <FacultyCardBP status="approved" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" />
+                <FacultyCardBP status="rejected" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" /> */}
+                {
+                    data?.map((item, index) => (
+                        <FacultyCardBP key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} />
+                    ))
+                }
 
             </div>
         </div>
     </div>
+
+                {
+                    showPopUp && <BookPublished
+                        setUtilFor={'bpAddForm'}
+                        setShowPopup={setShowPopUp}
+                    />
+                }
+
 </div>
 
   )

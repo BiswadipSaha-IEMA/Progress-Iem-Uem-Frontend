@@ -18,6 +18,9 @@ import FacultySignIn from "./Pages/Faculty/SignIn/FacultySignIn";
 import FacultySignUp from "./Pages/Faculty/SignUp/FacultySignUp";
 import FacultyPage from "./Pages/Faculty/DashBoard/FacultyPage";
 import FacultyBookPublishedPage from "./Pages/Faculty/FacultyBookPublished/FacultyBookPublishedPage";
+import FacultyResearchPpaperAPage from "./Pages/Faculty/FacultyResearchPpaperA/FacultyResearchPpaperAPage";
+import FacultyResearchPpaperBPage from "./Pages/Faculty/FacultyResearchPpaperB/FacultyResearchPpaperBPage";
+import FacultyResearchPpaperCPage from "./Pages/Faculty/FacultyResearchPpaperC/FacultyResearchPpaperCPage";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -31,14 +34,18 @@ const AppRouter = () => {
           <Route path="/editAcc" element={<Home />} />
           <Route path="/viewdata" element={<Student />} />
           {/* <Route path="/student" element={<Student />} /> */}
-          <Route path="/moderator" element={<ModeratorComp />} />
+          {/* <Route path="/moderator" element={<ModeratorComp />} /> */}
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />
           <Route path="/moderator/viewdata" element={< BookPublishedPage/>} />
-          <Route path="/moderator/pendingrequests" element={< PendingRequests/>} />
+          {/* <Route path="/moderator/pendingrequests" element={< PendingRequests/>} /> */}
           <Route path="/faculty/dashboard" element={< FacultyPage/>} />
           <Route path="/faculty/viewbookpublished" element={< FacultyBookPublishedPage/>} />
+          <Route path="/faculty/researchpapergradea" element={< FacultyResearchPpaperAPage/>} />
+          <Route path="/faculty/researchpapergradeb" element={< FacultyResearchPpaperBPage/>} />
+          <Route path="/faculty/researchpapergradec" element={< FacultyResearchPpaperCPage/>} />
+
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
           
           <Route path="/changepassword" element={<ChangePassword />} />

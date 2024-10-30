@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
-import FacultyCardBP from './FacultyCardBP'
+// import FacultyCardBP from './FacultyCardBP'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
+import FacultyResearchPpaperCCard from './FacultyResearchPpaperCCard'
 
-function FacultyBookPublished() {
+function FacultyResearchPpaperC() {
     const BpNumber=30
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData]= useState([])
@@ -27,13 +28,14 @@ function FacultyBookPublished() {
             const response= await getReq('api/v1/document/getAllPublications',
                 accessToken
             )
+
             const arr=[]
             if(response.success){
                 console.log(response.data.data)
 
                 response.data.data.map(
                     (data)=>{
-                       if( data.publicationType==="Book")
+                       if( data.publicationGrade==="Grade-C")
                         arr.push(data)
                     }
                 )
@@ -105,7 +107,7 @@ function FacultyBookPublished() {
         <div className={`shadow-2xl rounded-md p-4 md:p-8 ${BpNumber <= 8 ? 'h-[600px] md:h-[800px]' : 'h-auto'}`}>
             <div className="text-[1.5rem] md:text-[2rem] font-[500] flex items-center mb-6 md:mb-10 gap-2">
                 <FaBookBookmark className="text-[1.5rem] md:text-[2rem] text-[#03A8FD]" />
-                Book Published
+                Research Paper Grade B
             </div>
 
 
@@ -115,7 +117,7 @@ function FacultyBookPublished() {
                 <FacultyCardBP status="rejected" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" /> */}
                 {
                     data?.map((item, index) => (
-                        <FacultyCardBP key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} />
+                        <FacultyResearchPpaperCCard key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} />
                     ))
                 }
 
@@ -135,4 +137,4 @@ function FacultyBookPublished() {
   )
 }
 
-export default FacultyBookPublished
+export default FacultyResearchPpaperC

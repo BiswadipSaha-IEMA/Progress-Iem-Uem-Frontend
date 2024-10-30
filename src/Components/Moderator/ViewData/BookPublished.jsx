@@ -39,12 +39,12 @@ function BookPublished() {
   const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
   const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
     useState(null);
-  const [originalData] = useState(bookDataArrState);
+  // const [originalData] = useState(bookDataArrState);
   const [bpPopUp, setBpPopUp] = useState(false);
   const [raPopUp, setRaPopUp] = useState(false);
   const [rbPopUp, setRbPopUp] = useState(false);
   const [rcPopUp, setRcPopUp] = useState(false);
-  const [filteredRecords, setFilteredRecords] = useState(false);
+  // const [filteredRecords, setFilteredRecords] = useState(false);
   const navigate = useNavigate();
 
   const defaultOptions = {

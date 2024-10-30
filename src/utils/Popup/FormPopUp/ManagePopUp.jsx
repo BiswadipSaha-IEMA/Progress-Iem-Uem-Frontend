@@ -189,8 +189,17 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
       }));
     }
 
+
     console.log(arrOfStreams);
   };
+
+  // useEffect (()=> {
+  //   setModeratorData((prevData) => ({
+  //       ...prevData,
+  //       department: arrOfModeratorStreams,
+  //     }));
+  //     console.log(arrOfModeratorStreams);
+  // },[arrOfModeratorStreams]) 
 
   //for faculty form
   const arrOfFacultyStreams = [];

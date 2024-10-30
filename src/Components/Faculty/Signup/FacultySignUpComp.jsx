@@ -80,14 +80,14 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="flex min-h-[100vh] sm:flex-row flex-col sm:ml-0 overflow-hidden">
+    <div className="flex sm:flex-row flex-col sm:ml-0 overflow-hidden h-screen">
       <div className="w-1/2 sm:block hidden relative ml-2">
         <img
           src={loginPic}
           alt="login" 
           className="h-[100vh] w-[100vw] lg:w-[50rem] p-8 object-cover rounded-[3rem]"
         />
-        <div className="absolute inset-0 left-[-0.3rem] text-4xl text-white p-20">
+        <div className="absolute inset-0 left-[-0.3rem] text-[2.25rem] leading-10 md:text-[1.8rem] md:leading-10 text-white p-20">
           <div className="font-semibold pr-24 font-poppins">Get Started</div>
           <div className="font-semibold mb-2 pr-24 font-poppins">Create Your Account</div>
           <div className="text-lg 2xl:text-xl max-w-[400px] pr-16 2xl:max-w-[600px] font-poppins">
@@ -96,15 +96,16 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
           </div>
         </div>
       </div>
-      <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] ">
-        <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full xs:w-[24rem] pr-[8rem] sm:pr-0">
-        <div className="flex">
-            <h2 className="font-semibold text-4xl font-poppins">Sign Up as&nbsp;</h2>
-            <h2 className="font-semibold text-4xl text-[#03A8FD] font-poppins">{" "}Faculty</h2>
+      <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative inset-0 mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] lg:block flex justify-center items-center">
+      {/* <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] "> */}
+      <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full xs:w-[24rem] px-5 sm:pr-0 justify-center z-1">
+          <div className="flex lg:flex-row flex-col  items-center lg:gap-0 gap-2">
+            <h2 className="font-semibold lg:text-[2.4rem] text-[2rem] font-poppins">Sign Up as&nbsp;</h2>
+            <h2 className="font-semibold lg:text-[2.4rem] text-[1.5rem] text-[#03A8FD] font-poppins">{" "}Faculty</h2>
           </div>
-          <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-4 w-[100%]" onSubmit={handleSubmit}>
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
+              className="bg-[#F3F3F3] p-3 outline-none rounded-lg placeholder-gray-400 font-poppins lg:text-[1.125rem] text-[1.1rem] lg:min-w-20 min-w-full"
               placeholder="Email Address"
               required
               type="email"
@@ -116,7 +117,7 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
             />
             {/* <div className="flex  items-center gap-3"> */}
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 w-full font-poppins"
+              className="bg-[#F3F3F3] p-3 outline-none rounded-lg placeholder-gray-400 w-full font-poppins lg:text-[1.125rem] text-[1.1rem] lg:min-w-20 min-w-full"
               placeholder=" Old Password"
               required
               type="password"
@@ -131,7 +132,7 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
             >Verify</div>
             </div> */}
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 font-poppins"
+              className="bg-[#F3F3F3] p-3 outline-none rounded-lg placeholder-gray-400 font-poppins lg:text-[1.125rem] text-[1.1rem] lg:min-w-20 min-w-full"
               placeholder="New Password"
               required
               type="password"
@@ -154,7 +155,7 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
             <div className="flex justify-center py-10">
               <button
                 type="submit"
-                className={`bg-[#03A8FD] p-2 min-w-20 text-white rounded-xl w-1/3 font-poppins ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
+                className={`bg-[#03A8FD] p-2 lg:min-w-20 min-w-full text-white rounded-xl w-1/3 font-poppins ${isFormValid?"cursor-pointer":"cursor-not-allowed"}`}
                 disabled={!isFormValid} // Disable button if form is not valid
               >
                 {
@@ -178,7 +179,7 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
               Sign In with Apple
             </button>
           </div> */}
-          <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] font-poppins ">
+          <div className="flex flex-row flex-shrink md:flex-row justify-center text-[#7B7B7B] font-poppins text-[0.95rem] lg:text-[1.2rem] z-10">
             Already have an account?&nbsp;
             <span
               className="text-[#03A8FD] font-[500] cursor-pointer font-poppins"
@@ -189,6 +190,11 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
               Sign In
             </span>
           </div>
+          <img
+          src={decorate}
+          alt="decoration"
+          className="absolute right-[-40vw] bottom-[-44vh] lg:absolute lg:right-[-22rem] 2xl:right-[-30vw] lg:bottom-[-18rem] lg:h-[90vh] object-cover md:hidden lg:block"
+        />
         </div>
       </div>
       <img

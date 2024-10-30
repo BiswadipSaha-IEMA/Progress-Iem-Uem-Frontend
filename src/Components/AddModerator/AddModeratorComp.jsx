@@ -40,22 +40,22 @@ const AddModeratorComp = () => {
       >
         <div className="flex justify-between items-center mt-4">
           <button className={`bg-slate-200 p-2 rounded`} onClick={() => setSidebar(!sidebar)}>
-            <Menu />
+            <Menu size={30}/>
           </button>
           <div className="w-[83%] relative flex items-center ml-4">
             <button className="absolute text-3xl left-2">
-              <CiSearch />
+              <CiSearch size={24}/>
             </button>
             <input className="w-full rounded-lg p-2 pl-12 focus:border-[#03A8FD] focus:shadow-[#03A8FD]" />
             <button className="absolute right-2 text-3xl">
-              <IoIosCloseCircleOutline />
+              <IoIosCloseCircleOutline size={24}/>
             </button>
           </div>
           <button
-            className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg text-base p-4 right-0 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 gap-2"
+            className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg p-4 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 md:gap-2"
             onClick={handleAddUserClick}
           >
-            <span className="hidden lg:block">Add Moderator</span>
+            <span className="hidden lg:inline">Add Moderator</span>
             <div className="text-2xl">
               <RiUserAddFill size={20} />
             </div>

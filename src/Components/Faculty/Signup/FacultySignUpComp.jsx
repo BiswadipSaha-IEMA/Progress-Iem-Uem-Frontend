@@ -193,11 +193,15 @@ function FacultySignUpComp({ email, setEmail, password, setPassword, setHandleLo
           <img
           src={decorate}
           alt="decoration"
-          className="absolute right-[-40vw] bottom-[-44vh] lg:absolute lg:right-[-22rem] 2xl:right-[-30vw] lg:bottom-[-18rem] lg:h-[90vh] object-cover md:hidden lg:block "
+          className="absolute right-[-40vw] bottom-[-44vh] lg:absolute lg:right-[-22rem] 2xl:right-[-30vw] lg:bottom-[-18rem] lg:h-[90vh] object-cover md:hidden lg:block"
         />
         </div>
-        
       </div>
+      <img
+        src={decorate}
+        alt="decoration"
+        className="absolute inset right-0 bottom-0 z-[-22] object-cover"
+      />
       {forgetPassword && (
         <ForgetPassword setForgetPassword={setForgetPassword} />
       )}

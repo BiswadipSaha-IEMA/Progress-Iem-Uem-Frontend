@@ -1286,9 +1286,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
             </div>
           </div>
         </>
-      ) : (
+      ) : 
         <></>
-      )}
+      }
     </>
   );
 };

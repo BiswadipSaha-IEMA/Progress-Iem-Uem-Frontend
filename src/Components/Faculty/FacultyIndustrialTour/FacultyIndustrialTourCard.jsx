@@ -1,6 +1,6 @@
 import React from "react";
 
-function FacultyIndustrialTourCard({status, title, date, name, ISBN}) {
+function FacultyIndustrialTourCard({status, title,organizedBy, date, industryName, attendedBy}) {
   return (
     <div className="w-full md:w-[400px] lg:w-[400px] h-[280px] md:h-[230px] lg:h-[230px] shadow-2xl rounded-2xl flex flex-col items-center p-4 md:p-6 lg:p-8">
 
@@ -35,15 +35,21 @@ function FacultyIndustrialTourCard({status, title, date, name, ISBN}) {
     <hr className="mb-4 w-full" />
 
     <div className="w-full">
-        <div className="mb-2 font-medium text-sm md:text-base">
-            Published Date: <span className="text-[#999999] font-normal">{date}</span>
+    <div className="mb-2 font-medium text-sm md:text-base">
+            Organized By: <span className="text-[#999999] font-normal">{organizedBy}</span>
         </div>
         <div className="mb-2 font-medium text-sm md:text-base">
-            Conference Name: <span className="text-[#999999] font-normal">{name}</span>
+             Date: <span className="text-[#999999] font-normal">{date}</span>
         </div>
         <div className="mb-2 font-medium text-sm md:text-base">
+            Industry Name: <span className="text-[#999999] font-normal">{industryName}</span>
+        </div>
+        <div className="mb-2 font-medium text-sm md:text-base">
+            Attended By: <span className="text-[#999999] font-normal">{attendedBy}</span>
+        </div>
+        {/* <div className="mb-2 font-medium text-sm md:text-base">
             ISBN/ISSN No: <span className="text-[#999999] font-normal">{ISBN}</span>
-        </div>
+        </div> */}
     </div>
 </div>
 

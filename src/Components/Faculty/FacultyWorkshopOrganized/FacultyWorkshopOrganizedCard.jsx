@@ -1,6 +1,6 @@
 import React from "react";
 
-function FacultyWorkshopOrganizedCard({status, title, date, name, ISBN}) {
+function FacultyWorkshopOrganizedCard({status, title, date, name, organizedBy}) {
   return (
     <div className="w-full md:w-[400px] lg:w-[400px] h-[280px] md:h-[230px] lg:h-[230px] shadow-2xl rounded-2xl flex flex-col items-center p-4 md:p-6 lg:p-8">
 
@@ -36,14 +36,17 @@ function FacultyWorkshopOrganizedCard({status, title, date, name, ISBN}) {
 
     <div className="w-full">
         <div className="mb-2 font-medium text-sm md:text-base">
-            Published Date: <span className="text-[#999999] font-normal">{date}</span>
+            Organized Date: <span className="text-[#999999] font-normal">{date}</span>
         </div>
         <div className="mb-2 font-medium text-sm md:text-base">
-            Conference Name: <span className="text-[#999999] font-normal">{name}</span>
+            Workshop Name: <span className="text-[#999999] font-normal">{name}</span>
         </div>
         <div className="mb-2 font-medium text-sm md:text-base">
+            Organizing Institute: <span className="text-[#999999] font-normal">{organizedBy}</span>
+        </div>
+        {/* <div className="mb-2 font-medium text-sm md:text-base">
             ISBN/ISSN No: <span className="text-[#999999] font-normal">{ISBN}</span>
-        </div>
+        </div> */}
     </div>
 </div>
 

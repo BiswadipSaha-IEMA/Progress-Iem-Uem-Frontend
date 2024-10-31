@@ -22,6 +22,7 @@ import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
 import Lottie from "react-lottie";
 import { useGetReq } from "../../hooks/useHttp";
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
+import WorkshopOrganized from "../../utils/Popup/FormPopUp/WorkshopOrganized";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
   const [recordsOfGA, setRecordsOfGA] = useState([]);
   const [recordsOfGB, setRecordsOfGB] = useState([]);
-  const [recordsOfGC, setRecordsOfGC] = useState([]);
+  const [recordsOfGC, setRecordsOfGC] = useState([]);   
   const [recordsOfWorkshop, setRecordsOfWorkshop] = useState([]);
   const [recordsOfIndustrialTour, setRecordsOfIndustrialTour] = useState([]);
   const [getReq] = useGetReq();
@@ -41,7 +42,7 @@ function StudentComp() {
   const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
   const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
     useState(null);
-  const [originalData] = useState(bookDataArrState);
+  const [originalData] = useState(bookDataArrState);  
   const [bpPopUp, setBpPopUp] = useState(false);
   const [raPopUp, setRaPopUp] = useState(false);
   const [rbPopUp, setRbPopUp] = useState(false);
@@ -52,7 +53,7 @@ function StudentComp() {
   const navigate = useNavigate();
 
   const defaultOptions = {
-    loop: false,
+    loop: true,
     autoplay: true,
     animationData: NoFilesPresent,
     rendererSettings: {
@@ -373,19 +374,6 @@ function StudentComp() {
   const columnsWorkshop = [
     {
       name: (
-        <div className="w-full select-none flex justify-center text-[16px]">
-          Sl. No.
-        </div>
-      ),
-      cell: (row) => (
-        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
-        </div>
-      ),
-      sortable: true, 
-    },
-    {
-      name: (
         <div className="w-full select-none flex justify-center">
           Organizing Institute
         </div>
@@ -663,7 +651,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfBp.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -694,7 +682,7 @@ function StudentComp() {
             />
           )}
         </div>
-        {recordsOfBp?.length > 1 && (
+        {recordsOfBp?.length > 2 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
@@ -771,7 +759,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGA.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -879,7 +867,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGB.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -987,7 +975,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGC.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -1035,6 +1023,8 @@ function StudentComp() {
         )}
       </div>
 
+      {/* Workshop Organized / Attended */}
+
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -1048,7 +1038,7 @@ function StudentComp() {
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
               className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearchRc}
+              onChange={handleSearchWorkshop}
               placeholder="Search with Name or ISS..."
             />
           </div>
@@ -1090,9 +1080,9 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {recordsOfGC.length === 0 ? (
+          {recordsOfWorkshop.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -1124,7 +1114,7 @@ function StudentComp() {
           )}
         </div>
 
-        {recordsOfGC?.length > 2 && (
+        {recordsOfWorkshop?.length > 2 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
@@ -1139,6 +1129,10 @@ function StudentComp() {
           </div>
         )}
       </div>
+
+
+      {/* Industrial Tour ( Real / Virtual) */}
+
 
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
@@ -1197,7 +1191,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGC.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+               <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -1274,6 +1268,13 @@ function StudentComp() {
           takeData={[columns, recordsOfGC]}
         />
       )}
+      {/* {showPopup && (
+        <ManagePopUp
+          setUtilFor={"setUtilFor"}
+          setPopupShow={setShowPopup}
+          takeData={[columnsWorkshop, recordsOfWorkshop]}
+        />
+      )} */}
       {/* {workshopPopUp && (
         <ManagePopUp
           setUtilFor={"viewWorkshopTable"}

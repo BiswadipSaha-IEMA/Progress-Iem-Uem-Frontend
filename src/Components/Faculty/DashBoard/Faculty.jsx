@@ -43,6 +43,11 @@ export default function Faculty() {
               (publication) => publication.publicationType === "Research Paper"
             )
           );
+          // setWorkOrg(
+          //   response.data.data.filter(
+          //     (publication) => publication.publicationType === "Book"
+          //   )
+          // );
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -61,26 +66,38 @@ export default function Faculty() {
     }
     //Workshop Organized
     const getWorkInfo= async()=>{
-      try{
-        const response= await getReq("api/v1/document/getAllMoocs", accessToken)
-        console.log(response)
-        if(response.success){
-          setWorkOrg(response.data.data)  
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          const arr=[]
+          const filteredData= response.data.data.map((dt)=>{
+            if(dt.eventType==="Workshop")
+              arr.push(dt)
+          })
+
+          setWorkOrg(arr);
         }
-      }catch(error){
-        console.error("Error fetching data:", error)
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
       }
     }
 
     const getIndTour= async()=>{
-      try{
-        const response= await getReq("api/v1/document/getAllMoocs", accessToken)
-        console.log(response)
-        if(response.success){
-          setIndTour(response.data.data)  
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          const arr=[]
+          const filteredData= response.data.data.map((dt)=>{
+            if(dt.eventType==="Industrial Tour")
+              arr.push(dt)
+          })
+
+          setIndTour(arr);
         }
-      }catch(error){
-        console.error("Error fetching data:", error)
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
       }
     }
     
@@ -147,17 +164,19 @@ export default function Faculty() {
     },
     {
       title: "Workshop Organized",
-      details: WorkOrg.map((paper) => ({
-        title: paper.topicName,
-        status: paper.status,
-      })),
+      details: WorkOrg
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
     },
     {
       title: "Industrial Tour",
-      details: WorkOrg.map((paper) => ({
-        title: paper.topicName,
-        status: paper.status,
-      })),
+      details: IndTour
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
     },
 
   ];

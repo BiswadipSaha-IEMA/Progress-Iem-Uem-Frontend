@@ -8,9 +8,9 @@ import { TbEdit } from "react-icons/tb";
 const MemberCard = ({role,data}) => {
 
     return (
-        <div className='m-4 pb-4 rounded-lg lg:w-[400px] md:w-[300px] min-w-[200px]' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}>
+        <div className= ' m-4 pb-4 rounded-2xl lg:w-[400px] md:w-[300px] min-w-[200px] '  style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}>
             <div className="ml-6 p-3">
-                <div className="flex justify-end">
+                <div className="flex justify-start">
                     <button className='bg-[#03A8FD] p-2 rounded-lg flex items-center gap-2'>
                         <div className="text-2xl text-[#fff]"><TbEdit /></div>
                         <div className='text-[#fff]'>Edit</div>

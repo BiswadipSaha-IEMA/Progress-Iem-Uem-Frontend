@@ -170,13 +170,13 @@ export default function SuperAdminDashboardComp() {
 
         {/* Account - details Section */}
         <div className="rounded-2xl bg-white p-6 shadow-md flex-grow">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4  ">
         <h2 className="text-xl font-semibold text-cyan-500">Pending Requests</h2>
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
               View all pending requests
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20 m-6">
             {[1, 2, 3].map((_, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
                 <div className="flex justify-between items-center mb-2">

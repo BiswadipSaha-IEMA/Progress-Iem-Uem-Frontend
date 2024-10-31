@@ -9,7 +9,7 @@ import { CiFilter, CiSearch } from "react-icons/ci";
 import { GoSortDesc } from "react-icons/go";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 
-export const PendingRequests = () => {
+const PendingRequests = () => {
     const [formCount, setFormCount] = useState(0);
     const [recordsOfBp, setRecordsOfBp] = useState([]);
     const [pendingData, setPendingData] = useState([]);
@@ -102,3 +102,4 @@ export const PendingRequests = () => {
     </div>
   )
 }
+export default PendingRequests;

@@ -21,6 +21,7 @@ import FacultyBookPublishedPage from "./Pages/Faculty/FacultyBookPublished/Facul
 import FacultyResearchPpaperAPage from "./Pages/Faculty/FacultyResearchPpaperA/FacultyResearchPpaperAPage";
 import FacultyResearchPpaperBPage from "./Pages/Faculty/FacultyResearchPpaperB/FacultyResearchPpaperBPage";
 import FacultyResearchPpaperCPage from "./Pages/Faculty/FacultyResearchPpaperC/FacultyResearchPpaperCPage";
+import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -39,7 +40,7 @@ const AppRouter = () => {
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />
           <Route path="/moderator/viewdata" element={< BookPublishedPage/>} />
-          {/* <Route path="/moderator/pendingrequests" element={< PendingRequests/>} /> */}
+          <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
           <Route path="/faculty/dashboard" element={< FacultyPage/>} />
           <Route path="/faculty/viewbookpublished" element={< FacultyBookPublishedPage/>} />
           <Route path="/faculty/researchpapergradea" element={< FacultyResearchPpaperAPage/>} />

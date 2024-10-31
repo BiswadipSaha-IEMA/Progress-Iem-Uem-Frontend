@@ -9,7 +9,7 @@ export const FacultyCard = ({data}) => {
       <div className="flex sm:items-center justify-between flex-col sm:flex-row gap-4 text-[14px]">
         <div className="bg-[#115476] p-1 w-12 flex justify-center rounded-lg text-[#EEF3F5] font-semibold">CSE</div>
         <div className="bg-[#AEE4FF] p-1 w-28 flex justify-center rounded-lg text-[#51646F] font-semibold">{data.authorType}</div>
-        <div className="bg-[#DCF3FF] p-1 sm:w-48 w-auto flex justify-center rounded-lg  text-[#51646F] font-semibold">{`${data.publicationType?data.publicationType.replace(/\s*Paper\s*/,''):''} ${data.publicationGrade}`}</div>
+        <div className="bg-[#DCF3FF] p-1 sm:w-48 w-auto flex justify-center rounded-lg  text-[#51646F] font-semibold">{`${data.publicationType?data.publicationType.replace(/\s*Paper\s*/,''):''} ${data.publicationGrade?data.publicationGrade:''}`}</div>
       </div>
       <div className="border b-[#BFBFBF] mt-4 mb-4"></div>
       <div className="flex items-center flex-col sm:flex-row gap-6 justify-center mb-2">

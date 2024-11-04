@@ -764,9 +764,9 @@ const [workPopUp, setWorkPopUp] = useState(false);
           SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,
@@ -832,12 +832,12 @@ const [workPopUp, setWorkPopUp] = useState(false);
     {
       name: (
         <div className="w-full select-none flex justify-center text-[16px]">
-          Sl. No.
+          SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,

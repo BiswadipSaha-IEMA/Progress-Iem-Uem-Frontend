@@ -8,7 +8,7 @@ import { FaBookBookmark } from 'react-icons/fa6'
 // Importing custom hooks and components
 import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
-import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
+import IndustrialTour from '../../../utils/Popup/FormPopUp/IndustrialTour'
 import FacultyIndustrialTourCard from './FacultyIndustrialTourCard'
 
 // Main component to display and manage organized workshops
@@ -103,10 +103,10 @@ function FacultyIndustrialTourComp() {
                                     key={index} // Key for unique mapping
                                     status={item.status} // Status of workshop
                                     title={item.topicName} // Workshop title
-                                    organizedBy={item.topicName}
+                                    organizedBy={item.organizedBy}
                                     date={item.date} // Date of workshop
-                                    industryName={item.industryName} // Organizer's name
-                                    attendedBy={item.topicName} // Topic name for display
+                                    industryName={item.topicName} // Organizer's name
+                                    attendedBy={item.attendedBy} // Topic name for display
                                     // ISBN={item.isbn} // Uncomment if ISBN needed
                                 />
                             ))
@@ -116,7 +116,7 @@ function FacultyIndustrialTourComp() {
             </div>
 
             {/* Conditional rendering of popup form for adding a new workshop */}
-            {showPopUp && <WorkshopOrganized
+            {showPopUp && <IndustrialTour
                 setUtilFor={'bpAddForm'}
                 setShowPopup={setShowPopUp}
             />}

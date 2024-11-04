@@ -4,12 +4,12 @@ import { RxCross2 } from "react-icons/rx";
 import { usePostReq } from "../../../hooks/useHttp";
 import "./styles.css";
 
-function WorkshopOrganized({ setUtilFor, setShowPopup }) {
+function IndustrialTour({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [formData, setFormData] = useState({
-    OrganizingInstitute: "",
-    Name: "",
+    OrganizedBy: "",
     Date: "",
+    IndustryName: "",
     AttendedBy: "",
   });
 
@@ -28,9 +28,9 @@ function WorkshopOrganized({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createPublication",
       {
-        OrganizingInstitute: formData.OrganizingInstitute,
-        Name: formData.Name,
+        OrganizedBy: formData.OrganizedBy,
         Date: formData.Date,
+        IndustryName: formData.IndustryName,
         AttendedBy: formData.AttendedBy,
  
       },
@@ -39,13 +39,12 @@ function WorkshopOrganized({ setUtilFor, setShowPopup }) {
     if (response.success) setShowPopup(false);
   };
 
- 
   const handleClose = () => {
     setFormData({
-      OrganizingInstitute: "",
-      Name: "",
-      Date: "",
-      AttendedBy: "",
+        OrganizedBy: "",
+        Date: "",
+        IndustryName: "",
+        AttendedBy: "",
     });
     console.log("Form closed");
   };
@@ -61,17 +60,17 @@ function WorkshopOrganized({ setUtilFor, setShowPopup }) {
             <RxCross2 className="text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6 pl-4">
-            Workshop Organization Form
+            Industrial Tour Form
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-gray-600 font-medium mb-1">
-                Organizing Institute
+                Organized By
               </label>
               <input
                 type="text"
                 name="OrganizingInstitute"
-                value={formData.OrganizingInstitute}
+                value={formData.OrganizedBy}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
                 required
@@ -79,12 +78,12 @@ function WorkshopOrganized({ setUtilFor, setShowPopup }) {
             </div>
             <div>
               <label className="block text-gray-600 font-medium mb-1">
-                Name
+                Industry Name
               </label>
               <input
                 type="text"
                 name="Name"
-                value={formData.Name}
+                value={formData.IndustryName}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
                 required
@@ -131,4 +130,4 @@ function WorkshopOrganized({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default WorkshopOrganized;
+export default IndustrialTour;

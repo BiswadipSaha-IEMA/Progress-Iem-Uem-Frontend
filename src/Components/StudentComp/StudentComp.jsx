@@ -53,6 +53,14 @@ function StudentComp() {
   const [seminarOrg, setSeminarOrg] = useState([]);
   const [seminarArrState, setSeminarArrState] = useState([]);
   const [seminarPopUp, setSeminarPopUp] = useState(false);
+
+  const [patentOrg, setPatentOrg] = useState([]);
+  const [patentArrState, setPatentArrState] = useState([]);
+  const [patentPopUp, setPatentPopUp] = useState(false);
+
+
+
+
   const navigate = useNavigate();
 
 
@@ -142,6 +150,39 @@ const [workPopUp, setWorkPopUp] = useState(false);
   useEffect(() => {
     if (confOrg) console.log("uhgduiochnijmcp;okmokmok,opl,p",confOrg);
   }, [confOrg]);
+
+  useEffect(() => {
+    const patentDataFunc = async () => {
+      try {
+        const seminarData = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
+        console.log("sgdbkdbcknc", seminarData);
+
+        let arr=[]
+
+        if (seminarData) {
+          const filteredItems = seminarData.data.data.map(
+            (item) => {
+              if(item.eventType === "Patent")
+                arr.push(item)
+
+              console.log(item)
+              
+              }
+
+          );
+          setPatentArrState(arr);
+          setPatentOrg(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching seminar data:", error);
+      }
+    };
+
+    patentDataFunc();
+  }, []);
 
 
   
@@ -938,6 +979,108 @@ const [workPopUp, setWorkPopUp] = useState(false);
       selector: row => row.status,
     },
   ];
+
+    //patent
+    const columnsPatent = [
+      {
+        name: (
+          <div className="w-full select-none flex justify-center text-[16px]">
+            SL. No.
+          </div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+            {row.serial}
+          </div>
+        ),
+        sortable: true,
+      },
+      {
+        name: <div className="w-full select-none flex justify-center">Name</div>,
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.name}
+          </div>
+        ),
+        sortable: true,
+      },
+      {
+        name: (
+          <div className="w-full h-full overflow-hidden flex-wrap select-none flex justify-center items-center">
+            Department
+          </div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.department}
+          </div>
+        ),
+      },
+      {
+        name: (
+          <div className="w-full select-none flex justify-center">Name</div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.name}
+          </div>
+        ),
+      },
+      {
+        name: (
+          <div className="w-full select-none flex justify-center">Designation</div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.designation}
+          </div>
+        ),
+      },
+      {
+        name: (
+          <div className="w-full select-none flex justify-center">Topic name</div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.topicName}
+          </div>
+        ),
+      },
+      {
+        name: (
+          <div className="w-full select-none flex justify-center">Date of Filling</div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.date}
+          </div>
+        ),
+      },
+      {
+        name: (
+          <div className="w-full select-none flex justify-center">
+            National/International
+          </div>
+        ),
+        cell: (row) => (
+          <div className="w-full select-none flex justify-center items-center text-gray-800">
+            {row.date}
+          </div>
+        ),
+      },
+      // {
+      //   name: (
+      //     <div className="w-full select-none flex justify-center">
+      //       Submitted Forms
+      //     </div>
+      //   ),
+      //   cell: (row) => (
+      //     <div className="w-full select-none flex justify-center items-center text-blue-500">
+      //       {row.submitted}
+      //     </div>
+      //   ),
+      // },
+    ];
 
   //seminar organized
   const columnsSeminar = [
@@ -2314,6 +2457,113 @@ const [workPopUp, setWorkPopUp] = useState(false);
         </div>
 
         {seminarOrg.length > 1 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+          <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+          <div
+            className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+            onClick={() => {
+              setSeminarPopUp(true);
+            }}
+          >
+            <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+            <div className="text-[#fff]">View Full Data</div>
+          </div>
+        </div>
+        )}
+      </div>
+
+
+
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+              Patents
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              onChange={handleSearchSeminar}
+              placeholder="Search with Topic Name"
+            />
+          </div>
+        </div>
+
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
+              onClick={handleCloseCalendar}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* DataTable Container */}
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
+          {(patentOrg.length) === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Lottie options={defaultOptions} height={150} width={150} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Records Found
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsPatent }
+              data={patentOrg}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-0" // Adjust this if needed
+            />
+          )}
+        </div>
+
+        {patentOrg.length > 1 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
           <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
           <div

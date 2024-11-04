@@ -132,6 +132,7 @@ export default function Faculty() {
     {
       title: "Talks and Distinguished Lecture Series",
       details: Lecture
+      .filter(paper => paper.eventType === "Lecture")
         .map((paper) => ({
           title: paper.topicName,
           status: paper.status,

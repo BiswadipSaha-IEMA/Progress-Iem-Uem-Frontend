@@ -30,6 +30,7 @@ function StudentComp() {
   const [recordsOfGA, setRecordsOfGA] = useState([]);
   const [recordsOfGB, setRecordsOfGB] = useState([]);
   const [recordsOfGC, setRecordsOfGC] = useState([]);
+  const [recordsOfConf, setrecordsOfConf] = useState([]);
   const [getReq] = useGetReq();
   const [storeData, setStoreData] = useState(null);
   const bookDataArr = [];
@@ -37,6 +38,7 @@ function StudentComp() {
   const [gradeADataArrState, setGradeADataArrState] = useState(null);
   const [gradeBDataArrState, setGradeBDataArrState] = useState(null);
   const [gradeCDataArrState, setGradeCDataArrState] = useState(null);
+  const [confDataArrState, setConfDataArrState] = useState(null);
   const [bookDataSubmittedArrState, setBookDataSubmittedArrState] =
     useState(null);
   const [originalData] = useState(bookDataArrState);
@@ -44,11 +46,12 @@ function StudentComp() {
   const [raPopUp, setRaPopUp] = useState(false);
   const [rbPopUp, setRbPopUp] = useState(false);
   const [rcPopUp, setRcPopUp] = useState(false);
+  const [confpopup, setConfPopUp] = useState(false);
   const [filteredRecords, setFilteredRecords] = useState(false);
   const navigate = useNavigate();
 
   const defaultOptions = {
-    loop: false,
+    loop: true,
     autoplay: true,
     animationData: NoFilesPresent,
     rendererSettings: {
@@ -134,6 +137,16 @@ function StudentComp() {
 
     if (gradeCDataArrState !== null) console.log(gradeCDataArrState);
   }, [storeData]);
+  useEffect(() => {
+    if (storeData !== null) {
+      const ConfData = storeData.filter(
+        (item) => item.eventType === "Conference"
+      );
+      setConfDataArrState(ConfData);
+    }
+
+    if (confDataArrState !== null) console.log(confDataArrState);
+  }, [storeData]);
 
   useEffect(() => {
     if (gradeBDataArrState !== null) setRecordsOfGB(gradeBDataArrState);
@@ -142,6 +155,9 @@ function StudentComp() {
   useEffect(() => {
     if (gradeCDataArrState !== null) setRecordsOfGC(gradeCDataArrState);
   }, [gradeCDataArrState]);
+  useEffect(() => {
+    if (confDataArrState !== null) setrecordsOfConf(confDataArrState);
+  }, [confDataArrState]);
 
   useEffect(() => {
     if (storeData !== null) {
@@ -165,6 +181,13 @@ function StudentComp() {
     setRecordsOfBp(recordsOfBp);
     if (recordsOfBp === "") setRecordsOfBp(bookDataArrState);
   }, [recordsOfBp]);
+  useEffect(() => {
+    console.log("====================================");
+    console.log("hvbvikhoigbuyfybukbj", recordsOfConf);
+    console.log("====================================");
+    setrecordsOfConf(recordsOfBp);
+    if (recordsOfConf === "") setrecordsOfConf(confDataArrState);
+  }, [recordsOfConf]);
 
   // useEffect(()=>{
   //   if(bookDataArr!==null && bookDataSubmittedArrState!== null){
@@ -262,7 +285,146 @@ function StudentComp() {
       ),
     },
   ];
+  const columnsConf = [
+    {
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          SL. No.
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+          {row.serial}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Organizing Institute
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.organizedBy}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">Topic Name</div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.topicName}
+        </div>
+      ),
+    },
 
+    {
+      name: <div className="w-full select-none flex justify-center">Date</div>,
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.date}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Attended By
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.attendedBy}
+        </div>
+      ),
+    },
+    // {
+    //   name: (
+    //     <div className="w-full select-none flex justify-center">
+    //       Submitted Forms
+    //     </div>
+    //   ),
+    //   cell: (row) => (
+    //     <div className="w-full select-none flex justify-center items-center text-blue-500">
+    //       {row.submitted}
+    //     </div>
+    //   ),
+    // },
+  ];
+  const columnsTalks = [
+    {
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          SL. No.
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+          {row.serial}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Personality Name and Organization
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.organizedBy}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: <div className="w-full select-none flex justify-center">Date</div>,
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.date}
+        </div>
+      ),
+    },
+
+    {
+      name: <div className="w-full select-none flex justify-center">Topic</div>,
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.attendedBy}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Attended By
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.attendedBy}
+        </div>
+      ),
+    },
+    // {
+    //   name: (
+    //     <div className="w-full select-none flex justify-center">
+    //       Submitted Forms
+    //     </div>
+    //   ),
+    //   cell: (row) => (
+    //     <div className="w-full select-none flex justify-center items-center text-blue-500">
+    //       {row.submitted}
+    //     </div>
+    //   ),
+    // },
+  ];
   const columns = [
     {
       name: (
@@ -418,6 +580,23 @@ function StudentComp() {
     setRecordsOfGC(filteredData);
     if (searchValue === "") setRecordsOfGC(gradeCDataArrState);
   };
+  const handleSearchConf = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
+
+    if (searchValue === "") {
+      // Reset to the original data if the search input is empty
+      setrecordsOfConf(gradeCDataArrState);
+    } else {
+      // Filter the original records based on the search value
+      const filteredData = gradeCDataArrState.filter((row) =>
+        row.name.toLowerCase().includes(searchValue)
+      );
+      setrecordsOfConf(filteredData);
+    }
+  };
 
   const [currentMonth, setCurrentMonth] = useState(
     new Date().toLocaleString("default", { month: "long" })
@@ -525,7 +704,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfBp.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -556,7 +735,7 @@ function StudentComp() {
             />
           )}
         </div>
-        {recordsOfBp?.length > 1 && (
+        {recordsOfBp?.length > 2 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
@@ -633,7 +812,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGA.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -741,7 +920,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGB.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -849,7 +1028,7 @@ function StudentComp() {
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
           {recordsOfGC.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
@@ -896,12 +1075,117 @@ function StudentComp() {
           </div>
         )}
       </div>
+      {/* Conference*/}
       <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Conference 
+              Conference
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              onChange={handleSearchConf}
+              placeholder="Search with Name or ISS..."
+            />
+          </div>
+        </div>
+
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
+              onClick={handleCloseCalendar}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* DataTable Container */}
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
+          {recordsOfConf.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Lottie options={defaultOptions} height={200} width={200} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Records Found
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsConf}
+              data={recordsOfConf}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-0"
+            />
+          )}
+        </div>
+
+        {recordsOfConf.length > 3  && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none" />
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => setConfPopUp(true)}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Talks and Distinguished Lecture Series */}
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+              Talks and Distinguished Lecture Series
             </div>
           </div>
 
@@ -951,17 +1235,17 @@ function StudentComp() {
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {recordsOfGC.length === 0 ? (
+          {recordsOfConf.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
+              <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
                 No Records Found
               </div>
             </div>
           ) : (
             <DataTable
-              columns={columns}
-              data={recordsOfGC}
+              columns={columnsTalks}
+              data={recordsOfConf}
               defaultSortField="serial"
               defaultSortAsc={true}
               customStyles={{
@@ -985,111 +1269,7 @@ function StudentComp() {
           )}
         </div>
 
-        {recordsOfGC?.length > 2 && (
-          <div className="h-[50px] flex justify-center items-center rounded-md relative">
-            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
-            <div
-              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
-              onClick={() => {
-                setRcPopUp(true);
-              }}
-            >
-              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
-              <div className="text-[#fff]">View Full Data</div>
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-          <div className="flex items-center gap-5 mb-4 sm:mb-0">
-            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
-            <div className="text-[20px] sm:text-[25px] font-semibold">
-            Talks and Distinguished Lecture Series
-            </div>
-          </div>
-
-          <div className="relative w-full sm:w-auto">
-            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
-            <input
-              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearchRc}
-              placeholder="Search with Name or ISS..."
-            />
-          </div>
-        </div>
-
-        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
-          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
-            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
-          </div>
-
-          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
-            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
-            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
-              Sort: Chronological
-            </div>
-          </div>
-
-          <div
-            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
-            onClick={() => setCalendarShow(true)}
-          >
-            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
-              {currentMonth}
-            </div>
-          </div>
-
-          {calendarShow && (
-            <div
-              id="calendar-overlay"
-              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
-              onClick={handleCloseCalendar}
-            >
-              <div className="bg-white p-4 rounded-lg shadow-lg">
-                <Calendar onChange={onDateChange} />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* DataTable Container */}
-        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {recordsOfGC.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full">
-              <Lottie options={defaultOptions} height={150} width={150} />
-              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
-                No Records Found
-              </div>
-            </div>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={recordsOfGC}
-              defaultSortField="serial"
-              defaultSortAsc={true}
-              customStyles={{
-                headCells: {
-                  style: {
-                    backgroundColor: "#def4ff",
-                    color: "#333",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  },
-                },
-                headRow: {
-                  style: {
-                    backgroundColor: "#def4ff",
-                    border: "none",
-                  },
-                },
-              }}
-              className="mt-0" // Adjust this if needed
-            />
-          )}
-        </div>
-
-        {recordsOfGC?.length > 2 && (
+        {recordsOfConf?.length > 2 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
@@ -1124,6 +1304,13 @@ function StudentComp() {
           setUtilFor={"viewRBTable"}
           setPopupShow={setRbPopUp}
           takeData={[columns, recordsOfGB]}
+        />
+      )}
+      {rcPopUp && (
+        <ManagePopUp
+          setUtilFor={"viewRCTable"}
+          setPopupShow={setRcPopUp}
+          takeData={[columns, recordsOfGC]}
         />
       )}
       {rcPopUp && (

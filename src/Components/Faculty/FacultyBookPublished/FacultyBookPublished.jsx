@@ -9,7 +9,7 @@ import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
 
 function FacultyBookPublished() {
-    const BpNumber=30
+    const [bpNumber, setBpNumber]= useState(0)
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData]= useState([])
     const [data1, setData1]= useState([])
@@ -29,9 +29,17 @@ function FacultyBookPublished() {
             )
             if(response.success){
                 console.log(response.data)
-                setData(response.data.data)
-                setData1(response.data.data)
+                const arr=[]
+                const filteredData= response.data.data.map((dt)=>{
+                    if(dt.publicationType==="Book")
+                        arr.push(dt)
+                })
+                setData(arr)
+                setData1(arr)
+                setBpNumber(arr.length)
             } 
+
+
 
 
            } catch (error) {
@@ -87,7 +95,7 @@ function FacultyBookPublished() {
 
 
     <div className="w-full p-4 md:p-8 pt-0">
-        <div className={`shadow-2xl rounded-md p-4 md:p-8 ${BpNumber <= 8 ? 'h-[600px] md:h-[800px]' : 'h-auto'}`}>
+        <div className={`shadow-2xl rounded-md p-4 md:p-8 ${bpNumber <= 4 ? 'h-[400px] lg:h-[800px] md:h-[700px]' : 'h-auto'}`}>
             <div className="text-[1.5rem] md:text-[2rem] font-[500] flex items-center mb-6 md:mb-10 gap-2">
                 <FaBookBookmark className="text-[1.5rem] md:text-[2rem] text-[#03A8FD]" />
                 Book Published

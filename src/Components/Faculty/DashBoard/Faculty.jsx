@@ -290,32 +290,35 @@ export default function Faculty() {
         </button>
       </div>
       <div
-        className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 overflow-y-scroll ${
+        className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 overflow-y-scroll bg-[#EFEFEF] ${
           showProfile
             ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]"
             : "lg:w-full lg:ml-0"
         } `}
       >
-        <div className="flex justify-center items-center relative rounded-lg">
+        <div className="flex justify-center items-center relative rounded-lg ">
           <div className="flex justify-center items-center text-[4.375rem] font-bold text-[#437F9E] absolute">
             <h1>FACULTY</h1>
           </div>
           <img src={rolebg} alt="img" className="object-cover w-full h-full" />
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
-              className="bg-[#fff] rounded-lg p-[1.5rem] flex flex-col gap-3"
+              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80"
             >
-              <div className="flex justify-between items-center">
-                <div className="flex justify-center items-center gap-2">
-                  <FaBookBookmark className="text-blue-700 w-[2rem] h-[2rem]" />
-                  <h1 className="font-semibold text-[1.5rem]">{item.title}</h1>
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <FaBookBookmark className="text-blue-700 w-6 h-6 sm:w-8 sm:h-8" />
+                  <h1 className="font-semibold text-lg sm:text-xl">
+                    {item.title}
+                  </h1>
                 </div>
-                <button className="bg-[#03A8FD] text-white p-1 rounded-md w-[7rem]"
-                onClick={()=>{
+                <button
+                  className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
+                  onClick={()=>{
                     console.log(item)
                     if(item.title==="Books Published")
                       navigate('/faculty/viewbookpublished')
@@ -347,11 +350,11 @@ export default function Faculty() {
                 return (
                   <div
                     key={index}
-                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2"
+                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base"
                   >
                     <h1>{book.title}</h1>
                     <div
-                      className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-[7rem]`}
+                      className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
                     >
                       {icon}
                       <p className={`${text}`}>{book.status}</p>
@@ -362,6 +365,7 @@ export default function Faculty() {
             </div>
           ))}
         </div>
+
         <Sidebar showProfile={showProfile} />
       </div>
     </div>

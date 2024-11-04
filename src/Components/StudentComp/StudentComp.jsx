@@ -25,6 +25,8 @@ import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SeminarPopUp from "../../utils/Popup/FormPopUp/SeminarPopUp";
+import WorkshopOrganizedPopUp from "../../utils/Popup/FormPopUp/WorkshopOrganizedPopUp";
+import IndustrialTourPopUp from "../../utils/Popup/FormPopUp/IndustrialTourPopUp";
 
 function StudentComp() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
@@ -1134,12 +1136,33 @@ const [workPopUp, setWorkPopUp] = useState(false);
   };
 
   const handleSearchWorkshop = (event) => {
-    // const searchValue = event.target.value.toLowerCase();
-    // const filteredData = recordsOfWorkshop.filter((row) =>
-    //   row.name.toLowerCase().includes(searchValue)
-    // );
-    // setRecordsOfWorkshop(filteredData);
-    // if (searchValue === "") setRecordsOfWorkshop
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
+
+    const filteredData = workOrg.filter((row) =>
+      row.topicName.toLowerCase().includes(searchValue)
+    );
+    console.log("iugcibqb", filteredData)
+    setWorkOrg(filteredData);
+    if (searchValue === "") setWorkOrg(workArrState);
+  };
+
+  
+
+  const handleSearchIndustrial = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    console.log("====================================");
+    console.log(searchValue);
+    console.log("====================================");
+
+    const filteredData = IndusOrg.filter((row) =>
+      row.topicName.toLowerCase().includes(searchValue)
+    );
+    console.log("iugcibqb", filteredData)
+    setIndusOrg(filteredData);
+    if (searchValue === "") setIndusOrg(IndusArrState);
   };
 
 
@@ -1922,13 +1945,13 @@ const [workPopUp, setWorkPopUp] = useState(false);
           )}
         </div>
 
-        {workOrg?.length > 2 && (
+        {workOrg?.length > 1 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
               className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
               onClick={() => {
-                setWorkshopPopUp(true);
+                setWorkPopUp(true);
               }}
             >
               <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
@@ -1955,7 +1978,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
             <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
             <input
               className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
-              onChange={handleSearchWorkshop}
+              onChange={handleSearchIndustrial}
               placeholder="Search with Name or ISS..."
             />
           </div>
@@ -1997,7 +2020,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
 
         {/* DataTable Container */}
         <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
-          {IndusOrg.length === 2 ? (
+          {IndusOrg.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
                <Lottie options={defaultOptions} height={200} width={200} />
               <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
@@ -2031,13 +2054,13 @@ const [workPopUp, setWorkPopUp] = useState(false);
           )}
         </div>
 
-        {IndusOrg?.length > 2 && (
+        {IndusOrg?.length > 1 && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
             <div
               className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
               onClick={() => {
-                setIndusOrg(true);
+                setIndusPopUp(true);
               }}
             >
               <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
@@ -2362,6 +2385,20 @@ const [workPopUp, setWorkPopUp] = useState(false);
           setUtilFor={"viewSeminarTable"}
           setPopupShow={setSeminarPopUp}
           takeData={[columnsSeminar, seminarOrg]}
+        />
+      )}
+      {workPopUp && (
+        <WorkshopOrganizedPopUp
+          setUtilFor={"viewWorkshopTable"}
+          setPopupShow={setWorkPopUp}
+          takeData={[columnsWorkshop, workOrg]}
+        />
+      )}
+      {IndusPopUp && (
+        <IndustrialTourPopUp
+          setUtilFor={"viewindusTable"}
+          setPopupShow={setIndusPopUp}
+          takeData={[columnsIndustrialTour, IndusOrg]}
         />
       )}
     </>

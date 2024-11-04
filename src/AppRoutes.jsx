@@ -21,6 +21,15 @@ import FacultyBookPublishedPage from "./Pages/Faculty/FacultyBookPublished/Facul
 import FacultyResearchPpaperAPage from "./Pages/Faculty/FacultyResearchPpaperA/FacultyResearchPpaperAPage";
 import FacultyResearchPpaperBPage from "./Pages/Faculty/FacultyResearchPpaperB/FacultyResearchPpaperBPage";
 import FacultyResearchPpaperCPage from "./Pages/Faculty/FacultyResearchPpaperC/FacultyResearchPpaperCPage";
+import FacultyConferenceOrganized from './Pages/Faculty/FacultyConferenceOrganized/FacultyConferenceOrganized'
+import Lectureseries from "./Pages/Faculty/Lectureseries/Lectureseries";
+import FacultyWorkshopOrganizedPage from "./Pages/Faculty/FacultyWorkshopOrganized/FacultyWorkshopOrganizedPage";
+import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/FacultyIndustrialTourPage";
+import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
+import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
+import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
+
+
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -45,6 +54,15 @@ const AppRouter = () => {
           <Route path="/faculty/researchpapergradea" element={< FacultyResearchPpaperAPage/>} />
           <Route path="/faculty/researchpapergradeb" element={< FacultyResearchPpaperBPage/>} />
           <Route path="/faculty/researchpapergradec" element={< FacultyResearchPpaperCPage/>} />
+          <Route path="/faculty/viewconferenceorganized" element={< FacultyConferenceOrganized/>} />
+          <Route path="/faculty/viewLecture" element={<Lectureseries/>} />
+          <Route path="/faculty/viewIndustrialTour" element={< FacultyIndustrialTourPage/>} />
+          <Route path="/faculty/viewworkshoporganized" element={< FacultyWorkshopOrganizedPage/>} />
+          <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
+          <Route path="/faculty/viewmooc" element={< FacultyMOOCPage/>} />
+          <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
+   
+
 
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
           

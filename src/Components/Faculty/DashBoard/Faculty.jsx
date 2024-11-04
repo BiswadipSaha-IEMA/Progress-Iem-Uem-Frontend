@@ -13,8 +13,14 @@ import { useNavigate } from "react-router-dom";
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
+  const [ConfOrg, setConfOrg] = useState([]);
+  const [Moocs, setMoocs] = useState([]);
+  const [TriMentor, setTriMentor] = useState([]);
+  const [Lecture, setLecture] = useState([]);
   const [researchData, setResearchData] = useState([]);
   const [seminarData, setSeminarData]= useState([])
+  const [WorkOrg, setWorkOrg] = useState([]);
+  const [IndTour, setIndTour] = useState([]);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate= useNavigate()
 
@@ -46,8 +52,109 @@ export default function Faculty() {
         console.error("Error fetching data:", error);
       }
     };
+
+    const getConfInfo = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setConfOrg(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+  
+    const getLecture = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          setLecture(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching lectures:", error);
+      }
+    };
+
+    const getMoocs = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllMoocs", accessToken);
+        console.log(response);
+        if (response.success) {
+          // const arr=[]
+          // const filteredData= response.data.data.map((dt)=>{
+          //   // if(dt.eventType==="developedModule")
+          //     arr.push(dt)
+          // })
+
+          setMoocs(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+
+    const getTrimentor = async () => {
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          const filteredData= response.data.data.filter((item)=> item.eventType==='Tri-Mentoring')
+          console.log('uhuioshoij',filteredData)
+          setTriMentor(filteredData)
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const getWorkInfo= async()=>{
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          const arr=[]
+          const filteredData= response.data.data.map((dt)=>{
+            if(dt.eventType==="Workshop")
+              arr.push(dt)
+          })
+
+          setWorkOrg(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    }
+
+    const getIndTour= async()=>{
+      try {
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        console.log(response);
+        if (response.success) {
+          const arr=[]
+          const filteredData= response.data.data.map((dt)=>{
+            if(dt.eventType==="Industrial Tour")
+              arr.push(dt)
+          })
+
+          setIndTour(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    }
+  
     
     allInfo();
+    getConfInfo();
+    getLecture();
+    getWorkInfo();
+    getIndTour();
+    getMoocs();
+    getTrimentor();
+
+
   }, [accessToken]);
   
   const groupResearchByGrade = (grade) => {
@@ -84,6 +191,57 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+    {
+      title: "Conference",
+      details: ConfOrg
+        .filter(paper => paper.eventType === "Conference")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
+    {
+      title: "Talks and Distinguished Lecture Series",
+      details: Lecture
+      .filter(paper => paper.eventType === "Lecture")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
+
+    {
+      title: "Workshop Organized",
+      details: WorkOrg
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
+    {
+      title: "Industrial Tour",
+      details: IndTour
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
+    {
+      title: "MOOCs",
+      details: Moocs.map((paper) => ({
+        title: paper.developedModule,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Tri-Mentoring System",
+      details: TriMentor.map((paper) => ({
+        title: paper.organizedBy,
+        status: paper.status,
+      })),
+    },
+
+
   ];
 
   const getStatusStyles = (status) => {
@@ -167,6 +325,18 @@ export default function Faculty() {
                       navigate('/faculty/researchpapergradeb')
                     else if(item.title==='Research Paper Grade C')
                       navigate('/faculty/researchpapergradec')
+                    else if( item.title==="Conference")
+                      navigate('/faculty/viewconferenceorganized')
+                    else if( item.title==="Talks and Distinguished Lecture Series")
+                      navigate('/faculty/viewLecture')
+                    else if(item.title==="Workshop Organized")
+                      navigate('/faculty/viewworkshoporganized')
+                    else if(item.title==="Industrial Tour")
+                      navigate('/faculty/viewIndustrialTour')
+                    else if( item.title==="MOOCs")
+                      navigate('/faculty/viewmooc')
+                    else if( item.title==="Tri-Mentoring System")
+                      navigate('/faculty/viewrtrimentor')
                 }}
                 >
                   View All

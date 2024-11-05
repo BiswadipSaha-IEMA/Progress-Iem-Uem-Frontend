@@ -30,7 +30,6 @@ import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 
 
-
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
   return (
@@ -48,7 +47,7 @@ const AppRouter = () => {
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />
           <Route path="/moderator/viewdata" element={< BookPublishedPage/>} />
-          {/* <Route path="/moderator/pendingrequests" element={< PendingRequests/>} /> */}
+          <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
           <Route path="/faculty/dashboard" element={< FacultyPage/>} />
           <Route path="/faculty/viewbookpublished" element={< FacultyBookPublishedPage/>} />
           <Route path="/faculty/researchpapergradea" element={< FacultyResearchPpaperAPage/>} />

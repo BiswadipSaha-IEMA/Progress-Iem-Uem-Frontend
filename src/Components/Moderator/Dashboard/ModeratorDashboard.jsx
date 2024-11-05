@@ -107,17 +107,17 @@ export default function ModeratorDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="absolute top-8 left-6 z-10 p-2 mr-4">
+      <div className={`${showProfile?"sticky p-8 top-4 md:absolute md:left-9 md:top-10 md:p-0":"absolute left-10 top-10 mr-4"} z-10 `}>
         <button
           onClick={toggleProfile}
-          className="bg-slate-200 p-2 rounded absolute lsx:hidden"
+          className="bg-slate-200 p-2 rounded lsx:hidden"
           aria-label="Toggle profile"
         >
           {showProfile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      <div className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 ${showProfile ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')]`}>
+      <div className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 ${showProfile ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}>
         
         <div className="bg-[url('/src/assets/mdash.svg')] bg-cover bg-center h-60 rounded-lg flex items-center justify-center p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
           <h2 className="mb-4 text-center text-xl text-[#437F9E] sm:text-[4.2rem] text-[2.5rem] font-semibold">

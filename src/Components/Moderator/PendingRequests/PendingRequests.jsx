@@ -94,7 +94,7 @@ const PendingRequests = () => {
                 <div className="flex justify-between">
                     <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[33px] sm:text-[40px]">Request Approval</h2>
                 </div>
-                <div className="flex gap-10 flex-row flex-wrap">
+                <div className="flex gap-8 flex-row flex-wrap">
                     {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
                 </div>
             </div>

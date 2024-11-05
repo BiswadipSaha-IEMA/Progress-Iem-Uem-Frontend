@@ -65,16 +65,18 @@ const PendingRequests = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100">
       <div className={`flex flex-col mx-auto p-4 sm:p-6 lg:h-[95vh] lg:p-6 space-y-6 duration-300 ${showProfile ? "lg:w-[calc(100% - 320px)] lg:ml-[330px]" : "lg:w-full lg:ml-0"} bg-[url('/src/assets/image2.svg')]`}>
         <div className="flex gap-2 sm:gap-10 justify-between mb-10 mt-6">
-          <button
-            onClick={toggleProfile}
-            className={`bg-slate-200 top-10 left-8 z-10 p-2 mr-[-12px] ${showProfile?"absolute":""} rounded lsx:hidden`}
-            aria-label="Toggle profile"
-          >
-            {showProfile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className={`${showProfile?"sticky p-8 top-4 lg:absolute lg:left-9 lg:top-12 lg:p-0":""} z-10 `}>
+            <button
+              onClick={toggleProfile}
+              className={`bg-slate-200 p-2 rounded lsx:hidden`}
+              aria-label="Toggle profile"
+            >
+              {showProfile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
           <div className="w-[100%] relative flex items-center ml-4">
               <div className="absolute text-3xl left-2">
                   <CiSearch />

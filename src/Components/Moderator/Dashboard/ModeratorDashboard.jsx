@@ -107,7 +107,7 @@ export default function ModeratorDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className={`${showProfile?"sticky p-8 top-4 md:absolute md:left-9 md:top-10 md:p-0":"absolute left-10 top-10 mr-4"} z-10 `}>
+      <div className={`${showProfile?"sticky p-8 top-4 lg:absolute lg:left-9 lg:top-10 lg:p-0":"absolute left-10 top-10 mr-4"} z-10 `}>
         <button
           onClick={toggleProfile}
           className="bg-slate-200 p-2 rounded lsx:hidden"

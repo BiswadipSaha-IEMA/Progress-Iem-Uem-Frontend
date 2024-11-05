@@ -610,18 +610,18 @@ const [workPopUp, setWorkPopUp] = useState(false);
         </div>
       ),
     },
-    {
-      name: (
-        <div className="w-full select-none flex justify-center">
-          Submitted Forms
-        </div>
-      ),
-      cell: (row) => (
-        <div className="w-full select-none flex justify-center items-center text-blue-500">
-          {row.submitted}
-        </div>
-      ),
-    },
+    // {
+    //   name: (
+    //     <div className="w-full select-none flex justify-center">
+    //       Submitted Forms
+    //     </div>
+    //   ),
+    //   cell: (row) => (
+    //     <div className="w-full select-none flex justify-center items-center text-blue-500">
+    //       {row.submitted}
+    //     </div>
+    //   ),
+    // },
   ];
 
   const columns = [
@@ -713,18 +713,18 @@ const [workPopUp, setWorkPopUp] = useState(false);
         </div>
       ),
     },
-    {
-      name: (
-        <div className="w-full select-none flex justify-center">
-          Submitted Forms
-        </div>
-      ),
-      cell: (row) => (
-        <div className="w-full select-none flex justify-center items-center text-blue-500">
-          {row.submitted}
-        </div>
-      ),
-    },
+    // {
+    //   name: (
+    //     <div className="w-full select-none flex justify-center">
+    //       Submitted Forms
+    //     </div>
+    //   ),
+    //   cell: (row) => (
+    //     <div className="w-full select-none flex justify-center items-center text-blue-500">
+    //       {row.submitted}
+    //     </div>
+    //   ),
+    // },
   ];
 
 
@@ -2054,7 +2054,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
           )}
         </div>
 
-        {recordsOfConf.length > 3  && (
+        {confOrg.length > 0  && (
           <div className="h-[50px] flex justify-center items-center rounded-md relative">
             <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none" />
             <div

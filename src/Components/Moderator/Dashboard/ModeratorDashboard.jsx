@@ -67,6 +67,7 @@ export default function ModeratorDashboard() {
     const allInfo = async () => {
       try {
         // Fetch publication counts
+        setLoading(true);
         const response = await getReq("api/v1/document/getAllPublications", accessToken);
         if (response.success) {
           setFormCount(response.data.pendingCount);
@@ -85,6 +86,9 @@ export default function ModeratorDashboard() {
         // }
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+      finally {
+        setLoading(false);
       }
     };
   

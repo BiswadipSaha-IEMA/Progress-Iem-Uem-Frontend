@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/ModeratorSidebar";
 import { FacultyCard } from "../FacultyCard/FacultyCard";
 import MemberCard from "../../MemberCard/MemberCard";
+
+
+
 export default function ModeratorDashboard() {
   const [formCount, setFormCount] = useState(0);
   const [showProfile, setShowProfile] = useState(false);
@@ -16,10 +19,26 @@ export default function ModeratorDashboard() {
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
-
+  
   const toggleProfile = () => setShowProfile((prev) => !prev);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const access = sessionStorage.getItem('user');
+
+  // const facultyAccess= async(id,accessModify)=>{
+  //   const response=await putReq('api/v1/document/reviewPublication', {
+  //     publicationId:id,
+  //     status: accessModify
+  //   },
+  // accessToken
+  // )
+  // if(response.success)
+  //   setResponseModify(response.Message)
+  // }
+
+  // useEffect(()=>{
+  //   console.log(responseModify)
+  // },[responseModify])
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -43,7 +62,6 @@ export default function ModeratorDashboard() {
   //   fetchData();
   // }, []); 
 
-  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
     const allInfo = async () => {
@@ -121,15 +139,15 @@ export default function ModeratorDashboard() {
 
         
         {/* Account - details Section */}
-        <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex gap-8 flex-col">
-          <div className="flex justify-between">
-            <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[30.2px]">Request Approval</h2>
-            <button className="text-white bg-[#03A8FD] rounded-lg sm:w-60 "
+        <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col h-[620px] lg:h-[420px] md:h-[430px]">
+          <div className="flex justify-between flex-col lg:flex-row md:flex-row">
+            <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[30.2px] ">Request Approval</h2>
+            <button className="text-white bg-[#03A8FD] rounded-lg py-2 w-full lg:w-[250px] md:w-[250px] font-[500]"
               onClick={()=>{navigate("/moderator/pendingrequests")}}
             >View all pending requests</button>
           </div>
-          <div className="flex gap-10 flex-row flex-wrap">
-            {pendingData&&pendingData.slice(0,2).map((data)=><FacultyCard key={data.id} data={data} />)}
+          <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
           </div>
         </div>
 

@@ -7,6 +7,7 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "../../../utils/Popup/FormPopUp/ManagePopUp";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
+import LectureSeriesPopUp from '../../../utils/Popup/FormPopUp/LectureSeriesPopUp'
 
 import LectureSeriescard from "./Lectureseriescard";
 
@@ -109,7 +110,7 @@ function Lectureseriescomp() {
       </div>
 
       {showPopUp && (
-        <BookPublished setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <LectureSeriesPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
     </div>
   );

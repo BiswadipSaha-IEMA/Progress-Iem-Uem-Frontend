@@ -62,7 +62,7 @@ const AddModeratorComp = () => {
           </button>
         </div>
 
-        <div className="bg-white justify-center pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
+        <div className="bg-white pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup} />
         </div>
       </div>
@@ -77,39 +77,28 @@ const AddModeratorComp = () => {
 const Cards = ({ sidebar, showPopup }) => {
   const currentDiv = useRef([]);
   const [getReq] = useGetReq();
-  const [userData, setUserData] = useState([]); // Initialize as an empty array
+  const [userData, setUserData] = useState([]); 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const data = await getReq('api/v1/user/getAllUsers', accessToken);
-        // console.log(data.data);
 
         if (Array.isArray(data.data)) {
           const filteredData = data.data.filter(user => user.role === "moderator");
-          setUserData(filteredData);
+          setUserData(filteredData.reverse()); 
         } else {
-          console.error("Fetched data is not an array:", data.data);
-          setUserData([]); // Reset to an empty array if data is not as expected
+          console.error(data.data);
+          setUserData([]); 
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error(error);
       }
     };
 
     fetchUserData();
-  }, [showPopup]); 
-
-  useEffect(() => {
-    if (userData.length > 0) {
-      gsap.fromTo(
-        currentDiv.current,
-        { opacity: 0, y: 50, scaleX: 0 },
-        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
-      );
-    }
-  }, [userData]); 
+  }, [showPopup]);
 
   return (
     <>
@@ -125,5 +114,6 @@ const Cards = ({ sidebar, showPopup }) => {
     </>
   );
 };
+
 
 export default AddModeratorComp;

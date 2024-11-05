@@ -62,7 +62,7 @@ const AddFacultyComp = () => {
           </button>
         </div>
 
-        <div className="bg-white justify-center pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
+        <div className="bg-white pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup}/>
         </div>
       </div>
@@ -90,7 +90,7 @@ const Cards = ({ sidebar, showPopup }) => {
         if (Array.isArray(data.data)) {
           // Filter data to only include users with the "Faculty" role
           const filteredData = data.data.filter(user => user.role === "Faculty");
-          setUserData(filteredData);
+          setUserData(filteredData.reverse());
         } else {
           console.error("Fetched data is not an array:", data.data);
           setUserData([]); // Reset to an empty array if data is not as expected
@@ -103,15 +103,15 @@ const Cards = ({ sidebar, showPopup }) => {
     fetchUserData();
   }, [showPopup]); // Fetch data on mount
 
-  useEffect(() => {
-    if (userData.length > 0) {
-      gsap.fromTo(
-        currentDiv.current,
-        { opacity: 0, y: 50, scaleX: 0 },
-        { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
-      );
-    }
-  }, [userData]); 
+  // useEffect(() => {
+  //   if (userData.length > 0) {
+  //     gsap.fromTo(
+  //       currentDiv.current,
+  //       { opacity: 0, y: 50, scaleX: 0 },
+  //       { opacity: 1, y: 0, stagger: 0.2, duration: 2, scaleX: 1, ease: "elastic" }
+  //     );
+  //   }
+  // }, [userData]); 
 
   return (
     <>

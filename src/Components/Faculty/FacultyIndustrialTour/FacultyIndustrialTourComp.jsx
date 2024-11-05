@@ -10,6 +10,8 @@ import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
 import FacultyIndustrialTourCard from './FacultyIndustrialTourCard'
+import WorkShopPopUp from '../../../utils/Popup/FormPopUp/WorkShopPopUp'
+import IndustrialTourPopUp from '../../../utils/Popup/FormPopUp/IndustrialTourPopUp'
 
 // Main component to display and manage organized workshops
 function FacultyIndustrialTourComp() {
@@ -103,7 +105,7 @@ function FacultyIndustrialTourComp() {
                                     key={index} // Key for unique mapping
                                     status={item.status} // Status of workshop
                                     title={item.topicName} // Workshop title
-                                    organizedBy={item.topicName}
+                                    organizedBy={item.organizedBy}
                                     date={item.date} // Date of workshop
                                     industryName={item.industryName} // Organizer's name
                                     attendedBy={item.topicName} // Topic name for display
@@ -116,7 +118,7 @@ function FacultyIndustrialTourComp() {
             </div>
 
             {/* Conditional rendering of popup form for adding a new workshop */}
-            {showPopUp && <WorkshopOrganized
+            {showPopUp && <IndustrialTourPopUp
                 setUtilFor={'bpAddForm'}
                 setShowPopup={setShowPopUp}
             />}

@@ -162,35 +162,49 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   };
 
   //for moderator form
-  const arrOfModeratorStreams = [];
+  // const arrOfModeratorStreams = [];
+  // const handleModeratorStreamClick = (stream) => {
+  //   // setSelectedStream((prev) => {
+  //   // const updatedStreams = prev.includes(stream)
+  //   //   ? prev.filter((s) => s !== stream)
+  //   //   : [...prev, stream];
+
+  //   // const newStreamString = updatedStreams.join(", ");
+  //   // // console.log(newStreamString)
+  //   // setStreamString(newStreamString);
+  //   // setModeratorData((prevData) => ({
+  //   //   ...prevData,
+  //   //   department: newStreamString,
+  //   // }));
+
+  //   // return updatedStreams;
+
+  //   // });
+  //   setSelectedStream(stream);
+  //   if (!arrOfModeratorStreams.includes(stream)) {
+  //     arrOfModeratorStreams.push(stream);
+  //     setModeratorData((prevData) => ({
+  //       ...prevData,
+  //       department: arrOfModeratorStreams,
+  //     }));
+  //   }
+
+  //   // console.log(arrOfStreams);
+  // };
+
+
   const handleModeratorStreamClick = (stream) => {
-    // setSelectedStream((prev) => {
-    // const updatedStreams = prev.includes(stream)
-    //   ? prev.filter((s) => s !== stream)
-    //   : [...prev, stream];
-
-    // const newStreamString = updatedStreams.join(", ");
-    // // console.log(newStreamString)
-    // setStreamString(newStreamString);
-    // setModeratorData((prevData) => ({
-    //   ...prevData,
-    //   department: newStreamString,
-    // }));
-
-    // return updatedStreams;
-
-    // });
-    setSelectedStream(stream);
-    if (!arrOfModeratorStreams.includes(stream)) {
-      arrOfModeratorStreams.push(stream);
-      setModeratorData((prevData) => ({
+    setModeratorData((prevData) => {
+      const isStreamSelected = prevData.department.includes(stream);
+      const updatedDepartment = isStreamSelected
+        ? prevData.department.filter((s) => s !== stream) 
+        : [...prevData.department, stream];
+  
+      return {
         ...prevData,
-        department: arrOfModeratorStreams,
-      }));
-    }
-
-
-    console.log(arrOfStreams);
+        department: updatedDepartment,
+      };
+    });
   };
 
   // useEffect (()=> {
@@ -199,7 +213,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   //       department: arrOfModeratorStreams,
   //     }));
   //     console.log(arrOfModeratorStreams);
-  // },[arrOfModeratorStreams]) 
+  // },[arrOfModeratorStreams])
 
   //for faculty form
   const arrOfFacultyStreams = [];
@@ -691,7 +705,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                       key={stream}
                       onClick={() => handleModeratorStreamClick(stream)}
                       className={`py-2 px-4 rounded-md cursor-pointer ${
-                        selectedStream.includes(stream)
+                        moderatorData.department.includes(stream)
                           ? "bg-black text-white"
                           : "bg-[#F0F0F0] text-[#a6adb7]"
                       }`}
@@ -1295,9 +1309,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
             </div>
           </div>
         </>
-      ) : 
+      ) : (
         <></>
-      }
+      )}
     </>
   );
 };

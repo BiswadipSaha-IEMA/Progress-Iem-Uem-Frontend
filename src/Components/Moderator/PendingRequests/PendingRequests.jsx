@@ -59,6 +59,10 @@ const PendingRequests = () => {
     if (searchValue === "") setRecordsOfBp(bookDataArrState);
   };
 
+  const handleStatusChange=(id,newStatus)=>{
+    setPendingData(prevData=>prevData.filter(item=>item._id!==id))
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-4">
         <div className="flex gap-2 sm:gap-10 justify-between mb-10 mt-6">
@@ -95,7 +99,7 @@ const PendingRequests = () => {
                     <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[33px] sm:text-[40px]">Request Approval</h2>
                 </div>
                 <div className="flex gap-10 flex-row flex-wrap">
-                    {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+                    {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} onStatusChange={handleStatusChange} />)}
                 </div>
             </div>
         </div>

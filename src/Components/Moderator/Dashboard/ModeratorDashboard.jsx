@@ -61,7 +61,9 @@ export default function ModeratorDashboard() {
 
   //   fetchData();
   // }, []); 
-
+  const handleStatusChange=(id,newStatus)=>{
+    setPendingData(prevData=>prevData.filter(item=>item._id!==id))
+  }
 
   useEffect(() => {
     const allInfo = async () => {
@@ -147,7 +149,7 @@ export default function ModeratorDashboard() {
             >View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
-            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} onStatusChange={handleStatusChange} />)}
           </div>
         </div>
 

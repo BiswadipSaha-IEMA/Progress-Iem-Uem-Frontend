@@ -14,6 +14,7 @@ const PendingRequests = () => {
     const [recordsOfBp, setRecordsOfBp] = useState([]);
     const [pendingData, setPendingData] = useState([]);
     const [showProfile, setShowProfile] = useState(false);
+    const [Loading, setLoading] =useState(false);
     const [bookDataArrState, setBookDataArrState] = useState(null);
 
     const [getReq] = useGetReq();
@@ -43,7 +44,7 @@ const PendingRequests = () => {
     };
   
     allInfo();
-  }, [accessToken]);
+  }, [accessToken, Loading]);
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -95,7 +96,7 @@ const PendingRequests = () => {
                     <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[33px] sm:text-[40px]">Request Approval</h2>
                 </div>
                 <div className="flex gap-8 flex-row flex-wrap">
-                    {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+                    {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} setLoading={setLoading}/>)}
                 </div>
             </div>
         </div>

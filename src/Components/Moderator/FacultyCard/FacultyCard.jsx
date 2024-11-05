@@ -3,13 +3,14 @@ import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import { usePostReq } from "../../../hooks/useHttp";
 
-export const FacultyCard = ({data}) => {
+export const FacultyCard = ({data, setLoading}) => {
 
   const [responseModify, setResponseModify]= useState('Pending')
   const [postReq] = usePostReq();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const facultyAccess= async(id,accessModify)=>{
+    try{
     const response=await postReq('api/v1/document/reviewPublication', {
       publicationId:id,
       status: accessModify
@@ -19,6 +20,13 @@ export const FacultyCard = ({data}) => {
   if(response.success)
     setResponseModify(response.Message)
   }
+  catch(error){
+    console.log(error)
+  }
+  finally{
+    setLoading(false)
+  }
+}
 
   useEffect(()=>{
     console.log(responseModify)
@@ -41,7 +49,11 @@ export const FacultyCard = ({data}) => {
           facultyAccess(data._id, 'Approved')
         }}
         >Accept<TiTick className="text-[20px]" /></button>
-        <button className='bg-[#FFDBDB] py-2 text-[#C66666] flex items-center justify-center gap-2 w-full sm:w-[45%] rounded-md text-[15px] font-[600]'>Reject<ImCross className="text-[12px]" /></button>
+        <button className='bg-[#FFDBDB] py-2 text-[#C66666] flex items-center justify-center gap-2 w-full sm:w-[45%] rounded-md text-[15px] font-[600]'
+        onClick={()=>{
+          facultyAccess(data._id, 'Approved')
+        }}
+        >Reject<ImCross className="text-[12px]" /></button>
         {/* <button className='bg-[#FFDBDB] p-2 text-[#C66666] flex items-center justify-center w-full sm:w-[45%] rounded-xl text-[19px]'>Reject<ImCross className="text-[14px]" /></button> */}
       </div>
     </div>

@@ -8,15 +8,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import DataTable from "react-data-table-component";
 import { TfiMenuAlt } from "react-icons/tfi";
-
-import {
-  booksPublishedData,
-  researchPapersGradeAData,
-  researchPapersGradeBData,
-  researchPapersGradeCData,
-} from "../../constants/studentData";
-
-import "./customScrollbar.css";
+// import "./customScrollbar.css";
 import { RxCrossCircled } from "react-icons/rx";
 import NoFilesPresent from "../../Lottie/NoFilesPresent.json";
 import Lottie from "react-lottie";
@@ -26,7 +18,7 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SeminarPopUp from "../../utils/Popup/FormPopUp/SeminarPopUp";
 
-function StudentComp() {
+function BookPublished() {
   const [recordsOfBp, setRecordsOfBp] = useState([]);
   const [recordsOfGA, setRecordsOfGA] = useState([]);
   const [recordsOfGB, setRecordsOfGB] = useState([]);
@@ -83,6 +75,14 @@ const [workPopUp, setWorkPopUp] = useState(false);
   const [IndusOrg, setIndusOrg] = useState([]);
   const [IndusArrState, setIndusArrState] = useState([]);
   const [IndusPopUp, setIndusPopUp] = useState(false);
+
+  const [competitionOrg, setCompetitionOrg] = useState([]);
+  const [competitionArrState, setCompetitionArrState] = useState([]);
+  const [competitionPopUp, setCompetitionPopUp] = useState(false)
+
+  const [studentChapter , setStudentChapter] = useState([]);
+  const [studentChapterArrState, setStudentChapterArrState] = useState([]);
+  const [studentChapterPopUp, setPopUp] = useState(false);
 
   const defaultOptions = {
     loop: false,
@@ -155,27 +155,27 @@ const [workPopUp, setWorkPopUp] = useState(false);
     const patentDataFunc = async () => {
       try {
         const seminarData = await getReq(
-          "api/v1/document/getAllEvents",
+          "api/v1/document/getAllPatents",
           accessToken
         );
         console.log("sgdbkdbcknc", seminarData);
-
-        let arr=[]
-
+        
         if (seminarData) {
-          const filteredItems = seminarData.data.data.map(
-            (item) => {
-              if(item.eventType === "Patent")
-                arr.push(item)
-
-              console.log(item)
-              
-              }
-
-          );
-          setPatentArrState(arr);
-          setPatentOrg(arr);
+          setPatentOrg(seminarData.data.data);
+          setPatentArrState(seminarData.data.data);
+          console.log("lkhqoinqkxm;m,;mn;m;",seminarData.data.data);
         }
+        // let arr = [];
+
+        // if (seminarData) {
+        //   // const filteredItems = seminarData.data.data.map((item) => {
+        //   //   if (item.eventType === "Patent") arr.push(item);
+
+        //   //   console.log(item);
+        //   // });
+        //   setPatentArrState(arr);
+        //   setPatentOrg(arr);
+        // }
       } catch (error) {
         console.error("Error fetching seminar data:", error);
       }
@@ -183,6 +183,11 @@ const [workPopUp, setWorkPopUp] = useState(false);
 
     patentDataFunc();
   }, []);
+
+  useEffect(()=>{
+    if(patentOrg)
+    console.log('kugsbixkbnkbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',patentOrg)
+  },[patentOrg])
 
 
   
@@ -365,6 +370,74 @@ const [workPopUp, setWorkPopUp] = useState(false);
 
 
   useEffect(() => {
+    const competitionDataFunc = async () => {
+      try {
+        const seminarData = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
+        console.log("sgdbkdbcknc", seminarData);
+
+        let arr=[]
+
+        if (seminarData) {
+          const filteredItems = seminarData.data.data.map(
+            (item) => {
+              if(item.eventType === "Seminar")
+                arr.push(item)
+
+              console.log(item)
+              
+              }
+
+          );
+          setCompetitionArrState(arr);
+          setCompetitionOrg(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching seminar data:", error);
+      }
+    };
+
+    competitionDataFunc();
+  }, []);
+
+  useEffect(() => {
+    const studentChapterFunc = async () => {
+      try {
+        const studentChapterData = await getReq(
+          "api/v1/document/getAllStudentChapters",
+          accessToken
+        );
+        
+
+        // let arr=[]
+
+        if (studentChapterData) {
+          // const filteredItems = studentChapterData.data.data.map(
+          //   (item) => {
+          //     if(item.eventType === "Seminar")
+          //       arr.push(item)
+
+          //     console.log(item)
+              
+          //     }
+
+          // );
+          console.log( "gdfuygd----------" ,studentChapterData.data.data)
+          setStudentChapterArrState(studentChapterData.data.data);
+          setStudentChapter(studentChapterData.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching seminar data:", error);
+      }
+    };
+
+    studentChapterFunc();
+  }, []);
+
+
+  useEffect(() => {
     console.log(storeData);
     if (storeData !== null) {
       console.log(bookDataSubmittedArrState);
@@ -475,9 +548,9 @@ const [workPopUp, setWorkPopUp] = useState(false);
           SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,
@@ -558,9 +631,9 @@ const [workPopUp, setWorkPopUp] = useState(false);
           SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,
@@ -805,9 +878,9 @@ const [workPopUp, setWorkPopUp] = useState(false);
           SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,
@@ -873,12 +946,12 @@ const [workPopUp, setWorkPopUp] = useState(false);
     {
       name: (
         <div className="w-full select-none flex justify-center text-[16px]">
-          Sl. No.
+          SL. No.
         </div>
       ),
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-          {row.serial}
+          {index + 1} 
         </div>
       ),
       sortable: true,
@@ -988,9 +1061,9 @@ const [workPopUp, setWorkPopUp] = useState(false);
             SL. No.
           </div>
         ),
-        cell: (row) => (
+        cell: (row, index) => (
           <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
-            {row.serial}
+            {index + 1} 
           </div>
         ),
         sortable: true,
@@ -1052,7 +1125,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
         ),
         cell: (row) => (
           <div className="w-full select-none flex justify-center items-center text-gray-800">
-            {row.date}
+            {row.dateOfFiling}
           </div>
         ),
       },
@@ -1064,7 +1137,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
         ),
         cell: (row) => (
           <div className="w-full select-none flex justify-center items-center text-gray-800">
-            {row.date}
+            {row.nationalOrInternational}
           </div>
         ),
       },
@@ -1184,6 +1257,133 @@ const [workPopUp, setWorkPopUp] = useState(false);
     //     </div>
     //   ),
     // },
+  ];
+
+
+  const columnsCompetition = [
+    {
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          SL. No.
+        </div>
+      ),
+      cell: (row, index) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+          {index + 1} 
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Event Date
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.date}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Competition Type
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.type}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="w-full select-none flex justify-center">
+          Competition Name
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800">
+          {row.topicName}
+        </div>
+      ),
+    },
+  ]
+
+
+  const columnsStudentChapter = [
+    {
+      name: (
+        <div className="w-full select-none flex justify-center text-[16px]">
+          Order No
+        </div>
+      ),
+      cell: (row) => (
+        <div className="w-full select-none flex justify-center items-center text-gray-800 text-[16px]">
+          {row.serial}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: <div className="flex justify-center w-full select-none">Faculty Name</div>,
+      cell: (row) => (
+        <div className="flex items-center justify-center w-full text-gray-800 select-none">
+          {row.facultyName}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: <div className="flex justify-center w-full select-none">Company Name</div>,
+      cell: (row) => (
+        <div className="flex items-center justify-center w-full text-gray-800 select-none">
+          {row.companyName}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: <div className="flex justify-center w-full select-none">Order 
+      Amount
+      (Rs./-)
+      </div>,
+      cell: (row) => (
+        <div className="flex items-center justify-center w-full text-gray-800 select-none">
+          {row.orderAmount}
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: (
+        <div className="flex justify-center w-full select-none">
+          Order Receive Date (Rs./-)
+
+        </div>
+      ),
+      cell: (row) => (
+        <div className="flex items-center justify-center w-full text-gray-800 select-none">
+          {row.dateOfOrder}
+        </div>
+      ),
+    },
+    {
+      name: (
+        <div className="flex justify-center w-full select-none">
+          Status
+(Ongoing/ Completed)
+
+        </div>
+      ),
+      cell: (row) => (
+        <div className="flex items-center justify-center w-full text-gray-800 select-none">
+          {row.activityStatus}
+        </div>
+      ),
+    },
   ];
 
 
@@ -1311,7 +1511,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
         <div
           className="absolute bottom-0 flex items-center gap-2 cursor-pointer"
           onClick={() => {
-            navigate("/");
+            navigate("/moderator/dashboard");
           }}
         >
           <FaLongArrowAltLeft className="text-[1rem]" />
@@ -2579,6 +2779,219 @@ const [workPopUp, setWorkPopUp] = useState(false);
         )}
       </div>
 
+
+
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+            Competition
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              onChange={handleSearchSeminar}
+              placeholder="Search with Topic Name"
+            />
+          </div>
+        </div>
+
+        <div className="w-full flex mt-5 justify-end gap-3 flex-nowrap overflow-x-auto">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
+              onClick={handleCloseCalendar}
+            >
+              <div className="bg-white p-4 rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* DataTable Container */}
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
+          {(competitionOrg.length) === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Lottie options={defaultOptions} height={150} width={150} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Records Found
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsCompetition }
+              data={competitionOrg}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-0" // Adjust this if needed
+            />
+          )}
+        </div>
+
+        {competitionOrg.length > 1 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+          <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+          <div
+            className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+            onClick={() => {
+              setSeminarPopUp(true);
+            }}
+          >
+            <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+            <div className="text-[#fff]">View Full Data</div>
+          </div>
+        </div>
+        )}
+      </div>
+
+      {/* Student Chapter Activity */ }
+
+      <div className="relative px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start">
+        <div className="flex flex-col justify-between sm:flex-row sm:items-center">
+          <div className="flex items-center gap-5 mb-4 sm:mb-0">
+            <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+            <div className="text-[20px] sm:text-[25px] font-semibold">
+          	Student Chapter Activity 
+            </div>
+          </div>
+
+          <div className="relative w-full sm:w-auto">
+            <CiSearch className="absolute z-10 text-[20px] font-bold top-3 left-2 text-[#b4b7bd]" />
+            <input
+              className="outline-none w-full sm:w-[300px] lg:w-[300px] pl-10 font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+              // onChange={handleSearchCO}
+              placeholder="Search with Name or ISS..."
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end w-full gap-3 mt-5 overflow-x-auto flex-nowrap">
+          <div className="border rounded-md border-[#b4b7bd] px-2 py-1 flex-shrink-0 text-[#b4b7bd] hidden md:block lg:block">
+            <CiFilter className="text-[0.85rem] sm:text-[0.75rem] md:text-[1rem] pt-1 font-[700]" />
+          </div>
+
+          <div className="border rounded-md border-[#b4b7bd] flex items-center gap-2 px-3 sm:px-4 md:px-5 py-1 flex-shrink-0 text-[#b4b7bd]">
+            <GoSortDesc className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.95rem]" />
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              Sort: Chronological
+            </div>
+          </div>
+
+          <div
+            className="border rounded-md border-[#b4b7bd] flex items-center px-2 sm:px-3 gap-2 sm:gap-3 md:gap-5 cursor-pointer flex-shrink-0 text-[#b4b7bd]"
+            onClick={() => setCalendarShow(true)}
+          >
+            <div className="text-[0.85rem] sm:text-[0.75rem] md:text-[0.85rem]">
+              {currentMonth}
+            </div>
+          </div>
+
+          {calendarShow && (
+            <div
+              id="calendar-overlay"
+              className="fixed top-[150px] bg-opacity-50 flex justify-center items-center left-[-30px] z-50"
+              onClick={handleCloseCalendar}
+            >
+              <div className="p-4 bg-white rounded-lg shadow-lg">
+                <Calendar onChange={onDateChange} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* DataTable Container */}
+        <div className="mt-10 h-[150px] overflow-hidden custom-scrollbar rounded-[10px]">
+          {studentChapter.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Lottie options={defaultOptions} height={150} width={150} />
+              <div className="sm:text-[1.5rem] lg:text-[2rem] font-bold text-[#03A8FD]">
+                No Records Found
+              </div>
+            </div>
+          ) : (
+            <DataTable
+              columns={columnsStudentChapter}
+              data={studentChapter}
+              defaultSortField="serial"
+              defaultSortAsc={true}
+              customStyles={{
+                headCells: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    color: "#333",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  },
+                },
+                headRow: {
+                  style: {
+                    backgroundColor: "#def4ff",
+                    border: "none",
+                  },
+                },
+              }}
+              className="mt-0" // Adjust this if needed
+            />
+          )}
+        </div>
+        {studentChapter?.length > 2 && (
+          <div className="h-[50px] flex justify-center items-center rounded-md relative">
+            <div className="absolute top-[-20px] left-0 right-0 h-[30px] bg-black bg-opacity-20 blur-md z-[-1] rounded-t-md pointer-events-none"></div>
+            <div
+              className="cursor-pointer bg-[#03a8fd] h-[40px] flex items-center justify-center gap-4 p-2 pl-2 pr-2 rounded-lg shadow-lg"
+              onClick={() => {
+                setRbPopUp(true);
+              }}
+            >
+              <TfiMenuAlt className="text-[#fff] text-[20px] mt-0.5" />
+              <div className="text-[#fff]">View Full Data</div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {bpPopUp && (
         <ManagePopUp
           setUtilFor={"viewBPTable"}
@@ -2618,4 +3031,4 @@ const [workPopUp, setWorkPopUp] = useState(false);
   );
 }
 
-export default StudentComp;
+export default BookPublished;

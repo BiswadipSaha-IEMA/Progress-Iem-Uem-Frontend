@@ -8,6 +8,7 @@ import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
 import FacultyWorkshopOrganizedCard from './FacultyWorkshopOrganizedCard'
+import WorkShopPopUp from '../../../utils/Popup/FormPopUp/WorkShopPopUp'
 
 function FacultyWorkshopOrganizedComp() {
     // Set initial count for BpNumber and showPopUp, data, and data1 state variables
@@ -113,7 +114,7 @@ function FacultyWorkshopOrganizedComp() {
 
             {/* Conditional rendering of WorkshopOrganized popup component */}
             {showPopUp && (
-                <WorkshopOrganized
+                <WorkShopPopUp
                     setUtilFor={'bpAddForm'}
                     setShowPopup={setShowPopUp}
                 />

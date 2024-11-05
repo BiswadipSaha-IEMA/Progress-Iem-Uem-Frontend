@@ -8,6 +8,7 @@ import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
 import FacultyResearchPpaperACard from './FacultyResearchPpaperACard'
+import ResearchPaperGradeA from '../../../utils/Popup/FormPopUp/ResearchPaperGradeA'
 
 function FacultyResearchPpaperA() {
     const BpNumber=30
@@ -126,7 +127,7 @@ function FacultyResearchPpaperA() {
     </div>
 
                 {
-                    showPopUp && <BookPublished
+                    showPopUp && <ResearchPaperGradeA
                         setUtilFor={'bpAddForm'}
                         setShowPopup={setShowPopUp}
                     />

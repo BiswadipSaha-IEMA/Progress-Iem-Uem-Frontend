@@ -1511,7 +1511,7 @@ const [workPopUp, setWorkPopUp] = useState(false);
         <div
           className="absolute bottom-0 flex items-center gap-2 cursor-pointer"
           onClick={() => {
-            navigate("/moderator/dashboard");
+            navigate("/");
           }}
         >
           <FaLongArrowAltLeft className="text-[1rem]" />

@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import EditFormPopUp from "./EditFormPopUp";
 
-function FacultyCardBP({status, title, date, name, ISBN}) {
+function FacultyCardBP({id, status, title, date, name, ISBN}) {
+    const [editForm, setEditForm]= useState(false)
+
+
   return (
     <div className="w-full md:w-[400px] lg:w-[400px] h-[280px] md:h-[230px] lg:h-[230px] shadow-2xl rounded-2xl flex flex-col items-center p-4 md:p-6 lg:p-8">
 
@@ -25,7 +29,11 @@ function FacultyCardBP({status, title, date, name, ISBN}) {
                 </div>
             )}
             {status === "Rejected" && (
-                <div className="bg-[#03a8fd] text-white px-3 py-1 rounded-md font-medium text-sm md:text-base cursor-pointer">
+                <div className="bg-[#03a8fd] text-white px-3 py-1 rounded-md font-medium text-sm md:text-base cursor-pointer"
+                onClick={()=>{
+                    setEditForm(true)
+                }}
+                >
                     Edit
                 </div>
             )}
@@ -45,6 +53,11 @@ function FacultyCardBP({status, title, date, name, ISBN}) {
             ISBN/ISSN No: <span className="text-[#999999] font-normal">{ISBN}</span>
         </div>
     </div>
+
+
+    {
+        editForm && <EditFormPopUp id={id} setShowPopup={setEditForm}/>
+    }
 </div>
 
   );

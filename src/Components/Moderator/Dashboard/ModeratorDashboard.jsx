@@ -19,48 +19,11 @@ export default function ModeratorDashboard() {
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
+
+  const [clickAccept, setClickAccept]= useState(false);
   
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
-
-  const access = sessionStorage.getItem('user');
-
-  // const facultyAccess= async(id,accessModify)=>{
-  //   const response=await putReq('api/v1/document/reviewPublication', {
-  //     publicationId:id,
-  //     status: accessModify
-  //   },
-  // accessToken
-  // )
-  // if(response.success)
-  //   setResponseModify(response.Message)
-  // }
-
-  // useEffect(()=>{
-  //   console.log(responseModify)
-  // },[responseModify])
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch counts
-  //       const response = await getReq('api/v1/document/getAllPublications', accessToken.token);
-  //       if (response.success) {
-  //         console.log("API Response:", response);
-  //         setFormCount(response.data.pendingCount);
-  //       }
-
-  //       // Fetch super admin data
-  //       const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken.token);
-  //       console.log(data.data);
-  //       setSuperAdminData(data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     } 
-  //   };
-
-  //   fetchData();
-  // }, []); 
 
 
   useEffect(() => {
@@ -93,19 +56,19 @@ export default function ModeratorDashboard() {
     };
   
     allInfo();
-  }, [accessToken]);
+  }, [accessToken, clickAccept]);
   
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          <p className="mt-4 text-xl text-gray-700">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center bg-gray-100">
+  //       <div className="text-center">
+  //         <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+  //         <p className="mt-4 text-xl text-gray-700">Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -151,7 +114,7 @@ export default function ModeratorDashboard() {
             >View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
-            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} setClickAccept={setClickAccept} clickAccept={clickAccept} setLoading={setLoading} data={data} />)}
           </div>
         </div>
 

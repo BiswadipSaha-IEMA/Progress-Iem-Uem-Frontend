@@ -16,6 +16,7 @@ const PendingRequests = () => {
     const [showProfile, setShowProfile] = useState(false);
     const [Loading, setLoading] =useState(false);
     const [bookDataArrState, setBookDataArrState] = useState(null);
+    // const [loading, setLoading] = useState([])
 
     const [getReq] = useGetReq();
     const [putReq] = usePutReq();
@@ -28,6 +29,7 @@ const PendingRequests = () => {
   useEffect(() => {
     const allInfo = async () => {
       try {
+        setLoading(true)
         // Fetch publication counts
         const response = await getReq("api/v1/document/getAllPublications", accessToken);
         if (response.success) {
@@ -40,6 +42,9 @@ const PendingRequests = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+      finally{
+        setLoading(false)
       }
     };
   

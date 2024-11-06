@@ -61,14 +61,13 @@ export default function ModeratorDashboard() {
 
   //   fetchData();
   // }, []); 
-  const handleStatusChange=(id,newStatus)=>{
-    setPendingData(prevData=>prevData.filter(item=>item._id!==id))
-  }
+
 
   useEffect(() => {
     const allInfo = async () => {
       try {
         // Fetch publication counts
+        setLoading(true);
         const response = await getReq("api/v1/document/getAllPublications", accessToken);
         if (response.success) {
           setFormCount(response.data.pendingCount);
@@ -87,6 +86,9 @@ export default function ModeratorDashboard() {
         // }
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+      finally {
+        setLoading(false);
       }
     };
   
@@ -149,7 +151,7 @@ export default function ModeratorDashboard() {
             >View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
-            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} onStatusChange={handleStatusChange} />)}
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
           </div>
         </div>
 

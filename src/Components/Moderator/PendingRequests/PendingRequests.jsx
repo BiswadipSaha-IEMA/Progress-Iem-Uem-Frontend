@@ -15,6 +15,7 @@ const PendingRequests = () => {
     const [recordsOfBp, setRecordsOfBp] = useState([]);
     const [pendingData, setPendingData] = useState([]);
     const [showProfile, setShowProfile] = useState(false);
+    const [Loading, setLoading] =useState(false);
     const [bookDataArrState, setBookDataArrState] = useState(null);
 
     const [getReq] = useGetReq();
@@ -44,7 +45,7 @@ const PendingRequests = () => {
     };
   
     allInfo();
-  }, [accessToken]);
+  }, [accessToken, Loading]);
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -103,13 +104,15 @@ const PendingRequests = () => {
           <FaLongArrowAltLeft className="text-[1rem]" />
           <div className="font-[700]">Back</div>
         </div> */}
-        {/* Account - details Section */}
-        <div className="rounded-lg bg-white p-12 shadow-md flex-grow flex gap-8 flex-col">
-            <div className="flex justify-between">
-                <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[33px] sm:text-[40px]">Request Approval</h2>
-            </div>
-            <div className="flex gap-10 flex-row flex-wrap">
-                {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} onStatusChange={handleStatusChange} />)}
+        <div>
+            {/* Account - details Section */}
+            <div className="rounded-lg bg-white p-12 shadow-md flex-grow flex gap-8 flex-col">
+                <div className="flex justify-between">
+                    <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[33px] sm:text-[40px]">Request Approval</h2>
+                </div>
+                <div className="flex gap-8 flex-row flex-wrap">
+                    {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} setLoading={setLoading}/>)}
+                </div>
             </div>
         </div>
         <Sidebar showProfile={showProfile} />

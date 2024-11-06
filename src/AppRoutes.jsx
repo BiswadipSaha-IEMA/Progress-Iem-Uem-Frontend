@@ -28,6 +28,7 @@ import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/Fac
 import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
+import FacultyList from "./Components/AddFaculty/FacultyList";
 
 
 const AppRouter = () => {
@@ -61,6 +62,11 @@ const AppRouter = () => {
           <Route path="/faculty/viewmooc" element={< FacultyMOOCPage/>} />
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
    
+
+          <Route path="/api/cse-faculty" element={<FacultyList/>} />
+          <Route path="/api/ese-faculty" element={<FacultyList/>} />
+          <Route path="/api/mca-faculty" element={<FacultyList/>} />
+          <Route path="/api/csit-faculty'" element={<FacultyList/>} />
 
 
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

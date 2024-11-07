@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/ModeratorSidebar";
 import { FacultyCard } from "../FacultyCard/FacultyCard";
 import MemberCard from "../../MemberCard/MemberCard";
+import SchemaCardsPopup from "../../../utils/Popup/FormPopUp/SchemaCardsPopup";
+import { FacultyList } from "../FacultyList/FacultyList";
 
 
 
@@ -15,6 +17,10 @@ export default function ModeratorDashboard() {
   const [pendingData, setPendingData] = useState([]);
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false); 
+  
+  const [showPopup, setShowPopup] = useState(false);
+  const [utilFor, setUtilFor] = useState("");
+  const [currentDepartment,setCurrentDepartment]=useState('')
 
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
@@ -62,6 +68,11 @@ export default function ModeratorDashboard() {
   //   fetchData();
   // }, []); 
 
+  const handleAddUserClick = () => {
+    setUtilFor("moderator");
+    setShowPopup(true);
+    console.log("first")
+  };
 
   useEffect(() => {
     const allInfo = async () => {
@@ -155,8 +166,29 @@ export default function ModeratorDashboard() {
           </div>
         </div>
 
+        {/* Department Cards */}
+        <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col ">
+          <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
+            {departmentData.map((data)=>(
+              <div className='w-[100%] sm:w-[20rem] p-7 rounded-xl shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}
+              onClick={()=>{handleAddUserClick();setCurrentDepartment(data)}}
+              >
+                <div className="font-semibold text-[25px] sm:text-[1.5rem] text-[#555555] cursor-default mb-2" >{data}</div>
+                <div className="border b-[#BFBFBF] mt-4 mb-4"></div>
+                <div className='w-full flex justify-center items-center py-2 bg-[#03A8FD] text-[#fff] font-[500] rounded-md mb-4'>View File</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {showPopup && (
+        <SchemaCardsPopup setPopupShow={setShowPopup} setUtilFor={utilFor} department={currentDepartment} />
+        )}
         <Sidebar showProfile={showProfile} />
       </div>
+      <FacultyList/>
     </div>
   );
 }
+
+
+const departmentData=['CSE','ECE','CSIT','MCA']

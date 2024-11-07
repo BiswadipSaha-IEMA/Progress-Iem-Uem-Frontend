@@ -83,10 +83,10 @@ const Cards = ({ sidebar, showPopup }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const data = await getReq('api/v1/user/getAllUsers', accessToken);
+        const data = await getReq('api/v1/moderator/getAllModerators', accessToken);
 
         if (Array.isArray(data.data)) {
-          const filteredData = data.data.filter(user => user.role === "moderator");
+          const filteredData = data.data;
           setUserData(filteredData.reverse()); 
         } else {
           console.error(data.data);

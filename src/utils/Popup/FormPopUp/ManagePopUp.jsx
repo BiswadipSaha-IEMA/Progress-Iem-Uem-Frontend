@@ -308,7 +308,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
     try {
       const response = await postReq(
-        "api/v1/user/addUser",
+        "api/v1/moderator/addModerator",
         { ...moderatorData, contentAccess: "edit" },
         accessToken
       );
@@ -328,7 +328,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
     try {
       const response = await postReq(
-        "api/v1/user/addUser",
+        "api/v1//moderator/addModerator",
         { ...facultyData, contentAccess: "read" },
         accessToken
       );

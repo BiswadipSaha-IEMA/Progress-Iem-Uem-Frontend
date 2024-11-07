@@ -74,7 +74,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
 
 
-          <Route path="/api/cse-faculty" element={<CseFacultyList/>} />
+          <Route path="/cse-facultylist" element={<CseFacultyList/>} />
           <Route path="/api/ece-faculty" element={<FacultyList/>} />
           <Route path="/api/mca-faculty" element={<FacultyList/>} />
           <Route path="/api/csit-faculty" element={<FacultyList/>} />

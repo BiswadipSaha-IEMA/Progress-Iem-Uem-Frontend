@@ -21,6 +21,9 @@ export default function Faculty() {
   const [seminarData, setSeminarData] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
   const [IndTour, setIndTour] = useState([]);
+  const [patentData, setPatentData] = useState([]);
+  const [fdp, setFdp] = useState([]);
+  const [compete, setCompete] = useState([]);
   const [bookPub, setBookPub] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
@@ -164,6 +167,52 @@ export default function Faculty() {
       }
     };
 
+
+    const getPatentInfo = async () => {
+      try {
+        const response = await getReq(
+          "api/v1/document/getAllPatents",
+          accessToken
+        );
+        console.log(response);
+        if (response.success) {
+          // const arr = [];
+          // const filteredData = response.data.data.map((dt) => {
+          //   if (dt.eventType === "Industrial Tour") arr.push(dt);
+          // });
+          setPatentData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+
+    const getFdpInfo = async () => {
+      try {
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
+        console.log(response);
+        if (response.success) {
+          console.log('====================================');
+          console.log('hnelic--------------------------------------------------------', response.data.data);
+          console.log('====================================');
+          const arr = [];
+          const filteredData = response.data.data.map((dt) => {
+            if (dt.eventType === "FDP") arr.push(dt);
+          });
+          console.log('====================================');
+          console.log('lhini---------------------------');
+          console.log('====================================');
+          setFdp(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+
+  
     allInfo();
     getConfInfo();
     getLecture();
@@ -171,6 +220,9 @@ export default function Faculty() {
     getIndTour();
     getMoocs();
     getTrimentor();
+    getPatentInfo()
+    getFdpInfo()
+    
   }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {
@@ -250,6 +302,27 @@ export default function Faculty() {
       title: "Tri-Mentoring System",
       details: TriMentor.map((paper) => ({
         title: paper.organizedBy,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Patent",
+      details: patentData.map((paper) => ({
+        title: paper.name,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Faculty Development Programmes/ MDP ",
+      details: fdp.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Competition Organized",
+      details: fdp.map((paper) => ({
+        title: paper.topicName,
         status: paper.status,
       })),
     },

@@ -85,7 +85,7 @@ function BookPublished({ setUtilFor, setShowPopup }) {
   };
 
   return (
-    <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[-25px] left-0 z-40 alertcontainer">
+    <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[0px] left-0 z-40 alertcontainer">
       <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
         <div
           className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"

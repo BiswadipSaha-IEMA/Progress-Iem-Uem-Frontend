@@ -275,7 +275,10 @@ export default function SuperAdminDashboardComp() {
                 <div
                   key={dept} // Use the department name as the key
                   onClick={() =>
-                    navigate(`/${dept.toLowerCase()}-facultylist`)
+
+                    {
+                      sessionStorage.setItem('dept', dept)
+                      navigate(`/${dept.toLowerCase()}-facultylist`)}
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }
                   className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-white to-blue-100 p-4 shadow-sm hover:shadow-md transition-all duration-200"

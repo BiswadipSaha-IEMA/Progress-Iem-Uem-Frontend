@@ -1,18 +1,14 @@
 import { useState } from "react";
-import Header from "../Header/Header.jsx";
-
-const FacultyList=() => {
-  // Dummy data for the table (20 items for demonstration)
+import Header from "../Header/Header";
+const FacultyList = () => {
   const data = Array.from({ length: 50 }, (_, i) => ({
     userId: i + 1,
     user: { name: `User ${i + 1}` },
   }));
 
-  // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  // Calculate pagination details
   const totalPages = Math.ceil(data.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -30,118 +26,132 @@ const FacultyList=() => {
     Math.max(currentPage - 5, 0),
     Math.min(currentPage + 4, totalPages)
   );
-
+  const department = sessionStorage.getItem("dept")
+  console.log(department);
+  
   return (
     <>
       <Header />
+      {/* <div className="bg-[#ECECEC] px-20 py-20"> */}
+      <div className="lg:px-6 lg:py-5 flex flex-col justify-center items-center gap-5 bg-white rounded-lg ">
+        <div className="overflow-x-auto font-poppins lg:w-[90%] h-[50%]">
+          <div
+            className="flex justify-left items-center text-[1.4rem] lg:text-[2.2rem] font-semibold text-[#03A8FD] py-5 shadow-lg"
+            style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }}
+          >
+            Faculty List
+          </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto bg-white">
-        <div className="flex justify-center items-center sm:text-[1.5rem] lg:text-[2.5rem] font-semibold text-[#03A8FD] font-poppins py-5">Faculty List</div>
+          {/* <div className="bg-[#ECECEC] p-4 rounded-lg"> */}
+          {/* Header Row */}
+          <div className="grid grid-cols-3 bg-[#03A8FD] text-white lg:text-[1.4rem] text-[1rem] lg:p-4 p-2 rounded-t-lg">
+            <div className="text-center font-semibold py-3 flex justify-center items-center">
+              Sl. No
+            </div>
+            <div className="text-center font-semibold py-3 flex justify-center items-center">
+              Faculty Name
+            </div>
+            <div className="text-center font-semibold py-3 flex justify-center items-center">
+              Actions
+            </div>
+          </div>
 
-        <table className="min-w-full border border-gray-200 font-poppins">
-          <thead className="bg-[#03A8FD] text-white py-3">
-            <tr>
-              <th className="px-4 py-2 text-center font-semibold">Sl. No</th>
-              <th className="px-4 py-2 text-center font-semibold">Faculty Name</th>
-              <th className="px-4 py-2text-center"/>
-            </tr>
-          </thead>
-          <tbody className="bg-[#ECECEC] mx-2">
-            {currentData.length > 0 ? (
-              currentData.map((item, index) => (
-                <tr
+          {/* Data Rows */}
+          {currentData.length > 0 ? (
+            currentData.map((item, index) => (
+              <div className="bg-[#ECECEC] px-4 pt-2 pb-2 ">
+                <div
                   key={item.userId}
-                  className="bg-white hover:bg-gray-100 cursor-pointer px-4"
+                  className="grid grid-cols-3 bg-white my-2 rounded-lg shadow hover:bg-gray-100 p-5"
                 >
-                  <td className="px-4 py-2 border text-center">
+                  <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[1rem]">
                     {startIndex + index + 1}
-                  </td>
-                  <td className="px-4 py-2 border text-center">
+                  </div>
+                  <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[1rem]">
                     {item.user?.name || "N/A"}
-                  </td>
-                  <td className="px-4 py-2 border text-center">
+                  </div>
+                  <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[0.8rem]">
                     <button
                       onClick={() => handleRowClick(item.userId)}
-                      className="bg-[#03A8FD] px-8 py-2 rounded-md text-white"
+                      className="bg-[#03A8FD] lg:px-8 lg:py-2 px-4 py-1 rounded-md text-white"
                     >
-                      View
+                      View Data
                     </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" className="px-4 py-2 text-center border">
-                  No results found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="p-4 text-center">No results found.</div>
+          )}
+          {/* </div> */}
+        </div>
 
-      {/* Pagination and Rows per Page */}
-      <div className="flex justify-between mt-4 items-center">
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex">
-            <button
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-1 mx-1 text-sm bg-[#03A8FD] text-white rounded hover:[#03A8FD] disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-            {currentPage > 5 && <span className="px-3 py-1 text-sm">...</span>}
-            {pageButtons.map((page) => (
+        {/* Pagination and Rows per Page */}
+        <div className="flex justify-between mt-4 items-center gap-[72rem] text-[1.2rem]">
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex">
               <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-3 py-1 mx-1 text-sm rounded hover:bg-[#03A8FD] ${
-                  currentPage === page
-                    ? "bg-[#03A8FD] text-white"
-                    : "bg-gray-200 text-black"
-                }`}
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 mx-1 text-[1.2rem] bg-[#03A8FD] text-black rounded hover:bg-[#03A8FD] disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
-                {page}
+                Previous
               </button>
-            ))}
-            {currentPage < totalPages - 4 && (
-              <span className="px-3 py-1 text-sm">...</span>
-            )}
-            <button
-              onClick={() =>
-                handlePageChange(Math.min(totalPages, currentPage + 1))
-              }
-              disabled={currentPage === totalPages}
-              className="px-3 py-1 mx-1 text-sm bg-[#03A8FD] text-white rounded hover:[#03A8FD] disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              Next
-            </button>
-          </div>
-        )}
+              {currentPage > 5 && (
+                <span className="px-3 py-1 text-[1.2rem]">...</span>
+              )}
+              {pageButtons.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-3 py-1 mx-1 text-[1.2rem] rounded hover:bg-[#03A8FD] ${
+                    currentPage === page
+                      ? "bg-[#03A8FD] text-white"
+                      : "bg-gray-200 text-black"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+              {currentPage < totalPages - 4 && (
+                <span className="px-3 py-1 text-[1.2rem]">...</span>
+              )}
+              <button
+                onClick={() =>
+                  handlePageChange(Math.min(totalPages, currentPage + 1))
+                }
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 mx-1 text-[1.2rem] bg-[#03A8FD] text-white rounded hover:bg-[#03A8FD] disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          )}
 
-        {/* Rows per Page */}
-        <div className="flex items-center">
-          <label className="mr-2">Rows per page:</label>
-          <select
-            value={pageSize}
-            onChange={(e) => {
-              setPageSize(parseInt(e.target.value));
-              setCurrentPage(1); // Reset to first page on page size change
-            }}
-            className="p-2 border border-gray-300 rounded-md shadow-sm"
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-          </select>
+          {/* Rows per Page */}
+          <div className="flex items-center">
+            <label className="mr-2">Rows per page:</label>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(parseInt(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="p-2 border border-gray-300 rounded-md shadow-sm"
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
-}
+};
 
 export default FacultyList;

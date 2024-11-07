@@ -613,13 +613,17 @@ const [workPopUp, setWorkPopUp] = useState(false);
     {
       name: (
         <div className="w-full select-none flex justify-center">
-          Submitted Forms
+          Document Link
         </div>
       ),
       cell: (row) => (
-        <div className="w-full select-none flex justify-center items-center text-blue-500">
-          {row.submitted}
-        </div>
+        <a className="w-full select-none flex justify-center items-center text-blue-500"
+        onClick={()=>{
+          window.open(row.proofDocument, '_blank')
+        }}
+        >
+          {row.proofDocument}
+        </a>
       ),
     },
   ];

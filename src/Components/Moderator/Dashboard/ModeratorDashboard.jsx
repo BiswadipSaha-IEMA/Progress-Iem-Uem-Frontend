@@ -25,6 +25,8 @@ export default function ModeratorDashboard() {
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
+
+  const [clickAccept, setClickAccept]= useState(false);
   
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -104,19 +106,19 @@ export default function ModeratorDashboard() {
     };
   
     allInfo();
-  }, [accessToken]);
+  }, [accessToken, clickAccept]);
   
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          <p className="mt-4 text-xl text-gray-700">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center bg-gray-100">
+  //       <div className="text-center">
+  //         <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+  //         <p className="mt-4 text-xl text-gray-700">Loading...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -162,7 +164,7 @@ export default function ModeratorDashboard() {
             >View all pending requests</button>
           </div>
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
-            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} data={data} />)}
+            {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} setClickAccept={setClickAccept} clickAccept={clickAccept} setLoading={setLoading} data={data} />)}
           </div>
         </div>
 

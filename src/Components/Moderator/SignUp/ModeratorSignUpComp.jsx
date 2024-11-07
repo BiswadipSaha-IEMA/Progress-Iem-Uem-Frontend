@@ -59,7 +59,7 @@ function ModeratorSignUpComp({
     const data = { email, password };
 
     try {
-      const json = await postReq("api/v1/user/changePassword", {
+      const json = await postReq("api/v1/moderator/changePassword", {
         email: email,
         oldPassword: passwordCheck,
         newPassword: password,

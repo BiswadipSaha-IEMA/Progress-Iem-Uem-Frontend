@@ -187,7 +187,6 @@ export default function ModeratorDashboard() {
         )}
         <Sidebar showProfile={showProfile} />
       </div>
-      <FacultyList/>
     </div>
   );
 }

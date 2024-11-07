@@ -9,8 +9,12 @@ import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
+import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
 
 export default function Faculty() {
+  const [showPopUp, setShowPopUp] = useState(false)
+  const [data, setData] = useState([])
+  const [data1, setData1] = useState([])
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
   const [ConfOrg, setConfOrg] = useState([]);
@@ -25,12 +29,33 @@ export default function Faculty() {
   const [fdp, setFdp] = useState([]);
   const [compete, setCompete] = useState([]);
   const [bookPub, setBookPub] = useState(false);
+  const [researchPaperGradeA, setResearchPaperGradeA] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
   const [getReq] = useGetReq();
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+
+  // Pop up form
+  useEffect(() => {
+    const getBPData = async () => {
+        try {
+            // API request to fetch all events
+            const response = await getReq('api/v1/document/getAllEvents', accessToken)
+            
+            // Check if the request was successful, then set data in state
+            if (response.success) {
+                console.log(response.data)
+                setData(response.data.data)
+                setData1(response.data.data)
+            } 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getBPData()
+}, [showPopUp])
 
   useEffect(() => {
     const allInfo = async () => {
@@ -433,7 +458,7 @@ export default function Faculty() {
                       setBookPub(true)
                     }
                     else if(item.title === "Research Paper Grade A"){
-                      // setResearchPaperGradeA(true)
+                      setResearchPaperGradeA(true)
                     }
                   }}
                 >
@@ -469,6 +494,14 @@ export default function Faculty() {
             setShowPopup={setBookPub}
           />
         }
+        {
+          researchPaperGradeA && 
+          <ResearchPaperGradeA
+            setShowPopup={setResearchPaperGradeA}
+          />
+        }
+        
+        
     </div>
   );
 }

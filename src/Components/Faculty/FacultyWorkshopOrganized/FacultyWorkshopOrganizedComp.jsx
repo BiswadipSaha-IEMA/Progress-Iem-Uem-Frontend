@@ -6,7 +6,7 @@ import { VscDiffAdded } from 'react-icons/vsc'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
-import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
+// import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
 import FacultyWorkshopOrganizedCard from './FacultyWorkshopOrganizedCard'
 import WorkShopPopUp from '../../../utils/Popup/FormPopUp/WorkShopPopUp'
 
@@ -105,6 +105,7 @@ function FacultyWorkshopOrganizedComp() {
                                         date={item.date}
                                         organizedBy={item.organizedBy}
                                         name={item.topicName}
+                                        attendedBy = {item.attendedBy}
                                     />
                                 ))
                         }

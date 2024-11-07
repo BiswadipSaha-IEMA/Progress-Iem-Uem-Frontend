@@ -8,9 +8,13 @@ import rolebg from "../../../assets/rolebg.png";
 import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
+import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
 
 
 export default function Faculty() {
+  const [showPopUp, setShowPopUp] = useState(false)
+  const [data, setData] = useState([])
+  const [data1, setData1] = useState([])
   const [showProfile, setShowProfile] = useState(false);
   const [bookData, setBookData] = useState([]);
   const [ConfOrg, setConfOrg] = useState([]);
@@ -27,6 +31,26 @@ export default function Faculty() {
   const [getReq] = useGetReq();
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+
+  // Pop up form
+  useEffect(() => {
+    const getBPData = async () => {
+        try {
+            // API request to fetch all events
+            const response = await getReq('api/v1/document/getAllEvents', accessToken)
+            
+            // Check if the request was successful, then set data in state
+            if (response.success) {
+                console.log(response.data)
+                setData(response.data.data)
+                setData1(response.data.data)
+            } 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    getBPData()
+}, [showPopUp])
 
   useEffect(() => {
     const allInfo = async () => {
@@ -308,6 +332,29 @@ export default function Faculty() {
             <div
               key={cellIndex}
               className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80"
+              onClick={()=>{
+                console.log(item)
+                if(item.title==="Books Published")
+                  navigate('/faculty/viewbookpublished')
+                else if(item.title==='Research Paper Grade A')
+                  navigate('/faculty/researchpapergradea')
+                else if(item.title==='Research Paper Grade B')
+                  navigate('/faculty/researchpapergradeb')
+                else if(item.title==='Research Paper Grade C')
+                  navigate('/faculty/researchpapergradec')
+                else if( item.title==="Conference")
+                  navigate('/faculty/viewconferenceorganized')
+                else if( item.title==="Talks and Distinguished Lecture Series")
+                  navigate('/faculty/viewLecture')
+                else if(item.title==="Workshop Organized")
+                  navigate('/faculty/viewworkshoporganized')
+                else if(item.title==="Industrial Tour")
+                  navigate('/faculty/viewIndustrialTour')
+                else if( item.title==="MOOCs")
+                  navigate('/faculty/viewmooc')
+                else if( item.title==="Tri-Mentoring System")
+                  navigate('/faculty/viewrtrimentor')
+              }}
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div className="flex items-center gap-2">
@@ -318,31 +365,15 @@ export default function Faculty() {
                 </div>
                 <button
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
-                  onClick={()=>{
-                    console.log(item)
-                    if(item.title==="Books Published")
-                      navigate('/faculty/viewbookpublished')
-                    else if(item.title==='Research Paper Grade A')
-                      navigate('/faculty/researchpapergradea')
-                    else if(item.title==='Research Paper Grade B')
-                      navigate('/faculty/researchpapergradeb')
-                    else if(item.title==='Research Paper Grade C')
-                      navigate('/faculty/researchpapergradec')
-                    else if( item.title==="Conference")
-                      navigate('/faculty/viewconferenceorganized')
-                    else if( item.title==="Talks and Distinguished Lecture Series")
-                      navigate('/faculty/viewLecture')
-                    else if(item.title==="Workshop Organized")
-                      navigate('/faculty/viewworkshoporganized')
-                    else if(item.title==="Industrial Tour")
-                      navigate('/faculty/viewIndustrialTour')
-                    else if( item.title==="MOOCs")
-                      navigate('/faculty/viewmooc')
-                    else if( item.title==="Tri-Mentoring System")
-                      navigate('/faculty/viewrtrimentor')
-                }}
+                  onClick={(e) => {
+                    if (item.eventType === "Workshop") {
+                      setShowPopUp(true);
+                    } else {
+                      console.log(item); 
+                    }
+                  }}
                 >
-                  View All
+                  Add Response
                 </button>
               </div>
               {item.details.map((book, index) => {
@@ -368,6 +399,12 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
+      {showPopUp && (
+                <WorkShopPopUp
+                    setUtilFor={'bpAddForm'}
+                    setShowPopup={setShowPopUp}
+                />
+            )}
     </div>
   );
 }

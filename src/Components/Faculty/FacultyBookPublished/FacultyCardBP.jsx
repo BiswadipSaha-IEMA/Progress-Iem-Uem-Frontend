@@ -3,10 +3,10 @@ import EditFormPopUp from "./EditFormPopUp";
 
 function FacultyCardBP({id, status, title, date, name, ISBN}) {
     const [editForm, setEditForm]= useState(false)
-
+    const [showDetails, setShowDetails] = useState(false)
 
   return (
-    <div className="w-full md:w-[400px] lg:w-[400px] h-[280px] md:h-[230px] lg:h-[230px] shadow-2xl rounded-2xl flex flex-col items-center p-4 md:p-6 lg:p-8">
+    <div className="w-full md:w-[400px] lg:w-[400px] h-[280px] md:h-[230px] lg:h-[230px] shadow-2xl rounded-2xl flex flex-col items-center p-4 md:p-6 lg:p-8" onClick={() => setShowDetails(true)}>
 
     <div className="flex items-center justify-between w-full mb-2">
         <div className="text-[#03a8fd] text-[1.25rem] md:text-[1.5rem] font-semibold">

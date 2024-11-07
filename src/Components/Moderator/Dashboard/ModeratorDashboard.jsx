@@ -1,12 +1,11 @@
 import { useState, useEffect,useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { GraduationCap, Menu, X } from "lucide-react";
 import { useGetReq, usePutReq } from '../../../hooks/useHttp';
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/ModeratorSidebar";
 import { FacultyCard } from "../FacultyCard/FacultyCard";
 import MemberCard from "../../MemberCard/MemberCard";
 import SchemaCardsPopup from "../../../utils/Popup/FormPopUp/SchemaCardsPopup";
-import { FacultyList } from "../FacultyList/FacultyList";
 
 
 
@@ -17,7 +16,8 @@ export default function ModeratorDashboard() {
   const [pendingData, setPendingData] = useState([]);
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false); 
-  
+  const [error, setError] = useState(null);
+
   const [showPopup, setShowPopup] = useState(false);
   const [utilFor, setUtilFor] = useState("");
   const [currentDepartment,setCurrentDepartment]=useState('')
@@ -32,6 +32,32 @@ export default function ModeratorDashboard() {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const access = sessionStorage.getItem('user');
+
+  const getFacultyList = async (endpoint) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      setFacultyData(data);
+    } catch (err) {
+      setError('Error fetching faculty data. Please try again.');
+      // console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
+    navigate(endpoint);
+  };
+
+  // Handler functions for each department
+  const getCSEfacultyList = () => getFacultyList("/api/moderator/cse-faculty");
+  const getESEfacultyList = () => getFacultyList("/api/moderator/ese-faculty");
+  const getMCAfacultyList = () => getFacultyList("/api/moderator/mca-faculty");
+  const getCSITfacultyList = () => getFacultyList("/api/moderator/csit-faculty");
+
 
   // const facultyAccess= async(id,accessModify)=>{
   //   const response=await putReq('api/v1/document/reviewPublication', {
@@ -139,7 +165,9 @@ export default function ModeratorDashboard() {
             MODERATOR
           </h2>
         </div>
-        <div className="bg-[url('/src/assets/vector_main.svg')] h-52 flex flex-col justify-center bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
+
+        {/* View all data and submissions */}
+        {/* <div className="bg-[url('/src/assets/vector_main.svg')] h-52 flex flex-col justify-center bg-cover bg-center w-full rounded-lg bg-white p-6 sm:p-10 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
           <h2 className="mb-4 text-center text-xl font-semibold">
             Click Here to View All Data and Submissions
           </h2>
@@ -152,11 +180,11 @@ export default function ModeratorDashboard() {
               View Data
             </button>
           </div>
-        </div>
+        </div> */}
 
         
         {/* Account - details Section */}
-        <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col h-[620px] lg:h-[420px] md:h-[430px]">
+        {/* <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col h-[620px] lg:h-[420px] md:h-[430px]">
           <div className="flex justify-between flex-col lg:flex-row md:flex-row">
             <h2 className="mb-4 text-xl font-semibold text-[#03A8FD] text-[30.2px] ">Request Approval</h2>
             <button className="text-white bg-[#03A8FD] rounded-lg py-2 w-full lg:w-[250px] md:w-[250px] font-[500]"
@@ -166,10 +194,10 @@ export default function ModeratorDashboard() {
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
             {pendingData&&pendingData.map((data)=><FacultyCard key={data.id} setClickAccept={setClickAccept} clickAccept={clickAccept} setLoading={setLoading} data={data} />)}
           </div>
-        </div>
+        </div> */}
 
         {/* Department Cards */}
-        <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col ">
+        {/* <div className="rounded-lg bg-white p-6 shadow-md flex-grow flex  lg:gap-0 flex-col ">
           <div className="flex gap-10 flex-row overflow-hidden py-10 px-2 lg:pl-2 md:pl-2 flex-wrap ">
             {departmentData.map((data)=>(
               <div className='w-[100%] sm:w-[20rem] p-7 rounded-xl shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}
@@ -181,7 +209,55 @@ export default function ModeratorDashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
+
+
+        <div className="bg-white h-full p-5 rounded-lg">
+            <div className=" flex justify-between">
+              <p className="text-[25px] font-semibold text-blue-500">
+                Department
+              </p>
+              <div className="flex gap-4 w-auto"> 
+              {/* <div className="bg-white w-[260px] rounded-lg border-[1.5px] relative "> */}
+              {/* <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/> */}
+              {/* </div> */}
+              {/* <p className="bg-[#03a8fd] w-auto flex justify-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer"
+              
+              >
+                Filter
+              </p> */}
+              </div>
+            </div>
+
+            {/* {department.map}
+        <div className="w-1/3 h-1/4 flex justify-center items-center bg-blue-100">CSE</div> */}
+
+            {/* All departments */}
+            <div className="w-full p-6"> 
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {department.map((dept) => (
+                <div
+                  key={dept} // Use the department name as the key
+                  onClick={() =>
+                    getFacultyList(`/api/moderator/${dept.toLowerCase()}-faculty`)
+                  }
+                  className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-white to-blue-100 p-4 shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  <div className="flex justify-between">
+                    <span className="text-lg pt-5 font-medium text-blue-900">
+                      {dept}
+                    </span>
+                    <GraduationCap className="w-1/2 h-32 text-blue-400 opacity-25" />
+                  </div>
+
+                  
+                </div>
+              ))}
+            </div>
+            </div>
+          </div>
+        {/* </div> */}
+
         {showPopup && (
         <SchemaCardsPopup setPopupShow={setShowPopup} setUtilFor={utilFor} department={currentDepartment} />
         )}
@@ -193,3 +269,4 @@ export default function ModeratorDashboard() {
 
 
 const departmentData=['CSE','ECE','CSIT','MCA']
+const department = ["CSE","CSEAIML", "CSEIOT" ,"ECE", "MCA", "BCA", "CSIT", "BE"];

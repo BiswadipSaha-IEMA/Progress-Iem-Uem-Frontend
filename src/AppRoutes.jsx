@@ -29,7 +29,16 @@ import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/Mode
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
-
+import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList"
+import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList"
+import CSITFacultyList from "./Pages/Moderator/FacultyList/CSITFacultyList"
+import MCAFacultyList from "./Pages/Moderator/FacultyList/MCAFacultyList"
+import BCAFacultyList from "./Pages/Moderator/FacultyList/BCAFacultyList"
+import BEFacultyList from "./Pages/Moderator/FacultyList/BEFacultyList"
+import CSEAIMLFacultyList from "./Pages/Moderator/FacultyList/CSEAIMLFacultyList";
+import CSEIOTFacultyList from "./Pages/Moderator/FacultyList/CSEIOTFacultyList";
+import TableData from "./Components/Moderator/TableData/TableData";
+import SpecificBookPublished from "./Components/Moderator/ViewData/SpecificBookPublished"
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -61,12 +70,25 @@ const AppRouter = () => {
           <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
           <Route path="/faculty/viewmooc" element={< FacultyMOOCPage/>} />
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
-   
+
 
           <Route path="/api/cse-faculty" element={<FacultyList/>} />
-          <Route path="/api/ese-faculty" element={<FacultyList/>} />
+          <Route path="/api/ece-faculty" element={<FacultyList/>} />
           <Route path="/api/mca-faculty" element={<FacultyList/>} />
-          <Route path="/api/csit-faculty'" element={<FacultyList/>} />
+          <Route path="/api/csit-faculty" element={<FacultyList/>} />
+
+          {/* Moderator Faculty Pages */}
+          <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList/>} />
+          <Route path="/api/moderator/ece-faculty" element={<ECEFacultyList/>} />
+          <Route path="/api/moderator/mca-faculty" element={<MCAFacultyList/>} />
+          <Route path="/api/moderator/bca-faculty" element={<BCAFacultyList/>} />
+          <Route path="/api/moderator/csit-faculty" element={<CSITFacultyList/>} />
+          <Route path="/api/moderator/be-faculty" element={<BEFacultyList/>} />
+          <Route path="/api/moderator/cseaiml-faculty" element={<CSEAIMLFacultyList/>} />
+          <Route path="/api/moderator/cseiot-faculty" element={<CSEIOTFacultyList/>} />
+          <Route path="/moderator/tabledata" element={<TableData/>} />
+          <Route path="/moderator/tabledata/specificbookpublished" element={<SpecificBookPublished/>} />
+          <Route path="/moderator/specificbookpublished" element={<SpecificBookPublished/>} />
 
 
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

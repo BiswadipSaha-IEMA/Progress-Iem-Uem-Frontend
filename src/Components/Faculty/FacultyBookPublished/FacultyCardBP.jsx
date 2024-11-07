@@ -151,6 +151,7 @@ function FacultyCardBP({ id, status, title, date, name, ISBN, driveFileUrl }) {
                                 onError={() => setIframeError(true)}
                             ></iframe>
                             {iframeError && (
+                                // if no data exist
                                 <div className="w-full h-full border border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400">
                                     <p className="text-center">Preview not available</p>
                                 </div>

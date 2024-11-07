@@ -29,7 +29,7 @@ import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/Mode
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
-import CseFacultyList from "./Pages/FacultyList/CseFacultyList";
+import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 
 
 const AppRouter = () => {
@@ -64,7 +64,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
    
 
-          <Route path="/cse-facultylist" element={<CseFacultyList/>} />
+          <Route path="/facultylist" element={<StreamFacultyList/>} />
           <Route path="/esc-facultylist" element={<FacultyList/>} />
           <Route path="/mca-facultylist" element={<FacultyList/>} />
           <Route path="/csit-facultylist'" element={<FacultyList/>} />

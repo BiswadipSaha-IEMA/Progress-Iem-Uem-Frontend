@@ -9,6 +9,7 @@ import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
+import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false)
@@ -25,6 +26,7 @@ export default function Faculty() {
   const [WorkOrg, setWorkOrg] = useState([]);
   const [IndTour, setIndTour] = useState([]);
   const [bookPub, setBookPub] = useState(false);
+  const [researchPaperGradeA, setResearchPaperGradeA] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -383,7 +385,7 @@ export default function Faculty() {
                       setBookPub(true)
                     }
                     else if(item.title === "Research Paper Grade A"){
-                      // setResearchPaperGradeA(true)
+                      setResearchPaperGradeA(true)
                     }
                   }}
                 >
@@ -419,6 +421,14 @@ export default function Faculty() {
             setShowPopup={setBookPub}
           />
         }
+        {
+          researchPaperGradeA && 
+          <ResearchPaperGradeA
+            setShowPopup={setResearchPaperGradeA}
+          />
+        }
+        
+        
     </div>
   );
 }

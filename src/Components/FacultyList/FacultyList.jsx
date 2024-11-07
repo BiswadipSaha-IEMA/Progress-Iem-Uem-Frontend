@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import Header from "../Header/Header";
+import Header from "../Header/Header.jsx";
 
 const FacultyList=() => {
   // Dummy data for the table (20 items for demonstration)
@@ -33,24 +33,26 @@ const FacultyList=() => {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
+      <div className="overflow-x-auto bg-white">
+        <div className="flex justify-center items-center sm:text-[1.5rem] lg:text-[2.5rem] font-semibold text-[#03A8FD] font-poppins py-5">Faculty List</div>
+
+        <table className="min-w-full border border-gray-200 font-poppins">
+          <thead className="bg-[#03A8FD] text-white py-3">
             <tr>
-              <th className="px-4 py-2 border text-center">Serial Number</th>
-              <th className="px-4 py-2 border text-center">Name</th>
-              <th className="px-4 py-2 border text-center">View All Details</th>
+              <th className="px-4 py-2 text-center font-semibold">Sl. No</th>
+              <th className="px-4 py-2 text-center font-semibold">Faculty Name</th>
+              <th className="px-4 py-2text-center"/>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-[#ECECEC] mx-2">
             {currentData.length > 0 ? (
               currentData.map((item, index) => (
                 <tr
                   key={item.userId}
-                  className="hover:bg-gray-100 cursor-pointer"
+                  className="bg-white hover:bg-gray-100 cursor-pointer px-4"
                 >
                   <td className="px-4 py-2 border text-center">
                     {startIndex + index + 1}
@@ -131,6 +133,7 @@ const FacultyList=() => {
             }}
             className="p-2 border border-gray-300 rounded-md shadow-sm"
           >
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>

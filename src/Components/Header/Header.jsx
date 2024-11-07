@@ -1,6 +1,6 @@
 import React from 'react'
-import IEM from "../../";
-import UEM from "../assets/UEM.png";
+import IEM from "../../assets/IEM.png";
+import UEM from "../../assets/UEM.png";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 
 export default function Header() {

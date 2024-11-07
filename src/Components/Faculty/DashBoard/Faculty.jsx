@@ -8,7 +8,7 @@ import rolebg from "../../../assets/rolebg.png";
 import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
-
+import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
 
 export default function Faculty() {
   const [showProfile, setShowProfile] = useState(false);
@@ -18,11 +18,12 @@ export default function Faculty() {
   const [TriMentor, setTriMentor] = useState([]);
   const [Lecture, setLecture] = useState([]);
   const [researchData, setResearchData] = useState([]);
-  const [seminarData, setSeminarData]= useState([])
+  const [seminarData, setSeminarData] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
   const [IndTour, setIndTour] = useState([]);
+  const [bookPub, setBookPub] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   const [getReq] = useGetReq();
 
@@ -55,7 +56,10 @@ export default function Faculty() {
 
     const getConfInfo = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
           setConfOrg(response.data.data);
@@ -64,10 +68,13 @@ export default function Faculty() {
         console.error("Error fetching conference info:", error);
       }
     };
-  
+
     const getLecture = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
           setLecture(response.data.data);
@@ -79,7 +86,10 @@ export default function Faculty() {
 
     const getMoocs = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllMoocs", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllMoocs",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
           // const arr=[]
@@ -97,55 +107,63 @@ export default function Faculty() {
 
     const getTrimentor = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
-          const filteredData= response.data.data.filter((item)=> item.eventType==='Tri-Mentoring')
-          console.log('uhuioshoij',filteredData)
-          setTriMentor(filteredData)
+          const filteredData = response.data.data.filter(
+            (item) => item.eventType === "Tri-Mentoring"
+          );
+          console.log("uhuioshoij", filteredData);
+          setTriMentor(filteredData);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    const getWorkInfo= async()=>{
+    const getWorkInfo = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
-          const arr=[]
-          const filteredData= response.data.data.map((dt)=>{
-            if(dt.eventType==="Workshop")
-              arr.push(dt)
-          })
+          const arr = [];
+          const filteredData = response.data.data.map((dt) => {
+            if (dt.eventType === "Workshop") arr.push(dt);
+          });
 
           setWorkOrg(arr);
         }
       } catch (error) {
         console.error("Error fetching conference info:", error);
       }
-    }
+    };
 
-    const getIndTour= async()=>{
+    const getIndTour = async () => {
       try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         console.log(response);
         if (response.success) {
-          const arr=[]
-          const filteredData= response.data.data.map((dt)=>{
-            if(dt.eventType==="Industrial Tour")
-              arr.push(dt)
-          })
+          const arr = [];
+          const filteredData = response.data.data.map((dt) => {
+            if (dt.eventType === "Industrial Tour") arr.push(dt);
+          });
 
           setIndTour(arr);
         }
       } catch (error) {
         console.error("Error fetching conference info:", error);
       }
-    }
-  
-    
+    };
+
     allInfo();
     getConfInfo();
     getLecture();
@@ -153,14 +171,11 @@ export default function Faculty() {
     getIndTour();
     getMoocs();
     getTrimentor();
-
-
   }, [accessToken]);
-  
+
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
   };
-
 
   const items = [
     {
@@ -193,38 +208,36 @@ export default function Faculty() {
     },
     {
       title: "Conference",
-      details: ConfOrg
-        .filter(paper => paper.eventType === "Conference")
-        .map((paper) => ({
+      details: ConfOrg.filter((paper) => paper.eventType === "Conference").map(
+        (paper) => ({
           title: paper.topicName,
           status: paper.status,
-        })),
+        })
+      ),
     },
     {
       title: "Talks and Distinguished Lecture Series",
-      details: Lecture
-      .filter(paper => paper.eventType === "Lecture")
-        .map((paper) => ({
+      details: Lecture.filter((paper) => paper.eventType === "Lecture").map(
+        (paper) => ({
           title: paper.topicName,
           status: paper.status,
-        })),
+        })
+      ),
     },
 
     {
       title: "Workshop Organized",
-      details: WorkOrg
-        .map((paper) => ({
-          title: paper.topicName,
-          status: paper.status,
-        })),
+      details: WorkOrg.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
     },
     {
       title: "Industrial Tour",
-      details: IndTour
-        .map((paper) => ({
-          title: paper.topicName,
-          status: paper.status,
-        })),
+      details: IndTour.map((paper) => ({
+        title: paper.topicName,
+        status: paper.status,
+      })),
     },
     {
       title: "MOOCs",
@@ -240,8 +253,6 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
-
-
   ];
 
   const getStatusStyles = (status) => {
@@ -272,7 +283,6 @@ export default function Faculty() {
         };
     }
   };
-
 
   return (
     <div className="bg-[#ECECEC] h-screen">
@@ -307,7 +317,32 @@ export default function Faculty() {
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
-              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80"
+              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80 cursor-pointer"
+              onClick={() => {
+                if (item.title === "Books Published") {
+                  navigate("/faculty/viewbookpublished");
+                } else if (item.title === "Research Paper Grade A") {
+                  navigate("/faculty/researchpapergradea");
+                } else if (item.title === "Research Paper Grade B") {
+                  navigate("/faculty/researchpapergradeb");
+                } else if (item.title === "Research Paper Grade C") {
+                  navigate("/faculty/researchpapergradec");
+                } else if (item.title === "Conference") {
+                  navigate("/faculty/viewconferenceorganized");
+                } else if (
+                  item.title === "Talks and Distinguished Lecture Series"
+                ) {
+                  navigate("/faculty/viewLecture");
+                } else if (item.title === "Workshop Organized") {
+                  navigate("/faculty/viewworkshoporganized");
+                } else if (item.title === "Industrial Tour") {
+                  navigate("/faculty/viewIndustrialTour");
+                } else if (item.title === "MOOCs") {
+                  navigate("/faculty/viewmooc");
+                } else if (item.title === "Tri-Mentoring System") {
+                  navigate("/faculty/viewrtrimentor");
+                }
+              }}
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div className="flex items-center gap-2">
@@ -318,31 +353,18 @@ export default function Faculty() {
                 </div>
                 <button
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
-                  onClick={()=>{
-                    console.log(item)
-                    if(item.title==="Books Published")
-                      navigate('/faculty/viewbookpublished')
-                    else if(item.title==='Research Paper Grade A')
-                      navigate('/faculty/researchpapergradea')
-                    else if(item.title==='Research Paper Grade B')
-                      navigate('/faculty/researchpapergradeb')
-                    else if(item.title==='Research Paper Grade C')
-                      navigate('/faculty/researchpapergradec')
-                    else if( item.title==="Conference")
-                      navigate('/faculty/viewconferenceorganized')
-                    else if( item.title==="Talks and Distinguished Lecture Series")
-                      navigate('/faculty/viewLecture')
-                    else if(item.title==="Workshop Organized")
-                      navigate('/faculty/viewworkshoporganized')
-                    else if(item.title==="Industrial Tour")
-                      navigate('/faculty/viewIndustrialTour')
-                    else if( item.title==="MOOCs")
-                      navigate('/faculty/viewmooc')
-                    else if( item.title==="Tri-Mentoring System")
-                      navigate('/faculty/viewrtrimentor')
-                }}
+                  onClick={(event) => {
+                    event.stopPropagation(); 
+                    console.log("hello");
+                    if(item.title === "Books Published"){
+                      setBookPub(true)
+                    }
+                    else if(item.title === "Research Paper Grade A"){
+                      // setResearchPaperGradeA(true)
+                    }
+                  }}
                 >
-                  View All
+                  Add A Response
                 </button>
               </div>
               {item.details.map((book, index) => {
@@ -368,6 +390,12 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
+        {
+          bookPub && 
+          <BookPublished
+            setShowPopup={setBookPub}
+          />
+        }
     </div>
   );
 }

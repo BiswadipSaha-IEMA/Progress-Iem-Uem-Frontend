@@ -39,6 +39,8 @@ import CSEAIMLFacultyList from "./Pages/Moderator/FacultyList/CSEAIMLFacultyList
 import CSEIOTFacultyList from "./Pages/Moderator/FacultyList/CSEIOTFacultyList";
 import TableData from "./Components/Moderator/TableData/TableData";
 import SpecificBookPublished from "./Components/Moderator/ViewData/SpecificBookPublished"
+import CseFacultyList from "./Pages/FacultyList/CseFacultyList";
+
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -72,7 +74,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
 
 
-          <Route path="/api/cse-faculty" element={<FacultyList/>} />
+          <Route path="/api/cse-faculty" element={<CseFacultyList/>} />
           <Route path="/api/ece-faculty" element={<FacultyList/>} />
           <Route path="/api/mca-faculty" element={<FacultyList/>} />
           <Route path="/api/csit-faculty" element={<FacultyList/>} />

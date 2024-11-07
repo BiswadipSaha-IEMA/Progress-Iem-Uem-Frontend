@@ -143,7 +143,7 @@ export default function SuperAdminDashboardComp() {
   };
 
   // Handler functions for each department
-  const getCSEfacultyList = () => getFacultyList("/api/cse-faculty");
+  const getCSEfacultyList = () => getFacultyList("/cse-facultylist");
   const getESEfacultyList = () => getFacultyList("/api/ese-faculty");
   const getMCAfacultyList = () => getFacultyList("/api/mca-faculty");
   const getCSITfacultyList = () => getFacultyList("/api/csit-faculty");
@@ -275,7 +275,11 @@ export default function SuperAdminDashboardComp() {
                 <div
                   key={dept} // Use the department name as the key
                   onClick={() =>
-                    getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
+
+                    {
+                      sessionStorage.setItem('dept', dept)
+                      navigate(`/${dept.toLowerCase()}-facultylist`)}
+                    // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }
                   className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-white to-blue-100 p-4 shadow-sm hover:shadow-md transition-all duration-200"
                 >

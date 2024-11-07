@@ -4,6 +4,9 @@ import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../SideBar/Sidebar";
 import FacultyList from "../AddFaculty/FacultyList";
+import TimerPopUp from "../../utils/Popup/FormPopUp/TimerPopUp";
+import { FaCalendar } from "react-icons/fa6";
+import { IoCalendar } from "react-icons/io5";
 
 export default function SuperAdminDashboardComp() {
   const [formCount, setFormCount] = useState(0);
@@ -15,6 +18,7 @@ export default function SuperAdminDashboardComp() {
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
+  const [showDate,setShowDate]= useState(false);
 
   const [facultyData, setFacultyData] = useState([]);
   const [error, setError] = useState(null);
@@ -196,9 +200,15 @@ export default function SuperAdminDashboardComp() {
           <div className=" flex flex-col gap-5 w-[30%]">
             {/* set date section */}
             <div className="flex gap-2">
-              <div className="bg-white w-[50%] rounded-lg border "></div>
+              <div className="bg-white w-[100%] rounded-[15px] border-[1.5px] relative">
+              <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
+              </div>
 
-              <div className="bg-blue-500 w-[50%] flex justify-center p-2  text-[20px] text-white rounded-lg">
+              <div className="bg-[#03a8fd] w-[50%] flex justify-center p-1  text-[20px] text-white rounded-[15px] cursor-pointer"
+              onClick={()=>{
+                setShowDate(true);
+              }}
+              >
                 Set Date
               </div>
             </div>
@@ -244,8 +254,12 @@ export default function SuperAdminDashboardComp() {
                 Department
               </p>
               <div className="flex gap-4 w-auto"> 
-              <div className="bg-white w-[260px] rounded-lg border "></div>
-              <p className="bg-blue-500 w-auto flex justify-center px-6 py-2  text-[20px] text-white rounded-lg">
+              <div className="bg-white w-[260px] rounded-lg border-[1.5px] relative ">
+              <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
+              </div>
+              <p className="bg-[#03a8fd] w-auto flex justify-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer"
+              
+              >
                 Filter
               </p>
               </div>
@@ -349,6 +363,9 @@ export default function SuperAdminDashboardComp() {
 
         <Sidebar showProfile={showProfile} />
       </div>
+      {
+        showDate && <TimerPopUp setShowPopup={setShowDate}/>
+      }
     </div>
   );
 }

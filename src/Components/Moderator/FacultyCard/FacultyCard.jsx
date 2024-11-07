@@ -3,7 +3,7 @@ import { TiTick } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import { usePostReq } from "../../../hooks/useHttp";
 
-export const FacultyCard = ({data, setLoading}) => {
+export const FacultyCard = ({data, setLoading, setClickAccept, clickAccept}) => {
 
   const [responseModify, setResponseModify]= useState('Pending')
   const [postReq] = usePostReq();
@@ -32,6 +32,10 @@ export const FacultyCard = ({data, setLoading}) => {
     console.log(responseModify)
   },[responseModify])
 
+  useEffect(()=>{
+    
+  })
+
 
   return (
     <div className='w-[100%] sm:w-[26rem] p-7 rounded-xl' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3) ' }}>
@@ -42,16 +46,22 @@ export const FacultyCard = ({data, setLoading}) => {
         <div className="bg-[#DCF3FF] p-1 sm:w-48 w-auto flex justify-center rounded-lg  text-[#51646F] font-semibold">{`${data.publicationType?data.publicationType.replace(/\s*Paper\s*/,''):''} ${data.publicationGrade?data.publicationGrade:''}`}</div>
       </div>
       <div className="border b-[#BFBFBF] mt-4 mb-4"></div>
-      <div className='w-full flex justify-center items-center py-2 bg-[#03A8FD] text-[#fff] font-[500] rounded-md mb-4'>View File</div>
+      <div className='w-full flex justify-center items-center py-2 bg-[#03A8FD] text-[#fff] font-[500] rounded-md mb-4'
+      onClick={()=>{
+        window.open(data.proofDocument, '_blank')
+      }}
+      >View File</div>
       <div className="flex items-center flex-col sm:flex-row gap-8 justify-center mb-2">
         <button className='bg-[#D6FFCE] py-2 text-[#1C6229] flex items-center justify-center gap-2 w-full sm:w-[45%] rounded-md text-[15px] font-[600]'
         onClick={()=>{
           facultyAccess(data._id, 'Approved')
+          setClickAccept(!clickAccept)
         }}
         >Accept<TiTick className="text-[20px]" /></button>
         <button className='bg-[#FFDBDB] py-2 text-[#C66666] flex items-center justify-center gap-2 w-full sm:w-[45%] rounded-md text-[15px] font-[600]'
         onClick={()=>{
-          facultyAccess(data._id, 'Approved')
+          facultyAccess(data._id, 'Rejected')
+          setClickAccept(!clickAccept)
         }}
         >Reject<ImCross className="text-[12px]" /></button>
         {/* <button className='bg-[#FFDBDB] p-2 text-[#C66666] flex items-center justify-center w-full sm:w-[45%] rounded-xl text-[19px]'>Reject<ImCross className="text-[14px]" /></button> */}

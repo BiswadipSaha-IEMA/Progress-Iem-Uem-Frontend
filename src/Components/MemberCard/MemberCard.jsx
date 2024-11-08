@@ -6,8 +6,8 @@ import { TbEdit } from "react-icons/tb";
 
 const MemberCard = ({ role, data }) => {
     return (
-        <div className='m-4 pb-4 rounded-lg lg:w-[400px] md:w-[300px] min-w-[200px]' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
-            <div className="ml-6 p-3">
+        <div className='m-4 sm:pb-4 ml-[0px] sm:ml-0 rounded-lg lg:w-[400px] md:w-[300px] min-w-[350px] min-h-[250px] flex flex-col' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
+            <div className="ml-6 p-3 flex flex-col flex-wrap">
                 <div className="flex justify-end">
                     <button className='bg-[#03A8FD] p-2 rounded-lg flex items-center gap-2'>
                         <div className="text-2xl text-[#fff]"><TbEdit /></div>

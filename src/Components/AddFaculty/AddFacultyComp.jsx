@@ -62,7 +62,7 @@ const AddFacultyComp = () => {
           </button>
         </div>
 
-        <div className="bg-white pt-5 pb-5 flex flex-wrap w-full mt-8 rounded-lg">
+        <div className="bg-white pt-5 pb-5 flex justify-center gap-8 flex-wrap w-full mt-8 rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup}/>
         </div>
       </div>

@@ -50,7 +50,7 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
     const data = { email, password };
 
     try {
-        const json = await postReq('api/v1/user/loginModerator', data);
+        const json = await postReq('api/v1/moderator/login', data);
         if (json) {
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);

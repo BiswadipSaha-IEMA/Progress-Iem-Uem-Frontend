@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 import Registration from "./Pages/Registration/Registration";
 import Login from "./Pages/Login/Login";
@@ -29,11 +29,13 @@ import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/Mode
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
-import CseFacultyList from "./Pages/FacultyList/CseFacultyList";
+import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
+  const {routeName} = useParams();
+
   return (
     <>
       {userLogin? (
@@ -64,10 +66,10 @@ const AppRouter = () => {
           <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
    
 
-          <Route path="/cse-facultylist" element={<CseFacultyList/>} />
-          <Route path="/esc-facultylist" element={<FacultyList/>} />
+          <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
+          {/* <Route path="/esc-facultylist" element={<FacultyList/>} />
           <Route path="/mca-facultylist" element={<FacultyList/>} />
-          <Route path="/csit-facultylist'" element={<FacultyList/>} />
+          <Route path="/csit-facultylist'" element={<FacultyList/>} /> */}
 
 
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

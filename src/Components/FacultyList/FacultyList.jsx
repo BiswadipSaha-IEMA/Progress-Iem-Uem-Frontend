@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Header/Header";
+
+
 const FacultyList = () => {
   const data = Array.from({ length: 50 }, (_, i) => ({
     userId: i + 1,
@@ -28,10 +30,17 @@ const FacultyList = () => {
   );
   const department = sessionStorage.getItem("dept")
   console.log(department);
-  
+
+  // useEffect(()=>{
+  //   if(department === null){
+  //     window.location.href = "/"
+  //     }
+      
+  // },[department])
+
   return (
     <>
-      <Header />
+      <Header backPage="/"/>
       {/* <div className="bg-[#ECECEC] px-20 py-20"> */}
       <div className="lg:px-6 lg:py-5 flex flex-col justify-center items-center gap-5 bg-white rounded-lg ">
         <div className="overflow-x-auto font-poppins lg:w-[90%] h-[50%]">
@@ -139,7 +148,7 @@ const FacultyList = () => {
                 setPageSize(parseInt(e.target.value));
                 setCurrentPage(1);
               }}
-              className="p-2 border border-gray-300 rounded-md shadow-sm"
+              className="p-2 border border-gray-300 rounded-md shadow-sm outline-none"
             >
               <option value="5">5</option>
               <option value="10">10</option>

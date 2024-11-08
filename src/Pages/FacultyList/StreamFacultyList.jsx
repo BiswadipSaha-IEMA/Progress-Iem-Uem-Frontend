@@ -1,7 +1,7 @@
 import React from 'react'
 import FacultyList from '../../Components/FacultyList/FacultyList'
 
-const CseFacultyList = () => {
+const StreamFacultyList = () => {
   return (
     <>
     <FacultyList/>
@@ -9,4 +9,4 @@ const CseFacultyList = () => {
   )
 }
 
-export default CseFacultyList
+export default StreamFacultyList

@@ -52,7 +52,7 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/editAcc" element={<Home />} />
-          <Route path="/viewdata" element={<Student />} />
+          {/* <Route path="/viewdata" element={<Student />} /> */}
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />
@@ -83,7 +83,7 @@ const AppRouter = () => {
           <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 
 
-          {/* <Route path="/viewdata" element={<FacultyViewData />} /> */}
+          <Route path="/viewdata" element={<FacultyViewData />} />
 
           <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>

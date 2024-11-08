@@ -116,7 +116,7 @@ const FacultyList = () => {
                     <button
                       onClick={() => 
                         {
-                          sessionStorage.setItem('userId',item.userId)
+                          sessionStorage.setItem('userId',item._id)
                           navigate('/viewdata')
                         }
                         // handleRowClick(item.userId)

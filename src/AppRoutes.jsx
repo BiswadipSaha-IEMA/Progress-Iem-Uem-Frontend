@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 import Registration from "./Pages/Registration/Registration";
 import Login from "./Pages/Login/Login";
@@ -44,6 +44,8 @@ import CseFacultyList from "./Pages/FacultyList/CseFacultyList";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
+  const {routeName} = useParams();
+
   return (
     <>
       {userLogin? (
@@ -75,22 +77,9 @@ const AppRouter = () => {
 
 
           <Route path="/cse-facultylist" element={<CseFacultyList/>} />
-          <Route path="/api/ece-faculty" element={<FacultyList/>} />
-          <Route path="/api/mca-faculty" element={<FacultyList/>} />
-          <Route path="/api/csit-faculty" element={<FacultyList/>} />
-
-          {/* Moderator Faculty Pages */}
-          <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList/>} />
-          <Route path="/api/moderator/ece-faculty" element={<ECEFacultyList/>} />
-          <Route path="/api/moderator/mca-faculty" element={<MCAFacultyList/>} />
-          <Route path="/api/moderator/bca-faculty" element={<BCAFacultyList/>} />
-          <Route path="/api/moderator/csit-faculty" element={<CSITFacultyList/>} />
-          <Route path="/api/moderator/be-faculty" element={<BEFacultyList/>} />
-          <Route path="/api/moderator/cseaiml-faculty" element={<CSEAIMLFacultyList/>} />
-          <Route path="/api/moderator/cseiot-faculty" element={<CSEIOTFacultyList/>} />
-          <Route path="/moderator/tabledata" element={<TableData/>} />
-          <Route path="/moderator/tabledata/specificbookpublished" element={<SpecificBookPublished/>} />
-          <Route path="/moderator/specificbookpublished" element={<SpecificBookPublished/>} />
+          <Route path="/esc-facultylist" element={<FacultyList/>} />
+          <Route path="/mca-facultylist" element={<FacultyList/>} />
+          <Route path="/csit-facultylist'" element={<FacultyList/>} />
 
 
           {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}

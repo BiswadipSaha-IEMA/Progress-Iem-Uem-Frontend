@@ -1,8 +1,11 @@
 import React from 'react'
+import ViewDataTable from "../../../Components/ViewData/ViewDataTable"
 
 const FacultyViewData = () => {
   return (
-    <div>FacultyViewData</div>
+    <>
+    <ViewDataTable/>
+    </>
   )
 }
 

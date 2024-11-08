@@ -1,23 +1,63 @@
 import { useEffect, useState } from "react";
 import Header from "../Header/Header";
+import { useGetReq } from "../../hooks/useHttp";
+import { useNavigate } from "react-router-dom";
 
 
 const FacultyList = () => {
-  const data = Array.from({ length: 50 }, (_, i) => ({
-    userId: i + 1,
-    user: { name: `User ${i + 1}` },
-  }));
-
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  const department = sessionStorage.getItem("dept");
+  const [getReq] = useGetReq();
+  const navigate = useNavigate();
 
-  const totalPages = Math.ceil(data.length / pageSize);
+  let stream = "";
+  if (department) {
+    for (let i = 0; i < department.length; i++) {
+      if (department.charCodeAt(i) >= 65 && department.charCodeAt(i) <= 90) {
+        stream += department.charAt(i);
+      }
+    }
+  }
+
+  console.log(stream);
+
+  useEffect(() => {
+    const getFaculty = async () => {
+      try {
+        const response = await getReq(
+          `api/v1/user/getUser/${stream}`,
+          accessToken
+        );
+        if (response.success) {
+          console.log(response);
+          setData(response.users);
+        } else {
+          console.error("Error:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    if (accessToken) {
+      getFaculty();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const totalPages = Math.ceil(data?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = data?.slice(startIndex, endIndex);
 
-  const handleRowClick = (userId) => {
-    console.log("View details for user:", userId);
+  const handleRowClick = (eventId) => {
+    console.log("View details for event:", eventId);
   };
 
   const handlePageChange = (page) => {
@@ -28,15 +68,6 @@ const FacultyList = () => {
     Math.max(currentPage - 5, 0),
     Math.min(currentPage + 4, totalPages)
   );
-  const department = sessionStorage.getItem("dept")
-  console.log(department);
-
-  // useEffect(()=>{
-  //   if(department === null){
-  //     window.location.href = "/"
-  //     }
-      
-  // },[department])
 
   return (
     <>
@@ -77,11 +108,17 @@ const FacultyList = () => {
                     {startIndex + index + 1}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[1rem]">
-                    {item.user?.name || "N/A"}
+                    {item.email|| "N/A"}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[0.8rem]">
                     <button
-                      onClick={() => handleRowClick(item.userId)}
+                      onClick={() => 
+                        {
+                          sessionStorage.setItem('userId',key)
+                          Navigate()
+                        }
+                        // handleRowClick(item.userId)
+                      }
                       className="bg-[#03A8FD] lg:px-8 lg:py-2 px-4 py-1 rounded-md text-white"
                     >
                       View Data

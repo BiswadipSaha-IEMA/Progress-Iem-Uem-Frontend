@@ -10,7 +10,7 @@ import AddUser from "./Pages/AddUser/AddUser";
 import AddModerator from "./Pages/AddModerator/AddModerator";
 import AddFaculty from "./Pages/AddFaculty/AddFaculty";
 import SuperAdminDashboard from "./Pages/SuperAdminDashboard/SuperAdminDashboard";
-import  ModeratorDashboard  from "./Components/Moderator/Dashboard/ModeratorDashboard";
+import ModeratorDashboard from "./Components/Moderator/Dashboard/ModeratorDashboard";
 import ModeratorSignUp from "./Pages/Moderator/SignUp/ModeratorSignUp";
 import ModeratorSignIn from "./Pages/Moderator/Login/ModeratorSignIn";
 import BookPublishedPage from "./Pages/Moderator/ViewData/BookPublishedPage";
@@ -21,7 +21,7 @@ import FacultyBookPublishedPage from "./Pages/Faculty/FacultyBookPublished/Facul
 import FacultyResearchPpaperAPage from "./Pages/Faculty/FacultyResearchPpaperA/FacultyResearchPpaperAPage";
 import FacultyResearchPpaperBPage from "./Pages/Faculty/FacultyResearchPpaperB/FacultyResearchPpaperBPage";
 import FacultyResearchPpaperCPage from "./Pages/Faculty/FacultyResearchPpaperC/FacultyResearchPpaperCPage";
-import FacultyConferenceOrganized from './Pages/Faculty/FacultyConferenceOrganized/FacultyConferenceOrganized'
+import FacultyConferenceOrganized from './Pages/Faculty/FacultyConferenceOrganized/FacultyConferenceOrganized';
 import Lectureseries from "./Pages/Faculty/Lectureseries/Lectureseries";
 import FacultyWorkshopOrganizedPage from "./Pages/Faculty/FacultyWorkshopOrganized/FacultyWorkshopOrganizedPage";
 import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/FacultyIndustrialTourPage";
@@ -29,77 +29,71 @@ import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/Mode
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
-import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList"
-import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList"
-import CSITFacultyList from "./Pages/Moderator/FacultyList/CSITFacultyList"
-import MCAFacultyList from "./Pages/Moderator/FacultyList/MCAFacultyList"
-import BCAFacultyList from "./Pages/Moderator/FacultyList/BCAFacultyList"
-import BEFacultyList from "./Pages/Moderator/FacultyList/BEFacultyList"
+import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList";
+import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList";
+import CSITFacultyList from "./Pages/Moderator/FacultyList/CSITFacultyList";
+import MCAFacultyList from "./Pages/Moderator/FacultyList/MCAFacultyList";
+import BCAFacultyList from "./Pages/Moderator/FacultyList/BCAFacultyList";
+import BEFacultyList from "./Pages/Moderator/FacultyList/BEFacultyList";
 import CSEAIMLFacultyList from "./Pages/Moderator/FacultyList/CSEAIMLFacultyList";
 import CSEIOTFacultyList from "./Pages/Moderator/FacultyList/CSEIOTFacultyList";
 import TableData from "./Components/Moderator/TableData/TableData";
-import SpecificBookPublished from "./Components/Moderator/ViewData/SpecificBookPublished"
-import CseFacultyList from "./Pages/FacultyList/CseFacultyList";
-
+import SpecificBookPublished from "./Components/Moderator/ViewData/SpecificBookPublished";
+import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
-  const {routeName} = useParams();
+  const { routeName } = useParams();
 
   return (
     <>
-      {userLogin? (
+      {userLogin ? (
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/addmoderator" element={<AddModerator/>} />
           <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/editAcc" element={<Home />} />
           <Route path="/viewdata" element={<Student />} />
-          {/* <Route path="/student" element={<Student />} /> */}
-          {/* <Route path="/moderator" element={<ModeratorComp />} /> */}
           <Route path="/addfaculty" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
           <Route path="/moderator/dashboard" element={<ModeratorDashboard />} />
-          <Route path="/moderator/viewdata" element={< BookPublishedPage/>} />
-          <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
-          <Route path="/faculty/dashboard" element={< FacultyPage/>} />
-          <Route path="/faculty/viewbookpublished" element={< FacultyBookPublishedPage/>} />
-          <Route path="/faculty/researchpapergradea" element={< FacultyResearchPpaperAPage/>} />
-          <Route path="/faculty/researchpapergradeb" element={< FacultyResearchPpaperBPage/>} />
-          <Route path="/faculty/researchpapergradec" element={< FacultyResearchPpaperCPage/>} />
-          <Route path="/faculty/viewconferenceorganized" element={< FacultyConferenceOrganized/>} />
-          <Route path="/faculty/viewLecture" element={<Lectureseries/>} />
-          <Route path="/faculty/viewIndustrialTour" element={< FacultyIndustrialTourPage/>} />
-          <Route path="/faculty/viewworkshoporganized" element={< FacultyWorkshopOrganizedPage/>} />
-          <Route path="/moderator/pendingrequests" element={< ModeratorPendingRequests/>} />
-          <Route path="/faculty/viewmooc" element={< FacultyMOOCPage/>} />
-          <Route path="/faculty/viewrtrimentor" element={< FacultyTriMentoringPage/>} />
+          <Route path="/moderator/viewdata" element={<BookPublishedPage />} />
+          <Route path="/moderator/pendingrequests" element={<ModeratorPendingRequests />} />
+          <Route path="/faculty/dashboard" element={<FacultyPage />} />
+          <Route path="/faculty/viewbookpublished" element={<FacultyBookPublishedPage />} />
+          <Route path="/faculty/researchpapergradea" element={<FacultyResearchPpaperAPage />} />
+          <Route path="/faculty/researchpapergradeb" element={<FacultyResearchPpaperBPage />} />
+          <Route path="/faculty/researchpapergradec" element={<FacultyResearchPpaperCPage />} />
+          <Route path="/faculty/viewconferenceorganized" element={<FacultyConferenceOrganized />} />
+          <Route path="/faculty/viewLecture" element={<Lectureseries />} />
+          <Route path="/faculty/viewIndustrialTour" element={<FacultyIndustrialTourPage />} />
+          <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
+          <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
+          <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
 
+          {/* Faculty lists by stream */}
+          <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />
+          <Route path="/ece-facultylist" element={<ECEFacultyList />} />
+          <Route path="/csit-facultylist" element={<CSITFacultyList />} />
+          <Route path="/mca-facultylist" element={<MCAFacultyList />} />
+          <Route path="/bca-facultylist" element={<BCAFacultyList />} />
+          <Route path="/be-facultylist" element={<BEFacultyList />} />
+          <Route path="/cse-aiml-facultylist" element={<CSEAIMLFacultyList />} />
+          <Route path="/cse-iot-facultylist" element={<CSEIOTFacultyList />} />
+          <Route path="/moderator/specificbookpublished" element={<SpecificBookPublished />} />
+          <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 
-          <Route path="/cse-facultylist" element={<CseFacultyList/>} />
-          <Route path="/esc-facultylist" element={<FacultyList/>} />
-          <Route path="/mca-facultylist" element={<FacultyList/>} />
-          <Route path="/csit-facultylist'" element={<FacultyList/>} />
-
-
-          {/* <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} /> */}
-          
           <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
-      )  : (
+      ) : (
         <Routes>
           <Route path="/" element={<Registration />} />
           <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/moderator/signup" element={< ModeratorSignUp/>} />
-          <Route path="/moderator/login" element={< ModeratorSignIn/>} />
-          <Route path="/faculty/signup" element={< FacultySignUp/>} />
-          <Route path="/faculty/login" element={< FacultySignIn/>} />
-
+          <Route path="/moderator/signup" element={<ModeratorSignUp />} />
+          <Route path="/moderator/login" element={<ModeratorSignIn />} />
+          <Route path="/faculty/signup" element={<FacultySignUp />} />
+          <Route path="/faculty/login" element={<FacultySignIn />} />
         </Routes>
       )}
-    
-
     </>
   );
 };

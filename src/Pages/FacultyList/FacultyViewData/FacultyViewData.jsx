@@ -4,24 +4,31 @@ import { dummyData as originalDummyData } from '../../../constants/studentData';
 import Header from '../../../Components/Header/Header';
 
 const FacultyViewData = () => {
-  // Map over the imported data to change the field name from "name" to "userName"
   const modifiedData = originalDummyData.map(({ name, ...rest }) => ({
     ...rest,
-    userName: name, // Replace "name" with "userName"
+    userName: name, 
   }));
 
   return (
     <>
-      <Header backPage="" />
+      <Header backPage="/cse/facultylist" />
+
       <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
+      <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-A'} />
+      <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-B'} />
+      <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-C'} />
+      <ViewDataTable dummyData={modifiedData} name={'Patent'} />
+      <ViewDataTable dummyData={modifiedData} name={'Faculty Development Programmes'} />
+      <ViewDataTable dummyData={modifiedData} name={'Competition'} />
+      <ViewDataTable dummyData={modifiedData} name={'Seminar'} />
+      <ViewDataTable dummyData={modifiedData} name={'Conference'} />
+      <ViewDataTable dummyData={modifiedData} name={'Talks & Distinguished Lecture Series'} />
+      <ViewDataTable dummyData={modifiedData} name={'Workshop'} />
+      <ViewDataTable dummyData={modifiedData} name={'Industrial Tour'} />
+      <ViewDataTable dummyData={modifiedData} name={'Hackathon'} />
+      <ViewDataTable dummyData={modifiedData} name={'Consultancy'} />
+      <ViewDataTable dummyData={modifiedData} name={'Moocs'} />
+      <ViewDataTable dummyData={modifiedData} name={'Tri-Mentoring System'} />
     </>
   );
 };

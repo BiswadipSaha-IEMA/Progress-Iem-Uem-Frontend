@@ -31,12 +31,12 @@ const FacultyList = () => {
   const department = sessionStorage.getItem("dept")
   console.log(department);
 
-  useEffect(()=>{
-    if(department === null){
-      window.location.href = "/"
-      }
+  // useEffect(()=>{
+  //   if(department === null){
+  //     window.location.href = "/"
+  //     }
       
-  },[department])
+  // },[department])
 
   return (
     <>
@@ -148,7 +148,7 @@ const FacultyList = () => {
                 setPageSize(parseInt(e.target.value));
                 setCurrentPage(1);
               }}
-              className="p-2 border border-gray-300 rounded-md shadow-sm"
+              className="p-2 border border-gray-300 rounded-md shadow-sm outline-none"
             >
               <option value="5">5</option>
               <option value="10">10</option>

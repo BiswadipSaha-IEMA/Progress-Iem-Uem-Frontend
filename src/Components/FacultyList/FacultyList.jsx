@@ -26,12 +26,12 @@ const FacultyList = () => {
     const getFaculty = async () => {
       try {
         const response = await getReq(
-          `api/v1/document/getAllSubmissions/${stream}`,
+          `api/v1/user/getUser/${stream}`,
           accessToken
         );
         if (response.success) {
-          console.log(response.data);
-          setData(response.data.events);
+          console.log(response);
+          setData(response.users);
         } else {
           console.error("Error:", response.statusText);
         }
@@ -106,7 +106,7 @@ const FacultyList = () => {
                     {startIndex + index + 1}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[1rem]">
-                    {item.createdBy.email|| "N/A"}
+                    {item.email|| "N/A"}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[0.8rem]">
                     <button

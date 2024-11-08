@@ -4,9 +4,10 @@ import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../SideBar/Sidebar";
 import FacultyList from "../AddFaculty/FacultyList";
-import TimerPopUp from "../../utils/Popup/FormPopUp/TimerPopUp";
+// import TimerPopUp from "../../utils/Popup/FormPopUp/TimerPopUp";
 import { FaCalendar } from "react-icons/fa6";
 import { IoCalendar } from "react-icons/io5";
+import SetDatePopup from "../../utils/SetDatePopup";
 
 export default function SuperAdminDashboardComp() {
   const [formCount, setFormCount] = useState(0);
@@ -14,11 +15,13 @@ export default function SuperAdminDashboardComp() {
   const [loading, setLoading] = useState(false);
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false);
+  const [dateRange, setDateRange] = useState(['', '']);
 
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
   const [showDate,setShowDate]= useState(false);
+  const [timeLine, setTimeline] = useState([]);
 
   const [facultyData, setFacultyData] = useState([]);
   const [error, setError] = useState(null);
@@ -73,6 +76,15 @@ export default function SuperAdminDashboardComp() {
           console.log("Super Admin Data:", superAdminResponse.data);
           setSuperAdminData(superAdminResponse.data);
         }
+
+        // fetch start and end date
+        const dates = await getReq('api/v1/timeline/getSetTimeline', accessToken);
+        if (dates.success) {
+          setTimeline(dates.data);
+          setDateRange([dates.data.setTimeLineStartDate, dates.data.setTimeLineEndDate]);
+          console.log("Dates",dates.data);   
+        }
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -201,7 +213,11 @@ export default function SuperAdminDashboardComp() {
             {/* set date section */}
             <div className="flex gap-2">
               <div className="bg-white w-[100%] rounded-[15px] border-[1.5px] relative">
-              <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
+                <div className="
+                text-[#a0a0a0] p-2 flex  items-center gap-2">
+                <IoCalendar />
+                <p className="text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
+                </div>
               </div>
 
               <div className="bg-[#03a8fd] w-[50%] flex justify-center p-1  text-[20px] text-white rounded-[15px] cursor-pointer"
@@ -368,7 +384,7 @@ export default function SuperAdminDashboardComp() {
         <Sidebar showProfile={showProfile} />
       </div>
       {
-        showDate && <TimerPopUp setShowPopup={setShowDate}/>
+        showDate && <SetDatePopup setShowPopup={setShowDate} setDateRange={setDateRange}/>
       }
     </div>
   );

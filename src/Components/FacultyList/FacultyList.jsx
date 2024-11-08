@@ -13,6 +13,8 @@ const FacultyList = () => {
   const [getReq] = useGetReq();
   const navigate = useNavigate();
 
+  const role= sessionStorage.getItem("role");
+
   let stream = "";
   if (department) {
     for (let i = 0; i < department.length; i++) {
@@ -71,7 +73,7 @@ const FacultyList = () => {
 
   return (
     <>
-      <Header backPage="/"/>
+      <Header backPage={`${role? '/moderator/dashboard':'/'}`} />
       {/* <div className="bg-[#ECECEC] px-20 py-20"> */}
       <div className="lg:px-6 lg:py-5 flex flex-col justify-center items-center gap-5 bg-white rounded-lg ">
         <div className="overflow-x-auto font-poppins lg:w-[90%] h-[50%]">

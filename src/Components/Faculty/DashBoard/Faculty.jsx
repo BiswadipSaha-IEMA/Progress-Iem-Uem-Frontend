@@ -9,7 +9,13 @@ import Sidebar from "../Sidebar/FacultySidebar";
 import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
+import MoocsPopUp from "../../../utils/Popup/FormPopUp/MoocsPopUp";
+// import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
+import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
+import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
+import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
+import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false)
@@ -29,7 +35,13 @@ export default function Faculty() {
   const [fdp, setFdp] = useState([]);
   const [compete, setCompete] = useState([]);
   const [bookPub, setBookPub] = useState(false);
-  const [researchPaperGradeA, setResearchPaperGradeA] = useState(false);
+  const [mooc, setmooc] = useState(false);
+  const [conference, setConference] = useState(false);
+  const [industrial, setIndustrial] = useState(false);
+  const [triMentor, settriMentor] = useState(false);
+  const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
+  const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
+  const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -220,17 +232,46 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
+          // console.log('====================================');
+          // console.log('hnelic--------------------------------------------------------', response.data.data);
+          // console.log('====================================');
+          const arr = [];
+          const filteredData = response.data.data.map((dt) => {
+            if (dt.eventType === "FDP") {
+              arr.push(dt);
+            }
+          });
+          // console.log('====================================');
+          // console.log('lhini---------------------------');
+          // console.log('====================================');
+          setFdp(arr);
+        }
+      } catch (error) {
+        console.error("Error fetching conference info:", error);
+      }
+    };
+
+    const getCompeteInfo = async () => {
+      try {
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
+        console.log(response);
+        if (response.success) {
           console.log('====================================');
           console.log('hnelic--------------------------------------------------------', response.data.data);
           console.log('====================================');
           const arr = [];
           const filteredData = response.data.data.map((dt) => {
-            if (dt.eventType === "FDP") arr.push(dt);
+            if (dt.eventType === "COMPETITION") {
+              arr.push(dt);
+            }
           });
-          console.log('====================================');
-          console.log('lhini---------------------------');
-          console.log('====================================');
-          setFdp(arr);
+          // console.log('====================================');
+          // console.log('lhini---------------------------');
+          // console.log('====================================');
+          setCompete(arr);
         }
       } catch (error) {
         console.error("Error fetching conference info:", error);
@@ -346,7 +387,7 @@ export default function Faculty() {
     },
     {
       title: "Competition Organized",
-      details: fdp.map((paper) => ({
+      details: compete.map((paper) => ({
         title: paper.topicName,
         status: paper.status,
       })),
@@ -458,8 +499,31 @@ export default function Faculty() {
                       setBookPub(true)
                     }
                     else if(item.title === "Research Paper Grade A"){
-                      setResearchPaperGradeA(true)
+                      setResearchPaperGradeAData(true)
+                      console.log(setResearchPaperGradeAData)
                     }
+                    else if(item.title === "Research Paper Grade B"){
+                      setResearchPaperGradeBData(true)
+                    }
+                    else if(item.title === "Research Paper Grade C"){
+                      setResearchPaperGradeCData(true)
+                    }
+                    else if(item.title === "MOOCs"){
+                      setmooc(true)
+                    }
+                    
+                    else if(item.title === "Conference"){
+                      setConference(true)
+                    }
+                    else if(item.title === "Industrial Tour"){
+                      setIndustrial(true)
+                    }
+                    else if(item.title === "Tri-Mentoring System"){
+                      settriMentor(true)
+                    }
+                    
+
+                    
                   }}
                 >
                   Add A Response
@@ -488,16 +552,59 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
-        {
+      {
           bookPub && 
           <BookPublished
             setShowPopup={setBookPub}
           />
         }
         {
-          researchPaperGradeA && 
+          mooc && 
+          <MoocsPopUp
+            setShowPopup={setmooc}
+            setUtilFor='bpAddForm'
+          />
+        }
+        {/* {
+          conference && 
+          <ConferencePopUp
+            setShowPopup={setConference}
+            setUtilFor='bpAddForm'
+          />
+        } */}
+        {
+          industrial && 
+          <IndustrialPopup
+            setShowPopup={setIndustrial}
+            setUtilFor='bpAddForm'
+          />
+        }
+        {
+          triMentor && 
+          <TriMentoringPopUp
+            setShowPopup={settriMentor}
+            setUtilFor='bpAddForm'
+          />
+        }
+        {
+          researchPaperGradeAData && 
           <ResearchPaperGradeA
-            setShowPopup={setResearchPaperGradeA}
+          setUtilFor={'bpAddForm'}
+            setShowPopup={setResearchPaperGradeAData}
+          />
+        }
+        {
+          researchPaperGradeBData && 
+          <ResearchPaperGradeB
+          setUtilFor={'bpAddForm'}
+            setShowPopup={setResearchPaperGradeBData}
+          />
+        }
+        {
+          researchPaperGradeCData && 
+          <ResearchPaperGradeC
+          setUtilFor={'bpAddForm'}
+            setShowPopup={setResearchPaperGradeCData}
           />
         }
         

@@ -1,23 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const TableData = ({department}) => {
-  const data = Array.from({ length: 50 }, (_, i) => ({
-    userId: i + 1,
-    user: { name: `User ${i + 1}` },
-  }));
+import Header from "../../Header/Header";
+import { useGetReq } from "../../../hooks/useHttp";
 
+
+const TableData = () => {
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  const department = sessionStorage.getItem("dept");
+  const [getReq] = useGetReq();
 
-  const id='_bu55cfrdyugukvbiu655341hjnoij'
-  const navigate=useNavigate()
-  const totalPages = Math.ceil(data.length / pageSize);
+  let stream = "";
+  if (department) {
+    for (let i = 0; i < department.length; i++) {
+      if (department.charCodeAt(i) >= 65 && department.charCodeAt(i) <= 90) {
+        stream += department.charAt(i);
+      }
+    }
+  }
+
+  console.log(stream);
+
+  useEffect(() => {
+    const getFaculty = async () => {
+      try {
+        const response = await getReq(
+          `api/v1/user/getUser/CSE`,
+          accessToken
+        );
+        if (response.success) {
+          console.log(response);
+          setData(response.users);
+        } else {
+          console.error("Error:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    if (accessToken) {
+      getFaculty();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const totalPages = Math.ceil(data?.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const currentData = data.slice(startIndex, endIndex);
+  const currentData = data?.slice(startIndex, endIndex);
 
-  const handleRowClick = (userId) => {
-    console.log("View details for user:", userId);
+  const handleRowClick = (eventId) => {
+    console.log("View details for event:", eventId);
   };
 
   const handlePageChange = (page) => {
@@ -31,6 +70,7 @@ const TableData = ({department}) => {
 
   return (
     <>
+      <Header backPage="/"/>
       {/* <div className="bg-[#ECECEC] px-20 py-20"> */}
       <div className="lg:px-6 lg:py-5 flex flex-col justify-center items-center gap-5 bg-white rounded-lg ">
         <div className="overflow-x-auto font-poppins lg:w-[90%] h-[50%]">
@@ -39,7 +79,6 @@ const TableData = ({department}) => {
             style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }}
           >
             Faculty List
-            {/* {department} */}
           </div>
 
           {/* <div className="bg-[#ECECEC] p-4 rounded-lg"> */}
@@ -68,16 +107,11 @@ const TableData = ({department}) => {
                     {startIndex + index + 1}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[1rem]">
-                    {item.user?.name || "N/A"}
+                    {item.email|| "N/A"}
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[0.8rem]">
                     <button
-                      onClick={() => {
-                        handleRowClick(item.userId)
-                        sessionStorage.setItem('id',id);
-                        sessionStorage.setItem('nav','/api/moderator/cse-faculty');
-                        navigate('/moderator/specificbookpublished')
-                    }}
+                      onClick={() => handleRowClick(item.userId)}
                       className="bg-[#03A8FD] lg:px-8 lg:py-2 px-4 py-1 rounded-md text-white"
                     >
                       View Data
@@ -144,7 +178,7 @@ const TableData = ({department}) => {
                 setPageSize(parseInt(e.target.value));
                 setCurrentPage(1);
               }}
-              className="p-2 border border-gray-300 rounded-md shadow-sm"
+              className="p-2 border border-gray-300 rounded-md shadow-sm outline-none"
             >
               <option value="5">5</option>
               <option value="10">10</option>

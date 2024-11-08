@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import { useGetReq } from "../../hooks/useHttp";
+import { useNavigate } from "react-router-dom";
 
 
 const FacultyList = () => {
@@ -10,6 +11,7 @@ const FacultyList = () => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const [getReq] = useGetReq();
+  const navigate = useNavigate();
 
   let stream = "";
   if (department) {
@@ -110,7 +112,13 @@ const FacultyList = () => {
                   </div>
                   <div className="text-center flex justify-center items-center lg:text-[1.3rem] text-[0.8rem]">
                     <button
-                      onClick={() => handleRowClick(item.userId)}
+                      onClick={() => 
+                        {
+                          sessionStorage.setItem('userId',item.userId)
+                          navigate('/viewdata')
+                        }
+                        // handleRowClick(item.userId)
+                      }
                       className="bg-[#03A8FD] lg:px-8 lg:py-2 px-4 py-1 rounded-md text-white"
                     >
                       View Data

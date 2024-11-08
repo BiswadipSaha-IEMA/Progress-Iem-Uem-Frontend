@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { GraduationCap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { FcGraduationCap } from "react-icons/fc";
 import { useGetReq, usePutReq } from "../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../SideBar/Sidebar";
@@ -184,7 +185,7 @@ export default function SuperAdminDashboardComp() {
         } bg-[url('/src/assets/image2.svg')] overflow-y-scroll`}
       >
         <div className="bg-[url('/src/assets/superadmin.svg')] relative bg-cover bg-center w-full rounded-2xl bg-white p-4 sm:p-8 shadow transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-          <div className="flex justify-center text-[30px] sm:text-[44px] font-semibold text-[#437F9E]">
+          <div className="flex justify-center text-[30px] sm:text-[44px] font-semibold text-[#437F9E] font-poppins">
             SUPERADMIN
           </div>
         </div>
@@ -214,13 +215,13 @@ export default function SuperAdminDashboardComp() {
             <div className="flex gap-2">
               <div className="bg-white w-[100%] rounded-[15px] border-[1.5px] relative">
                 <div className="
-                text-[#a0a0a0] p-2 flex  items-center gap-2">
+                text-[#a0a0a0] p-2 flex  items-center gap-2 font-poppins">
                 <IoCalendar />
                 <p className="text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
                 </div>
               </div>
 
-              <div className="bg-[#03a8fd] w-[50%] flex justify-center p-1  text-[20px] text-white rounded-[15px] cursor-pointer"
+              <div className="bg-[#03A8FD] w-[50%] flex justify-center p-1  text-[20px] text-white rounded-[15px] cursor-pointer items-center font-poppins"
               onClick={()=>{
                 setShowDate(true);
               }}
@@ -236,7 +237,7 @@ export default function SuperAdminDashboardComp() {
                 />
                 <div className="flex flex-col items-start">
                   <button
-                    className="rounded-md bg-blue-500 px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="rounded-md bg-[#03a8fd] font-poppins px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     onClick={() => navigate("/addmoderator")}
                   >
                     Moderator
@@ -253,7 +254,7 @@ export default function SuperAdminDashboardComp() {
                 />
                 <div className="flex flex-col items-start">
                   <button
-                    className="rounded-md bg-blue-500 px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="rounded-md bg-[#03a8fd] px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-poppins"
                     onClick={() => navigate("/addfaculty")}
                   >
                     Faculty
@@ -266,14 +267,14 @@ export default function SuperAdminDashboardComp() {
           {/* right side div -> contain all department */}
           <div className="bg-white w-[70%] h-full p-5 rounded-lg">
             <div className=" flex justify-between">
-              <p className="text-[25px] font-semibold text-blue-500">
+              <p className="text-[1.8rem] font-semibold text-[#03a8fd] font-poppins">
                 Department
               </p>
-              <div className="flex gap-4 w-auto"> 
+              <div className="flex gap-4 w-auto font-poppins"> 
               <div className="bg-white w-[260px] rounded-lg border-[1.5px] relative ">
               <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
               </div>
-              <p className="bg-[#03a8fd] w-auto flex justify-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer"
+              <p className="bg-[#03a8fd] w-auto flex justify-center items-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer font-poppins"
               
               >
                 Filter
@@ -297,13 +298,13 @@ export default function SuperAdminDashboardComp() {
                       navigate(`/${dept.toLowerCase()}/facultylist`)}
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }
-                  className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-white to-blue-100 p-4 shadow-sm hover:shadow-md transition-all duration-200"
+                  className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-[white] to-[#C1EAFFB2] p-4 shadow-sm hover:shadow-md transition-all duration-200 font-poppins font-semibold"
                 >
                   <div className="flex justify-between">
-                    <span className="text-lg pt-5 font-medium text-blue-900">
+                    <span className="text-lg pt-5 font-medium text-[#4E4D4D]">
                       {dept}
                     </span>
-                    <GraduationCap className="w-1/2 h-32 text-blue-400 opacity-25" />
+                    <FcGraduationCap className="w-1/2 h-32 text-[#03a8fd] opacity-25" />
                   </div>
 
                   

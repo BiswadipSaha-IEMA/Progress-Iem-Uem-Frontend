@@ -16,6 +16,8 @@ const FacultyList = () => {
   const endIndex = startIndex + pageSize;
   const currentData = data.slice(startIndex, endIndex);
 
+  
+
   const handleRowClick = (userId) => {
     console.log("View details for user:", userId);
   };
@@ -30,6 +32,20 @@ const FacultyList = () => {
   );
   const department = sessionStorage.getItem("dept")
   console.log(department);
+
+  // const deptArr=department.split('')
+  // console.log(deptArr)
+
+  let stream=''
+
+
+
+  for(let i=0;i<department.length;i++){
+    if(department.charCodeAt(i)>= 65 && department.charCodeAt(i)<=90)
+      stream+=department.charAt(i)
+  }
+
+  console.log(stream)
 
   // useEffect(()=>{
   //   if(department === null){

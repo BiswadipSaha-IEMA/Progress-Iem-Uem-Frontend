@@ -112,7 +112,7 @@ function FacultyMOOC() {
                 moduleplatform={item.platformUsed}
                 faciltylink={item.proofDocument}
                 date={item.dateOfLaunch}
-              
+                driveFileUrl={item.proofDocument||''}
                 // ISBN={item.isbn}
             />
         ))

@@ -111,6 +111,7 @@ function FacultyTriMentoring() {
              date={item.date}
             //  organizedBy={item.organizedBy}
              name={item.takenBy}
+             driveFileUrl={item.proofDocument||''}
          />
      ))
 }

@@ -106,6 +106,7 @@ function FacultyWorkshopOrganizedComp() {
                                         organizedBy={item.organizedBy}
                                         name={item.topicName}
                                         attendedBy = {item.attendedBy}
+                                        driveFileUrl={item.proofDocument||''}
                                     />
                                 ))
                         }

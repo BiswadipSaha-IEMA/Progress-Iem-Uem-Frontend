@@ -108,7 +108,7 @@ function FacultyResearchPpaperC() {
         <div className={`shadow-2xl rounded-md p-4 md:p-8 ${BpNumber <= 8 ? 'h-[600px] md:h-[800px]' : 'h-auto'}`}>
             <div className="text-[1.5rem] md:text-[2rem] font-[500] flex items-center mb-6 md:mb-10 gap-2">
                 <FaBookBookmark className="text-[1.5rem] md:text-[2rem] text-[#03A8FD]" />
-                Research Paper Grade B
+                Research Paper Grade C
             </div>
 
 
@@ -118,7 +118,7 @@ function FacultyResearchPpaperC() {
                 <FacultyCardBP status="rejected" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" /> */}
                 {
                     data?.map((item, index) => (
-                        <FacultyResearchPpaperCCard key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} />
+                        <FacultyResearchPpaperCCard key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} driveFileUrl={item.proofDocument||''}/>
                     ))
                 }
 

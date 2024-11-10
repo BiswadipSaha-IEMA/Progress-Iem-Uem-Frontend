@@ -111,6 +111,7 @@ function FacultySeminarOrganizedComp() {
                 date={item.date}
                 name={item.topicName}
                 // ISBN={item.isbn}
+                driveFileUrl={item.proofDocument||''}
             />
         ))
 }

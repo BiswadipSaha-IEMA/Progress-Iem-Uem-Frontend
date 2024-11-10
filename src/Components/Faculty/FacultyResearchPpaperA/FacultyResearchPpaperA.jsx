@@ -118,7 +118,7 @@ function FacultyResearchPpaperA() {
                 <FacultyCardBP status="rejected" title={'hello world'} date="01/05/2000" name="Biswadip Saha" ISBN="00000000" /> */}
                 {
                     data?.map((item, index) => (
-                        <FacultyResearchPpaperACard key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} />
+                        <FacultyResearchPpaperACard key={index} status={item.status} title={item.title} date={item.date} name={item.name} ISBN={item.isbn} driveFileUrl={item.proofDocument||''}/>
                     ))
                 }
 

@@ -109,6 +109,7 @@ function FacultyIndustrialTourComp() {
                                     date={item.date} // Date of workshop
                                     industryName={item.industryName} // Organizer's name
                                     attendedBy={item.topicName} // Topic name for display
+                                    driveFileUrl={item.proofDocument||''}
                                     // ISBN={item.isbn} // Uncomment if ISBN needed
                                 />
                             ))

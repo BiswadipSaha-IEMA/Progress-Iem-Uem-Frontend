@@ -18,10 +18,16 @@ function FacultyResearchPpaperBCard({ status, title, date, name, ISBN, driveFile
     };
 
     const getEmbedUrl = (url) => {
-        const fileId = url.match(/[-\w]{25,}/);
-        return fileId
-            ? `https://drive.google.com/file/d/${fileId[0]}/preview`
-            : null;
+        const fileId = url.match(/[-\w]{25,}/);  // If the URL has a specific file ID (like for Google Drive)
+        if (fileId) {
+            // Try to embed the content if it matches your expected URL pattern (like for Google Drive)
+            return `${driveFileUrl}/preview`;
+        } else if (url.includes("khannapublishers.in")) {
+            // Check if the URL is from the khannapublishers domain
+            return url;  // Return the URL itself for iframe embedding
+        } else {
+            return null;  // In case the URL doesn't match any valid embed patterns
+        }
     };
 
     const embedUrl = getEmbedUrl(driveFileUrl);
@@ -145,18 +151,19 @@ function FacultyResearchPpaperBCard({ status, title, date, name, ISBN, driveFile
                         </div>
 
                         <div className="flex-grow">
-                            <iframe
-                                src={embedUrl}
-                                className="w-full h-full border border-gray-200 rounded-lg"
-                                title={`${title} - Drive File`}
-                                onError={() => setIframeError(true)}
-                            ></iframe>
-                            {iframeError && (
-                                // if no data exist then preview
-                                <div className="w-full h-full border border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400">
-                                    <p className="text-center">Preview not available</p>
-                                </div>
-                            )}
+                        <iframe
+                src={embedUrl}
+                className="w-full h-full border border-gray-200 rounded-lg"
+                title={`${title} - Drive File`}
+                onError={() => setIframeError(true)}
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms" // Adjust sandbox permissions if needed
+              ></iframe>
+
+              {iframeError && (
+                <div className="w-full h-full border border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400">
+                  <p className="text-center">Preview not available</p>
+                </div>
+              )}
                         </div>
                     </div>
                 </div>

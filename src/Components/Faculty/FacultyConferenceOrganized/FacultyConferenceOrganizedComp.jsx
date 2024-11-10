@@ -8,6 +8,8 @@ import { useGetReq, usePostReq } from '../../../hooks/useHttp'
 import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
 import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
 import FacultyConferenceOrganizedCard from './FacultyConferenceOrganizedCard'
+import EditFormPopUp from './EditFormPopUp'
+import ConferenceForm from '../../../utils/Popup/FormPopUp/ConferenceForm'
 
 function FacultyConferenceOrganized() {
     const BpNumber=30
@@ -41,6 +43,22 @@ function FacultyConferenceOrganized() {
         }
         getBPData()
     },[showPopUp])
+
+    useEffect(()=>{
+        const getStartTime= async () => {
+          try {
+            const response = await getReq('api/v1/timeline/getSetTimeline', accessToken);
+            if (response.success) {
+              console.log("API Response:", response);
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    getStartTime()
+  },[accessToken])
     
 
 
@@ -109,6 +127,7 @@ function FacultyConferenceOrganized() {
                 title={item.topicName}
                 date={item.date}
                 name={item.topicName}
+                driveFileUrl={item.proofDocument||''}
                 // ISBN={item.isbn}
             />
         ))
@@ -122,8 +141,7 @@ function FacultyConferenceOrganized() {
     </div>
 
                 {
-                    showPopUp && <BookPublished
-                        setUtilFor={'bpAddForm'}
+                    showPopUp && <ConferenceForm
                         setShowPopup={setShowPopUp}
                     />
                 }

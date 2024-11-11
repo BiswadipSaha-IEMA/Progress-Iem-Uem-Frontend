@@ -9,7 +9,7 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
   const [formData, setFormData] = useState({
     eventType: "Workshop",
     organizedBy: "",
-
+    topicName: "",
     date: "",
     attendedBy: "",
     department: "",
@@ -34,7 +34,8 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
       {
         eventType: formData.eventType,
         organizedBy: formData.organizedBy,
-        department:  formData.department,
+        topicName: formData.topicName,
+        department: formData.department,
         date: formData.date,
         type: formData.type,
         attendedBy: formData.attendedBy,
@@ -72,7 +73,7 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 ml-4">
-              Talks and Distinguished Lecture Series
+              Workshop Organised
             </h2>
 
             {/* Inner container with scroll */}
@@ -82,33 +83,31 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
             >
               {/* Hide scrollbar for Firefox and Internet Explorer */}
               <style>{`
-            ::-webkit-scrollbar {
-              display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
-            }
-          `}</style>
+                ::-webkit-scrollbar {
+                  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+                }
+              `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Event Type Dropdown */}
                 <div>
-              <label className="block text-gray-600 font-medium mb-1">Event Type</label>
-              <select
-                name="eventType"
-                value={formData.type}
-                onChange={handleInputChange}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                required
-              >
-                <option value="">Select Event Type</option>
-                <option value="Attended">Attended</option>
-                <option value="Conducted">Conducted</option>
-              </select>
-            </div>
+                  <label className="block text-gray-600 font-medium mb-1">Event Type</label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="Attended">Attended</option>
+                    <option value="Conducted">Conducted</option>
+                  </select>
+                </div>
 
                 {/* Organized By */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Organizing Institute
-                  </label>
+                  <label className="block text-gray-600 font-medium mb-1">Organizing Institute</label>
                   <input
                     type="text"
                     name="organizedBy"
@@ -120,13 +119,11 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
 
                 {/* Topic Name */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Name
-                  </label>
+                  <label className="block text-gray-600 font-medium mb-1">Topic Name</label>
                   <input
                     type="text"
                     name="topicName"
-                    value={formData.department}
+                    value={formData.topicName}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
@@ -134,9 +131,7 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
 
                 {/* Date */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Date
-                  </label>
+                  <label className="block text-gray-600 font-medium mb-1">Date</label>
                   <input
                     type="date"
                     name="date"
@@ -148,9 +143,7 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
 
                 {/* Attended By */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Attended By
-                  </label>
+                  <label className="block text-gray-600 font-medium mb-1">Attended By</label>
                   <input
                     type="text"
                     name="attendedBy"
@@ -160,23 +153,9 @@ function WorkShopPopUp({ setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                {/* Department */}
-                {/* <div>
-              <label className="block text-gray-600 font-medium mb-1">Department</label>
-              <input
-                type="text"
-                name="department"
-                value={formData.department}
-                onChange={handleInputChange}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-              />
-            </div> */}
-
                 {/* Proof Document */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Proof Document
-                  </label>
+                  <label className="block text-gray-600 font-medium mb-1">Proof Document</label>
                   <input
                     type="text"
                     name="proofDocument"

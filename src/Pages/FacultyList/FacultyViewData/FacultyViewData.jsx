@@ -14,7 +14,7 @@ const FacultyViewData = () => {
 
   useEffect(()=>{
     const getData= async()=>{
-      const response= await getReq(`api/v1/document/getAllSubmissions/${userId}`, accessToken)
+      const response= await getReq(`api/v1/document/getAllSubmissionsById/${userId}`, accessToken)
       if(response.success){
         setData(response.data.data)
         console.log(response)
@@ -35,7 +35,7 @@ const FacultyViewData = () => {
     <>
       <Header backPage="/cse/facultylist" />
 
-      <ViewDataTable dummyData={data? data.events:[]} name={'Book Published'} />
+      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-A'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-B'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-C'} />

@@ -18,6 +18,8 @@ function FacultyWorkshopOrganizedComp() {
     const [data1, setData1] = useState([])
     const [getReq] = useGetReq()
 
+    // const [workshopPopUp, setWorkshopPopUp]= useState(false)
+
     // Retrieve the access token from session storage
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 

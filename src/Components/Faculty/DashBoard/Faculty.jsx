@@ -16,6 +16,7 @@ import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp"
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
+import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false)
@@ -42,6 +43,7 @@ export default function Faculty() {
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
+  const [workshopPopUp, setworkshopPopUp] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -186,23 +188,21 @@ export default function Faculty() {
 
     const getIndTour = async () => {
       try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
+        const response = await getReq("api/v1/document/getAllEvents", accessToken);
         console.log(response);
+    
         if (response.success) {
-          const arr = [];
-          const filteredData = response.data.data.map((dt) => {
-            if (dt.eventType === "Industrial Tour") arr.push(dt);
-          });
+          const filteredData = response.data.data.filter((dt) => dt.eventType === "IndustrialTour");
+    
+          console.log(filteredData);
 
-          setIndTour(arr);
+          setIndTour(filteredData);
         }
       } catch (error) {
-        console.error("Error fetching conference info:", error);
+        console.error( error);
       }
     };
+    
 
 
     const getPatentInfo = async () => {
@@ -289,7 +289,7 @@ export default function Faculty() {
     getPatentInfo()
     getFdpInfo()
     
-  }, [accessToken]);
+  }, [accessToken, workshopPopUp]);
 
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -353,7 +353,7 @@ export default function Faculty() {
     {
       title: "Industrial Tour",
       details: IndTour.map((paper) => ({
-        title: paper.topicName,
+        title: paper.industryName,
         status: paper.status,
       })),
     },
@@ -521,6 +521,9 @@ export default function Faculty() {
                     else if(item.title === "Tri-Mentoring System"){
                       settriMentor(true)
                     }
+                    else if(item.title === "Workshop Organized"){
+                      setworkshopPopUp(true)
+                    }
                     
 
                     
@@ -605,6 +608,13 @@ export default function Faculty() {
           <ResearchPaperGradeC
           setUtilFor={'bpAddForm'}
             setShowPopup={setResearchPaperGradeCData}
+          />
+        }
+        {
+          workshopPopUp && 
+          <WorkShopPopUp
+          setUtilFor={'bpAddForm'}
+            setShowPopup={setworkshopPopUp}
           />
         }
         

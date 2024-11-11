@@ -9,6 +9,7 @@ import FacultyList from "../AddFaculty/FacultyList";
 import { FaCalendar } from "react-icons/fa6";
 import { IoCalendar } from "react-icons/io5";
 import SetDatePopup from "../../utils/SetDatePopup";
+import TimerPopUp from "../../utils/Popup/FormPopUp/TimerPopUp";
 
 export default function SuperAdminDashboardComp() {
   const [formCount, setFormCount] = useState(0);
@@ -17,7 +18,9 @@ export default function SuperAdminDashboardComp() {
   const [superAdminData, setSuperAdminData] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [dateRange, setDateRange] = useState(['', '']);
-
+  const [timerPopUp, setTimerPopUp]= useState(false)
+  const [filterTimeLineStartDate, setFilterTimeLineStartDate] = useState('')
+  const [filterTimeLineEndDate, setFilterTimeLineEndDate] = useState('')
   const [getReq] = useGetReq();
   const [putReq] = usePutReq();
   const navigate = useNavigate();
@@ -84,6 +87,13 @@ export default function SuperAdminDashboardComp() {
           setTimeline(dates.data);
           setDateRange([dates.data.setTimeLineStartDate, dates.data.setTimeLineEndDate]);
           console.log("Dates",dates.data);   
+        }
+
+        const filterTimeLine= await getReq('api/v1/timeline/getFetchTimeline', accessToken)
+        if(filterTimeLine.success){
+          console.log(filterTimeLine)
+          setFilterTimeLineStartDate(filterTimeLine.data.fetchTimelineStartDate)
+          setFilterTimeLineEndDate(filterTimeLine.data.fetchTimelineEndDate)
         }
 
       } catch (error) {
@@ -271,14 +281,23 @@ export default function SuperAdminDashboardComp() {
                 Department
               </p>
               <div className="flex gap-4 w-auto font-poppins"> 
-              <div className="bg-white w-[260px] rounded-lg border-[1.5px] relative ">
+              <div className="bg-white flex pt-2.5 pl-8 w-[260px] rounded-lg border-[1.5px] relative text-[#a0a0a0]">
               <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
+              <div className="pr-2 pl-2">
+                {filterTimeLineStartDate}
               </div>
-              <p className="bg-[#03a8fd] w-auto flex justify-center items-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer font-poppins"
-              
+              -
+              <div className="pl-2">
+                {filterTimeLineEndDate}
+              </div>
+              </div>
+              <div className="bg-[#03a8fd] w-auto flex justify-center items-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer font-poppins"
+              onClick={() =>{
+                setTimerPopUp(true)
+              }}
               >
                 Filter
-              </p>
+              </div>
               </div>
             </div>
 
@@ -386,6 +405,9 @@ export default function SuperAdminDashboardComp() {
       </div>
       {
         showDate && <SetDatePopup setShowPopup={setShowDate} setDateRange={setDateRange}/>
+      }
+      {
+        timerPopUp && <TimerPopUp setShowPopup={setTimerPopUp}/>
       }
     </div>
   );

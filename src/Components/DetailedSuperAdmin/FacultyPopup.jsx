@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
  import Pagination from "./Pagination"; // Assuming you have this component for pagination
-// import AcceptRejectButtons from './AcceptRejectButtons';  // Accept/Reject buttons component
+import AcceptRejectButtons from './AcceptRejectButtons';  // Accept/Reject buttons component
 import Accept from "./Status/Accept";
 import Reject from "./Status/Reject";
 import Pending from "./Status/Pending";
@@ -84,8 +84,8 @@ const FacultyPopup = ({setShowPopup}) => {
   };
 
   return (
-    <div className="fixed inset-0 z-10 p-6 backdrop-blur-md alertcontainer bg-black bg-opacity-20 sm:p-20 md:p-44 lg:p-44 h-lvh">
-      <div className="rounded-xl shadow-lg relative z-10 max-w-4xl p-6 mx-auto mt-6 bg-white md:p-8 overflow-y-auto alertcontent">
+    <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[0px] left-0 z-40 alertcontainer">
+      <div className="bg-white rounded-xl shadow-lg relative sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
 
 
       <div
@@ -125,18 +125,21 @@ const FacultyPopup = ({setShowPopup}) => {
         </div>
 
         {/* Faculty Profile Iframe */}
-        <div className="px-5 py-9 ">
+        <div className="px-5 py-8">
           <iframe
             src={currentFaculty?.profileUrl || "#"}
             title="Faculty Profile"
-            className="w-full border-2 border-gray-300 rounded-lg shadow-md h-96"
+            className="w-full border-2 border-gray-300 rounded-lg shadow-md h-[500px]"
           />
         </div>
 
         {/* Accept/Reject buttons */}
-        {/* <div className="flex items-center justify-between mt-6 space-x-4">
+        {
+          sessionStorage.getItem('role')==='moderator' && 
+        <div className="flex items-center justify-between mt-6 space-x-4">
           <AcceptRejectButtons onAccept={handleAccept} onReject={handleReject} />
-        </div>   */}
+        </div>  
+        }
 
         {/* Pagination */}
         <div className="flex justify-center mt-6">

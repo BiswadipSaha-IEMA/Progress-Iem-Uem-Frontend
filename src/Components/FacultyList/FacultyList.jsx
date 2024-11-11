@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const FacultyList = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const [getReq] = useGetReq();

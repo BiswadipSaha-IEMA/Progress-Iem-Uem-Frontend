@@ -3,8 +3,9 @@ import Header from "../Header/Header";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
 
-const ViewDataTable = ({name, dummyData}) => {
+const ViewDataTable = ({ name, dummyData }) => {
   // Dummy data to simulate dynamic table rows and columns
   // const dummyData = [
   //   { name: "John Doe", bookName: "React Basics", isbn: "123-4567890123", publisher: "Tech Books", date: "2022-01-15", submittedForms: "Yes" },
@@ -37,10 +38,11 @@ const ViewDataTable = ({name, dummyData}) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
+  const [detailedClick, setDetailedClick] = useState(false);
+  const [id, setId]= useState('')
+
   return (
     <>
-      
-
       <div className="px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -93,7 +95,15 @@ const ViewDataTable = ({name, dummyData}) => {
               {/* Table Body */}
               <div className="table-row-group">
                 {currentRows.map((item, rowIndex) => (
-                  <div key={rowIndex} className="table-row border-b">
+                  <div
+                    key={rowIndex}
+                    className="table-row border-b"
+                    onClick={() => {
+                      setDetailedClick(true);
+                      setId(item._id);
+                      console.log(item)
+                    }}
+                  >
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">
                       {indexOfFirstRow + rowIndex + 1}
@@ -132,6 +142,7 @@ const ViewDataTable = ({name, dummyData}) => {
           </div>
         </div>
       </div>
+      {detailedClick && <FacultyPopup setShowPopup={setDetailedClick} />}
     </>
   );
 };

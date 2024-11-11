@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewDataTable from "../../../Components/ViewData/ViewDataTable";
 import { dummyData as originalDummyData } from '../../../constants/studentData';
 import Header from '../../../Components/Header/Header';
+import { useGetReq } from '../../../hooks/useHttp';
 
 const FacultyViewData = () => {
+
+
+  const [data, setData]= useState([])
+  const [getReq]= useGetReq()
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  const userId= sessionStorage.getItem('userId')
+
+  useEffect(()=>{
+    const getData= async()=>{
+      const response= await getReq(`api/v1/document/getAllSubmissions/${userId}`, accessToken)
+      if(response.success){
+        setData(response.data.data)
+        console.log(response)
+      }
+    }
+    getData()
+  },[accessToken])
+
+
+
+
   const modifiedData = originalDummyData.map(({ name, ...rest }) => ({
     ...rest,
     userName: name, 
@@ -13,7 +35,7 @@ const FacultyViewData = () => {
     <>
       <Header backPage="/cse/facultylist" />
 
-      <ViewDataTable dummyData={modifiedData} name={'Book Published'} />
+      <ViewDataTable dummyData={data? data.events:[]} name={'Book Published'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-A'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-B'} />
       <ViewDataTable dummyData={modifiedData} name={'Research Paper Grade-C'} />

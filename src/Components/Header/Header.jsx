@@ -11,7 +11,9 @@ export default function Header({backPage}) {
     <div className="flex justify-between px-5 sm:px-10 py-5 relative">
         <img src={IEM} alt="IEM" className="h-20 w-16 mr-4" />
         <div
-          className="absolute bottom-0 flex items-center gap-2 cursor-pointer" onClick={()=> navigate(backPage)}
+          className="absolute bottom-0 flex items-center gap-2 cursor-pointer" onClick={()=> {
+            navigate(backPage)
+          }}
         >
           <FaLongArrowAltLeft className="text-[1rem]" />
           <div className="font-[700]">Back</div>

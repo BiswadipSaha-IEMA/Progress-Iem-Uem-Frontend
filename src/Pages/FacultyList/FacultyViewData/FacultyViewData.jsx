@@ -32,7 +32,7 @@ const FacultyViewData = () => {
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Hackathon'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Consultancy'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Moocs'} />
-      <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Tri-Mentoring System'} />
+      <ViewDataTable dummyData={modifiedData} dummy={dummyData}  name={'Tri-Mentoring System'} />
     </>
   );
 };

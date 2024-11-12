@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
 
-const ViewDataTable = ({ name, dummyData }) => {
+const ViewDataTable = ({ name, dummyData, dummy }) => {
   // Dummy data to simulate dynamic table rows and columns
   // const dummyData = [
   //   { name: "John Doe", bookName: "React Basics", isbn: "123-4567890123", publisher: "Tech Books", date: "2022-01-15", submittedForms: "Yes" },
@@ -16,6 +16,10 @@ const ViewDataTable = ({ name, dummyData }) => {
   //   { name: "Emma Wilson", bookName: "Data Science 101", isbn: "567-8901234567", publisher: "Data Books", date: "2022-07-18", submittedForms: "Yes" },
   //   { name: "James Brown", bookName: "Machine Learning Basics", isbn: "876-5432109876", publisher: "AI Press", date: "2021-02-25", submittedForms: "No" },
   // ];
+
+  //sending proodOfDocument
+  const [data, setData] = useState("");
+  // console.log(dummy);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +43,11 @@ const ViewDataTable = ({ name, dummyData }) => {
   };
 
   const [detailedClick, setDetailedClick] = useState(false);
-  const [id, setId]= useState('')
+  const [id, setId] = useState("");
+  
+  useEffect(()=>{
+    console.log(data)
+  },[data])
 
   return (
     <>
@@ -98,11 +106,29 @@ const ViewDataTable = ({ name, dummyData }) => {
                   <div
                     key={rowIndex}
                     className="table-row border-b"
+                    // onClick={() => {
+                    //   // setData(dummy);
+                    //   dummy.map((dt) => {
+                    //     console.log("gyvchvbk------------------------------");
+                    //     if (dt._id === rowIndex) {
+                    //       setData(dt)
+                    //       // setId(item._id);
+                    //       setDetailedClick(true);
+                    //     }
+                    //     // console.log(rowIndex)
+                    //   });
+                    //   // console.log(oneObj)
+                    //   // console.log(item);
+                    // }}
+
                     onClick={() => {
-                      setDetailedClick(true);
-                      setId(item._id);
-                      console.log(item)
+                      const selectedItem = dummy.find((dt) => dt._id === rowIndex); // Find item by matching _id
+                      if (selectedItem) {
+                        setData(selectedItem); // Set the data to the found item
+                        setDetailedClick(true); // Open the popup
+                      }
                     }}
+                    
                   >
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">
@@ -142,7 +168,9 @@ const ViewDataTable = ({ name, dummyData }) => {
           </div>
         </div>
       </div>
-      {detailedClick && <FacultyPopup setShowPopup={setDetailedClick} />}
+      {detailedClick && (
+        <FacultyPopup setShowPopup={setDetailedClick} data={data} />
+      )}
     </>
   );
 };

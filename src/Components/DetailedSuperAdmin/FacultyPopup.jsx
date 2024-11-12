@@ -7,41 +7,40 @@ import Pending from "./Status/Pending";
 import { RxCross2 } from "react-icons/rx";
 import './Styles.css'
 
-const FacultyPopup = ({setShowPopup}) => {
+const FacultyPopup = ({setShowPopup, data}) => {
   // 5 sets of data with document links for each faculty
+  console.log('Faculty Pop Up Page',data)
   const facultyData = [
     {
       id: 1,
-      name: "Dr. John Doe",
-      profileUrl:
-        "https://drive.google.com/file/d/1tmKJMOGOWoLv3ml-MsVlezSXtjpRk_i3/preview",
-        department : "CSE",
+      name: `${data.name}`,
+      profileUrl: `${data.proofOfDocument}`,
+        // department : "CSE",
     },
-    
+     // "https://drive.google.com/file/d/1tmKJMOGOWoLv3ml-MsVlezSXtjpRk_i3/preview",
     {
       id: 2,
-      name: "Dr. Jane Smith",
-      profileUrl: "https://www.example.com/profile/2",
-      department : "ESE",
+      name: `${data.name}`,
+      profileUrl: `${data.proofOfDocument}`,
+      // department : "ESE",
     },
     {
       id: 3,
-      name: "Dr. Emily Johnson",
-      profileUrl: "https://www.example.com/profile/3",
-      department : "CSIT",
+      name: `${data.name}`,
+      profileUrl: `${data.proofOfDocument}`,
+      // department : "CSIT",
     },
     {
       id: 4,
-      name: "Dr. Michael Brown",
-      profileUrl: "https://www.example.com/profile/4",
-      department : "MCA",
+      name: `${data.name}`,
+      profileUrl: `${data.proofOfDocument}`,
+      // department : "MCA",
     },
     {
       id: 5,
-      name: "Dr. Lisa White",
-      profileUrl:
-        "https://drive.google.com/file/d/1tmKJMOGOWoLv3ml-MsVlezSXtjpRk_i3/preview",
-        department : "CSE (AI & ML)",
+      name: `${data.name}`,
+      profileUrl: `${data.proofOfDocument}`,
+        // department : "CSE (AI & ML)",
     },
   ];
 
@@ -79,9 +78,9 @@ const FacultyPopup = ({setShowPopup}) => {
   };
 
   // Handler function to change pages
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected); // Update page number
-  };
+  // const handlePageChange = ({ selected }) => {
+  //   setCurrentPage(selected); // Update page number
+  // };
 
   return (
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[0px] left-0 z-40 alertcontainer">
@@ -107,7 +106,7 @@ const FacultyPopup = ({setShowPopup}) => {
               <h3 className="font-semibold">Faculty: {currentFaculty?.name}</h3>
             </div>
 
-            <div className="text-[20px] mt-1">Department : {currentFaculty?.department}</div>
+            {/* <div className="text-[20px] mt-1">Department : {currentFaculty?.department}</div> */}
           </div>
 
           {/* Display Status */}
@@ -129,7 +128,7 @@ const FacultyPopup = ({setShowPopup}) => {
           <iframe
             src={currentFaculty?.profileUrl || "#"}
             title="Faculty Profile"
-            className="w-full border-2 border-gray-300 rounded-lg shadow-md h-[500px]"
+            className="w-full border-2 border-gray-300 rounded-lg shadow-md h-[600px]"
           />
         </div>
 
@@ -142,12 +141,12 @@ const FacultyPopup = ({setShowPopup}) => {
         }
 
         {/* Pagination */}
-        <div className="flex justify-center mt-6">
+        {/* <div className="flex justify-center mt-6">
           <Pagination
             pageCount={facultyData.length}
             onPageChange={handlePageChange}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

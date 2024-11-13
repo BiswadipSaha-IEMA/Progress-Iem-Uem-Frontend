@@ -101,8 +101,8 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       </div>
                     ))}
                     <div className="table-cell px-4 py-2 text-[#000]">
-                      <span className="flex items-center text-[#03A8FD] cursor-pointer gap-1">
-                        <FaRegComments size={16} /> {/* Icon size adjustment */}
+                      <span className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap">
+                        <FaRegComments size={16} /> 
                         Add Comment
                       </span>
                     </div>

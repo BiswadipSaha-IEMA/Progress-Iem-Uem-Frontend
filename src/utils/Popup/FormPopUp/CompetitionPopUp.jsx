@@ -69,7 +69,7 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              FDP Submission Form
+              Competetion Submission Form
             </h2>
 
             {/* Inner container with scroll */}

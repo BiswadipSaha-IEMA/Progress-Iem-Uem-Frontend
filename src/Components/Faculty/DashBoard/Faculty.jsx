@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X } from 'lucide-react';
 import { FaBookBookmark } from "react-icons/fa6";
 import { TiTick } from "react-icons/ti";
 import { RiCloseFill } from "react-icons/ri";
@@ -10,13 +10,15 @@ import { useGetReq } from "../../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
 import MoocsPopUp from "../../../utils/Popup/FormPopUp/MoocsPopUp";
-// import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
+import PatentPopUp from "../../../utils/Popup/FormPopUp/PatentPopUp";
 import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
 import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
+import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
+import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false)
@@ -44,6 +46,9 @@ export default function Faculty() {
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
   const [workshopPopUp, setworkshopPopUp] = useState(false);
+  const [showPatentPopup, setShowPatentPopup] = useState(false);
+  const [showFDPPopup, setShowFDPPopup] = useState(false);
+  const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -55,10 +60,7 @@ export default function Faculty() {
   useEffect(() => {
     const getBPData = async () => {
         try {
-            // API request to fetch all events
             const response = await getReq('api/v1/document/getAllEvents', accessToken)
-            
-            // Check if the request was successful, then set data in state
             if (response.success) {
                 console.log(response.data)
                 setData(response.data.data)
@@ -69,7 +71,7 @@ export default function Faculty() {
         }
     }
     getBPData()
-}, [showPopUp])
+  }, [showPopUp])
 
   useEffect(() => {
     const allInfo = async () => {
@@ -134,12 +136,6 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
-          // const arr=[]
-          // const filteredData= response.data.data.map((dt)=>{
-          //   // if(dt.eventType==="developedModule")
-          //     arr.push(dt)
-          // })
-
           setMoocs(response.data.data);
         }
       } catch (error) {
@@ -203,8 +199,6 @@ export default function Faculty() {
       }
     };
     
-
-
     const getPatentInfo = async () => {
       try {
         const response = await getReq(
@@ -213,14 +207,10 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
-          // const arr = [];
-          // const filteredData = response.data.data.map((dt) => {
-          //   if (dt.eventType === "Industrial Tour") arr.push(dt);
-          // });
           setPatentData(response.data.data);
         }
       } catch (error) {
-        console.error("Error fetching conference info:", error);
+        console.error("Error fetching patent info:", error);
       }
     };
 
@@ -232,22 +222,16 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
-          // console.log('====================================');
-          // console.log('hnelic--------------------------------------------------------', response.data.data);
-          // console.log('====================================');
           const arr = [];
           const filteredData = response.data.data.map((dt) => {
             if (dt.eventType === "FDP") {
               arr.push(dt);
             }
           });
-          // console.log('====================================');
-          // console.log('lhini---------------------------');
-          // console.log('====================================');
           setFdp(arr);
         }
       } catch (error) {
-        console.error("Error fetching conference info:", error);
+        console.error("Error fetching FDP info:", error);
       }
     };
 
@@ -268,17 +252,13 @@ export default function Faculty() {
               arr.push(dt);
             }
           });
-          // console.log('====================================');
-          // console.log('lhini---------------------------');
-          // console.log('====================================');
           setCompete(arr);
         }
       } catch (error) {
-        console.error("Error fetching conference info:", error);
+        console.error("Error fetching competition info:", error);
       }
     };
 
-  
     allInfo();
     getConfInfo();
     getLecture();
@@ -286,9 +266,9 @@ export default function Faculty() {
     getIndTour();
     getMoocs();
     getTrimentor();
-    getPatentInfo()
-    getFdpInfo()
-    
+    getPatentInfo();
+    getFdpInfo();
+    getCompeteInfo();
   }, [accessToken, workshopPopUp]);
 
   const groupResearchByGrade = (grade) => {
@@ -342,7 +322,6 @@ export default function Faculty() {
         })
       ),
     },
-
     {
       title: "Workshop Organized",
       details: WorkOrg.map((paper) => ({
@@ -481,6 +460,9 @@ export default function Faculty() {
                 } else if (item.title === "Tri-Mentoring System") {
                   navigate("/faculty/viewrtrimentor");
                 }
+                else if (item.title === "Patent") {
+                  navigate("/faculty/viewpatent");
+                }
               }}
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -511,7 +493,6 @@ export default function Faculty() {
                     else if(item.title === "MOOCs"){
                       setmooc(true)
                     }
-                    
                     else if(item.title === "Conference"){
                       setConference(true)
                     }
@@ -524,9 +505,14 @@ export default function Faculty() {
                     else if(item.title === "Workshop Organized"){
                       setworkshopPopUp(true)
                     }
-                    
-
-                    
+                    else if(item.title === "Patent"){
+                      setShowPatentPopup(true)
+                    } else if(item.title === "Faculty Development Programmes/ MDP "){
+                      setShowFDPPopup(true);
+                    }
+                    else if(item.title === "Competition Organized"){
+                      setShowCompetitionPopup(true);
+                    }
                   }}
                 >
                   Add A Response
@@ -555,70 +541,71 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {
-          bookPub && 
-          <BookPublished
-            setShowPopup={setBookPub}
-          />
-        }
-        {
-          mooc && 
-          <MoocsPopUp
-            setShowPopup={setmooc}
-            setUtilFor='bpAddForm'
-          />
-        }
-        {/* {
-          conference && 
-          <ConferencePopUp
-            setShowPopup={setConference}
-            setUtilFor='bpAddForm'
-          />
-        } */}
-        {
-          industrial && 
-          <IndustrialPopup
-            setShowPopup={setIndustrial}
-            setUtilFor='bpAddForm'
-          />
-        }
-        {
-          triMentor && 
-          <TriMentoringPopUp
-            setShowPopup={settriMentor}
-            setUtilFor='bpAddForm'
-          />
-        }
-        {
-          researchPaperGradeAData && 
-          <ResearchPaperGradeA
+      {bookPub && 
+        <BookPublished
+          setShowPopup={setBookPub}
+        />
+      }
+      {mooc && 
+        <MoocsPopUp
+          setShowPopup={setmooc}
+          setUtilFor='bpAddForm'
+        />
+      }
+      {showPatentPopup && 
+        <PatentPopUp
+          setShowPopup={setShowPatentPopup}
+          setUtilFor='bpAddForm'
+        />
+      }
+      {industrial && 
+        <IndustrialPopup
+          setShowPopup={setIndustrial}
+          setUtilFor='bpAddForm'
+        />
+      }
+      {triMentor && 
+        <TriMentoringPopUp
+          setShowPopup={settriMentor}
+          setUtilFor='bpAddForm'
+        />
+      }
+      {researchPaperGradeAData && 
+        <ResearchPaperGradeA
           setUtilFor={'bpAddForm'}
-            setShowPopup={setResearchPaperGradeAData}
-          />
-        }
-        {
-          researchPaperGradeBData && 
-          <ResearchPaperGradeB
+          setShowPopup={setResearchPaperGradeAData}
+        />
+      }
+      {researchPaperGradeBData && 
+        <ResearchPaperGradeB
           setUtilFor={'bpAddForm'}
-            setShowPopup={setResearchPaperGradeBData}
-          />
-        }
-        {
-          researchPaperGradeCData && 
-          <ResearchPaperGradeC
+          setShowPopup={setResearchPaperGradeBData}
+        />
+      }
+      {researchPaperGradeCData && 
+        <ResearchPaperGradeC
           setUtilFor={'bpAddForm'}
-            setShowPopup={setResearchPaperGradeCData}
-          />
-        }
-        {
-          workshopPopUp && 
-          <WorkShopPopUp
+          setShowPopup={setResearchPaperGradeCData}
+        />
+      }
+      {workshopPopUp && 
+        <WorkShopPopUp
           setUtilFor={'bpAddForm'}
-            setShowPopup={setworkshopPopUp}
-          />
-        }
-        
-        
+          setShowPopup={setworkshopPopUp}
+        />
+      }
+      {showFDPPopup && 
+        <FDPPopUp
+          setShowPopup={setShowFDPPopup}
+          setUtilFor='bpAddForm'
+        />
+      }
+      {showCompetitionPopup && 
+        <CompetitionPopUp
+          setShowPopup={setShowCompetitionPopup}
+          setUtilFor='bpAddForm'
+        />
+      }
     </div>
   );
 }

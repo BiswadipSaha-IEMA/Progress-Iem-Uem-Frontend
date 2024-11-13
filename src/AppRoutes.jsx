@@ -25,6 +25,7 @@ import FacultyConferenceOrganized from './Pages/Faculty/FacultyConferenceOrganiz
 import Lectureseries from "./Pages/Faculty/Lectureseries/Lectureseries";
 import FacultyWorkshopOrganizedPage from "./Pages/Faculty/FacultyWorkshopOrganized/FacultyWorkshopOrganizedPage";
 import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/FacultyIndustrialTourPage";
+import FacultyPatentPage from "./Pages/Faculty/FacultyPatent/FacultyPatentPage";
 import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
@@ -69,6 +70,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
+          <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
 
           {/* Faculty lists by stream */}
           <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />

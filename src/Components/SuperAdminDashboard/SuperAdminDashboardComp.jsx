@@ -226,16 +226,16 @@ export default function SuperAdminDashboardComp() {
           {/* left side part */}
           <div className=" flex flex-col gap-5  lg:w-[30%]">
             {/* set date section */}
-            <div className="flex gap-2">
+            <div className="flex gap-2 md:items-center md:flex-col lg:flex-row">
               <div className="bg-white w-[100%] rounded-[15px] border-[1.5px] relative">
                 <div className="
                 text-[#a0a0a0] p-2 flex  items-center gap-2 font-poppins">
                 <IoCalendar />
-                <p className="text-[15px] md:text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
+                <p className="text-[15px] md:text-base xl:text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
                 </div>
               </div>
 
-              <div className="bg-[#03A8FD] w-[50%] flex justify-center text-[17px] md:text-[20px] text-white rounded-[15px] cursor-pointer items-center font-poppins"
+              <div className="bg-[#03A8FD] w-[50%] flex justify-center text-[17px] md:text-[20px] md:py-1 text-white rounded-[15px] cursor-pointer items-center font-poppins md:rounded-[8px] lg:rounded-[15px]"
               onClick={()=>{
                 setShowDate(true);
               }}
@@ -244,7 +244,7 @@ export default function SuperAdminDashboardComp() {
               </div>
             </div>
             <div className="flex-1 p-6 sm:p-8 bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex items-center justify-center rounded-2xl bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-              <div className="flex flex-col items-center space-x-4 sm:flex-row lg:flex-row">
+              <div className="flex flex-col items-center space-x-4 sm:flex-row md:flex-col lg:flex-row">
                 <div
                   className="bg-[url('/src/assets/moderator.svg')] bg-cover bg-center h-32 w-32 sm:h-40 sm:w-40 flex-shrink-0"
                   aria-hidden="true"
@@ -261,7 +261,7 @@ export default function SuperAdminDashboardComp() {
             </div>
 
             <div className="flex-1 p-6 sm:p-8 bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex items-center justify-center rounded-2xl bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-              <div className="flex flex-col items-center space-x-4 sm:flex-row lg:flex-row">
+              <div className="flex flex-col items-center space-x-4 sm:flex-row md:flex-col lg:flex-row">
                 <div
                   className="bg-[url('/src/assets/faculty.svg')] bg-cover bg-center h-32 w-32 sm:h-40 sm:w-40 flex-shrink-0"
                   aria-hidden="true"
@@ -279,8 +279,8 @@ export default function SuperAdminDashboardComp() {
           </div>
 
           {/* right side div -> contain all department */}
-          <div className="bg-white lg:w-[70%] h-full p-5 rounded-lg">
-            <div className="flex flex-col justify-between gap-2 sm:pl-6 md:pl-0 md:gap-0 sm:flex-row ">
+          <div className="bg-white md:w-[70%] lg:w-[70%] h-full p-5 rounded-lg">
+            <div className="flex flex-col justify-between gap-2 sm:pl-6 md:pl-6 md:gap-2 lg:gap-0 sm:flex-row md:flex-col lg:flex-row ">
               <p className="text-[1.5rem] sm:text-[1.6rem] md:text-[1.8rem] font-semibold text-[#03a8fd] font-poppins">
                 Department
               </p>

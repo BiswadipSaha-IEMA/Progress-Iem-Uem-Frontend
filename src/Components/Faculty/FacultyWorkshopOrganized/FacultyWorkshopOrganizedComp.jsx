@@ -2,129 +2,181 @@ import React, { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
-// import FacultyCardBP from './FacultyCardBP'
 import { FaBookBookmark } from 'react-icons/fa6'
-import { useGetReq, usePostReq } from '../../../hooks/useHttp'
-import ManagePopUp from '../../../utils/Popup/FormPopUp/ManagePopUp'
-// import WorkshopOrganized from '../../../utils/Popup/FormPopUp/WorkshopOrganized'
-import FacultyWorkshopOrganizedCard from './FacultyWorkshopOrganizedCard'
+import { useGetReq } from '../../../hooks/useHttp'
 import WorkShopPopUp from '../../../utils/Popup/FormPopUp/WorkShopPopUp'
+import FacultyPopup from '../../DetailedSuperAdmin/FacultyPopup'
+import Header from '../../../Components/Header/Header'
 
-function FacultyWorkshopOrganizedComp() {
-    // Set initial count for BpNumber and showPopUp, data, and data1 state variables
-    const BpNumber = 30
+export default function FacultyBookPublished() {
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData] = useState([])
     const [data1, setData1] = useState([])
     const [getReq] = useGetReq()
+    const [currentPage, setCurrentPage] = useState(1)
+    const [detailedClick, setDetailedClick] = useState(false)
+    const [selectedData, setSelectedData] = useState(null)
+    const rowsPerPage = 5
 
-    // const [workshopPopUp, setWorkshopPopUp]= useState(false)
-
-    // Retrieve the access token from session storage
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 
-    // Fetch events data on component mount or when showPopUp changes
     useEffect(() => {
         const getBPData = async () => {
             try {
-                // API request to fetch all events
                 const response = await getReq('api/v1/document/getAllEvents', accessToken)
-                
-                // Check if the request was successful, then set data in state
+                const arr = []
                 if (response.success) {
-                    console.log(response.data)
-                    setData(response.data.data)
-                    setData1(response.data.data)
-                } 
+                    console.log(response.data.data)
+
+                    response.data.data.forEach((data) => {
+                        if (data.eventType === "Workshop")
+                            arr.push(data)
+                    })
+
+                    setData(arr)
+                    setData1(arr)
+                }
             } catch (error) {
                 console.log(error)
             }
         }
         getBPData()
-    }, [showPopUp]) // Dependency array includes showPopUp to re-fetch when popup state changes
+    }, [showPopUp])
 
-    // Handle search input change and filter displayed data accordingly
     const handleSearch = (event) => {
-        if (data) {
-            const searchData = event.target.value
-            const filteredData = data1.filter(item =>
-                item.title.toLowerCase().includes(searchData.toLowerCase())
-            )
-            setData(filteredData)
-            if (searchData === '') setData(data1) // Reset data if search input is cleared
-        }
+        const searchData = event.target.value.toLowerCase()
+        const filteredData = data1.filter(item => 
+            item.title.toLowerCase().includes(searchData) ||
+            item.name.toLowerCase().includes(searchData) ||
+            item.isbn.toLowerCase().includes(searchData)
+        )
+        setData(filteredData)
+        setCurrentPage(1)
     }
 
+    const indexOfLastRow = currentPage * rowsPerPage
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage
+    const currentRows = data.slice(indexOfFirstRow, indexOfLastRow)
+
+    const totalPages = Math.ceil(data.length / rowsPerPage)
+    const handlePrevPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1)
+    }
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1)
+    }
+
+    const columnHeaders = ['Organizing Institute', 'Name', 'Date', 'Attended By', 'Status']
+
     return (
-        <div className="p-4 md:p-8">
-
-            {/* Search bar and "Add New Workshop" button section */}
-            <div className="relative flex flex-col md:flex-row gap-4 md:gap-8 p-4 md:p-8">
-                {/* Search icon */}
-                <MdOutlineSearch className="absolute bottom-3 md:bottom-9 left-4 md:left-10 text-[1.5rem] md:text-[2rem] text-[#979da7] z-10" />
-
-                {/* Search input field */}
-                <div className="relative w-full">
-                    <input
-                        type="text"
-                        placeholder="search for a conference"
-                        onChange={handleSearch}
-                        className="w-full py-2 px-10 md:px-12 font-[400] text-[16px] md:text-[18px] outline-none border-[#03A8FD] backdrop-blur-lg shadow-[0_0_8px_2px_rgba(3,168,253,0.7)] rounded-md"
-                    />
-                    {/* Cross icon for clearing the search */}
-                    <RxCross2 className="absolute right-2 top-2 md:right-3 md:top-3 border-[#979da7] border-[2px] rounded-full text-[1rem] md:text-[1.2rem] p-1 cursor-pointer" />
+        <div className={`px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins ${showPopUp ? 'overflow-hidden' : ''}`}>
+            <Header backPage="/faculty/dashboard" />
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
+                <div className="flex items-center gap-5 mb-4 sm:mb-0">
+                    <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
+                    <div className="text-[20px] sm:text-[25px] font-semibold">
+                    Research Paper Grade A
+                    </div>
                 </div>
 
-                {/* Add New Workshop button */}
-                <div className="bg-[#03A8FD] text-[#fff] flex justify-center items-center rounded-md w-[300px] py-2 cursor-pointer"
-                    onClick={() => setShowPopUp(true)}
-                >
-                    <div className="w-full flex justify-center items-center gap-2 md:gap-3 text-[1rem] md:text-[1.15rem]">
-                        Add New Workshop
-                        <VscDiffAdded className="text-[1.3rem] md:text-[1.5rem] mt-1" />
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="relative w-full sm:w-[300px] lg:w-[500px]">
+                        <input
+                            type="text"
+                            placeholder="Search by Book Name"
+                            onChange={handleSearch}
+                            className="w-full h-[50px] font-semibold py-2 pl-10 pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
+                        />
+                        <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
+                        <RxCross2 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer" />
                     </div>
+                    <button
+                        className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+                        onClick={() => setShowPopUp(true)}
+                    >
+                        Publish New Book
+                        <VscDiffAdded className="text-[1.3rem]" />
+                    </button>
                 </div>
             </div>
 
-            {/* Main content container for Workshop Organized list */}
-            <div className="w-full p-4 md:p-8 pt-0">
-                <div className={`shadow-2xl rounded-md p-4 md:p-8 ${BpNumber <= 8 ? 'h-[600px] md:h-[800px]' : 'h-auto'}`}>
-                    <div className="text-[1.5rem] md:text-[2rem] font-[500] flex items-center mb-6 md:mb-10 gap-2">
-                        <FaBookBookmark className="text-[1.5rem] md:text-[2rem] text-[#03A8FD]" />
-                        Workshop Organized 
-                    </div>
-
-                    {/* Workshop cards display area */}
-                    <div className="flex flex-wrap gap-4 md:gap-8 w-full h-full">
-                        {
-                            data
-                                ?.filter(item => item.eventType === 'Workshop') // Filter only 'Workshop' type events
-                                .map((item, index) => (
-                                    <FacultyWorkshopOrganizedCard
+            {/* Responsive Table */}
+            <div className="overflow-auto mt-5 rounded-lg">
+                <div className="min-w-full bg-white rounded-lg shadow">
+                    <div className="table w-full">
+                        {/* Table Header */}
+                        <div className="table-header-group">
+                            <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
+                                <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                                    SL. No
+                                </div>
+                                {columnHeaders.map((header, index) => (
+                                    <div
                                         key={index}
-                                        status={item.status}
-                                        title={item.topicName}
-                                        date={item.date}
-                                        organizedBy={item.organizedBy}
-                                        name={item.topicName}
-                                        attendedBy = {item.attendedBy}
-                                        driveFileUrl={item.proofDocument||''}
-                                    />
-                                ))
-                        }
+                                        className="table-cell px-4 py-2 text-[#575757] font-semibold"
+                                    >
+                                        {header}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Table Body */}
+                        <div className="table-row-group">
+                            {currentRows.map((item, rowIndex) => (
+                                <div
+                                    key={rowIndex}
+                                    className="table-row border-b cursor-pointer hover:bg-gray-100"
+                                    onClick={() => {
+                                        setSelectedData(item)
+                                        setDetailedClick(true)
+                                    }}
+                                >
+                                    {/* Sl. No Column */}
+                                    <div className="table-cell px-4 py-2 text-[#000]">
+                                        {indexOfFirstRow + rowIndex + 1}
+                                    </div>
+                                    {/* Dynamic Data Columns */}
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.organizedBy}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.topicName}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.date}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.attendedBy}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.status}</div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
+                </div>
+
+                {/* Pagination Controls */}
+                <div className="flex justify-end mt-4">
+                    <button
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 mr-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+                    >
+                        Previous
+                    </button>
+                    <button
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+                    >
+                        Next
+                    </button>
                 </div>
             </div>
 
-            {/* Conditional rendering of WorkshopOrganized popup component */}
             {showPopUp && (
                 <WorkShopPopUp
                     setUtilFor={'bpAddForm'}
                     setShowPopup={setShowPopUp}
                 />
             )}
+
+            {/* {detailedClick && (
+                <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
+            )} */}
         </div>
     )
 }
-
-export default FacultyWorkshopOrganizedComp

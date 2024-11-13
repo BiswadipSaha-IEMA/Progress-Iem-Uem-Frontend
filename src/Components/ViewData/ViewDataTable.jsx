@@ -1,25 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Header from "../Header/Header";
+import React, { useState, useEffect } from "react";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
+import { FaRegComments } from "react-icons/fa"; 
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
+import CommentModal from "./CommentModal"; 
 
 const ViewDataTable = ({ name, dummyData, dummy }) => {
-  // Dummy data to simulate dynamic table rows and columns
-  // const dummyData = [
-  //   { name: "John Doe", bookName: "React Basics", isbn: "123-4567890123", publisher: "Tech Books", date: "2022-01-15", submittedForms: "Yes" },
-  //   { name: "Jane Smith", bookName: "Advanced CSS", isbn: "987-6543210987", publisher: "Design Press", date: "2021-08-30", submittedForms: "No" },
-  //   { name: "Alice Johnson", bookName: "JavaScript Essentials", isbn: "321-6549871234", publisher: "Coding World", date: "2020-05-22", submittedForms: "Yes" },
-  //   { name: "Bob Lee", bookName: "UI/UX Principles", isbn: "654-3219876543", publisher: "Art Books", date: "2019-11-12", submittedForms: "Yes" },
-  //   { name: "Chris Martin", bookName: "Node.js Guide", isbn: "432-1098765432", publisher: "Tech Guides", date: "2023-03-01", submittedForms: "No" },
-  //   { name: "Emma Wilson", bookName: "Data Science 101", isbn: "567-8901234567", publisher: "Data Books", date: "2022-07-18", submittedForms: "Yes" },
-  //   { name: "James Brown", bookName: "Machine Learning Basics", isbn: "876-5432109876", publisher: "AI Press", date: "2021-02-25", submittedForms: "No" },
-  // ];
-
-  //sending proodOfDocument
-  const [data, setData] = useState("");
-  // console.log(dummy);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null); 
+  const [comment, setComment] = useState(""); 
+  const [data, setData] = useState(""); 
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,12 +32,18 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  const [detailedClick, setDetailedClick] = useState(false);
-  const [id, setId] = useState("");
-  
-  useEffect(()=>{
-    console.log(data)
-  },[data])
+  // Handle row click to select the row for comments
+  const handleRowClick = (rowData) => {
+    setSelectedRow(rowData); // Set the selected row for the modal
+    setIsModalOpen(true); // Open the modal for the selected row
+  };
+
+  // Handle comment submission
+  const handleCommentSubmit = (newComment) => {
+    setComment(newComment);
+    console.log("Comment Submitted for ", selectedRow.name, ":", newComment);
+    // You can also save this comment to a server or global state here.
+  };
 
   return (
     <>
@@ -55,9 +51,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
-            <div className="text-[20px] sm:text-[25px] font-semibold">
-              {name}
-            </div>
+            <div className="text-[20px] sm:text-[25px] font-semibold">{name}</div>
           </div>
 
           <div className="w-full sm:w-[300px] lg:w-[500px] h-[50px] font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)] flex px-2 items-center justify-between">
@@ -65,16 +59,10 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
               <div>
                 <CiSearch size={23} className="font-bold text-[#7A7A7A]" />
               </div>
-              <input
-                className="outline-none w-full pl-3 py-2 mr-2"
-                placeholder="Search by Book Name"
-              />
+              <input className="outline-none w-full pl-3 py-2 mr-2" placeholder="Search by Book Name" />
             </div>
             <div>
-              <IoIosCloseCircleOutline
-                size={25}
-                className="font-bold text-[#7A7A7A]"
-              />
+              <IoIosCloseCircleOutline size={25} className="font-bold text-[#7A7A7A]" />
             </div>
           </div>
         </div>
@@ -86,17 +74,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
               {/* Table Header */}
               <div className="table-header-group">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
-                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
-                    SL. No
-                  </div>
+                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">SL. No</div>
                   {columnHeaders.map((header, index) => (
-                    <div
-                      key={index}
-                      className="table-cell px-4 py-2 text-[#575757] font-semibold"
-                    >
+                    <div key={index} className="table-cell px-4 py-2 text-[#575757] font-semibold">
                       {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
+                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">Any COMMENT</div>
                 </div>
               </div>
 
@@ -106,43 +90,22 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                   <div
                     key={rowIndex}
                     className="table-row border-b"
-                    // onClick={() => {
-                    //   // setData(dummy);
-                    //   dummy.map((dt) => {
-                    //     console.log("gyvchvbk------------------------------");
-                    //     if (dt._id === rowIndex) {
-                    //       setData(dt)
-                    //       // setId(item._id);
-                    //       setDetailedClick(true);
-                    //     }
-                    //     // console.log(rowIndex)
-                    //   });
-                    //   // console.log(oneObj)
-                    //   // console.log(item);
-                    // }}
-
-                    onClick={() => {
-                      const selectedItem = dummy.find((dt) => dt._id === rowIndex); // Find item by matching _id
-                      if (selectedItem) {
-                        setData(selectedItem); // Set the data to the found item
-                        setDetailedClick(true); // Open the popup
-                      }
-                    }}
-                    
+                    onClick={() => handleRowClick(item)} // Open modal on row click
                   >
                     {/* Sl. No Column */}
-                    <div className="table-cell px-4 py-2 text-[#000]">
-                      {indexOfFirstRow + rowIndex + 1}
-                    </div>
+                    <div className="table-cell px-4 py-2 text-[#000]">{indexOfFirstRow + rowIndex + 1}</div>
                     {/* Dynamic Data Columns */}
                     {columnHeaders.map((header, colIndex) => (
-                      <div
-                        key={colIndex}
-                        className="table-cell px-4 py-2 text-[#000]"
-                      >
+                      <div key={colIndex} className="table-cell px-4 py-2 text-[#000]">
                         {item[header]}
                       </div>
                     ))}
+                    <div className="table-cell px-4 py-2 text-[#000]">
+                      <span className="flex items-center text-[#03A8FD] cursor-pointer gap-1">
+                        <FaRegComments size={16} /> {/* Icon size adjustment */}
+                        Add Comment
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -151,26 +114,23 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
           {/* Pagination Controls */}
           <div className="flex justify-end mt-4">
-            <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className="px-4 py-2 mr-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
-            >
+            <button onClick={handlePrevPage} disabled={currentPage === 1} className="px-4 py-2 mr-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50">
               Previous
             </button>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
-            >
+            <button onClick={handleNextPage} disabled={currentPage === totalPages} className="px-4 py-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50">
               Next
             </button>
           </div>
         </div>
       </div>
-      {detailedClick && (
-        <FacultyPopup setShowPopup={setDetailedClick} data={data} />
-      )}
+
+      
+      <CommentModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCommentSubmit}
+        selectedRow={selectedRow} 
+      />
     </>
   );
 };

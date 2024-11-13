@@ -221,19 +221,21 @@ export default function SuperAdminDashboardComp() {
         </div> */}
 
         {/* Moderator, Counts, and Faculty section */}
-        <div className="flex flex-col h-full gap-4 sm:flex-row">
-          <div className=" flex flex-col gap-5 w-[30%]">
+        <div className="flex flex-col h-full gap-4 md:flex-row">
+
+          {/* left side part */}
+          <div className=" flex flex-col gap-5  lg:w-[30%]">
             {/* set date section */}
             <div className="flex gap-2">
               <div className="bg-white w-[100%] rounded-[15px] border-[1.5px] relative">
                 <div className="
                 text-[#a0a0a0] p-2 flex  items-center gap-2 font-poppins">
                 <IoCalendar />
-                <p className="text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
+                <p className="text-[15px] md:text-lg">{dateRange[0] ? `${dateRange[0]} - ${dateRange[1]}` : 'Select a date range'}</p>
                 </div>
               </div>
 
-              <div className="bg-[#03A8FD] w-[50%] flex justify-center p-1  text-[20px] text-white rounded-[15px] cursor-pointer items-center font-poppins"
+              <div className="bg-[#03A8FD] w-[50%] flex justify-center text-[17px] md:text-[20px] text-white rounded-[15px] cursor-pointer items-center font-poppins"
               onClick={()=>{
                 setShowDate(true);
               }}
@@ -242,7 +244,7 @@ export default function SuperAdminDashboardComp() {
               </div>
             </div>
             <div className="flex-1 p-6 sm:p-8 bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex items-center justify-center rounded-2xl bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col items-center space-x-4 sm:flex-row lg:flex-row">
                 <div
                   className="bg-[url('/src/assets/moderator.svg')] bg-cover bg-center h-32 w-32 sm:h-40 sm:w-40 flex-shrink-0"
                   aria-hidden="true"
@@ -259,7 +261,7 @@ export default function SuperAdminDashboardComp() {
             </div>
 
             <div className="flex-1 p-6 sm:p-8 bg-[url('/src/assets/vector_main.svg')] bg-cover bg-center flex items-center justify-center rounded-2xl bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-[1.01] hover:shadow-md">
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col items-center space-x-4 sm:flex-row lg:flex-row">
                 <div
                   className="bg-[url('/src/assets/faculty.svg')] bg-cover bg-center h-32 w-32 sm:h-40 sm:w-40 flex-shrink-0"
                   aria-hidden="true"
@@ -277,23 +279,23 @@ export default function SuperAdminDashboardComp() {
           </div>
 
           {/* right side div -> contain all department */}
-          <div className="bg-white w-[70%] h-full p-5 rounded-lg">
-            <div className="flex justify-between ">
-              <p className="text-[1.8rem] font-semibold text-[#03a8fd] font-poppins">
+          <div className="bg-white lg:w-[70%] h-full p-5 rounded-lg">
+            <div className="flex flex-col justify-between gap-2 sm:pl-6 md:pl-0 md:gap-0 sm:flex-row ">
+              <p className="text-[1.5rem] sm:text-[1.6rem] md:text-[1.8rem] font-semibold text-[#03a8fd] font-poppins">
                 Department
               </p>
-              <div className="flex w-auto gap-4 font-poppins"> 
-              <div className="bg-white flex pt-2.5 pl-8 w-[260px] rounded-lg border-[1.5px] relative text-[#a0a0a0]">
+              <div className="flex w-auto gap-3 md:gap-4 font-poppins"> 
+              <div className="bg-white flex py-2.5 pl-8 w-[260px] rounded-lg border-[1.5px] relative text-[#a0a0a0]">
               <IoCalendar  className="absolute text-[#a0a0a0] top-3 left-2"/>
-              <div className="pl-2 pr-2">
+              <div className="lg:pl-2 lg:pr-2">
                 {filterTimeLineStartDate}
               </div>
               -
-              <div className="pl-2">
+              <div className="lg:pl-2">
                 {filterTimeLineEndDate}
               </div>
               </div>
-              <div className="bg-[#03a8fd] w-auto flex justify-center items-center px-6 py-1  text-[20px] text-white rounded-lg cursor-pointer font-poppins"
+              <div className="bg-[#03a8fd] w-auto flex justify-center items-center px-4 md:px-6 py-1  text-[18px] md:text-[20px] text-white rounded-lg cursor-pointer font-poppins"
               onClick={() =>{
                 setTimerPopUp(true)
               }}

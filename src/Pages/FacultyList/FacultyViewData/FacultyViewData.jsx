@@ -15,7 +15,7 @@ const FacultyViewData = () => {
 
   return (
     <>
-      <Header backPage="/cse/facultylist" />
+      <Header backPage="/" />
 
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Book Published'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-A'} />

@@ -28,13 +28,13 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
   // Get current data for pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = dummyData?.slice(indexOfFirstRow, indexOfLastRow);
 
   // Get column headers dynamically from the keys of the first item in the dummyData array
-  const columnHeaders = dummyData.length > 0 ? Object.keys(dummyData[0]) : [];
+  const columnHeaders = dummyData?.length > 0 ? Object.keys(dummyData[0]) : [];
 
   // Handle pagination
-  const totalPages = Math.ceil(dummyData.length / rowsPerPage);
+  const totalPages = Math.ceil(dummyData?.length / rowsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -102,7 +102,7 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
 
               {/* Table Body */}
               <div className="table-row-group">
-                {currentRows.map((item, rowIndex) => (
+                {currentRows?.map((item, rowIndex) => (
                   <div
                     key={rowIndex}
                     className="table-row border-b"
@@ -122,7 +122,7 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
                     // }}
 
                     onClick={() => {
-                      const selectedItem = dummy.find((dt) => dt._id === rowIndex); // Find item by matching _id
+                      const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
                       if (selectedItem) {
                         setData(selectedItem); // Set the data to the found item
                         setDetailedClick(true); // Open the popup

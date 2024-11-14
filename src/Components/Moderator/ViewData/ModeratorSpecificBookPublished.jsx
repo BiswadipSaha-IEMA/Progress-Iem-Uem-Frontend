@@ -8,20 +8,25 @@ import ModeratorBookPublished from './ModeratorBookPublished';
 
 const ModeratorSpecificBookPublished = () => {
   const [data, setData] = useState([]);
+  const [books,setBooks]=useState([])
+  const [rp1,setRp1]=useState([])
+  const [rp2,setRp2]=useState([])
+  const [rp3,setRp3]=useState([])
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
+  const id=sessionStorage.getItem("userId")
   const [getReq] = useGetReq();
 
   useEffect(() => {
     const getFaculty = async () => {
       try {
         const response = await getReq(
-          `api/v1/document/getAllPublications`,
+          `api/v1/document/getAllSubmissionsById/${id}`,
           accessToken
         );
         if (response.success) {
           console.log(response);
-          setData(response.users);
+          setData(response.data);
         } else {
           console.error("Error:", response.statusText);
         }
@@ -39,6 +44,20 @@ const ModeratorSpecificBookPublished = () => {
     console.log(data);
   }, [data]);
 
+  useEffect(()=>{
+    if(data.publications){
+      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({createdBy,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+      const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+      const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+      const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+      // console.log(filteredBooks)
+      setBooks(filteredBooks)
+      setRp1(rep1)
+      setRp2(rep2)
+      setRp3(rep3)
+    }
+  },[data])
+
   const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
     // Name: name,
     // UserID: _id,
@@ -51,11 +70,11 @@ const ModeratorSpecificBookPublished = () => {
     <>
       <Header backPage="/cse/facultylist" />
 
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Book Published'} />
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-A'} />
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-B'} />
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-C'} />
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Patent'} />
+      <ModeratorBookPublished dummyData={books} dummy={books} name={'Book Published'} />
+      <ModeratorBookPublished dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />
+      <ModeratorBookPublished dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />
+      <ModeratorBookPublished dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />
+      <ModeratorBookPublished dummyData={data.patents} dummy={data.patents} name={'Patent'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Faculty Development Programmes'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Competition'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Seminar'} />
@@ -65,7 +84,8 @@ const ModeratorSpecificBookPublished = () => {
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Industrial Tour'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Hackathon'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Consultancy'} />
-      <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Moocs'} />
+      <ModeratorBookPublished dummyData={data.studentChapters} dummy={data.studentChapters} name={'Student Chapter Activity'} />
+      <ModeratorBookPublished dummyData={data.moocs} dummy={data.moocs} name={'Moocs'} />
       <ModeratorBookPublished dummyData={modifiedData} dummy={dummyData} name={'Tri-Mentoring System'} />
     </>
   );

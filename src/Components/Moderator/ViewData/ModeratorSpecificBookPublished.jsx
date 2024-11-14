@@ -7,37 +7,37 @@ import ModeratorBookPublished from './ModeratorBookPublished';
 
 
 const ModeratorSpecificBookPublished = () => {
-  // const [data, setData] = useState([]);
-  // const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
-  // const department = sessionStorage.getItem("dept");
-  // const [getReq] = useGetReq();
+  const [data, setData] = useState([]);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  const department = sessionStorage.getItem("dept");
+  const [getReq] = useGetReq();
 
-  // useEffect(() => {
-  //   const getFaculty = async () => {
-  //     try {
-  //       const response = await getReq(
-  //         `api/v1/document/getAllPublications`,
-  //         accessToken
-  //       );
-  //       if (response.success) {
-  //         console.log(response);
-  //         setData(response.users);
-  //       } else {
-  //         console.error("Error:", response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const getFaculty = async () => {
+      try {
+        const response = await getReq(
+          `api/v1/document/getAllPublications`,
+          accessToken
+        );
+        if (response.success) {
+          console.log(response);
+          setData(response.users);
+        } else {
+          console.error("Error:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
   
-  //   if (accessToken) {
-  //     getFaculty();
-  //   }
-  // }, [accessToken]);
+    if (accessToken) {
+      getFaculty();
+    }
+  }, [accessToken]);
   
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
     // Name: name,

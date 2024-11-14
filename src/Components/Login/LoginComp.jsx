@@ -145,7 +145,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
               Sign In with Apple
             </button>
           </div> */}
-          <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
+          {/* <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
             Don't have an account?
             <span
               className="text-[#03A8FD] font-[500] cursor-pointer"
@@ -155,7 +155,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
             >
               Register Now
             </span>
-          </div>
+          </div> */}
           
         </div>
       </div>

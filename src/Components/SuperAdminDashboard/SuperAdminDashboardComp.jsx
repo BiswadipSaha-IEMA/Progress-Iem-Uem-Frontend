@@ -267,7 +267,7 @@ export default function SuperAdminDashboardComp() {
                     className="rounded-md bg-[#03a8fd] px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-poppins"
                     onClick={() => navigate("/addfaculty")}
                   >
-                    Faculty
+                    Department
                   </button>
                 </div>
               </div>
@@ -314,7 +314,7 @@ export default function SuperAdminDashboardComp() {
 
                     {
                       sessionStorage.setItem('dept', dept)
-                      navigate(`/${dept.toLowerCase()}/facultylist`)}
+                      navigate('/viewdata')}
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }
                   className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-[white] to-[#C1EAFFB2] p-4 shadow-sm hover:shadow-md transition-all duration-200 font-poppins font-semibold"

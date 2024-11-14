@@ -66,7 +66,7 @@ export default function FacultyBookPublished() {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1)
     }
 
-    const columnHeaders = ['Title', 'Published Date', 'Publisher Name', 'ISBN', 'Status']
+    const columnHeaders = ['Title', 'Faculty', 'Published Date', 'Publisher Name', 'ISBN', 'Status' ,'Proof Document']
 
     return (
         <div className='mx-10'>
@@ -138,10 +138,25 @@ export default function FacultyBookPublished() {
                                     </div>
                                     {/* Dynamic Data Columns */}
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.title}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.createdBy.name}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.date}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.name}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.isbn}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.status}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">
+                                    {item.proofDocument ? (
+                                    <a
+                                      href={item.proofDocument} 
+                                      target="_blank" 
+                                    //   rel="noopener noreferrer"
+                                      className="text-blue-500 underline"
+                                    >
+                                        {item.proofDocument.substring(0,15)+'...'}
+                                        </a>
+                                    ):(
+                                        "NA"
+                                    )}
+                                        </div>
                                 </div>
                             ))}
                         </div>

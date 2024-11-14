@@ -66,7 +66,7 @@ export default function FacultyBookPublished() {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1)
     }
 
-    const columnHeaders = ['Title', 'Faculty', 'Published Date', 'Publisher Name', 'ISBN', 'Status' ,'Proof Document']
+    const columnHeaders = ['Title', 'Faculty', 'Published Date', 'Publisher Name', 'ISBN', 'Status' ,'Proof of Document']
 
     return (
         <div className='mx-10'>

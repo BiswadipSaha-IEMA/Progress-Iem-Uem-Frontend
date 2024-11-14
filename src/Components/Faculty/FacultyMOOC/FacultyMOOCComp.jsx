@@ -60,7 +60,7 @@ export default function FacultyBookPublished() {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1)
     }
 
-    const columnHeaders = ['Faculty','Name of the module developed', 'Platform on which module is developed ', 'Date of launching e content', 'Link to the relevant document and facility available in the institution','List of the e-content development facility available ' ,'status','Proof Document']
+    const columnHeaders = ['Faculty','Name of the module developed', 'Platform on which module is developed ', 'Date of launching e content', 'Link to the relevant document and facility available in the institution','List of the e-content development facility available ' ,'status','Proof of Document']
 
     return (
         <div className='mx-10'>

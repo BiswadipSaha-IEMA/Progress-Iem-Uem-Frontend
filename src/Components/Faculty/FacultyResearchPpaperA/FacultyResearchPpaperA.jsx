@@ -66,7 +66,7 @@ export default function FacultyBookPublished() {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1)
     }
 
-    const columnHeaders = ['Title', 'Publisher Name','Published Date', 'Issue No', 'Status']
+    const columnHeaders = ['Title', 'Publisher Name','Published Date', 'Issue No', 'Status','Proof of Document']
 
     return (
         <div className='mx-10'>
@@ -126,7 +126,7 @@ export default function FacultyBookPublished() {
                             {currentRows.map((item, rowIndex) => (
                                 <div
                                     key={rowIndex}
-                                    className="table-row border-b cursor-pointer hover:bg-gray-100"
+                                    className="table-row border-b h-[50px] cursor-pointer hover:bg-gray-100"
                                     onClick={() => {
                                         setSelectedData(item)
                                         setDetailedClick(true)
@@ -142,6 +142,20 @@ export default function FacultyBookPublished() {
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.date}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.issue}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.status}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">
+                                    {item.proofDocument ? (
+                                    <a
+                                      href={item.proofDocument} 
+                                      target="_blank" 
+                                    //   rel="noopener noreferrer"
+                                      className="text-blue-500 underline"
+                                    >
+                                        {item.proofDocument.substring(0,15)+'...'}
+                                        </a>
+                                    ):(
+                                        "NA"
+                                    )}
+                                        </div>
                                 </div>
                             ))}
                         </div>

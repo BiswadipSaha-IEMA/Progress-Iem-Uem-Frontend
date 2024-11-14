@@ -1,17 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ViewDataTable from "../../../Components/ViewData/ViewDataTable";
 import { dummyData, dummyData as originalDummyData } from '../../../constants/studentData';
 import Header from '../../../Components/Header/Header';
+import { useGetReq } from '../../../hooks/useHttp';
 
 const FacultyViewData = () => {
 
-  const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
+  const modifiedData = originalDummyData.map(({proofOfDocument, name, _id, ...rest }) => ({
     // Name: name,
     // UserID: _id,
     ...rest,
   }));
 
   const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
+
+  const [bookPublishedData, setBookPublishedData] = useState([]);
+  const [gradeAData, setGradeAData] = useState([]);
+  const [gradeBData, setGradeBData] = useState([]);
+  const [gradeCData, setGradeCData] = useState([]);
+  const [conferenceData, setConferenceData] = useState([]);
+  const [lectureData, setLectureData] = useState([]);  
+  const [idustrialTourData, setIdustrialTourData] = useState([]);  
+
+  const [getReq] = useGetReq();
+
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  const department = sessionStorage.getItem('dept');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getReq(`api/v1/document/getAllSubmissions/${department}`, accessToken);
+
+        if (response.success) {
+          const allData = response.data;
+          console.log(allData)
+
+          setBookPublishedData(allData.filter(item => item.eventType === 'BookPublished'));
+          setGradeAData(allData.filter(item => item.grade === 'A'));
+          setGradeBData(allData.filter(item => item.grade === 'B'));
+          setGradeCData(allData.filter(item => item.grade === 'C'));
+          setConferenceData(allData.filter(item => item.eventType === 'Conference'));
+          setLectureData(allData.filter(item => item.eventType === 'Lecture'));
+          setIdustrialTourData(allData.filter(item => item.eventType === 'IdustrialTour'));
+          
+        } else {
+          console.warn("Unexpected data format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data in FacultyViewData:", error);
+      }
+    };
+
+    fetchData();
+  }, [accessToken]);
+
 
   return (
     <>

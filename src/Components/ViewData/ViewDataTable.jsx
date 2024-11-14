@@ -4,9 +4,10 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
+import { FaCommentDots } from "react-icons/fa";
+import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 
 const ViewDataTable = ({ name, dummyData, dummy }) => {
-  //sending proofOfDocument
   const [data, setData] = useState("");
 
   // Pagination state
@@ -43,6 +44,12 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
   const [detailedClick, setDetailedClick] = useState(false);
   const [id, setId] = useState("");
+
+  // Open popup for comments
+  const handleCommentClick = (selectedData) => {
+    setData(selectedData);
+    setDetailedClick(true);
+  };
 
   useEffect(() => {
     console.log(data);
@@ -96,6 +103,9 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')}
                     </div>
                   ))}
+                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                    Comments
+                  </div>
                 </div>
               </div>
 
@@ -105,13 +115,6 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                   <div
                     key={rowIndex}
                     className="table-row border-b"
-                    onClick={() => {
-                      const selectedItem = dummy.find((dt) => dt._id === item._id); // Find item by matching _id
-                      if (selectedItem) {
-                        setData(selectedItem); // Set the data to the found item
-                        setDetailedClick(true); // Open the popup
-                      }
-                    }}
                   >
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">
@@ -128,6 +131,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                           : item[header]}
                       </div>
                     ))}
+                    {/* Comments Column */}
+                    <div className="table-cell px-4 py-2 text-[#000]">
+                      <FaCommentDots
+                        className="text-[#03A8FD] cursor-pointer"
+                        onClick={() => handleCommentClick(item)}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -154,7 +164,8 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
         </div>
       </div>
       {detailedClick && (
-        <FacultyPopup setShowPopup={setDetailedClick} data={data} />
+        // <FacultyPopup setShowPopup={setDetailedClick} data={data} />
+        <AddCommentPopup setShowPopup={setDetailedClick} data={data} />
       )}
     </>
   );

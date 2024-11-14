@@ -55,7 +55,7 @@ const AddFacultyComp = () => {
             className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg p-4 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 md:gap-2"
             onClick={handleAddUserClick}
           >
-            <span className="hidden lg:inline">Add Faculty</span>
+            <span className="hidden lg:inline">Add Department</span>
             <div className="text-2xl">
               <RiUserAddFill size={20} />
             </div>
@@ -113,6 +113,14 @@ const Cards = ({ sidebar, showPopup }) => {
   //   }
   // }, [userData]); 
 
+  const handleDataUpdate = (updatedData) => {
+    setUserData(prevData =>
+        prevData.map(user => 
+            user._id === updatedData.userId ? { ...user, ...updatedData } : user
+        )
+    );
+};
+
   return (
     <>
       {userData.map((element, index) => (
@@ -121,7 +129,7 @@ const Cards = ({ sidebar, showPopup }) => {
           ref={(ele) => (currentDiv.current[index] = ele)}
           className={`${sidebar ? "ml-12" : "lg:ml-0"}`}
         >
-          <MemberCard role={element.role} data={element} /> {/* Pass individual user data and role */}
+          <MemberCard role={element.role} data={element} onDataUpdate={handleDataUpdate}/> {/* Pass individual user data and role */}
         </div>
       ))}
     </>

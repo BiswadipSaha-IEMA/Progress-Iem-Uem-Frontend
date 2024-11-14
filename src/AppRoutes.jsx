@@ -89,9 +89,9 @@ const AppRouter = () => {
         </Routes>
       ) : (
         <Routes>
-          <Route path="/" element={<Registration />} />
+          
+          <Route path="/" element={<Login />} />
           <Route path="/SuperAdminDashboard" element={<SuperAdminDashboard />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/moderator/signup" element={<ModeratorSignUp />} />
           <Route path="/moderator/login" element={<ModeratorSignIn />} />
           <Route path="/faculty/signup" element={<FacultySignUp />} />

@@ -38,7 +38,7 @@ const AddFacultyComp = () => {
           sidebar ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
         } bg-[url('/src/assets/image2.svg')]`}
       >
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex items-center justify-between mt-4">
           <button className={`bg-slate-200 p-2 rounded`} onClick={() => setSidebar(!sidebar)}>
             <Menu size={30}/>
           </button>
@@ -47,7 +47,7 @@ const AddFacultyComp = () => {
               <CiSearch size={24}/>
             </button>
             <input className="w-full rounded-lg p-2 pl-12 focus:border-[#03A8FD] focus:shadow-[#03A8FD]" />
-            <button className="absolute right-2 text-3xl">
+            <button className="absolute text-3xl right-2">
               <IoIosCloseCircleOutline size={24} />
             </button>
           </div>
@@ -62,7 +62,7 @@ const AddFacultyComp = () => {
           </button>
         </div>
 
-        <div className="bg-white p-10 flex  gap-8 flex-wrap w-full mt-8 rounded-lg">
+        <div className="flex flex-wrap justify-center w-full gap-8 p-10 mt-8 bg-white rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup}/>
         </div>
       </div>

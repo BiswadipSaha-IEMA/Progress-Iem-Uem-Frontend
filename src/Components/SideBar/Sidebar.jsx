@@ -20,8 +20,8 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
 
   const isSuper = location.pathname === "/";
   const isEdit = location.pathname === "/editAcc";
-  const isAddMod = location.pathname === "/AddModerator";
-  const isAddFac = location.pathname === "/AddFaculty";
+  const isAddMod = location.pathname === "/AddModerator" || location.pathname === "/addmoderator";
+  const isAddFac = location.pathname === "/AddFaculty" || location.pathname === "/addfaculty";
 
 
 
@@ -69,16 +69,16 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex left-5 bottom-4 mb-2 mt-6 relative">
+      <div className="relative flex mt-6 mb-2 left-5 bottom-4">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-20 h-20 rounded-full mt-10"
+          className="w-20 h-20 mt-10 rounded-full"
         />
-        <span className="p-2 flex absolute ml-20 text-xm font-bold top-14 text-black rounded-md">
+        <span className="absolute flex p-2 ml-20 font-bold text-black rounded-md text-xm top-14">
         {username}
         </span>
-        <span className="flex absolute ml-20 text-base opacity-70 p-2 top-20 text-black rounded-md">
+        <span className="absolute flex p-2 ml-20 text-base text-black rounded-md opacity-70 top-20">
           Super Admin
         </span>
       </div>

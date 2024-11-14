@@ -67,7 +67,7 @@ const AddModeratorComp = () => {
           </button>
         </div>
         
-          <div className="flex flex-wrap justify-center gap-8 p-10 py-10 mt-8 bg-white rounded-lg">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-8 p-10 py-10 mt-8 bg-white rounded-lg">
             <Cards sidebar={sidebar} showPopup={showPopup} />
           </div>
         

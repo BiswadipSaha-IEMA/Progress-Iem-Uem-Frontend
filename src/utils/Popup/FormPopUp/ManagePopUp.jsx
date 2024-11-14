@@ -544,7 +544,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
             <div className="flex justify-between p-5">
               <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
-                Faculty Registration
+                Department Registration
               </h2>
               <div
                 className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"

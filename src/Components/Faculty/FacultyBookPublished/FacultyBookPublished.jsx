@@ -16,7 +16,7 @@ export default function FacultyBookPublished() {
     const [currentPage, setCurrentPage] = useState(1)
     const [detailedClick, setDetailedClick] = useState(false)
     const [selectedData, setSelectedData] = useState(null)
-    const rowsPerPage = 5
+    const rowsPerPage = 10
 
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 
@@ -69,7 +69,7 @@ export default function FacultyBookPublished() {
     const columnHeaders = ['Title', 'Published Date', 'Publisher Name', 'ISBN', 'Status']
 
     return (
-        <div className={`px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins ${showPopUp ? 'overflow-hidden' : ''}`}>
+        <div className='mx-10'>
             <Header backPage="/faculty/dashboard" />
             <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
                 <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -101,8 +101,8 @@ export default function FacultyBookPublished() {
             </div>
 
             {/* Responsive Table */}
-            <div className="overflow-auto mt-5 rounded-lg">
-                <div className="min-w-full bg-white rounded-lg shadow">
+            <div className="h-[400px] mt-5 rounded-lg ">
+                <div className="min-w-full bg-white rounded-lg">
                     <div className="table w-full">
                         {/* Table Header */}
                         <div className="table-header-group">
@@ -113,7 +113,7 @@ export default function FacultyBookPublished() {
                                 {columnHeaders.map((header, index) => (
                                     <div
                                         key={index}
-                                        className="table-cell px-4 py-2 text-[#575757] font-semibold"
+                                        className="table-cell px-4  text-[#575757] font-semibold"
                                     >
                                         {header}
                                     </div>
@@ -126,7 +126,7 @@ export default function FacultyBookPublished() {
                             {currentRows.map((item, rowIndex) => (
                                 <div
                                     key={rowIndex}
-                                    className="table-row border-b cursor-pointer hover:bg-gray-100"
+                                    className="table-row border-b h-[50px] cursor-pointer hover:bg-gray-100"
                                     onClick={() => {
                                         setSelectedData(item)
                                         setDetailedClick(true)

@@ -36,20 +36,25 @@ const AddModeratorComp = () => {
       </div>
       <div
         className={`flex-grow rounded-lg mb-8 duration-300 ${
-          sidebar ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
+          sidebar
+            ? "lg:w-[calc(100%-320px)] lg:ml-[320px]"
+            : "lg:w-full lg:ml-0"
         } bg-[url('/src/assets/image2.svg')]`}
       >
-        <div className="flex justify-between items-center mt-4">
-          <button className={`bg-slate-200 p-2 rounded`} onClick={() => setSidebar(!sidebar)}>
-            <Menu size={30}/>
+        <div className="flex items-center justify-between mt-4">
+          <button
+            className={`bg-slate-200 p-2 rounded`}
+            onClick={() => setSidebar(!sidebar)}
+          >
+            <Menu size={30} />
           </button>
           <div className="w-[83%] relative flex items-center ml-4">
             <button className="absolute text-3xl left-2">
-              <CiSearch size={24}/>
+              <CiSearch size={24} />
             </button>
             <input className="w-full rounded-lg p-2 pl-12 focus:border-[#03A8FD] focus:shadow-[#03A8FD]" />
-            <button className="absolute right-2 text-3xl">
-              <IoIosCloseCircleOutline size={24}/>
+            <button className="absolute text-3xl right-2">
+              <IoIosCloseCircleOutline size={24} />
             </button>
           </div>
           <button
@@ -62,10 +67,11 @@ const AddModeratorComp = () => {
             </div>
           </button>
         </div>
-
-        <div className="bg-white pt-5 pb-5 flex pl-12 flex-wrap w-full gap-8 mt-8 rounded-lg">
-          <Cards sidebar={sidebar} showPopup={showPopup} />
-        </div>
+        
+          <div className="flex flex-wrap justify-center gap-8 p-10 py-10 mt-8 bg-white rounded-lg">
+            <Cards sidebar={sidebar} showPopup={showPopup} />
+          </div>
+        
       </div>
 
       {showPopup && (
@@ -78,19 +84,22 @@ const AddModeratorComp = () => {
 const Cards = ({ sidebar, showPopup }) => {
   const currentDiv = useRef([]);
   const [getReq] = useGetReq();
-  const [userData, setUserData] = useState([]); 
+  const [userData, setUserData] = useState([]);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const data = await getReq('api/v1/moderator/getAllModerators', accessToken);
+        const data = await getReq(
+          "api/v1/moderator/getAllModerators",
+          accessToken
+        );
         if (Array.isArray(data.data)) {
           const filteredData = data.data;
-          setUserData(filteredData.reverse()); 
+          setUserData(filteredData.reverse());
         } else {
           console.error(data.data);
-          setUserData([]); 
+          setUserData([]);
         }
       } catch (error) {
         console.error(error);
@@ -122,6 +131,5 @@ const Cards = ({ sidebar, showPopup }) => {
     </>
   );
 };
-
 
 export default AddModeratorComp;

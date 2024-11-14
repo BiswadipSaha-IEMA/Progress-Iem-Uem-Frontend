@@ -82,7 +82,7 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
     return (
         <>
         <div className='m-4 sm:pb-4 ml-[0px] sm:ml-0 rounded-lg lg:w-[400px] md:w-[300px] min-w-[350px] min-h-[250px] flex flex-col' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
-            <div className="ml-6 p-3 flex flex-col flex-wrap">
+            <div className="flex flex-col flex-wrap p-3 ml-6">
                 <div className="flex justify-end">
                     <button className='bg-[#03A8FD] p-2 rounded-lg flex items-center gap-2' onClick={togglePopup}>
                         <div className="text-2xl text-[#fff]"><TbEdit /></div>
@@ -94,16 +94,16 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
                     <div className="bg-[#DCF3FF] flex items-center rounded-lg text-sm px-3">{role}</div>
                 </div>
                 <div className='w-[96%] flex text-center border border-[#D2D2D2]'></div>
-                <div className="flex flex-wrap flex-col mt-2 gap-2">
-                    <div className="flex gap-2 items-center">
+                <div className="flex flex-col flex-wrap gap-2 mt-2">
+                    <div className="flex items-center gap-2">
                         <MdPhone />
                         {data.contact}
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                         <CiMail />
                         <span className="flex flex-wrap">{data.email}</span>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center gap-2">
                         <HiMiniBuildingOffice />
                         {Array.isArray(data.department) ? (
                             <div className="flex flex-wrap gap-2">
@@ -120,9 +120,9 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
         </div>
         {isOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
+                    <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
             <div className="flex justify-between p-5">
-              <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+              <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
                 Edit your details
               </h2>
               <div
@@ -203,7 +203,7 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
             <p>Selected Streams: {streamString}</p> {/* Display selected streams 
           </div> */}
 
-              <div className="flex flex-col justify-center items-center mt-5">
+              <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
                   onClick={handelFacultySubmit}

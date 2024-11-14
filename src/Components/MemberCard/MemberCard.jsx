@@ -5,9 +5,11 @@ import { HiMiniBuildingOffice } from "react-icons/hi2";
 import { TbEdit } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
 import { usePutReq } from "../../hooks/useHttp";
+import ModeratorEditForm from './ModeratorEditForm';
 
 const MemberCard = ({ role, data, onDataUpdate }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [showModeratorForm, setShowModeratorForm] = useState(false);
     const [selectedStream, setSelectedStream] = useState("");
     const [putReq] = usePutReq();
 
@@ -38,7 +40,13 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
       });
 
     const togglePopup = () => {
-        setIsOpen(!isOpen);
+        if(role === "Faculty" ){
+          setIsOpen(!isOpen);
+        }
+        else if(role === "moderator"){
+          setShowModeratorForm(!showModeratorForm);
+          console.log("Hit success");
+        }
     };
 
     const handelFacultySubmit = async (e) => {
@@ -207,6 +215,8 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
           </div>
                 </div>
             )}
+
+        {showModeratorForm && <ModeratorEditForm setShowModeratorForm={setShowModeratorForm} data={data} onDataUpdate={onDataUpdate}/>}
         </>
     );
 };

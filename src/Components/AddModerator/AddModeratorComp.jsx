@@ -20,6 +20,7 @@ const AddModeratorComp = () => {
     setShowPopup(true);
   };
 
+
   return (
     <div className="flex flex-col overflow-x-hidden">
       <div className="relative">
@@ -99,6 +100,14 @@ const Cards = ({ sidebar, showPopup }) => {
     fetchUserData();
   }, [showPopup]);
 
+  const handleDataUpdate = (updatedData) => {
+    setUserData(prevData =>
+        prevData.map(user => 
+            user._id === updatedData.userId ? { ...user, ...updatedData } : user
+        )
+    );
+};
+
   return (
     <>
       {userData.map((element, index) => (
@@ -107,7 +116,7 @@ const Cards = ({ sidebar, showPopup }) => {
           ref={(ele) => (currentDiv.current[index] = ele)}
           className={`${sidebar ? "ml-12" : "lg:ml-0"}`}
         >
-          <MemberCard role="moderator" data={element} /> {/* Pass individual user data and role */}
+          <MemberCard role="moderator" data={element} onDataUpdate={handleDataUpdate}/> {/* Pass individual user data and role */}
         </div>
       ))}
     </>

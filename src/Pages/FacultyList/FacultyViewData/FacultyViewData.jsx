@@ -10,12 +10,12 @@ const FacultyViewData = () => {
     // UserID: _id,
     ...rest,
   }));
-
+  
   const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
   return (
     <>
-      <Header backPage="/cse/facultylist" />
+      <Header backPage="/" />
 
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Book Published'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-A'} />

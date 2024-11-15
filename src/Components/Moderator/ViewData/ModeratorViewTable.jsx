@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Header from "../Header/Header";
+import React,{ useEffect, useState } from 'react'
+import Header from "../../Header/Header";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
+import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 
-const ViewDataTable = ({ name, dummyData, dummy }) => {
-  //sending proofOfDocument
+const ModeratorViewTable = ({name,dummyData,dummy}) => {
+  // Dummy data to simulate dynamic table rows and columns
+  // const dummyData = [
+  //   { name: "John Doe", bookName: "React Basics", isbn: "123-4567890123", publisher: "Tech Books", date: "2022-01-15", submittedForms: "Yes" },
+  //   { name: "Jane Smith", bookName: "Advanced CSS", isbn: "987-6543210987", publisher: "Design Press", date: "2021-08-30", submittedForms: "No" },
+  //   { name: "Alice Johnson", bookName: "JavaScript Essentials", isbn: "321-6549871234", publisher: "Coding World", date: "2020-05-22", submittedForms: "Yes" },
+  //   { name: "Bob Lee", bookName: "UI/UX Principles", isbn: "654-3219876543", publisher: "Art Books", date: "2019-11-12", submittedForms: "Yes" },
+  //   { name: "Chris Martin", bookName: "Node.js Guide", isbn: "432-1098765432", publisher: "Tech Guides", date: "2023-03-01", submittedForms: "No" },
+  //   { name: "Emma Wilson", bookName: "Data Science 101", isbn: "567-8901234567", publisher: "Data Books", date: "2022-07-18", submittedForms: "Yes" },
+  //   { name: "James Brown", bookName: "Machine Learning Basics", isbn: "876-5432109876", publisher: "AI Press", date: "2021-02-25", submittedForms: "No" },
+  // ];
+
+  //sending proodOfDocument
   const [data, setData] = useState("");
+  // console.log(dummy);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,24 +28,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   // Get current data for pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = dummyData?.slice(indexOfFirstRow, indexOfLastRow);
 
-  // Get column headers dynamically, accounting for nested properties
-  const getColumnHeaders = (data) => {
-    if (data.length === 0) return [];
-    const keys = Object.keys(data[0]);
-    return keys.flatMap((key) => {
-      if (typeof data[0][key] === 'object' && data[0][key] !== null) {
-        return Object.keys(data[0][key]).map((subKey) => `${key}.${subKey}`);
-      }
-      return key;
-    });
-  };
-
-  const columnHeaders = getColumnHeaders(dummyData);
+  // Get column headers dynamically from the keys of the first item in the dummyData array
+  const columnHeaders = dummyData?.length > 0 ? Object.keys(dummyData[0]) : [];
 
   // Handle pagination
-  const totalPages = Math.ceil(dummyData.length / rowsPerPage);
+  const totalPages = Math.ceil(dummyData?.length / rowsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -43,10 +44,10 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
   const [detailedClick, setDetailedClick] = useState(false);
   const [id, setId] = useState("");
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  
+  useEffect(()=>{
+    console.log(data)
+  },[data])
 
   return (
     <>
@@ -93,7 +94,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       key={index}
                       className="table-cell px-4 py-2 text-[#575757] font-semibold"
                     >
-                      {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')}
+                      {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
                 </div>
@@ -101,17 +102,34 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
               {/* Table Body */}
               <div className="table-row-group">
-                {currentRows.map((item, rowIndex) => (
+                {currentRows?.map((item, rowIndex) => (
                   <div
                     key={rowIndex}
                     className="table-row border-b"
+                    // onClick={() => {
+                    //   // setData(dummy);
+                    //   dummy.map((dt) => {
+                    //     console.log("gyvchvbk------------------------------");
+                    //     if (dt._id === rowIndex) {
+                    //       setData(dt)
+                    //       // setId(item._id);
+                    //       setDetailedClick(true);
+                    //     }
+                    //     // console.log(rowIndex)
+                    //   });
+                    //   // console.log(oneObj)
+                    //   // console.log(item);
+                    // }}
+
                     onClick={() => {
-                      const selectedItem = dummy.find((dt) => dt._id === item._id); // Find item by matching _id
+                      const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
                       if (selectedItem) {
+                        console.log("first")
                         setData(selectedItem); // Set the data to the found item
                         setDetailedClick(true); // Open the popup
                       }
                     }}
+                    
                   >
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">
@@ -123,9 +141,18 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                         key={colIndex}
                         className="table-cell px-4 py-2 text-[#000]"
                       >
-                        {header.includes('.')
-                          ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
-                          : item[header]}
+                        {header === "proofDocument" ? (
+                          <a
+                            href={item[header]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            Document
+                          </a>
+                        ) : (
+                          item[header] // Render other fields normally
+                        )}
                       </div>
                     ))}
                   </div>
@@ -158,6 +185,6 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
       )}
     </>
   );
-};
+}
 
-export default ViewDataTable;
+export default ModeratorViewTable

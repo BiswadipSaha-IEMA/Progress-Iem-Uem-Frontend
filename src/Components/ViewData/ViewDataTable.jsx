@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { FaRegComments } from "react-icons/fa"; 
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import CommentModal from "./CommentModal"; 
-
+// const [comments, setComments] = useState([]);
 const ViewDataTable = ({ name, dummyData, dummy }) => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null); 
   const [comment, setComment] = useState(""); 
-  const [data, setData] = useState(""); 
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,10 +32,11 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Handle row click to select the row for comments
-  const handleRowClick = (rowData) => {
-    setSelectedRow(rowData); // Set the selected row for the modal
-    setIsModalOpen(true); // Open the modal for the selected row
+  // Handle Add Comment button click
+  const handleAddCommentClick = (rowData) => {
+    setSelectedRow(rowData); // Set the selected row data for the modal
+    setIsModalOpen(true); // Open the modal
+    setComment(""); // Reset the comment field when opening the modal
   };
 
   // Handle comment submission
@@ -87,11 +88,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
               {/* Table Body */}
               <div className="table-row-group">
                 {currentRows.map((item, rowIndex) => (
-                  <div
-                    key={rowIndex}
-                    className="table-row border-b"
-                    onClick={() => handleRowClick(item)} // Open modal on row click
-                  >
+                  <div key={rowIndex} className="table-row border-b">
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">{indexOfFirstRow + rowIndex + 1}</div>
                     {/* Dynamic Data Columns */}
@@ -101,8 +98,11 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       </div>
                     ))}
                     <div className="table-cell px-4 py-2 text-[#000]">
-                      <span className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap">
-                        <FaRegComments size={16} /> 
+                      <span
+                        className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap"
+                        onClick={() => handleAddCommentClick(item)} 
+                      >
+                        <FaRegComments size={16} />
                         Add Comment
                       </span>
                     </div>
@@ -124,12 +124,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
         </div>
       </div>
 
-      
+      {/* Modal for adding comment */}
       <CommentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleCommentSubmit}
         selectedRow={selectedRow} 
+        comment={comment}
       />
     </>
   );

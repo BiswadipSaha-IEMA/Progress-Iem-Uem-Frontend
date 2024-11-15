@@ -37,7 +37,7 @@ export default function SetDatePopup({setShowPopup, setDateRange}) {
           <div className="bg-white pb-12 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[800px] min-w-[300px]">
     
           <div
-          className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+          className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
           onClick={() => setShowPopup(false)}
         >
           <RxCross2 className="text-white" />
@@ -75,7 +75,7 @@ export default function SetDatePopup({setShowPopup, setDateRange}) {
             </div>
     
     
-            <div className='w-full flex flex-col justify-center md:justify-end md:mr-24 mt-8 md:flex-row'>
+            <div className='flex flex-col justify-center w-full mt-8 md:justify-end md:mr-24 md:flex-row'>
                 {/* <div className='w-[90%] ml-5 md:w-[230px] flex justify-center py-1 text-[20px] text-white bg-[#858585] rounded-[16px] hover:bg-[#616060] cursor-pointer'>
                   Change Date
                 </div> */}

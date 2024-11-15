@@ -629,7 +629,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               </div>
 
                {/* department dropdown */}
-              <div className="w-[350px] mt-4">
+              <div className="w-full mt-4">
                 <select
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}

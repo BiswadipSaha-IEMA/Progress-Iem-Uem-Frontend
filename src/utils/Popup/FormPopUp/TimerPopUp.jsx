@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RxCross2 } from 'react-icons/rx';
-import { usePostReq } from '../../../hooks/useHttp';
+import { usePatchReq, usePostReq } from '../../../hooks/useHttp';
 
 function TimerPopUp({ setShowPopup }) {
   const [dates, setDates] = useState([]); 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('IEMN');
   const [postReq] = usePostReq();
+  const [patchReq]= usePatchReq()
   
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const options = ['IEMN', 'IEMS', 'UEMJ'] ;
+
+  useEffect(()=>{
+    console.log(selectedOption)
+  },[selectedOption])
 
   const handleSetDate = async() => {
     if (startDate && endDate && selectedOption) {
@@ -26,13 +31,14 @@ function TimerPopUp({ setShowPopup }) {
         },
         accessToken
       )
-      //send reponse for dropdown value
-      const response1 = await postReq('',{
-        
 
-      })
+       //send reponse for dropdown value
+       const responseSetCollege= await patchReq('api/v1/timeline/changeCollegeName', {
+        collegeName : selectedOption
+       }, accessToken)
 
-      console.log(response)
+
+      console.log(responseSetCollege)
 
       setShowPopup(false)
       

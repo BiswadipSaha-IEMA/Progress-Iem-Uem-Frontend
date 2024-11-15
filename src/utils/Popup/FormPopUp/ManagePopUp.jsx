@@ -18,6 +18,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [postReq] = usePostReq();
+  const [selectedOption, setSelectedOption] = useState('');
 
   const validatePhone = (phone) => {
     const phoneRegex = /^[0-9]{10}$/; // Adjust the regex for your phone number format
@@ -44,6 +45,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     email: "",
   });
 
+  const depts = ['MCA', 'BCA', 'CSE', 'CSEIT','CSEIOT', 'CSE (AI & ML)', 'EE', 'EEE', 'LLB'] ;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDataAcc((prevData) => ({
@@ -626,6 +628,21 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 />
               </div>
 
+               {/* department dropdown */}
+              <div className="w-[350px] mt-4">
+                <select
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                  className="w-full p-3 border rounded-lg outline-none border-gray focus:ring-0"
+                >
+                  {/* <option value="">Select an option</option> */}
+                  {depts.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="flex flex-col gap-2 mt-4">
                 <p>Stream</p>
                 <div className="flex gap-4">
@@ -644,11 +661,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   ))}
                 </div>
               </div>
-
               {/* <div className="mt-4">
             <p>Selected Streams: {streamString}</p> {/* Display selected streams 
           </div> */}
-
               <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"

@@ -1,10 +1,10 @@
 import React from 'react'
-import BookPublished from '../../../Components/Moderator/ViewData/BookPublished'
+import ModeratorSpecificBookPublished from '../../../Components/Moderator/ViewData/ModeratorTableData'
 
 function BookPublishedPage() {
   return (
     <div>
-        <BookPublished/>
+        <ModeratorSpecificBookPublished/>
     </div>
   )
 }

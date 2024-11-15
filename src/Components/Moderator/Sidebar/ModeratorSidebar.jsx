@@ -91,7 +91,7 @@ const ProfileContent = ({
           label="Moderator Dashboard"
           onClick={() => navigate("/SuperAdminDashboard")}
         />
-        <SidebarButton
+        {/* <SidebarButton
           // isActive={isEdit}
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
@@ -104,7 +104,7 @@ const ProfileContent = ({
           icon={<KeyRound />}
           label="Change Password"
           onClick={() => navigate("/changepassword")}
-        />
+        /> */}
         <SidebarButton
           ariaLabel="Log Out"
           icon={<LogOut />}

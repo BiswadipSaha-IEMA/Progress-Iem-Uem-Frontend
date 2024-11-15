@@ -359,7 +359,7 @@ export default function Faculty() {
     },
     {
       title: "Faculty Development Programmes/ MDP ",
-      details: fdp.map((paper) => ({
+      details: Lecture.filter((paper) => paper.eventType === "FDP").map((paper) => ({
         title: paper.topicName,
         status: paper.status,
       })),
@@ -372,6 +372,7 @@ export default function Faculty() {
       })),
     },
   ];
+  
 
   const getStatusStyles = (status) => {
     switch (status) {
@@ -513,6 +514,9 @@ export default function Faculty() {
                     else if(item.title === "Competition Organized"){
                       setShowCompetitionPopup(true);
                     }
+                    else if(item.title === "Faculty Development Programmes/ MDP"){
+                      setShowCompetitionPopup(true);
+                    }
                   }}
                 >
                   Add A Response
@@ -606,6 +610,7 @@ export default function Faculty() {
           setUtilFor='bpAddForm'
         />
       }
+      
     </div>
   );
 }

@@ -4,11 +4,11 @@ import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq } from '../../../hooks/useHttp'
+import BookPublished from '../../../utils/Popup/FormPopUp/BookPublished'
 import FacultyPopup from '../../DetailedSuperAdmin/FacultyPopup'
 import Header from '../../../Components/Header/Header'
-import PatentPopUp from '../../../utils/Popup/FormPopUp/PatentPopUp'
 
-export default function FacultyPatent() {
+export default function FacultyFDP() {
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData] = useState([])
     const [data1, setData1] = useState([])
@@ -21,27 +21,34 @@ export default function FacultyPatent() {
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 
     useEffect(() => {
-        const getPatentsData = async () => {
+        const getBPData = async () => {
             try {
-                const response = await getReq('api/v1/document/getAllPatents', accessToken)
+                const response = await getReq('api/v1/document/getAllPublications', accessToken)
+                const arr = []
                 if (response.success) {
                     console.log(response.data.data)
-                    setData(response.data.data)
-                    setData1(response.data.data)
+
+                    response.data.data.forEach((data) => {
+                        if (data.publicationType === "Book")
+                            arr.push(data)
+                    })
+
+                    setData(arr)
+                    setData1(arr)
                 }
             } catch (error) {
                 console.log(error)
             }
         }
-        getPatentsData()
+        getBPData()
     }, [showPopUp])
 
     const handleSearch = (event) => {
         const searchData = event.target.value.toLowerCase()
         const filteredData = data1.filter(item => 
+            item.title.toLowerCase().includes(searchData) ||
             item.name.toLowerCase().includes(searchData) ||
-            item.department.toLowerCase().includes(searchData) ||
-            item.topicName.toLowerCase().includes(searchData)
+            item.isbn.toLowerCase().includes(searchData)
         )
         setData(filteredData)
         setCurrentPage(1)
@@ -59,16 +66,16 @@ export default function FacultyPatent() {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1)
     }
 
-    const columnHeaders = ['Name', 'Department', 'Designation', 'Topic Name', 'Date of Filing', 'National/International', 'Status']
+    const columnHeaders = ['Title', 'Published Date', 'Publisher Name', 'ISBN', 'Status']
 
     return (
-        <div className={`px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins ${showPopUp ? 'overflow-hidden' : ''}`}>
+        <div className={px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins ${showPopUp ? 'overflow-hidden' : ''}}>
             <Header backPage="/faculty/dashboard" />
             <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
                 <div className="flex items-center gap-5 mb-4 sm:mb-0">
                     <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
                     <div className="text-[20px] sm:text-[25px] font-semibold">
-                        Patents
+                        Book Published
                     </div>
                 </div>
 
@@ -76,7 +83,7 @@ export default function FacultyPatent() {
                     <div className="relative w-full sm:w-[300px] lg:w-[500px]">
                         <input
                             type="text"
-                            placeholder="Search by Name or Topic"
+                            placeholder="Search by Book Name"
                             onChange={handleSearch}
                             className="w-full h-[50px] font-semibold py-2 pl-10 pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
                         />
@@ -87,7 +94,7 @@ export default function FacultyPatent() {
                         className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
                         onClick={() => setShowPopUp(true)}
                     >
-                        Add New Patent
+                        Publish New Book
                         <VscDiffAdded className="text-[1.3rem]" />
                     </button>
                 </div>
@@ -130,12 +137,10 @@ export default function FacultyPatent() {
                                         {indexOfFirstRow + rowIndex + 1}
                                     </div>
                                     {/* Dynamic Data Columns */}
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.title}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.date}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.name}</div>
-                                    <div className="table-cell px-4 py-2 text-[#000]">{item.department}</div>
-                                    <div className="table-cell px-4 py-2 text-[#000]">{item.designation}</div>
-                                    <div className="table-cell px-4 py-2 text-[#000]">{item.topicName}</div>
-                                    <div className="table-cell px-4 py-2 text-[#000]">{item.dateOfFiling}</div>
-                                    <div className="table-cell px-4 py-2 text-[#000]">{item.nationalOrInternational}</div>
+                                    <div className="table-cell px-4 py-2 text-[#000]">{item.isbn}</div>
                                     <div className="table-cell px-4 py-2 text-[#000]">{item.status}</div>
                                 </div>
                             ))}
@@ -163,15 +168,15 @@ export default function FacultyPatent() {
             </div>
 
             {showPopUp && (
-                <PatentPopUp
-                    setUtilFor={'patentAddForm'}
+                <BookPublished
+                    setUtilFor={'bpAddForm'}
                     setShowPopup={setShowPopUp}
                 />
             )}
 
-            {detailedClick && (
+            {/* {detailedClick && (
                 <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
-            )}
+            )} */}
         </div>
     )
 }

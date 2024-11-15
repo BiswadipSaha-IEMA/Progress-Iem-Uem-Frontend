@@ -3,16 +3,16 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function MoocsPopUp({ setUtilFor, setShowPopup }) {
+function FDPPopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
+    organizedBy: "",
+    topicName: "",
+    attendedBy: "",
+    date: "",
     department: "",
-    name: "",
-    designation: "",
-    dateOfFiling: "",
-    nationalOrInternational: "",
-    topicName:"",
+    proofDocument: "",
    
   });
 
@@ -29,14 +29,16 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await postReq(
-      "api/v1/document/createPatent",
+      "api/v1/document/createEvent",
       {
-        department: formData.department,
-        name: formData.name,
-        nationalOrInternational: formData.nationalOrInternational,
-        dateOfFiling: formData.dateOfFiling,
-        designation: formData.designation,
+        eventType:'FDP',
+        organizedBy: formData.organizedBy,
         topicName: formData.topicName,
+        attendedBy: formData.attendedBy,
+        date: formData.date,
+        department: formData.department,
+        proofDocument: formData.proofDocument,
+        
         
       },
       accessToken
@@ -46,12 +48,12 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
 
   const handleClose = () => {
     setFormData({
-        department: "",
-        name: "",
-        designation: "",
-        dateOfFiling: "",
-        nationalOrInternational: "",
-        topicName:"",
+      organizedBy: "",
+      topicName: "",
+      attendedBy: "",
+      date: "",
+      department: "",
+      proofDocument: "",
     });
     console.log("Form closed");
   };
@@ -88,12 +90,12 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                 {/* Faculty */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Department
+                   Organized By
                   </label>
                   <input
                     type="text"
-                    name="department"
-                    value={formData.department}
+                    name="organizedBy"
+                    value={formData.organizedBy}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
@@ -103,12 +105,12 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                 {/* Developed Module */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Name 
+                    Topic Name 
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="topicName"
+                    value={formData.topicName}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
@@ -117,12 +119,12 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                 {/* Platform Used */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                  designation
+                  Attended by
                   </label>
                   <input
                     type="text"
-                    name="designation"
-                    value={formData.designation}
+                    name="attendedBy"
+                    value={formData.attendedBy}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
@@ -131,27 +133,41 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                 {/* Date of Launch */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Date of Filling
+                    Date 
                   </label>
                   <input
                     type="date"
-                    name="dateOfLaunch"
-                    value={formData.dateOfFiling}
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+                 {/* Date of Launch */}
+                 <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Proof of Document 
+                  </label>
+                  <input
+                    type="text"
+                    name="proofDocument"
+                    value={formData.proofDocument}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
 
 
+
                 {/* Faculty */}
                 <div>
                 <label className="block text-gray-600 font-medium mb-1">
-                nationalOrInternational
+                department
                   </label>
                 <input
                   type="text"
-                  name="nationalOrInternational"
-                  value={formData.nationalOrInternational}
+                  name="department"
+                  value={formData.department}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   required
@@ -159,7 +175,7 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Proof Document */}
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                   topicName
                   </label>
@@ -170,7 +186,7 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 {/* Centered Submit Button */}
                 <div className="flex justify-center">
@@ -190,4 +206,4 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default MoocsPopUp;
+export default FDPPopUp;

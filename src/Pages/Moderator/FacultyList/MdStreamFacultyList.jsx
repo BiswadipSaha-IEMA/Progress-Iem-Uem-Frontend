@@ -1,16 +1,14 @@
 import React from 'react'
 import FacultyList from '../../Components/FacultyList/FacultyList'
 import ModeratorFacultyList from '../../Components/Moderator/ModFacultyList/ModeratorFacultyList'
-import ModeratorSpecificBookPublished from '../../Components/Moderator/ViewData/ModeratorTableData'
 
-const StreamFacultyList = () => {
+const MdStreamFacultyList = () => {
   return (
     <>
     {/* <FacultyList/> */}
-    {/* <ModeratorFacultyList/> */}
-    <ModeratorSpecificBookPublished/>
+    <ModeratorFacultyList/>
     </>
   )
 }
 
-export default StreamFacultyList
+export default MdStreamFacultyList

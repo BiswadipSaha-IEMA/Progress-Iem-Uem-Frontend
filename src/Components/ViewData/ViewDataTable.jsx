@@ -6,6 +6,8 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import CommentModal from "./CommentModal"; 
 // const [comments, setComments] = useState([]);
 const ViewDataTable = ({ name, dummyData, dummy }) => {
+  //sending proofOfDocument
+  const [data, setData] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null); 
@@ -20,8 +22,19 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
 
-  // Get column headers dynamically from the keys of the first item in the dummyData array
-  const columnHeaders = dummyData.length > 0 ? Object.keys(dummyData[0]) : [];
+  // Get column headers dynamically, accounting for nested properties
+  const getColumnHeaders = (data) => {
+    if (data.length === 0) return [];
+    const keys = Object.keys(data[0]);
+    return keys.flatMap((key) => {
+      if (typeof data[0][key] === 'object' && data[0][key] !== null) {
+        return Object.keys(data[0][key]).map((subKey) => `${key}.${subKey}`);
+      }
+      return key;
+    });
+  };
+
+  const columnHeaders = getColumnHeaders(dummyData);
 
   // Handle pagination
   const totalPages = Math.ceil(dummyData.length / rowsPerPage);
@@ -32,19 +45,12 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Handle Add Comment button click
-  const handleAddCommentClick = (rowData) => {
-    setSelectedRow(rowData); // Set the selected row data for the modal
-    setIsModalOpen(true); // Open the modal
-    setComment(""); // Reset the comment field when opening the modal
-  };
+  const [detailedClick, setDetailedClick] = useState(false);
+  const [id, setId] = useState("");
 
-  // Handle comment submission
-  const handleCommentSubmit = (newComment) => {
-    setComment(newComment);
-    console.log("Comment Submitted for ", selectedRow.name, ":", newComment);
-    // You can also save this comment to a server or global state here.
-  };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -78,7 +84,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                   <div className="table-cell px-4 py-2 text-[#575757] font-semibold">SL. No</div>
                   {columnHeaders.map((header, index) => (
                     <div key={index} className="table-cell px-4 py-2 text-[#575757] font-semibold">
-                      {header.charAt(0).toUpperCase() + header.slice(1)}
+                      {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')}
                     </div>
                   ))}
                   <div className="table-cell px-4 py-2 text-[#575757] font-semibold">Any COMMENT</div>
@@ -88,13 +94,26 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
               {/* Table Body */}
               <div className="table-row-group">
                 {currentRows.map((item, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className="table-row border-b"
+                    onClick={() => {
+                      const selectedItem = dummy.find((dt) => dt._id === item._id); // Find item by matching _id
+                      if (selectedItem) {
+                        setData(selectedItem); // Set the data to the found item
+                        setDetailedClick(true); // Open the popup
+                      }
+                    }}
+                  >
                   <div key={rowIndex} className="table-row border-b">
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">{indexOfFirstRow + rowIndex + 1}</div>
                     {/* Dynamic Data Columns */}
                     {columnHeaders.map((header, colIndex) => (
                       <div key={colIndex} className="table-cell px-4 py-2 text-[#000]">
-                        {item[header]}
+                        {header.includes('.')
+                          ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
+                          : item[header]}
                       </div>
                     ))}
                     <div className="table-cell px-4 py-2 text-[#000]">

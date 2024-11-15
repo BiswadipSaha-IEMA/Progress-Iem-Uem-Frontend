@@ -38,7 +38,7 @@ const AddFacultyComp = () => {
           sidebar ? "lg:w-[calc(100%-320px)] lg:ml-[320px]" : "lg:w-full lg:ml-0"
         } bg-[url('/src/assets/image2.svg')]`}
       >
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex items-center justify-between mt-4">
           <button className={`bg-slate-200 p-2 rounded`} onClick={() => setSidebar(!sidebar)}>
             <Menu size={30}/>
           </button>
@@ -47,7 +47,7 @@ const AddFacultyComp = () => {
               <CiSearch size={24}/>
             </button>
             <input className="w-full rounded-lg p-2 pl-12 focus:border-[#03A8FD] focus:shadow-[#03A8FD]" />
-            <button className="absolute right-2 text-3xl">
+            <button className="absolute text-3xl right-2">
               <IoIosCloseCircleOutline size={24} />
             </button>
           </div>
@@ -55,14 +55,14 @@ const AddFacultyComp = () => {
             className="bg-[#03A8FD] ml-4 sm:pl-5 lg:h-12 h-11 lg:text-lg p-4 rounded-lg flex items-center lg:pl-4 lg:pr-4 text-white lg:gap-2 md:gap-2"
             onClick={handleAddUserClick}
           >
-            <span className="hidden lg:inline">Add Faculty</span>
+            <span className="hidden lg:inline">Add Department</span>
             <div className="text-2xl">
               <RiUserAddFill size={20} />
             </div>
           </button>
         </div>
 
-        <div className="bg-white p-10 flex  gap-8 flex-wrap w-full mt-8 rounded-lg">
+        <div className="flex flex-wrap justify-center lg:justify-start w-full gap-8 p-10 mt-8 bg-white rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup}/>
         </div>
       </div>
@@ -113,6 +113,14 @@ const Cards = ({ sidebar, showPopup }) => {
   //   }
   // }, [userData]); 
 
+  const handleDataUpdate = (updatedData) => {
+    setUserData(prevData =>
+        prevData.map(user => 
+            user._id === updatedData.userId ? { ...user, ...updatedData } : user
+        )
+    );
+};
+
   return (
     <>
       {userData.map((element, index) => (
@@ -121,7 +129,7 @@ const Cards = ({ sidebar, showPopup }) => {
           ref={(ele) => (currentDiv.current[index] = ele)}
           className={`${sidebar ? "ml-12" : "lg:ml-0"}`}
         >
-          <MemberCard role={element.role} data={element} /> {/* Pass individual user data and role */}
+          <MemberCard role={element.role} data={element} onDataUpdate={handleDataUpdate}/> {/* Pass individual user data and role */}
         </div>
       ))}
     </>

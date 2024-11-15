@@ -68,15 +68,15 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
 
   return (
     <div className="flex min-h-[100vh] sm:flex-row flex-col sm:ml-0 overflow-hidden">
-      <div className="w-1/2 sm:block hidden relative ml-2">
+      <div className="relative hidden w-1/2 ml-2 sm:block">
         <img
           src={loginPic}
           alt="login" 
           className="h-[100vh] w-[100vw] lg:w-[50rem] p-8 object-cover rounded-[3rem]"
         />
         <div className="absolute inset-0 left-[-0.3rem] text-4xl text-white p-20 ">
-          <div className="font-semibold pr-24">Welcome Back</div>
-          <div className="font-semibold mb-2 pr-24">
+          <div className="pr-24 font-semibold">Welcome Back</div>
+          <div className="pr-24 mb-2 font-semibold">
             Sign In to Your Account
           </div>
           <div className="text-lg 2xl:text-xl max-w-[400px] pr-16 2xl:max-w-[600px]">
@@ -86,10 +86,10 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
       </div>
       <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] ">
         <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full pl-[1rem] pr-[1rem] sm:pr-0">
-          <h2 className="font-semibold text-5xl">Sign In</h2>
+          <h2 className="text-5xl font-semibold">Sign In</h2>
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
+              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 focus:outline-none"
               placeholder="Email Address"
               required
               type="email"
@@ -100,7 +100,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
               }}
             />
             <input
-              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400"
+              className="bg-[#F3F3F3] p-3 rounded-lg placeholder-gray-400 focus:outline-none"
               placeholder="Password"
               required
               type="password"
@@ -108,7 +108,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="w-full flex justify-end">
+            <div className="flex justify-end w-full">
               <span
                 className="text-[#03A8FD] text-right cursor-pointer"
                 onClick={() => {
@@ -145,7 +145,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
               Sign In with Apple
             </button>
           </div> */}
-          <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
+          {/* <div className="flex flex-col flex-shrink md:flex-row justify-center text-[#7B7B7B] ">
             Don't have an account?
             <span
               className="text-[#03A8FD] font-[500] cursor-pointer"
@@ -155,7 +155,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
             >
               Register Now
             </span>
-          </div>
+          </div> */}
           
         </div>
       </div>

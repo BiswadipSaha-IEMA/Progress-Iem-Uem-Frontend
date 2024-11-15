@@ -14,14 +14,15 @@ const FacultyViewData = () => {
 
   const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
+  const [workshop, setWorkshop] = useState([]);
   const [bookPublishedData, setBookPublishedData] = useState([]);
   const [gradeAData, setGradeAData] = useState([]);
   const [gradeBData, setGradeBData] = useState([]);
   const [gradeCData, setGradeCData] = useState([]);
   const [conferenceData, setConferenceData] = useState([]);
   const [lectureData, setLectureData] = useState([]);  
-  const [idustrialTourData, setIdustrialTourData] = useState([]);  
-
+  const [idustrialTourData, setIdustrialTourData] = useState([]);
+  
   const [getReq] = useGetReq();
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -31,18 +32,28 @@ const FacultyViewData = () => {
     const fetchData = async () => {
       try {
         const response = await getReq(`api/v1/document/getAllSubmissions/${department}`, accessToken);
-
+   
         if (response.success) {
           const allData = response.data;
-          console.log(allData)
+          console.log(response.data)
 
-          setBookPublishedData(allData.filter(item => item.eventType === 'BookPublished'));
-          setGradeAData(allData.filter(item => item.grade === 'A'));
-          setGradeBData(allData.filter(item => item.grade === 'B'));
-          setGradeCData(allData.filter(item => item.grade === 'C'));
-          setConferenceData(allData.filter(item => item.eventType === 'Conference'));
-          setLectureData(allData.filter(item => item.eventType === 'Lecture'));
-          setIdustrialTourData(allData.filter(item => item.eventType === 'IdustrialTour'));
+          // setBookPublishedData(allData.events.filter(item => item.eventType === 'BookPublished'));
+          // setGradeAData(allData.events.filter(item => item.grade === 'A'));
+          // setGradeBData(allData.events.filter(item => item.grade === 'B'));
+          // setGradeCData(allData.events.filter(item => item.grade === 'C'));
+          // setConferenceData(allData.events.filter(item => item.eventType === 'Conference'));
+          // setLectureData(allData.events.filter(item => item.eventType === 'Lecture'));
+          // setIdustrialTourData(allData.events.filter(item => item.eventType === 'IdustrialTour'));
+
+          setBookPublishedData(allData.events.filter(item => item.eventType === 'Workshop'));
+          setGradeAData(allData.events.filter(item => item.grade === 'A'));
+          setGradeBData(allData.events.filter(item => item.grade === 'B'));
+          setGradeCData(allData.events.filter(item => item.grade === 'C'));
+          setConferenceData(allData.events.filter(item => item.eventType === 'Conference'));
+          setLectureData(allData.events.filter(item => item.eventType === 'Lecture'));
+          setIdustrialTourData(allData.events.filter(item => item.eventType === 'IdustrialTour'));
+
+          
           
         } else {
           console.warn("Unexpected data format:", response.data);
@@ -60,7 +71,7 @@ const FacultyViewData = () => {
     <>
       <Header backPage="/" />
 
-      <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Book Published'} />
+      <ViewDataTable dummyData={bookPublishedData} dummy={dummyData} name={'Book Published'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-A'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-B'} />
       <ViewDataTable dummyData={modifiedData} dummy={dummyData} name={'Research Paper Grade-C'} />

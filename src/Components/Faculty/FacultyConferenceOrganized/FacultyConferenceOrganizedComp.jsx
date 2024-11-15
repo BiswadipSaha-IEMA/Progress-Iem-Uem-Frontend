@@ -4,7 +4,7 @@ import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq } from '../../../hooks/useHttp'
-import ConferenceForm from '../../../utils/Popup/FormPopUp/ConferenceForm'
+// import ConferencePopUp from '../../../utils/Popup/FormPopUp/ConferencePopUp'
 import FacultyPopup from '../../DetailedSuperAdmin/FacultyPopup'
 import Header from '../../../Components/Header/Header'
 
@@ -184,7 +184,7 @@ export default function FacultyBookPublished() {
             </div>
 
             {showPopUp && (
-                <ConferenceForm
+                <ConferencePopUp
                     setUtilFor={'bpAddForm'}
                     setShowPopup={setShowPopUp}
                 />

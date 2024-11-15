@@ -25,6 +25,7 @@ import FacultyConferenceOrganized from './Pages/Faculty/FacultyConferenceOrganiz
 import Lectureseries from "./Pages/Faculty/Lectureseries/Lectureseries";
 import FacultyWorkshopOrganizedPage from "./Pages/Faculty/FacultyWorkshopOrganized/FacultyWorkshopOrganizedPage";
 import FacultyIndustrialTourPage from "./Pages/Faculty/FacultyIndustrialTour/FacultyIndustrialTourPage";
+import FacultyPatentPage from "./Pages/Faculty/FacultyPatent/FacultyPatentPage";
 import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
@@ -38,9 +39,9 @@ import BEFacultyList from "./Pages/Moderator/FacultyList/BEFacultyList";
 import CSEAIMLFacultyList from "./Pages/Moderator/FacultyList/CSEAIMLFacultyList";
 import CSEIOTFacultyList from "./Pages/Moderator/FacultyList/CSEIOTFacultyList";
 import TableData from "./Components/Moderator/TableData/TableData";
-import SpecificBookPublished from "./Components/Moderator/ViewData/SpecificBookPublished";
 import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 import FacultyViewData from "./Pages/FacultyList/FacultyViewData/FacultyViewData";
+import ModeratorSpecificBookPublished from "./Components/Moderator/ViewData/ModeratorTableData";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -69,6 +70,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
+          <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
 
           {/* Faculty lists by stream */}
           <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />
@@ -79,7 +81,9 @@ const AppRouter = () => {
           <Route path="/be-facultylist" element={<BEFacultyList />} />
           <Route path="/cse-aiml-facultylist" element={<CSEAIMLFacultyList />} />
           <Route path="/cse-iot-facultylist" element={<CSEIOTFacultyList />} />
-          <Route path="/moderator/specificbookpublished" element={<SpecificBookPublished />} />
+          <Route path="/moderator/specificbookpublished" element={<ModeratorSpecificBookPublished />} />
+          <Route path={`/md/:routeName/facultylist`} element={<StreamFacultyList />} />
+          
           <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 
 

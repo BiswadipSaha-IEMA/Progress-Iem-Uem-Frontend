@@ -268,7 +268,7 @@ export default function ModeratorDashboard() {
                     () => {
                       sessionStorage.setItem("dept", dept);
                       sessionStorage.setItem("role", 'moderator');
-                      navigate(`/${dept.toLowerCase()}/facultylist`);
+                      navigate(`/md/${dept.toLowerCase()}/facultylist`);
                     }
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }

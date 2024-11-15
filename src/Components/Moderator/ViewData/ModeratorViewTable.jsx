@@ -4,7 +4,8 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-
+import CommentModal from "./CommentModal"; 
+import { FaRegComments } from "react-icons/fa";
 const ModeratorViewTable = ({name,dummyData,dummy}) => {
   // Dummy data to simulate dynamic table rows and columns
   // const dummyData = [
@@ -25,6 +26,10 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comment, setComment] = useState("");
+  const [selectedRow, setSelectedRow] = useState(null)
+
   // Get current data for pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -41,6 +46,23 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
+   // Handle modal open and close
+   const handleAddCommentClick = (item) => {
+    setSelectedRow(item);  // Set the selected row
+    setComment(item.comment || ""); // Load the existing comment (if any)
+    setIsModalOpen(true);  // Open the modal
+  };
+  
+
+  const handleCommentSubmit = (updatedComment) => {
+    if (selectedRow) {
+      console.log(`Updated comment for ${selectedRow._id}: ${updatedComment}`);
+      setIsModalOpen(false);  // Close the modal
+      setComment(""); // Reset the comment state
+    }
+  };
+  
+
 
   const [detailedClick, setDetailedClick] = useState(false);
   const [id, setId] = useState("");
@@ -97,6 +119,7 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
                       {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
+                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">Any COMMENT</div>
                 </div>
               </div>
 
@@ -155,6 +178,15 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
                         )}
                       </div>
                     ))}
+                    <div className="table-cell px-4 py-2 text-[#000]">
+                      <span
+                        className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap"
+                        onClick={() => handleAddCommentClick(item)} 
+                      >
+                        <FaRegComments size={16} />
+                        Add Comment
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -183,6 +215,15 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
       {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={data} />
       )}
+      {/* Modal for adding comment */}
+      <CommentModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  onSubmit={handleCommentSubmit}
+    
+  comment={comment}
+  setComment={setComment}  
+/>
     </>
   );
 }

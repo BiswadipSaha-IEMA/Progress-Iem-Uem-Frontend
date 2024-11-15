@@ -100,21 +100,30 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       key={index}
                       className="table-cell px-4 py-2 text-[#575757] font-semibold"
                     >
-                      {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')}
+                      {/* {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')} */}
+                      {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
-                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                  {/* <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
                     Comments
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
               {/* Table Body */}
               <div className="table-row-group">
-                {currentRows.map((item, rowIndex) => (
+                {currentRows?.map((item, rowIndex) => (
                   <div
                     key={rowIndex}
                     className="table-row border-b"
+                    onClick={() => {
+                      const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
+                      if (selectedItem) {
+                        console.log("first")
+                        setData(selectedItem); // Set the data to the found item
+                        setDetailedClick(true); // Open the popup
+                      }
+                    }}
                   >
                     {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">
@@ -126,18 +135,30 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                         key={colIndex}
                         className="table-cell px-4 py-2 text-[#000]"
                       >
-                        {header.includes('.')
+                        {/* {header.includes('.')
                           ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
-                          : item[header]}
+                          : item[header]} */}
+                          {header === "proofDocument" ? (
+                          <a
+                            href={item[header]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            Document
+                          </a>
+                        ) : (
+                          item[header] // Render other fields normally
+                        )}
                       </div>
                     ))}
                     {/* Comments Column */}
-                    <div className="table-cell px-4 py-2 text-[#000]">
+                    {/* <div className="table-cell px-4 py-2 text-[#000]">
                       <FaCommentDots
                         className="text-[#03A8FD] cursor-pointer"
                         onClick={() => handleCommentClick(item)}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>

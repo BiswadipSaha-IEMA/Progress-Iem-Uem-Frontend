@@ -6,7 +6,7 @@ import ModeratorViewTable from './ModeratorViewTable';
 
 
 
-const ModeratorTableData = () => {
+const  ModeratorTableData = () => {
   const [data, setData] = useState([]);
   const [books,setBooks]=useState([])
   const [rp1,setRp1]=useState([])

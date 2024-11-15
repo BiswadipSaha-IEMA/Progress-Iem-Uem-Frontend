@@ -82,7 +82,7 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
     return (
         <>
         <div className='m-4 sm:pb-4 ml-[0px] sm:ml-0 rounded-lg w-auto lg:w-[400px] md:w-[300px] min-w-[350px] min-h-[250px] flex flex-col' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
-            <div className="flex flex-col flex-wrap p-3 ml-6">
+            <div className="flex flex-col flex-wrap p-3  lg:ml-6 md:ml-6 ">
                 <div className="flex justify-end">
                     <button className='bg-[#03A8FD] p-2 rounded-lg flex items-center gap-2' onClick={togglePopup}>
                         <div className="text-2xl text-[#fff]"><TbEdit /></div>

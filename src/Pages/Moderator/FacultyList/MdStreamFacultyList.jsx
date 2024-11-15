@@ -1,12 +1,12 @@
 import React from 'react'
-import FacultyList from '../../Components/FacultyList/FacultyList'
-import ModeratorFacultyList from '../../Components/Moderator/ModFacultyList/ModeratorFacultyList'
+import ModeratorTableData from '../../../Components/Moderator/ViewData/ModeratorTableData'
 
 const MdStreamFacultyList = () => {
   return (
     <>
     {/* <FacultyList/> */}
-    <ModeratorFacultyList/>
+    {/* <ModeratorFacultyList/> */}
+    <ModeratorTableData/>
     </>
   )
 }

@@ -41,6 +41,7 @@ import TableData from "./Components/Moderator/TableData/TableData";
 import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 import FacultyViewData from "./Pages/FacultyList/FacultyViewData/FacultyViewData";
 import ModeratorSpecificBookPublished from "./Components/Moderator/ViewData/ModeratorTableData";
+import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyList";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -80,7 +81,7 @@ const AppRouter = () => {
           <Route path="/cse-aiml-facultylist" element={<CSEAIMLFacultyList />} />
           <Route path="/cse-iot-facultylist" element={<CSEIOTFacultyList />} />
           <Route path="/moderator/specificbookpublished" element={<ModeratorSpecificBookPublished />} />
-          <Route path={`/md/:routeName/facultylist`} element={<StreamFacultyList />} />
+          <Route path={`/md/:routeName/facultylist`} element={<MdStreamFacultyList />} />
           
           <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 

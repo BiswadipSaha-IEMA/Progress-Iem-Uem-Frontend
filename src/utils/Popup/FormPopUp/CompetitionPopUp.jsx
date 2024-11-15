@@ -3,16 +3,16 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function FDPPopUp({ setUtilFor, setShowPopup }) {
+function MoocsPopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
-    organizedBy: "",
-    topicName: "",
-    attendedBy: "",
-    date: "",
     department: "",
-    proofDocument: "",
+    name: "",
+    designation: "",
+    dateOfFiling: "",
+    nationalOrInternational: "",
+    topicName:"",
    
   });
 
@@ -29,16 +29,14 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await postReq(
-      "api/v1/document/createEvent",
+      "api/v1/document/createPatent",
       {
-        eventType:'FDP',
-        organizedBy: formData.organizedBy,
-        topicName: formData.topicName,
-        attendedBy: formData.attendedBy,
-        date: formData.date,
         department: formData.department,
-        proofDocument: formData.proofDocument,
-        
+        name: formData.name,
+        nationalOrInternational: formData.nationalOrInternational,
+        dateOfFiling: formData.dateOfFiling,
+        designation: formData.designation,
+        topicName: formData.topicName,
         
       },
       accessToken
@@ -48,12 +46,12 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
 
   const handleClose = () => {
     setFormData({
-      organizedBy: "",
-      topicName: "",
-      attendedBy: "",
-      date: "",
-      department: "",
-      proofDocument: "",
+        department: "",
+        name: "",
+        designation: "",
+        dateOfFiling: "",
+        nationalOrInternational: "",
+        topicName:"",
     });
     console.log("Form closed");
   };
@@ -71,7 +69,7 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              FDP Submission Form
+              Competetion Submission Form
             </h2>
 
             {/* Inner container with scroll */}
@@ -90,12 +88,12 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                 {/* Faculty */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                   Organized By
+                    Department
                   </label>
                   <input
                     type="text"
-                    name="organizedBy"
-                    value={formData.organizedBy}
+                    name="department"
+                    value={formData.department}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
@@ -105,12 +103,12 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                 {/* Developed Module */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Topic Name 
+                    Name 
                   </label>
                   <input
                     type="text"
-                    name="topicName"
-                    value={formData.topicName}
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
@@ -119,12 +117,12 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                 {/* Platform Used */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                  Attended by
+                  designation
                   </label>
                   <input
                     type="text"
-                    name="attendedBy"
-                    value={formData.attendedBy}
+                    name="designation"
+                    value={formData.designation}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
@@ -133,41 +131,27 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                 {/* Date of Launch */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Date 
+                    Date of Filling
                   </label>
                   <input
                     type="date"
-                    name="date"
-                    value={formData.date}
+                    name="dateOfLaunch"
+                    value={formData.dateOfFiling}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-                 {/* Date of Launch */}
-                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Proof of Document 
-                  </label>
-                  <input
-                    type="text"
-                    name="proofDocument"
-                    value={formData.proofDocument}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div>
-
 
 
                 {/* Faculty */}
                 <div>
                 <label className="block text-gray-600 font-medium mb-1">
-                department
+                nationalOrInternational
                   </label>
                 <input
                   type="text"
-                  name="department"
-                  value={formData.department}
+                  name="nationalOrInternational"
+                  value={formData.nationalOrInternational}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   required
@@ -175,7 +159,7 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Proof Document */}
-                {/* <div>
+                <div>
                   <label className="block text-gray-600 font-medium mb-1">
                   topicName
                   </label>
@@ -186,7 +170,7 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div> */}
+                </div>
 
                 {/* Centered Submit Button */}
                 <div className="flex justify-center">
@@ -206,4 +190,4 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default FDPPopUp;
+export default MoocsPopUp;

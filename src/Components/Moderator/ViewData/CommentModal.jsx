@@ -4,10 +4,10 @@ import { usePostReq } from '../../../hooks/useHttp';
 import { useParams } from 'react-router-dom';
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
-const CommentModal = ({ isOpen, onClose, onSubmit, selectedRow }) => {
+const CommentModal = ({ isOpen, onClose, onSubmit, selectedRow,id }) => {
   const [commentText, setCommentText] = useState('');
   const [isSend, setIsSend] = useState(false);
-  const { postRequest } = usePostReq();
+  const [postReq] = usePostReq();
   const { criteriaId } = useParams();
 
   // Set the comment when the modal is opened for the first time
@@ -25,9 +25,11 @@ const CommentModal = ({ isOpen, onClose, onSubmit, selectedRow }) => {
     setIsSend(true);
 
     try {
-      const response = await postRequest(
-        `/superadmin/createcomment/${criteriaId}`,
-        { comment: commentText },
+      const response = await postReq(
+        `api/v1/document/reviewPublication`,
+        { 
+          publicationId:id, status:'RequestToReject', comment:commentText
+         },
         sessionStorage.getItem("token")
       );
 

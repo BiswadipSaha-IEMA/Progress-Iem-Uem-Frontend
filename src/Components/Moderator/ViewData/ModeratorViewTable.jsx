@@ -4,8 +4,9 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-import CommentModal from "./CommentModal"; 
+// import CommentModal from "./CommentModal"; 
 import { FaRegComments } from "react-icons/fa";
+import CommentModal from './CommentModal';
 const ModeratorViewTable = ({name,dummyData,dummy}) => {
   // Dummy data to simulate dynamic table rows and columns
   // const dummyData = [
@@ -55,11 +56,13 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
   
 
   const handleCommentSubmit = (updatedComment) => {
-    if (selectedRow) {
-      console.log(`Updated comment for ${selectedRow._id}: ${updatedComment}`);
-      setIsModalOpen(false);  // Close the modal
-      setComment(""); // Reset the comment state
-    }
+    // const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
+    // if (selectedItem) {
+    //   console.log(`Updated comment for ${selectedItem._id}: ${updatedComment}`);
+    //   setIsModalOpen(false);  // Close the modal
+    //   setComment(""); // Reset the comment state
+    // }
+    console.log("object")
   };
   
 
@@ -220,10 +223,11 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
   isOpen={isModalOpen}
   onClose={() => setIsModalOpen(false)}
   onSubmit={handleCommentSubmit}
-    
+    id = {id}
   comment={comment}
   setComment={setComment}  
 />
+{/* <CommentModal/> */}
     </>
   );
 }

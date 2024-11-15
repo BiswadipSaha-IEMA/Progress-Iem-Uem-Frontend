@@ -11,7 +11,7 @@ const FacultyViewData = () => {
     // UserID: _id,
     ...rest,
   }));
-
+  
   const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
   const [workshop, setWorkshop] = useState([]);

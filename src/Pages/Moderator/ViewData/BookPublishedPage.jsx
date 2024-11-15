@@ -1,5 +1,5 @@
 import React from 'react'
-import ModeratorSpecificBookPublished from '../../../Components/Moderator/ViewData/ModeratorSpecificBookPublished'
+import ModeratorSpecificBookPublished from '../../../Components/Moderator/ViewData/ModeratorTableData'
 
 function BookPublishedPage() {
   return (

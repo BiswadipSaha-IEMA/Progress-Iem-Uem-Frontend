@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 
-const ModeratorBookPublished = ({name,dummyData,dummy}) => {
+const ModeratorViewTable = ({name,dummyData,dummy}) => {
   // Dummy data to simulate dynamic table rows and columns
   // const dummyData = [
   //   { name: "John Doe", bookName: "React Basics", isbn: "123-4567890123", publisher: "Tech Books", date: "2022-01-15", submittedForms: "Yes" },
@@ -124,6 +124,7 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
                     onClick={() => {
                       const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
                       if (selectedItem) {
+                        console.log("first")
                         setData(selectedItem); // Set the data to the found item
                         setDetailedClick(true); // Open the popup
                       }
@@ -140,7 +141,18 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
                         key={colIndex}
                         className="table-cell px-4 py-2 text-[#000]"
                       >
-                        {item[header]}
+                        {header === "proofDocument" ? (
+                          <a
+                            href={item[header]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            Document
+                          </a>
+                        ) : (
+                          item[header] // Render other fields normally
+                        )}
                       </div>
                     ))}
                   </div>
@@ -175,4 +187,4 @@ const ModeratorBookPublished = ({name,dummyData,dummy}) => {
   );
 }
 
-export default ModeratorBookPublished
+export default ModeratorViewTable

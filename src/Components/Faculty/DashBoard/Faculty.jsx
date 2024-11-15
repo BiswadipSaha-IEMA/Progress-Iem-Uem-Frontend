@@ -106,7 +106,12 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
-          setConfOrg(response.data.data);
+          // setConfOrg(response.data.data);
+          const filteredData = response.data.data.filter(
+            (item) => item.eventType === "Conference"
+          );
+          console.log("uhuioshoij", filteredData);
+          setTriMentor(filteredData);
         }
       } catch (error) {
         console.error("Error fetching conference info:", error);
@@ -121,7 +126,12 @@ export default function Faculty() {
         );
         console.log(response);
         if (response.success) {
-          setLecture(response.data.data);
+          // setLecture(response.data.data);
+          const filteredData = response.data.data.filter(
+            (item) => item.eventType === "Lecture"
+          );
+          console.log("uhuioshoij", filteredData);
+          setTriMentor(filteredData);
         }
       } catch (error) {
         console.error("Error fetching lectures:", error);

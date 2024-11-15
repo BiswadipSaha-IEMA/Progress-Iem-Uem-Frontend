@@ -46,7 +46,7 @@ const CommentModal = ({ isOpen, onClose, onSubmit, selectedRow }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-1/2 max-w-4xl">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold flex items-center">
@@ -60,17 +60,17 @@ const CommentModal = ({ isOpen, onClose, onSubmit, selectedRow }) => {
         </div>
 
         {/* Existing Comment Section */}
-        <div className="bg-[#e4e4e4] rounded-md p-5 ml-5 mb-6">
+        <div className="bg-[#e4e4e4] rounded-md h-96 mb-6 p-4">
           {selectedRow?.comment ? selectedRow.comment : "No existing comment"}
         </div>
 
         {/* New Comment Section */}
-        <div className="bg-[#fff] p-5 rounded-md shadow-md">
+        <div className="bg-[#fff] p-4 rounded-md ">
           <textarea
             value={commentText}
             onChange={handleCommentChange}
             placeholder="Type your comment here..."
-            className="w-full h-32 p-4 border rounded-md text-lg resize-none"
+            className="w-full h-12 p-2 border rounded-md text-lg resize-none bg-[#e4e4e4]"
           />
 
           <div className="flex justify-end items-center mt-4">

@@ -192,14 +192,13 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   //   // console.log(arrOfStreams);
   // };
 
-
   const handleModeratorStreamClick = (stream) => {
     setModeratorData((prevData) => {
       const isStreamSelected = prevData.department.includes(stream);
       const updatedDepartment = isStreamSelected
-        ? prevData.department.filter((s) => s !== stream) 
+        ? prevData.department.filter((s) => s !== stream)
         : [...prevData.department, stream];
-  
+
       return {
         ...prevData,
         department: updatedDepartment,
@@ -432,6 +431,32 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   //   }
   // }, [takeData]);
 
+  // function for checking if the phone number is valid or not (for faculty)
+  const isValidPhone = (e) => {
+    const value = e.target.value;
+    // Use regex to allow only digits
+    const numericValue = value.replace(/[^0-9]/g, "");
+    if (numericValue.length <= 10) {
+      setFacultyData((prevData) => ({
+        ...prevData,
+        contact: numericValue,
+      }));
+    }
+  };
+
+  // function  for checking if the phone number is valid or not (for moderator)
+  const isValidPhoneModerator = (e) => {
+    const value = e.target.value;
+    // Use regex to allow only digits
+    const numericValue = value.replace(/[^0-9]/g, "");
+    if (numericValue.length <= 10) {
+      setModeratorData((prevData) => ({
+        ...prevData,
+        contact: numericValue,
+      }));
+    }
+  };
+
   return (
     <>
       {setUtilFor === "form" ? (
@@ -451,7 +476,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
             </div>
 
             <form
-              className="flex w-full flex-col gap-4"
+              className="flex flex-col w-full gap-4"
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col">
@@ -472,11 +497,11 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   id="file"
                   name="file"
                   onChange={handleFileChange}
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 outline-none"
+                  className="w-full px-8 py-4 font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg outline-none"
                   accept=".pdf, .docx, .txt"
                 />
                 {fileError && (
-                  <p className="text-red-600 text-sm mt-2">{fileError}</p>
+                  <p className="mt-2 text-sm text-red-600">{fileError}</p>
                 )}
               </div>
 
@@ -487,7 +512,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 outline-none"
+                  className="w-full px-8 py-4 font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg outline-none"
                   placeholder="Enter Password..."
                 />
               </div>
@@ -499,7 +524,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 outline-none"
+                  className="w-full px-8 py-4 font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg outline-none"
                   placeholder="Confirm Password..."
                 />
               </div>
@@ -541,9 +566,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "Faculty" ? (
         <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
+          <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
             <div className="flex justify-between p-5">
-              <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+              <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
                 Department Registration
               </h2>
               <div
@@ -573,7 +598,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   type="tel"
                   name="contact"
                   value={facultyData.contact}
-                  onChange={handleFacultyInputChange}
+                  onChange={isValidPhone}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Your Mobile Number"
                 />
@@ -624,7 +649,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
             <p>Selected Streams: {streamString}</p> {/* Display selected streams 
           </div> */}
 
-              <div className="flex flex-col justify-center items-center mt-5">
+              <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
                   onClick={handelFacultySubmit}
@@ -637,9 +662,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </div>
       ) : setUtilFor === "moderator" ? (
         <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
+          <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
             <div className="flex justify-between p-5">
-              <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+              <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
                 Moderator Registration
               </h2>
               <div
@@ -669,7 +694,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   type="tel"
                   name="contact"
                   value={moderatorData.contact}
-                  onChange={handleModeratorInputChange}
+                  onChange={isValidPhoneModerator}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Your Mobile Number"
                 />
@@ -720,7 +745,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
             <p>Selected Streams: {streamString}</p> {/* Display selected streams 
           </div> */}
 
-              <div className="flex flex-col justify-center items-center mt-5">
+              <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
                   onClick={handleModeratorSubmit}
@@ -733,21 +758,21 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </div>
       ) : setUtilFor === "viewBPTable" ? (
         <>
-          {/* <div className="flex bg-black bg-opacity-50 backdrop-blur-lg fixed justify-center items-center w-full h-full top-0 left-0 z-50">
+          {/* <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 backdrop-blur-lg">
   <div className="bg-white p-8 sm:p-12 rounded-2xl flex flex-col justify-center items-center gap-6 shadow-xl w-[90%] max-w-[900px]">
      */}
           <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
             <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
               {/* Close Button */}
               <div
-                className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+                className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
                 onClick={() => setPopupShow(false)}
               >
                 <RxCross2 className="text-white" />
               </div>
 
               {/* Header Section */}
-              <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6 mt-10">
+              <div className="flex flex-col items-center justify-between w-full gap-6 mt-10 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <FaBookBookmark className="text-3xl text-blue-500" />
                   <h2 className="text-2xl font-bold text-gray-800">
@@ -757,29 +782,29 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
                 {/* Search Field */}
                 <div className="relative w-full sm:w-1/2">
-                  <CiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+                  <CiSearch className="absolute text-xl text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
                     type="text"
                     placeholder="Search with Name or ISS..."
                     value={searchInput}
                     onChange={handleSearch}
-                    className="w-full pl-12 py-2 rounded-lg border border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+                    className="w-full py-2 pl-12 transition duration-150 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               </div>
 
               {/* Filter & Sort Section */}
-              <div className="flex gap-4 mt-6 w-full overflow-x-auto">
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+              <div className="flex w-full gap-4 mt-6 overflow-x-auto">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <CiFilter className="text-lg" />
                   <span>Filter</span>
                 </button>
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <GoSortDesc className="text-lg" />
                   <span>Sort: Chronological</span>
                 </button>
                 <button
-                  className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100"
                   onClick={() => setCalendarShow(!calendarShow)}
                 >
                   <span>Current Month</span>
@@ -793,8 +818,8 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="fixed top-[150px] flex justify-center items-center left-0 z-50 w-full h-full bg-black bg-opacity-25"
                   onClick={() => setCalendarShow(false)}
                 >
-                  <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="text-center text-lg font-semibold">
+                  <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <div className="text-lg font-semibold text-center">
                       Calendar Component
                     </div>
                   </div>
@@ -806,7 +831,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 {takeData[0].length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full">
                     <Lottie options={defaultOptions} height={200} width={200} />
-                    <p className="text-2xl font-bold text-blue-500 mt-4">
+                    <p className="mt-4 text-2xl font-bold text-blue-500">
                       No Files Submitted
                     </p>
                   </div>
@@ -851,9 +876,9 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "accountDetails" ? (
         <>
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
+          <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-6 shadow-lg w-[50rem]">
-              <h2 className="text-lg font-bold mb-4">
+              <h2 className="mb-4 text-lg font-bold">
                 Enter your Account Details
               </h2>
               <form onSubmit={takeData}>
@@ -868,7 +893,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                     required
                     value={formDataAcc.name}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   />
                 </div>
                 <div className="mb-4">
@@ -881,7 +906,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                     name="address"
                     value={formDataAcc.address}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   />
                 </div>
                 <div className="mb-4">
@@ -894,7 +919,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                     name="phone"
                     value={formDataAcc.phone}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   />
                   {errors.phone && (
                     <p className="text-red-500">{errors.phone}</p>
@@ -913,7 +938,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                     required
                     value={formDataAcc.email}
                     onChange={handleChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   />
                 </div>
                 {/* <div className="mb-4">
@@ -927,13 +952,13 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               type="file"
               id="file"
               name="file"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+              className="block w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div> */}
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="mr-2 bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600"
+                    className="px-4 py-2 mr-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
                     onClick={() => {
                       console.log(formDataAcc);
                       takeData(formDataAcc);
@@ -946,7 +971,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                     onClick={() => {
                       setPopupShow(false);
                     }}
-                    className="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400"
+                    className="px-4 py-2 text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400"
                   >
                     Cancel
                   </button>
@@ -957,21 +982,21 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "viewRATable" ? (
         <>
-          {/* <div className="flex bg-black bg-opacity-50 backdrop-blur-lg fixed justify-center items-center w-full h-full top-0 left-0 z-50">
+          {/* <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 backdrop-blur-lg">
   <div className="bg-white p-8 sm:p-12 rounded-2xl flex flex-col justify-center items-center gap-6 shadow-xl w-[90%] max-w-[900px]">
      */}
           <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
             <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
               {/* Close Button */}
               <div
-                className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+                className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
                 onClick={() => setPopupShow(false)}
               >
                 <RxCross2 className="text-white" />
               </div>
 
               {/* Header Section */}
-              <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6 mt-10">
+              <div className="flex flex-col items-center justify-between w-full gap-6 mt-10 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <FaBookBookmark className="text-3xl text-blue-500" />
                   <h2 className="text-2xl font-bold text-gray-800">
@@ -981,29 +1006,29 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
                 {/* Search Field */}
                 <div className="relative w-full sm:w-1/2">
-                  <CiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+                  <CiSearch className="absolute text-xl text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
                     type="text"
                     placeholder="Search with Name or ISS..."
                     value={searchInput}
                     onChange={handleSearch}
-                    className="w-full pl-12 py-2 rounded-lg border border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+                    className="w-full py-2 pl-12 transition duration-150 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               </div>
 
               {/* Filter & Sort Section */}
-              <div className="flex gap-4 mt-6 w-full overflow-x-auto">
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+              <div className="flex w-full gap-4 mt-6 overflow-x-auto">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <CiFilter className="text-lg" />
                   <span>Filter</span>
                 </button>
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <GoSortDesc className="text-lg" />
                   <span>Sort: Chronological</span>
                 </button>
                 <button
-                  className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100"
                   onClick={() => setCalendarShow(!calendarShow)}
                 >
                   <span>Current Month</span>
@@ -1017,8 +1042,8 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="fixed top-[150px] flex justify-center items-center left-0 z-50 w-full h-full bg-black bg-opacity-25"
                   onClick={() => setCalendarShow(false)}
                 >
-                  <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="text-center text-lg font-semibold">
+                  <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <div className="text-lg font-semibold text-center">
                       Calendar Component
                     </div>
                   </div>
@@ -1030,7 +1055,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 {takeData[0].length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full">
                     <Lottie options={defaultOptions} height={200} width={200} />
-                    <p className="text-2xl font-bold text-blue-500 mt-4">
+                    <p className="mt-4 text-2xl font-bold text-blue-500">
                       No Files Submitted
                     </p>
                   </div>
@@ -1075,21 +1100,21 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "viewRBTable" ? (
         <>
-          {/* <div className="flex bg-black bg-opacity-50 backdrop-blur-lg fixed justify-center items-center w-full h-full top-0 left-0 z-50">
+          {/* <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 backdrop-blur-lg">
   <div className="bg-white p-8 sm:p-12 rounded-2xl flex flex-col justify-center items-center gap-6 shadow-xl w-[90%] max-w-[900px]">
      */}
           <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
             <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
               {/* Close Button */}
               <div
-                className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+                className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
                 onClick={() => setPopupShow(false)}
               >
                 <RxCross2 className="text-white" />
               </div>
 
               {/* Header Section */}
-              <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6 mt-10">
+              <div className="flex flex-col items-center justify-between w-full gap-6 mt-10 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <FaBookBookmark className="text-3xl text-blue-500" />
                   <h2 className="text-2xl font-bold text-gray-800">
@@ -1099,29 +1124,29 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
                 {/* Search Field */}
                 <div className="relative w-full sm:w-1/2">
-                  <CiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+                  <CiSearch className="absolute text-xl text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
                     type="text"
                     placeholder="Search with Name or ISS..."
                     value={searchInput}
                     onChange={handleSearch}
-                    className="w-full pl-12 py-2 rounded-lg border border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+                    className="w-full py-2 pl-12 transition duration-150 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               </div>
 
               {/* Filter & Sort Section */}
-              <div className="flex gap-4 mt-6 w-full overflow-x-auto">
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+              <div className="flex w-full gap-4 mt-6 overflow-x-auto">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <CiFilter className="text-lg" />
                   <span>Filter</span>
                 </button>
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <GoSortDesc className="text-lg" />
                   <span>Sort: Chronological</span>
                 </button>
                 <button
-                  className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100"
                   onClick={() => setCalendarShow(!calendarShow)}
                 >
                   <span>Current Month</span>
@@ -1135,8 +1160,8 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="fixed top-[150px] flex justify-center items-center left-0 z-50 w-full h-full bg-black bg-opacity-25"
                   onClick={() => setCalendarShow(false)}
                 >
-                  <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="text-center text-lg font-semibold">
+                  <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <div className="text-lg font-semibold text-center">
                       Calendar Component
                     </div>
                   </div>
@@ -1148,7 +1173,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 {takeData[0].length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full">
                     <Lottie options={defaultOptions} height={200} width={200} />
-                    <p className="text-2xl font-bold text-blue-500 mt-4">
+                    <p className="mt-4 text-2xl font-bold text-blue-500">
                       No Files Submitted
                     </p>
                   </div>
@@ -1193,21 +1218,21 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </>
       ) : setUtilFor === "viewRCTable" ? (
         <>
-          {/* <div className="flex bg-black bg-opacity-50 backdrop-blur-lg fixed justify-center items-center w-full h-full top-0 left-0 z-50">
+          {/* <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 backdrop-blur-lg">
   <div className="bg-white p-8 sm:p-12 rounded-2xl flex flex-col justify-center items-center gap-6 shadow-xl w-[90%] max-w-[900px]">
      */}
           <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
             <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1500px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
               {/* Close Button */}
               <div
-                className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+                className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
                 onClick={() => setPopupShow(false)}
               >
                 <RxCross2 className="text-white" />
               </div>
 
               {/* Header Section */}
-              <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6 mt-10">
+              <div className="flex flex-col items-center justify-between w-full gap-6 mt-10 sm:flex-row">
                 <div className="flex items-center gap-3">
                   <FaBookBookmark className="text-3xl text-blue-500" />
                   <h2 className="text-2xl font-bold text-gray-800">
@@ -1217,29 +1242,29 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
 
                 {/* Search Field */}
                 <div className="relative w-full sm:w-1/2">
-                  <CiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+                  <CiSearch className="absolute text-xl text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
                     type="text"
                     placeholder="Search with Name or ISS..."
                     value={searchInput}
                     onChange={handleSearch}
-                    className="w-full pl-12 py-2 rounded-lg border border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+                    className="w-full py-2 pl-12 transition duration-150 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               </div>
 
               {/* Filter & Sort Section */}
-              <div className="flex gap-4 mt-6 w-full overflow-x-auto">
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+              <div className="flex w-full gap-4 mt-6 overflow-x-auto">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <CiFilter className="text-lg" />
                   <span>Filter</span>
                 </button>
-                <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
+                <button className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100">
                   <GoSortDesc className="text-lg" />
                   <span>Sort: Chronological</span>
                 </button>
                 <button
-                  className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 transition duration-150 border border-gray-300 rounded-md hover:bg-gray-100"
                   onClick={() => setCalendarShow(!calendarShow)}
                 >
                   <span>Current Month</span>
@@ -1253,8 +1278,8 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="fixed top-[150px] flex justify-center items-center left-0 z-50 w-full h-full bg-black bg-opacity-25"
                   onClick={() => setCalendarShow(false)}
                 >
-                  <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <div className="text-center text-lg font-semibold">
+                  <div className="p-6 bg-white rounded-lg shadow-lg">
+                    <div className="text-lg font-semibold text-center">
                       Calendar Component
                     </div>
                   </div>
@@ -1266,7 +1291,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                 {takeData[0].length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full">
                     <Lottie options={defaultOptions} height={200} width={200} />
-                    <p className="text-2xl font-bold text-blue-500 mt-4">
+                    <p className="mt-4 text-2xl font-bold text-blue-500">
                       No Files Submitted
                     </p>
                   </div>

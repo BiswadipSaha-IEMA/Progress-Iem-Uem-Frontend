@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
-import { FaRegComments } from "react-icons/fa"; 
+import { FaRegComments } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import CommentModal from "./CommentModal"; 
-// const [comments, setComments] = useState([]);
-const ViewDataTable = ({ name, dummyData, dummy }) => {
-  //sending proofOfDocument
-  const [data, setData] = useState("");
 
+const ViewDataTable = ({ name, dummyData }) => {
+  const [data, setData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null); 
-  const [comment, setComment] = useState(""); 
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [comment, setComment] = useState("");
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +20,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
 
-  // Get column headers dynamically, accounting for nested properties
+  // Get column headers dynamically
   const getColumnHeaders = (data) => {
     if (data.length === 0) return [];
     const keys = Object.keys(data[0]);
@@ -45,11 +43,26 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  const [detailedClick, setDetailedClick] = useState(false);
-  const [id, setId] = useState("");
+  // Handle modal open and close
+  const handleAddCommentClick = (item) => {
+    setSelectedRow(item);
+    setComment(""); // Reset previous comment if any
+    setIsModalOpen(true);
+  };
+
+  const handleCommentSubmit = () => {
+    if (selectedRow && comment) {
+      // Assuming you want to update the row with a comment, here we just log it
+      console.log(`Comment for ${selectedRow._id}: ${comment}`);
+      setIsModalOpen(false); // Close the modal after submitting
+      setComment(""); // Reset comment field
+    }
+  };
 
   useEffect(() => {
-    console.log(data);
+    if (data) {
+      console.log(data);
+    }
   }, [data]);
 
   return (
@@ -98,17 +111,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                     key={rowIndex}
                     className="table-row border-b"
                     onClick={() => {
-                      const selectedItem = dummy.find((dt) => dt._id === item._id); // Find item by matching _id
+                      const selectedItem = dummyData.find((dt) => dt._id === item._id); 
                       if (selectedItem) {
-                        setData(selectedItem); // Set the data to the found item
-                        setDetailedClick(true); // Open the popup
+                        setData(selectedItem); 
                       }
                     }}
                   >
-                  <div key={rowIndex} className="table-row border-b">
-                    {/* Sl. No Column */}
                     <div className="table-cell px-4 py-2 text-[#000]">{indexOfFirstRow + rowIndex + 1}</div>
-                    {/* Dynamic Data Columns */}
                     {columnHeaders.map((header, colIndex) => (
                       <div key={colIndex} className="table-cell px-4 py-2 text-[#000]">
                         {header.includes('.')
@@ -150,6 +159,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
         onSubmit={handleCommentSubmit}
         selectedRow={selectedRow} 
         comment={comment}
+        setComment={setComment} // Allow CommentModal to update comment state
       />
     </>
   );

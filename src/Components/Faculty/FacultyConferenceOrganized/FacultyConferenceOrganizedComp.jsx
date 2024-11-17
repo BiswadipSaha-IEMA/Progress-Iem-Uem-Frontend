@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { MdOutlineSearch } from "react-icons/md";
-import { RxCross2 } from "react-icons/rx";
-import { VscDiffAdded } from "react-icons/vsc";
-import { FaBookBookmark } from "react-icons/fa6";
-import { useGetReq } from "../../../hooks/useHttp";
-import ConferenceForm from "../../../utils/Popup/FormPopUp/ConferenceForm";
-import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-import Header from "../../../Components/Header/Header";
+import React, { useEffect, useState } from 'react'
+import { MdOutlineSearch } from 'react-icons/md'
+import { RxCross2 } from 'react-icons/rx'
+import { VscDiffAdded } from 'react-icons/vsc'
+import { FaBookBookmark } from 'react-icons/fa6'
+import { useGetReq } from '../../../hooks/useHttp'
+// import ConferencePopUp from '../../../utils/Popup/FormPopUp/ConferencePopUp'
+import FacultyPopup from '../../DetailedSuperAdmin/FacultyPopup'
+import Header from '../../../Components/Header/Header'
 
 export default function FacultyConference() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -112,14 +112,17 @@ export default function FacultyConference() {
                 }}
               />
             </div>
-            <button
-              className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
-              onClick={() => setShowPopUp(true)}
-            >
-              Add New Conference
-              <VscDiffAdded className="text-[1.3rem]" />
-            </button>
-          </div>
+
+            {showPopUp && (
+                <ConferencePopUp
+                    setUtilFor={'bpAddForm'}
+                    setShowPopup={setShowPopUp}
+                />
+            )}
+
+            {/* {detailedClick && (
+                <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
+            )} */}
         </div>
 
         {/* Responsive Table */}

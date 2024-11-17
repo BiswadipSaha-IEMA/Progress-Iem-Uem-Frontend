@@ -63,11 +63,26 @@ export default function ModeratorEditForm({setShowModeratorForm, data, onDataUpd
         }));
       };
 
+      
+      // function for checking if the phone number is valid or not
+      const isValidPhone = (e) => {
+        const value = e.target.value;
+        // Use regex to allow only digits
+        const numericValue = value.replace(/[^0-9]/g, '');
+        if(numericValue.length <= 10 ){
+          setModeratorData((prevData) => ({
+            ...prevData,
+            contact: numericValue,
+        }));
+        }
+        
+    };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl alertcontent">
+      <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
         <div className="flex justify-between p-5">
-          <h2 className="text-4xl mb-4 font-bold flex justify-center items-center">
+          <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
             Edit your details
           </h2>
           <div
@@ -97,7 +112,7 @@ export default function ModeratorEditForm({setShowModeratorForm, data, onDataUpd
               type="tel"
               name="contact"
               value={moderatorData.contact}
-              onChange={handleModeratorInputChange}
+              onChange={isValidPhone}
               className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
               placeholder="Your Mobile Number"
             />
@@ -148,7 +163,7 @@ export default function ModeratorEditForm({setShowModeratorForm, data, onDataUpd
             <p>Selected Streams: {streamString}</p> {/* Display selected streams 
           </div> */}
 
-          <div className="flex flex-col justify-center items-center mt-5">
+          <div className="flex flex-col items-center justify-center mt-5">
             <button
               className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
               onClick={handelModeratorSubmit}

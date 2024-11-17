@@ -8,7 +8,7 @@ import ConferenceForm from "../../../utils/Popup/FormPopUp/ConferenceForm";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
 
-export default function FacultyBookPublished() {
+export default function FacultyConference() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
@@ -83,14 +83,14 @@ export default function FacultyBookPublished() {
   ];
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <div className="flex-1 overflow-auto px-4 sm:px-10">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Conference
+              Conference
             </div>
           </div>
 
@@ -98,13 +98,13 @@ export default function FacultyBookPublished() {
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Book Name"
+                placeholder="Search by Conference Name"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2 
+              <RxCross2
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -125,76 +125,86 @@ export default function FacultyBookPublished() {
         {/* Responsive Table */}
         <div className="mt-5 overflow-x-auto rounded-lg">
           <div className="min-w-full bg-white rounded-lg overflow-hidden">
-            <table className="min-w-full">
-              {/* Table Header */}
-              <thead>
-                <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                  <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
-                  {columnHeaders.map((header, index) => (
-                    <th key={index} className="px-4 py-2">
-                      {header}
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                {/* Table Header */}
+                <thead>
+                  <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      SL. No
                     </th>
-                  ))}
-                </tr>
-              </thead>
-
-              {/* Table Body */}
-              <tbody>
-                {currentRows.map((item, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
-                    onClick={() => {
-                      setSelectedData(item);
-                      setDetailedClick(true);
-                    }}
-                  >
-                    <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                    <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.createdBy.name}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.organizedBy}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.topicName}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.date}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.attendedBy}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.status}
-                </div>
-                <div className="table-cell px-4 py-2 text-[#000]">
-                  {item.createdBy.email}
-                </div>
-                    <td className="px-4 py-2">
-                      {item.proofDocument ? (
-                        <a
-                          href={item.proofDocument}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 no-underline"
-                        >
-                          Link
-                        </a>
-                      ) : (
-                        "NA"
-                      )}
-                    </td>
+                    {columnHeaders.map((header, index) => (
+                      <th key={index} className="px-4 py-2 whitespace-nowrap">
+                        {header}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                {/* Table Body */}
+                <tbody>
+                  {currentRows.map((item, rowIndex) => (
+                    <tr
+                      key={rowIndex}
+                      className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
+                      onClick={() => {
+                        setSelectedData(item);
+                        setDetailedClick(true);
+                      }}
+                    >
+                      <td className="px-4 py-2 sticky left-0 bg-white">
+                        {indexOfFirstRow + rowIndex + 1}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.organizedBy}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.topicName}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.attendedBy}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.proofDocument ? (
+                          <a
+                            href={item.proofDocument}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 no-underline"
+                          >
+                            Link
+                          </a>
+                        ) : (
+                          "NA"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+        </div>
+
+        {/* Pagination Controls for large screens */}
+        <div className="hidden sm:flex justify-end mt-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 mx-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </div>
 
-      {/* Pagination Controls */}
-      <div className="sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      {/* Pagination Controls for small screens */}
+      <div className="sm:hidden sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

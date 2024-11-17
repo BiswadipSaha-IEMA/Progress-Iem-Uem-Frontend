@@ -232,5 +232,6 @@ export default function FacultyConference() {
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
     </div>
+    </div>
   );
 }

@@ -10,6 +10,7 @@ import CommentModal from './CommentModal';
 const ModeratorViewTable = ({name,dummyData,dummy}) => {
   
 
+  
   //sending proodOfDocument
   const [data, setData] = useState("");
   // console.log(dummy);
@@ -17,6 +18,11 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
+  const [searchData, setSearchData] = useState("");
+
+  const handleSearch = (event) => {
+    setSearchData(event.target.value);
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -98,6 +104,7 @@ const ModeratorViewTable = ({name,dummyData,dummy}) => {
               <input
                 className="outline-none w-full pl-3 py-2 mr-2"
                 placeholder="Search by Book Name"
+                onChange={handleSearch}
               />
             </div>
             <div>

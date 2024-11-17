@@ -45,7 +45,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     email: "",
   });
 
-  const depts = ['MCA', 'BCA', 'CSE', 'CSEIT','CSEIOT', 'CSE (AI & ML)', 'EE', 'EEE', 'LLB'] ;
+  const depts = ['IEMN', 'IEMS','UEMJ'] ;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDataAcc((prevData) => ({
@@ -207,6 +207,10 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
       };
     });
   };
+
+  useEffect(()=>{
+    console.log(selectedOption)
+  },[selectedOption])
 
   // useEffect (()=> {
   //   setModeratorData((prevData) => ({
@@ -581,7 +585,6 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               </div>
             </div>
             <hr />
-
             <div className="flex flex-col gap-2 p-5 max-h-[70vh] overflow-y-auto">
               <div className="flex flex-col gap-2">
                 <p>Name</p>
@@ -618,31 +621,23 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               </div>
               <div className="flex flex-col gap-2">
                 <p>University/Institute Name</p>
-                <input
-                  type="name"
-                  name="college"
-                  value={facultyData.college}
-                  onChange={handleFacultyInputChange}
-                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
-                  placeholder="University Name"
-                />
+                {/* department dropdown */}
+                <div className="w-full mt-4">
+                  <select
+                    value={selectedOption}
+                    onChange={(e) => setSelectedOption(e.target.value)}
+                    className="w-full p-3 border rounded-lg outline-none border-gray focus:ring-0"
+                  >
+                    <option value="">Select a department</option> {/* Default placeholder */}
+                    {depts.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-
-               {/* department dropdown */}
-              <div className="w-full mt-4">
-                <select
-                  value={selectedOption}
-                  onChange={(e) => setSelectedOption(e.target.value)}
-                  className="w-full p-3 border rounded-lg outline-none border-gray focus:ring-0"
-                >
-                  {/* <option value="">Select an option</option> */}
-                  {depts.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              
               <div className="flex flex-col gap-2 mt-4">
                 <p>Stream</p>
                 <div className="flex gap-4">
@@ -661,9 +656,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   ))}
                 </div>
               </div>
-              {/* <div className="mt-4">
-            <p>Selected Streams: {streamString}</p> {/* Display selected streams 
-          </div> */}
+              
               <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"

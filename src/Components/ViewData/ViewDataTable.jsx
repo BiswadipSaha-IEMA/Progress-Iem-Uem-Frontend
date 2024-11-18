@@ -4,12 +4,12 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
-import { FaCommentDots } from "react-icons/fa";
+import { FaCommentDots, FaRegComments } from "react-icons/fa";
 import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 
 const ViewDataTable = ({ name, dummyData, dummy }) => {
   const [data, setData] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("")
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
@@ -18,6 +18,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
+
 
   // Get column headers dynamically, accounting for nested properties
   const getColumnHeaders = (data) => {
@@ -55,6 +56,37 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     console.log(data);
   }, [data]);
 
+    // Function to determine the color based on status
+    const getStatusColor = (status) => {
+      switch (status.toLowerCase()) {
+        case "pending":
+          return "bg-[#F3C623]  px-2 py-1 rounded-xl";
+        case "accepted":
+          return "text-green-500";
+        default:
+          return "text-red-500";
+      }
+    };
+
+    const handleSearch = (event) => {
+      const searchValue = event.target.value.toLowerCase();
+      setSearchTerm(searchValue);
+    
+      // Filter the data
+      const filteredData = dummy.filter((item) => {
+        return columnHeaders.some((header) => {
+          const value = header.includes(".")
+            ? header.split(".").reduce((acc, part) => acc?.[part], item)
+            : item[header];
+          return value?.toString().toLowerCase().includes(searchValue);
+        });
+      });
+    
+      setData(filteredData);
+    };
+    
+
+
   return (
     <>
       <div className="px-5 sm:px-10 pt-10 pb-10 mt-10 rounded-lg backdrop-blur-lg h-full shadow-[0_0_10px_3px_rgba(3,168,253,0.1)] ml-5 mr-5 sm:ml-10 sm:mr-10 mb-10 md:justify-start md:items-start font-poppins">
@@ -72,6 +104,9 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                 <CiSearch size={23} className="font-bold text-[#7A7A7A]" />
               </div>
               <input
+                type="text"
+                onChange={handleSearch}
+                value={searchTerm}
                 className="outline-none w-full pl-3 py-2 mr-2"
                 placeholder="Search by Book Name"
               />
@@ -79,6 +114,10 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
             <div>
               <IoIosCloseCircleOutline
                 size={25}
+                onClick={() => {
+                  setSearchTerm("");
+                  // setData(data1);
+                }}
                 className="font-bold text-[#7A7A7A]"
               />
             </div>
@@ -90,32 +129,32 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
           <div className="min-w-full bg-white rounded-lg shadow">
             <div className="table w-full">
               {/* Table Header */}
-              <div className="table-header-group">
+              <div className="table-header-group text-center">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
-                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                     SL. No
                   </div>
                   {columnHeaders.map((header, index) => (
                     <div
                       key={index}
-                      className="table-cell px-4 py-2 text-[#575757] font-semibold"
+                      className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold"
                     >
                       {/* {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')} */}
                       {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
-                  {/* <div className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold text-center">
                     Comments
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
               {/* Table Body */}
-              <div className="table-row-group">
+              <div className="table-row-group text-center">
                 {currentRows?.map((item, rowIndex) => (
                   <div
                     key={rowIndex}
-                    className="table-row border-b"
+                    className="table-row border-b hover:bg-[#f4f4f4] text-[#575757"
                     onClick={() => {
                       const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
                       if (selectedItem) {
@@ -126,14 +165,14 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                     }}
                   >
                     {/* Sl. No Column */}
-                    <div className="table-cell px-4 py-2 text-[#000]">
+                    <div className="table-cell px-4 py-2">
                       {indexOfFirstRow + rowIndex + 1}
                     </div>
                     {/* Dynamic Data Columns */}
                     {columnHeaders.map((header, colIndex) => (
                       <div
                         key={colIndex}
-                        className="table-cell px-4 py-2 text-[#000]"
+                        className="table-cell px-4 py-2"
                       >
                         {/* {header.includes('.')
                           ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
@@ -143,22 +182,27 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                             href={item[header]}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 underline"
+                            className="text-[#03A8FD] "
                           >
-                            Document
+                            Link
                           </a>
+                        ) : header=="status" ? (
+                          <span className={getStatusColor(item[header])}>{item[header]}</span>
                         ) : (
                           item[header] // Render other fields normally
                         )}
                       </div>
                     ))}
                     {/* Comments Column */}
-                    {/* <div className="table-cell px-4 py-2 text-[#000]">
-                      <FaCommentDots
-                        className="text-[#03A8FD] cursor-pointer"
+                    <div className=" px-4 py-2 text-[#000] flex items-center justify-center">
+                      <span
+                        className="flex items-center justify-center text-[#03A8FD] cursor-pointer sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg px-2 gap-2 text-sm"
                         onClick={() => handleCommentClick(item)}
-                      />
-                    </div> */}
+                      >
+                        <FaRegComments size={16} />
+                        Add Comment
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>

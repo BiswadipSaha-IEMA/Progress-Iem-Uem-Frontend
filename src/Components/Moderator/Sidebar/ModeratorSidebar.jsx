@@ -122,7 +122,7 @@ const ProfileContent = ({
 
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
-    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+    className={`w-full py-3 mb-2 rounded-md transition-colors flex items-center justify-start px-3 ${
       isActive
         ? "text-white bg-[#03A8FD]"
         : "text-black hover:text-white hover:bg-[#03A8FD] active:bg-blue-50 duration-300"

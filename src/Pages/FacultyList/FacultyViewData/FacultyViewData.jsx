@@ -52,16 +52,18 @@ const FacultyViewData = () => {
   // const id=sessionStorage.getItem("userId")
 
   console.log(typeof(department))
-
+  // let check;
+  const [check, setCheck]= useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getReq(
-          `api/v1/document/getAllSubmissions/${department}`,
+        const response = await getReq(`api/v1/document/getAllSubmissions/${department}`,
           accessToken
         );
         if (response.success) {
-          console.log(response);
+          // check = response.success;
+          setCheck(response.success);
+          console.log(response.data);
           setData(response.data);
         } else {
           console.error("Error:", response.statusText);
@@ -75,54 +77,68 @@ const FacultyViewData = () => {
       fetchData();
     }
   }, [accessToken]);
+
+  // useEffect(()=>{
+  //   console.log("ffyfyyyyy-------------------------",check)
+  // },[check])
   
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   useEffect(()=>{
-    if(data.publications){
-      const workshop=data.events.filter(pub=>pub.publicationType==="Workshop").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const seminar=data.events.filter(pub=>pub.publicationType==="Seminar").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const confEvent=data.events.filter(pub=>pub.publicationType==="Conference").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const fdp=data.events.filter(pub=>pub.publicationType==="FDP").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const competition=data.events.filter(pub=>pub.publicationType==="Competiton").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const hackathon=data.events.filter(pub=>pub.publicationType==="Hackathon").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const trimentor=data.events.filter(pub=>pub.publicationType==="Tri-mentoring").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const lecture=data.events.filter(pub=>pub.publicationType==="Lecture").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const itour=data.events.filter(pub=>pub.publicationType==="IndustrialTour").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const moocs=data.moocs.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const projects=data.projects.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const patents=data.patents.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const sca=data.studentChapters.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const conf=data.publications.filter(pub=>pub.publicationType==="Conference").map(({category,createdBy,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category,createdBy,proofDocument,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest}))
-      const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
-      console.log(rep1)
-      setWorkshop(workshop)
-      setSeminar(seminar)
-      setConf(confEvent)
-      setFacultyDevelopment(fdp)
-      setCompetition(competition)
-      setHackathon(hackathon)
-      setTrimentor(trimentor)
-      setLecture(lecture)
-      setIndustrialTour(itour)
+
+    // if(data.events){
+      const events = data.events;
+      const publications = data.publications;
       
+      // console.log(data.publications)
+      if(events){
+        const workshop=events.filter(event=>event.eventType==="Workshop").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const seminar=events.filter(event=>event.eventType==="Seminar").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const confEvent=events.filter(event=>event.eventType==="Conference").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const fdp=events.filter(event=>event.eventType==="FDP").map(({createdBy,obtainedScore,collegeName,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const competition=events.filter(event=>event.eventType==="Competiton").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const hackathon=events.filter(event=>event.eventType==="Hackathon").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const trimentor=events.filter(event=>event.eventType==="Tri-mentoring").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const lecture=events.filter(event=>event.eventType==="Lecture").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const itour=events.filter(event=>event.eventType==="IndustrialTour").map(({createdBy,collegeName,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        setWorkshop(workshop)
+        setSeminar(seminar)
+        setConf(confEvent)
+        setFacultyDevelopment(fdp)
+        setCompetition(competition)
+        setHackathon(hackathon)
+        setTrimentor(trimentor)
+        setLecture(lecture)
+        setIndustrialTour(itour)
+      }
+      if(publications){
+        const conf=publications.filter(pub=>pub.publicationType==="Conference").map(({category,collegeName,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const filteredBooks=publications.filter(pub=>pub.publicationType==="Book").map(({category,collegeName,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const rep1=publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,collegeName,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest}))
+        const rep2=publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,collegeName,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        const rep3=publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,collegeName,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>rest)
+        console.log(rep1)
+        setConfPub(conf)
+        setBooks(filteredBooks)
+        setRp1(rep1)
+        setRp2(rep2)
+        setRp3(rep3)
+      }
+      const moocs=data?.moocs?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,obtainedScore,...rest})=>rest)
+      const projects=data?.projects?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
+      const patents=data?.patents?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
+      const sca=data?.studentChapters?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
+      // const confPub=data?.studentChapters?.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
+      
+      setMoocs(moocs)
       setProjects(projects)
       setPatents(patents)
-      setMoocs(moocs)
       setStudentChapters(sca)
 
-      setConfPub(conf)
-      setBooks(filteredBooks)
-      setRp1(rep1)
-      setRp2(rep2)
-      setRp3(rep3)
-    }
-  },[data])
+    // }
+  },[data, check])
 
   const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
     // Name: name,
@@ -137,24 +153,25 @@ const FacultyViewData = () => {
     <>
       <Header backPage="/" />
 
-      <ViewDataTable dummyData={books} dummy={books} name={'Book Published'} />
-      <ViewDataTable dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />
-      <ViewDataTable dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />
-      <ViewDataTable dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />
-      <ViewDataTable dummyData={patents} dummy={patents} name={'Patent'} />
-      <ViewDataTable dummyData={projects} dummy={projects} name={'Projects'} />
-      <ViewDataTable dummyData={facultyDevelopment} dummy={facultyDevelopment} name={'Faculty Development Programmes'} />
-      <ViewDataTable dummyData={competition} dummy={competition} name={'Competition'} />
-      <ViewDataTable dummyData={seminar} dummy={seminar} name={'Seminar'} />
-      <ViewDataTable dummyData={confPub} dummy={confPub} name={'Conference'} />
-      <ViewDataTable dummyData={lecture} dummy={lecture} name={'Talks & Distinguished Lecture Series'} />
-      <ViewDataTable dummyData={workshop} dummy={workshop} name={'Workshop'} />
-      <ViewDataTable dummyData={industrialTour} dummy={industrialTour} name={'Industrial Tour'} />
-      <ViewDataTable dummyData={hackathon} dummy={hackathon} name={'Hackathon'} />
-      <ViewDataTable dummyData={consultancy} dummy={consultancy} name={'Consultancy'} />
-      <ViewDataTable dummyData={studentChapters} dummy={studentChapters} name={'Student Chapter Activity'} />
-      <ViewDataTable dummyData={moocs} dummy={moocs} name={'Moocs'} />
-      <ViewDataTable dummyData={trimentor} dummy={trimentor} name={'Tri-Mentoring System'} />
+      {books?.length > 0 && <ViewDataTable dummyData={books} dummy={books} name="Book Published" />}
+      {rp1?.length > 0 && <ViewDataTable dummyData={rp1} dummy={rp1} name="Research Paper Grade-A" />}
+      {rp2?.length > 0 && <ViewDataTable dummyData={rp2} dummy={rp2} name="Research Paper Grade-B" />}
+      {rp3?.length > 0 && <ViewDataTable dummyData={rp3} dummy={rp3} name="Research Paper Grade-C" />}
+      {patents?.length > 0 && <ViewDataTable dummyData={patents} dummy={patents} name="Patent" />}
+      {projects?.length > 0 && <ViewDataTable dummyData={projects} dummy={projects} name="Projects" />}
+      {facultyDevelopment?.length > 0 && <ViewDataTable dummyData={facultyDevelopment} dummy={facultyDevelopment} name="Faculty Development Programmes" />}
+      {competition?.length > 0 && <ViewDataTable dummyData={competition} dummy={competition} name="Competition" />}
+      {seminar?.length > 0 && <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" />}
+      {conf?.length > 0 && <ViewDataTable dummyData={conf} dummy={conf} name="Conference" />}
+      {lecture?.length > 0 && <ViewDataTable dummyData={lecture} dummy={lecture} name="Talks & Distinguished Lecture Series" />}
+      {workshop?.length > 0 && <ViewDataTable dummyData={workshop} dummy={workshop} name="Workshop" />}
+      {industrialTour?.length > 0 && <ViewDataTable dummyData={industrialTour} dummy={industrialTour} name="Industrial Tour" />}
+      {hackathon?.length > 0 && <ViewDataTable dummyData={hackathon} dummy={hackathon} name="Hackathon" />}
+      {consultancy?.length > 0 && <ViewDataTable dummyData={consultancy} dummy={consultancy} name="Consultancy" />}
+      {studentChapters?.length > 0 && <ViewDataTable dummyData={studentChapters} dummy={studentChapters} name="Student Chapter Activity" />}
+      {moocs?.length > 0 && <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />}
+      {confPub?.length > 0 && <ViewDataTable dummyData={confPub} dummy={confPub} name="Comference Publication" />}
+      {trimentor?.length > 0 && <ViewDataTable dummyData={trimentor} dummy={trimentor} name="Tri-Mentoring System" />}
     </>
   );
 };

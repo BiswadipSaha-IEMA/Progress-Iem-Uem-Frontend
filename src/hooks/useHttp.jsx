@@ -106,7 +106,7 @@ export const useGetReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -158,7 +158,7 @@ export const useDeleteReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -211,7 +211,7 @@ export const usePatchReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -264,7 +264,7 @@ export const usePutReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }

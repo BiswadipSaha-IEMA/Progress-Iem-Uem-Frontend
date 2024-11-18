@@ -81,7 +81,7 @@ export default function FacultyBookPublished() {
   ];
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <div className="flex-1 overflow-auto px-4 sm:px-10">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
@@ -123,62 +123,82 @@ export default function FacultyBookPublished() {
         {/* Responsive Table */}
         <div className="mt-5 overflow-x-auto rounded-lg">
           <div className="min-w-full bg-white rounded-lg overflow-hidden">
-            <table className="min-w-full">
-              {/* Table Header */}
-              <thead>
-                <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                  <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
-                  {columnHeaders.map((header, index) => (
-                    <th key={index} className="px-4 py-2">
-                      {header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-
-              {/* Table Body */}
-              <tbody>
-                {currentRows.map((item, rowIndex) => (
-                  <tr
-                    key={rowIndex}
-                    className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
-                    onClick={() => {
-                      setSelectedData(item);
-                      setDetailedClick(true);
-                    }}
-                  >
-                    <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                    <td className="px-4 py-2">{item.title}</td>
-                    <td className="px-4 py-2">{item.createdBy.name}</td>
-                    <td className="px-4 py-2">{item.date}</td>
-                    <td className="px-4 py-2">{item.name}</td>
-                    <td className="px-4 py-2">{item.isbn}</td>
-                    <td className="px-4 py-2">{item.status}</td>
-                    <td className="px-4 py-2">{item.createdBy.email}</td>
-                    <td className="px-4 py-2">
-                      {item.proofDocument ? (
-                        <a
-                          href={item.proofDocument}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 no-underline"
-                        >
-                          Link
-                        </a>
-                      ) : (
-                        "NA"
-                      )}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                {/* Table Header */}
+                <thead>
+                  <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
+                    {columnHeaders.map((header, index) => (
+                      <th key={index} className="px-4 py-2 whitespace-nowrap">
+                        {header}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                {/* Table Body */}
+                <tbody>
+                  {currentRows.map((item, rowIndex) => (
+                    <tr
+                      key={rowIndex}
+                      className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
+                      onClick={() => {
+                        setSelectedData(item);
+                        setDetailedClick(true);
+                      }}
+                    >
+                      <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.isbn}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.proofDocument ? (
+                          <a
+                            href={item.proofDocument}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 no-underline"
+                          >
+                            Link
+                          </a>
+                        ) : (
+                          "NA"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 mx-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-[#03A8FD] text-white font-semibold rounded-lg disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </div>
 
-      {/* Pagination Controls */}
-      <div className="sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      {/* Mobile Pagination Controls */}
+      <div className="sm:hidden sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

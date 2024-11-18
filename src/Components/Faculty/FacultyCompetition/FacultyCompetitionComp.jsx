@@ -4,11 +4,11 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
+import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
 
-export default function Component() {
+export default function Competetion() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
@@ -30,9 +30,12 @@ export default function Component() {
         );
         const arr = [];
         if (response.success) {
+          console.log(response.data.data);
+
           response.data.data.forEach((data) => {
-            if (data.eventType === "Tri-Mentoring") arr.push(data);
+            if (data.eventType === "Competition") arr.push(data);
           });
+
           setData(arr);
           setData1(arr);
         }
@@ -70,12 +73,10 @@ export default function Component() {
 
   const columnHeaders = [
     "Faculty",
-    "Organized By",
-    "Date",
-    "Taken By",
-    "Attended By",
+    "Event Date",
+    "Competition Name",
+    "Competition Type",
     "Status",
-    "Email",
     "Proof of Document",
   ];
 
@@ -87,7 +88,7 @@ export default function Component() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Tri-Mentoring Systems
+            Competition Organized
             </div>
           </div>
 
@@ -95,7 +96,7 @@ export default function Component() {
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Tri-Mentoring System"
+                placeholder="Search by Tour Name"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
@@ -113,7 +114,7 @@ export default function Component() {
               className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
               onClick={() => setShowPopUp(true)}
             >
-              Add New Tri-Mentoring System
+              Add New Competition
               <VscDiffAdded className="text-[1.3rem]" />
             </button>
           </div>
@@ -149,12 +150,12 @@ export default function Component() {
                     >
                       <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.organizedBy}</td>
+            
                       <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.takenBy}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.topicName}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.attendedBy}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                     
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
@@ -215,10 +216,10 @@ export default function Component() {
       </div>
 
       {showPopUp && (
-        <TriMentoringPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <CompetitionPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
-{/* 
-      {detailedClick && (
+
+      {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
     </div>

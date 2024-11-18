@@ -208,21 +208,15 @@ export default function Faculty() {
         const response = await getReq("api/v1/document/getAllEvents", accessToken);
         console.log(response);
         if (response.success) {
-          console.log('====================================');
-          console.log('hnelic--------------------------------------------------------', response.data.data);
-          console.log('====================================');
-          const arr = [];
-          response.data.data.forEach((dt) => {
-            if (dt.eventType === "COMPETITION") {
-              arr.push(dt);
-            }
-          });
-          setCompete(arr);
+          const filteredData = response.data.data.filter((dt) => dt.eventType === "Competition");
+          console.log(filteredData);
+          setCompete(filteredData);
         }
       } catch (error) {
-        console.error("Error fetching competition info:", error);
+        console.error(error);
       }
     };
+    
 
     allInfo();
     getConfInfo();
@@ -331,10 +325,12 @@ export default function Faculty() {
     },
     {
       title: "Competition Organized",
-      details: compete.map((paper) => ({
-        title: paper.topicName,
-        status: paper.status,
-      })),
+      details: compete.filter((paper) => paper.eventType === "Competition").map(
+        (paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })
+      ),
     },
   ];
 
@@ -427,6 +423,9 @@ export default function Faculty() {
                 }
                 else if (item.title === "Patent") {
                   navigate("/faculty/viewpatent");
+                }
+                else if (item.title === "Competition Organized") {
+                  navigate("/faculty/viewcomp");
                 }
               }}
             >

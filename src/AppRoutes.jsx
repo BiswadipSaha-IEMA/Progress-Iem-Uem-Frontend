@@ -29,6 +29,7 @@ import FacultyPatentPage from "./Pages/Faculty/FacultyPatent/FacultyPatentPage";
 import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
+import FacultyCompetitionPage from "./Pages/Faculty/FacultyCompetition/FacultyCompetitionPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
 import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList";
 import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList";
@@ -42,6 +43,7 @@ import TableData from "./Components/Moderator/TableData/TableData";
 import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 import FacultyViewData from "./Pages/FacultyList/FacultyViewData/FacultyViewData";
 import ModeratorSpecificBookPublished from "./Components/Moderator/ViewData/ModeratorTableData";
+import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyList";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -71,6 +73,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
           <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
+          <Route path="/faculty/viewcomp" element={<FacultyCompetitionPage />} />
 
           {/* Faculty lists by stream */}
           <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />
@@ -82,7 +85,7 @@ const AppRouter = () => {
           <Route path="/cse-aiml-facultylist" element={<CSEAIMLFacultyList />} />
           <Route path="/cse-iot-facultylist" element={<CSEIOTFacultyList />} />
           <Route path="/moderator/specificbookpublished" element={<ModeratorSpecificBookPublished />} />
-          <Route path={`/md/:routeName/facultylist`} element={<StreamFacultyList />} />
+          <Route path={`/md/:routeName/facultylist`} element={<MdStreamFacultyList />} />
           
           <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 

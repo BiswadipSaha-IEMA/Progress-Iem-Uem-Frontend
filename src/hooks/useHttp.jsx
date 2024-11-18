@@ -4,13 +4,13 @@ import ManagePopUp from "../utils/Popup/FormPopUp/ManagePopUp";
 
 
 
- const mainURL = "http://192.168.1.176:5000";
+//  const mainURL = "http://192.168.1.176:5000";
 // const mainURL = "http://localhost:5000";
 
 //  const mainURL = "http://192.168.90.24:5000";
 // const mainURL = "http://localhost:8080";
 //const mainURL = "http://192.168.1.176:5000";
-// const mainURL = "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
+const mainURL = "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
 
 
 const ErrorHandleContext = createContext();
@@ -106,7 +106,7 @@ export const useGetReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -158,7 +158,7 @@ export const useDeleteReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -211,7 +211,7 @@ export const usePatchReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }
@@ -264,7 +264,7 @@ export const usePutReq = () => {
             throw new Error("Unauthorized Access");
           }
           else{
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
           }

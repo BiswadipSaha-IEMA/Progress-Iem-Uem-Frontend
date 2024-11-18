@@ -4,10 +4,11 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
+import "./Tablescrollbar.css"
 import { FaRegComments } from "react-icons/fa";
 import CommentModal from "./CommentModal";
 
-const ModeratorViewTable = ({ name, dummyData, dummy }) => {
+const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
   const [data, setData] = useState(""); // for selected row data
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const rowsPerPage = 5;
@@ -16,6 +17,8 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
   const [comment, setComment] = useState(""); // Store the comment
   const [selectedRow, setSelectedRow] = useState(null); // Selected row for comments
   const [columnHeaders, setColumnHeaders] = useState([]); // Store dynamic column headers
+  const [id, setId] = useState("");
+  const [itemData, setItemData] = useState([]);
 
   // Dynamically generate column headers
   useEffect(() => {
@@ -63,6 +66,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
     setSelectedRow(item); // Set the selected row
     setComment(item.comment || ""); // Load the existing comment (if any)
     setIsModalOpen(true); // Open the modal
+    setId(item._id)
   };
 
   const handleCommentSubmit = (updatedComment) => {
@@ -74,7 +78,6 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
   };
 
   const [detailedClick, setDetailedClick] = useState(false);
-  const [id, setId] = useState("");
 
   useEffect(() => {
     console.log(filteredData);
@@ -109,8 +112,8 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
 
         {/* Responsive Table */}
         <div className="overflow-auto mt-5 rounded-lg">
-          <div className="min-w-full bg-white rounded-lg shadow">
-            <div className="table w-full">
+          <div className="min-w-full bg-white rounded-lg table-scrollbar" >
+            <div className="table w-full" style={{boxShadow:'0px 10px 10px rgba(0,0,0,0.1)'}}>
               {/* Table Header */}
               <div className="table-header-group">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
@@ -153,7 +156,15 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
                     <div className="table-cell px-4 py-2 text-[#000]">
                       <span
                         className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap"
-                        onClick={() => handleAddCommentClick(item)}
+                        onClick={() => {
+                          handleAddCommentClick(item)
+                          setId(item._id)
+                          fullData?.map((dt)=>{
+                              // console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=',dt)
+                              if(item.isbn===dt.isbn)
+                                setItemData(dt)
+                          })
+                        }}
                       >
                         <FaRegComments size={16} />
                         Add Comment
@@ -190,7 +201,8 @@ const ModeratorViewTable = ({ name, dummyData, dummy }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleCommentSubmit}
-        id={selectedRow?._id}
+        id={id}
+        itemData={itemData}
         comment={comment}
         setComment={setComment}
       />

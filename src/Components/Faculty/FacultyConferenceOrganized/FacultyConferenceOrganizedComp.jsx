@@ -4,9 +4,9 @@ import { RxCross2 } from 'react-icons/rx'
 import { VscDiffAdded } from 'react-icons/vsc'
 import { FaBookBookmark } from 'react-icons/fa6'
 import { useGetReq } from '../../../hooks/useHttp'
-// import ConferencePopUp from '../../../utils/Popup/FormPopUp/ConferencePopUp'
 import FacultyPopup from '../../DetailedSuperAdmin/FacultyPopup'
 import Header from '../../../Components/Header/Header'
+import ConferencePopUp from '../../../utils/Popup/FormPopUp/ConferencePopUp'
 
 export default function FacultyConference() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -51,9 +51,9 @@ export default function FacultyConference() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title.toLowerCase().includes(searchData) ||
-        item.name.toLowerCase().includes(searchData) ||
-        item.isbn.toLowerCase().includes(searchData)
+        item.topicName?.toLowerCase().includes(searchData) ||
+        item.attendedBy?.toLowerCase().includes(searchData) ||
+        item.organizedBy?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);
@@ -104,7 +104,7 @@ export default function FacultyConference() {
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2
+              <RxCross2 
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -112,17 +112,14 @@ export default function FacultyConference() {
                 }}
               />
             </div>
-
-            {showPopUp && (
-                <ConferencePopUp
-                    setUtilFor={'bpAddForm'}
-                    setShowPopup={setShowPopUp}
-                />
-            )}
-
-            {/* {detailedClick && (
-                <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
-            )} */}
+            <button
+              className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+              onClick={() => setShowPopUp(true)}
+            >
+              Add New Conference
+              <VscDiffAdded className="text-[1.3rem]" />
+            </button>
+          </div>
         </div>
 
         {/* Responsive Table */}
@@ -133,9 +130,7 @@ export default function FacultyConference() {
                 {/* Table Header */}
                 <thead>
                   <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      SL. No
-                    </th>
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
@@ -155,9 +150,7 @@ export default function FacultyConference() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="px-4 py-2 sticky left-0 bg-white">
-                        {indexOfFirstRow + rowIndex + 1}
-                      </td>
+                      <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.organizedBy}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.topicName}</td>
@@ -225,13 +218,12 @@ export default function FacultyConference() {
       </div>
 
       {showPopUp && (
-        <ConferenceForm setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferencePopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-    </div>
     </div>
   );
 }

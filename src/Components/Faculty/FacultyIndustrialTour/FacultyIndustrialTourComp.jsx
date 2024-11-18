@@ -51,9 +51,9 @@ export default function IndustrialTour() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title?.toLowerCase().includes(searchData) ||
-        item.name?.toLowerCase().includes(searchData) ||
-        item.isbn?.toLowerCase().includes(searchData)
+        item.attendedBy?.toLowerCase().includes(searchData) ||
+        item.industryName?.toLowerCase().includes(searchData) ||
+        item.organizedBy?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);

@@ -44,9 +44,11 @@ export default function Component() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title?.toLowerCase().includes(searchData) ||
-        item.name?.toLowerCase().includes(searchData) ||
-        item.isbn?.toLowerCase().includes(searchData)
+        item.faculty?.toLowerCase().includes(searchData) ||
+        item.developedModule?.toLowerCase().includes(searchData) ||
+        item.facility?.toLowerCase().includes(searchData) ||
+        item.efacility?.toLowerCase().includes(searchData) ||
+        item.platformUsed?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);

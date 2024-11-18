@@ -126,7 +126,7 @@ const FacultyViewData = () => {
         setRp2(rep2)
         setRp3(rep3)
       }
-      const moocs=data?.moocs?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,obtainedScore,...rest})=>rest)
+      const moocs=data?.moocs?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,obtainedScore, proofDocument, ...rest})=>({...rest, proof: proofDocument}))
       const projects=data?.projects?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
       const patents=data?.patents?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
       const sca=data?.studentChapters?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
@@ -140,20 +140,34 @@ const FacultyViewData = () => {
     // }
   },[data, check])
 
-  const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
-    // Name: name,
-    // UserID: _id,
-    ...rest,
-  }));
 
-  const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
+
+  // const [modifiedDataBooks, setModifiedDataBooks] = useState([]);
+  
+  // useEffect(() => {
+  //   if (books) {
+  //     const newModifiedData = books.map(({ proofDocument, ...rest }) => ({
+  //       ...rest,
+  //     }));
+      
+  //     setModifiedDataBooks(newModifiedData);
+  //   }
+  // }, [books]);
+
+
+
+
+  // const modifiedData = 
+
+  // const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
 
   return (
     <>
       <Header backPage="/" />
 
-      {books?.length > 0 && <ViewDataTable dummyData={books} dummy={books} name="Book Published" />}
+      {/* {books?.length > 0 && <ViewDataTable dummyData={modifiedDataBooks} dummy={books} name="Book Published" />} */}
+      {books?.length > 0 && <ViewDataTable dummyData={books} dummy={books} name="Book Published" />} 
       {rp1?.length > 0 && <ViewDataTable dummyData={rp1} dummy={rp1} name="Research Paper Grade-A" />}
       {rp2?.length > 0 && <ViewDataTable dummyData={rp2} dummy={rp2} name="Research Paper Grade-B" />}
       {rp3?.length > 0 && <ViewDataTable dummyData={rp3} dummy={rp3} name="Research Paper Grade-C" />}
@@ -169,9 +183,9 @@ const FacultyViewData = () => {
       {hackathon?.length > 0 && <ViewDataTable dummyData={hackathon} dummy={hackathon} name="Hackathon" />}
       {consultancy?.length > 0 && <ViewDataTable dummyData={consultancy} dummy={consultancy} name="Consultancy" />}
       {studentChapters?.length > 0 && <ViewDataTable dummyData={studentChapters} dummy={studentChapters} name="Student Chapter Activity" />}
-      {moocs?.length > 0 && <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />}
       {confPub?.length > 0 && <ViewDataTable dummyData={confPub} dummy={confPub} name="Comference Publication" />}
       {trimentor?.length > 0 && <ViewDataTable dummyData={trimentor} dummy={trimentor} name="Tri-Mentoring System" />}
+      {moocs?.length > 0 && <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />}
     </>
   );
 };

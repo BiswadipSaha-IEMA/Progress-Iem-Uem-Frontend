@@ -222,5 +222,6 @@ export default function FacultyBookPublished() {
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
     </div>
+    </div>
   );
 }

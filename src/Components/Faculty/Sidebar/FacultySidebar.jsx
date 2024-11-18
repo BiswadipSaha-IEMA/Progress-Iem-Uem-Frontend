@@ -68,13 +68,13 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex justify-center mb-4 relative">
+      <div className="flex left-5 bottom-4 mb-2 mt-6 relative">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-32 h-32 rounded-full object-cover mt-10"
+          className="w-24 h-24 rounded-full object-cover mt-10"
         />
-        <span className="absolute mt-10 ml-28 bg-gray-300 text-xs p-1 font-bold top-5 text-black rounded-md shadow-md">
+        <span className="p-2   flex absolute left-32 text-xm font-bold top-16 text-black rounded-md">
           FACULTY
         </span>
       </div>
@@ -91,20 +91,20 @@ const ProfileContent = ({
           label="Faculty Dashboard"
           onClick={() => navigate("/SuperAdminDashboard")}
         />
-        <SidebarButton
+        {/* <SidebarButton
           // isActive={isEdit}
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
           onClick={() => navigate("/")}
-        />
-        <SidebarButton
+        /> */}
+        {/* <SidebarButton
           // isActive={isChangePasswords}
           ariaLabel="Change Password"
           icon={<KeyRound />}
           label="Change Password"
           onClick={() => navigate("/changepassword")}
-        />
+        /> */}
         <SidebarButton
           ariaLabel="Log Out"
           icon={<LogOut />}
@@ -122,15 +122,14 @@ const ProfileContent = ({
 
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
-    className={`w-full py-2 mb-2 rounded-md transition-colors flex items-center justify-start ${
+    className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start ${
       isActive
-        ? "text-white bg-[#03A8FD]"
-        : "text-black hover:text-white hover:bg-[#03A8FD] active:bg-blue-50 duration-300"
+        ? "text-white bg-blue-500" : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
     }`}
     aria-label={ariaLabel}
     onClick={onClick}
   >
-    <span className={`mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
+    <span className={`p-2 mr-2 ${isActive ? "text-white" : "hover:text-white"}`}>
       {React.cloneElement(icon, { color: isActive ? "white" : undefined })}
     </span>
     {label}

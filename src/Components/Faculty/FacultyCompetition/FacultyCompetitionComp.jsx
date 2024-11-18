@@ -153,7 +153,7 @@ export default function Competetion() {
             
                       <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.topicName}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.attendedBy}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.organizedBy}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
                      
                       <td className="px-4 py-2 whitespace-nowrap">

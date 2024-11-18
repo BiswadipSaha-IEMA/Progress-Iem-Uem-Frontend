@@ -14,11 +14,12 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
 
   const [formData, setFormData] = useState({
    
-    name: "",
+    topicName:"",
     
     date: "",
     
-    topicName:"",
+    
+    organizedBy:"",
     proofDocument: "",
   });
 
@@ -46,13 +47,14 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createEvent",
       {
-        eventType:"Competition",
-        name: formData.name,
+        
+        topicName: formData.topicName,
        
         date: formData.date,
        
-        topicName: formData.topicName,
+        organizedBy: formData.organizedBy,
         proofDocument: formData.proofDocument,
+        eventType:"Competition",
         
       },
       accessToken
@@ -134,24 +136,25 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
                     value={formData.date}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
+                    required
+                 />
                 </div>
 
 
-                {/* Proof Document */}
+                {/*  */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
                   Competetion Type
                   </label>
                   <input
                     type="text"
-                    name="topicName"
-                    value={formData.topicName}
+                    name="organizedBy"
+                    value={formData.organizedBy}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-                 {/* Faculty */}
+                 {/* Proof Document */}
                  <div>
                   <label className="block text-gray-600 font-medium mb-1">
                    Proof of Document

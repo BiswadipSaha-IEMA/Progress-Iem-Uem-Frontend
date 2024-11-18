@@ -216,22 +216,9 @@ export default function Faculty() {
         const response = await getReq("api/v1/document/getAllEvents", accessToken);
         console.log(response);
         if (response.success) {
-<<<<<<< HEAD
           const filteredData = response.data.data.filter((dt) => dt.eventType === "Competition");
           console.log(filteredData);
           setCompete(filteredData);
-=======
-          console.log('====================================');
-          console.log('competition--------------------------------------------------------', response.data.data);
-          console.log('====================================');
-          const arr = [];
-          response.data.data.forEach((dt) => {
-            if (dt.eventType === "COMPETITION") {
-              arr.push(dt);
-            }
-          });
-          setCompete(arr);
->>>>>>> 3b0145eda3e307c63a39294ad7386c648d5eb8a9
         }
       } catch (error) {
         console.error(error);
@@ -445,13 +432,12 @@ export default function Faculty() {
                 else if (item.title === "Patent") {
                   navigate("/faculty/viewpatent");
                 }
-<<<<<<< HEAD
-                else if (item.title === "Competition Organized") {
-                  navigate("/faculty/viewcomp");
-=======
                 else if (item.title === "Faculty Development Programmes/ MDP") {
                   navigate("/faculty/viewfdp");
->>>>>>> 3b0145eda3e307c63a39294ad7386c648d5eb8a9
+                }
+
+                else if (item.title === "Competition Organized") {
+                  navigate("/faculty/viewcomp");
                 }
               }}
             >

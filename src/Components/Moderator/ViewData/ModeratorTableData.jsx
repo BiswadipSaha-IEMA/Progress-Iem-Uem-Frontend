@@ -116,24 +116,24 @@ const ModeratorTableData = () => {
     <>
       <Header backPage="/moderator/dashboard" />
 
-      <ModeratorViewTable dummyData={books} dummy={books} name={'Book Published'} />
-      <ModeratorViewTable dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />
-      <ModeratorViewTable dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />
-      <ModeratorViewTable dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />
-      <ModeratorViewTable dummyData={patents} dummy={patents} name={'Patent'} />
-      <ModeratorViewTable dummyData={projects} dummy={projects} name={'Projects'} />
-      <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment} name={'Faculty Development Programmes'} />
-      <ModeratorViewTable dummyData={competition} dummy={competition} name={'Competition'} />
-      <ModeratorViewTable dummyData={seminar} dummy={seminar} name={'Seminar'} />
-      <ModeratorViewTable dummyData={confPub} dummy={confPub} name={'Conference'} />
-      <ModeratorViewTable dummyData={lecture} dummy={lecture} name={'Talks & Distinguished Lecture Series'} />
-      <ModeratorViewTable dummyData={workshop} dummy={workshop} name={'Workshop'} />
-      <ModeratorViewTable dummyData={industrialTour} dummy={industrialTour} name={'Industrial Tour'} />
-      <ModeratorViewTable dummyData={hackathon} dummy={hackathon} name={'Hackathon'} />
-      <ModeratorViewTable dummyData={consultancy} dummy={consultancy} name={'Consultancy'} />
-      <ModeratorViewTable dummyData={studentChapters} dummy={studentChapters} name={'Student Chapter Activity'} />
-      <ModeratorViewTable dummyData={moocs} dummy={moocs} name={'Moocs'} />
-      <ModeratorViewTable dummyData={trimentor} dummy={trimentor} name={'Tri-Mentoring System'} />
+      {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} name={'Book Published'} />}
+      {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />}
+      {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />}
+      {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />}
+      {patents.length>0 && <ModeratorViewTable dummyData={patents} dummy={patents} name={'Patent'} />}
+      {projects.length>0 && <ModeratorViewTable dummyData={projects} dummy={projects} name={'Projects'} />}
+      {facultyDevelopment.length>0 && <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment} name={'Faculty Development Programmes'} />}
+      {competition.length>0 && <ModeratorViewTable dummyData={competition} dummy={competition} name={'Competition'} />}
+      {seminar.length>0 && <ModeratorViewTable dummyData={seminar} dummy={seminar} name={'Seminar'} />}
+      {confPub.length>0 && <ModeratorViewTable dummyData={confPub} dummy={confPub} name={'Conference'} />}
+      {lecture.length>0 && <ModeratorViewTable dummyData={lecture} dummy={lecture} name={'Talks & Distinguished Lecture Series'} />}
+      {workshop.length>0 && <ModeratorViewTable dummyData={workshop} dummy={workshop} name={'Workshop'} />}
+      {industrialTour.length>0 && <ModeratorViewTable dummyData={industrialTour} dummy={industrialTour} name={'Industrial Tour'} />}
+      {hackathon.length>0 && <ModeratorViewTable dummyData={hackathon} dummy={hackathon} name={'Hackathon'} />}
+      {consultancy.length>0 && <ModeratorViewTable dummyData={consultancy} dummy={consultancy} name={'Consultancy'} />}
+      {studentChapters.length>0 && <ModeratorViewTable dummyData={studentChapters} dummy={studentChapters} name={'Student Chapter Activity'} />}
+      {moocs.length>0 && <ModeratorViewTable dummyData={moocs} dummy={moocs} name={'Moocs'} />}
+      {trimentor.length>0 && <ModeratorViewTable dummyData={trimentor} dummy={trimentor} name={'Tri-Mentoring System'} />}
     </>
   );
 };

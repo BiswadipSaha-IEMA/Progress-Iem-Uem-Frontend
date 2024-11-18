@@ -4,6 +4,7 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
+import "./Tablescrollbar.css"
 import { FaRegComments } from "react-icons/fa";
 import CommentModal from "./CommentModal";
 
@@ -111,8 +112,8 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
 
         {/* Responsive Table */}
         <div className="overflow-auto mt-5 rounded-lg">
-          <div className="min-w-full bg-white rounded-lg shadow">
-            <div className="table w-full">
+          <div className="min-w-full bg-white rounded-lg table-scrollbar" >
+            <div className="table w-full" style={{boxShadow:'0px 10px 10px rgba(0,0,0,0.1)'}}>
               {/* Table Header */}
               <div className="table-header-group">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">

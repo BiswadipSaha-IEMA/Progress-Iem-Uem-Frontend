@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function FDPPopUp({ setUtilFor, setShowPopup }) {
+function TalksPopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createEvent",
       {
-        eventType:'FDP',
+        eventType:'Lecture',
         organizedBy: formData.organizedBy,
         topicName: formData.topicName,
         attendedBy: formData.attendedBy,
@@ -43,7 +43,7 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
       },
       accessToken
     );
-    console.log("FDP Submission")
+    console.log("Lecture Submission")
     console.log(response)
     if (response.success) setShowPopup(false);
   };
@@ -58,7 +58,6 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
       proofDocument: "",
     });
     console.log("Form closed");
-    setShowPopup(false)
   };
 
   return (
@@ -68,13 +67,13 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
             <div
               className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
-              onClick={handleClose}
+              onClick={() => setShowPopup(false)}
             >
               <RxCross2 className="text-white" />
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              FDP Submission Form
+              Talks and Distinguished Lecture Submission Form
             </h2>
 
             {/* Inner container with scroll */}
@@ -209,4 +208,4 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default FDPPopUp;
+export default TalksPopUp;

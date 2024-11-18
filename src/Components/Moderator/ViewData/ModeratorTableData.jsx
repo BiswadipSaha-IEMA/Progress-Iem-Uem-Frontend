@@ -9,6 +9,7 @@ import ModeratorViewTable from './ModeratorViewTable';
 const  ModeratorTableData = () => {
   const [data, setData] = useState([]);
   const [books,setBooks]=useState([])
+  const [booksFull,setBooksFull]=useState([])
   const [rp1,setRp1]=useState([])
   const [rp2,setRp2]=useState([])
   const [rp3,setRp3]=useState([])
@@ -76,11 +77,12 @@ const  ModeratorTableData = () => {
       const patents=data.patents.map(({createdAt,createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const sca=data.studentChapters.map(({createdAt,createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const conf=data.publications.filter(pub=>pub.publicationType==="Conference").map(({category,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
-      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category,reviewedBy,comment, createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const filteredBooksFull=data.publications.filter(pub=>pub.publicationType==="Book")
       const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
-      console.log(rep1)
+      console.log('-----------------------==============',filteredBooks)
       setWorkshop(workshop)
       setSeminar(seminar)
       setConf(confEvent)
@@ -98,6 +100,7 @@ const  ModeratorTableData = () => {
 
       setConfPub(conf)
       setBooks(filteredBooks)
+      setBooksFull(filteredBooksFull)
       setRp1(rep1)
       setRp2(rep2)
       setRp3(rep3)
@@ -116,7 +119,7 @@ const  ModeratorTableData = () => {
     <>
       <Header backPage="/moderator/dashboard" />
 
-      <ModeratorViewTable dummyData={books} dummy={books} name={'Book Published'} />
+      <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} />
       <ModeratorViewTable dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />
       <ModeratorViewTable dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />
       <ModeratorViewTable dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />

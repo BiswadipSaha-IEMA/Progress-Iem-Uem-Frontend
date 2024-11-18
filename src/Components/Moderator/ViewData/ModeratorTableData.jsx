@@ -9,6 +9,7 @@ import ModeratorViewTable from './ModeratorViewTable';
 const  ModeratorTableData = () => {
   const [data, setData] = useState([]);
   const [books,setBooks]=useState([])
+  const [booksFull,setBooksFull]=useState([])
   const [rp1,setRp1]=useState([])
   const [rp2,setRp2]=useState([])
   const [rp3,setRp3]=useState([])
@@ -99,6 +100,7 @@ const  ModeratorTableData = () => {
 
       setConfPub(conf)
       setBooks(filteredBooks)
+      setBooksFull(filteredBooksFull)
       setRp1(rep1)
       setRp2(rep2)
       setRp3(rep3)

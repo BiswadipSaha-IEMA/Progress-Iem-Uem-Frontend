@@ -3,17 +3,18 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function FDPPopUp({ setUtilFor, setShowPopup }) {
+function ConferencePopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
+    eventType: "Conference",
     organizedBy: "",
-    topicName: "",
-    attendedBy: "",
+    topicName:'',
     date: "",
-    department: "",
-    proofDocument: "",
+    attendedBy: "",
    
+    type: "Attended",
+    proofDocument: "",
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -31,15 +32,13 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createEvent",
       {
-        eventType:'FDP',
+        eventType: formData.eventType,
         organizedBy: formData.organizedBy,
+       
         topicName: formData.topicName,
-        attendedBy: formData.attendedBy,
         date: formData.date,
-        department: formData.department,
+        attendedBy: formData.attendedBy,
         proofDocument: formData.proofDocument,
-        
-        
       },
       accessToken
     );
@@ -48,11 +47,13 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
 
   const handleClose = () => {
     setFormData({
+      eventType: "Conference",
       organizedBy: "",
       topicName: "",
-      attendedBy: "",
       date: "",
-      department: "",
+      attendedBy: "",
+      
+      type: "Attended",
       proofDocument: "",
     });
     console.log("Form closed");
@@ -70,8 +71,8 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
               <RxCross2 className="text-white" />
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              FDP Submission Form
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 ml-4">
+              Confernce Organized
             </h2>
 
             {/* Inner container with scroll */}
@@ -82,15 +83,31 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
               {/* Hide scrollbar for Firefox and Internet Explorer */}
               <style>{`
             ::-webkit-scrollbar {
-              display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+              display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
             }
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Faculty */}
+                {/* Event Type Dropdown */}
+                {/* <div>
+              <label className="block text-gray-600 font-medium mb-1">Event Type</label>
+              <select
+                name="eventType"
+                value={formData.type}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                required
+              >
+                <option value="">Select Event Type</option>
+                <option value="Attended">Attended</option>
+                <option value="Conducted">Conducted</option>
+              </select>
+            </div> */}
+
+                {/* Organized By */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                   Organized By
+                    Organizing Institute
                   </label>
                   <input
                     type="text"
@@ -98,14 +115,13 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                     value={formData.organizedBy}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    required
                   />
                 </div>
 
-                {/* Developed Module */}
+                {/* Topic Name */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Topic Name 
+                    Topic Name
                   </label>
                   <input
                     type="text"
@@ -116,10 +132,24 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                {/* Platform Used */}
+                {/* Date */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                  Attended by
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+
+                {/* Attended By */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Attended By
                   </label>
                   <input
                     type="text"
@@ -130,23 +160,22 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                {/* Date of Launch */}
+                {/* Department */}
+                {/* <div>
+              <label className="block text-gray-600 font-medium mb-1">Department</label>
+              <input
+                type="text"
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+              />
+            </div> */}
+
+                {/* Proof Document */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Date 
-                  </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div>
-                 {/* Date of Launch */}
-                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Proof of Document 
+                    Proof Document
                   </label>
                   <input
                     type="text"
@@ -156,37 +185,6 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-
-
-
-                {/* Faculty */}
-                <div>
-                <label className="block text-gray-600 font-medium mb-1">
-                department
-                  </label>
-                <input
-                  type="text"
-                  name="department"
-                  value={formData.department}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  required
-                />
-                </div>
-
-                {/* Proof Document */}
-                {/* <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                  topicName
-                  </label>
-                  <input
-                    type="text"
-                    name="topicName"
-                    value={formData.topicName}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div> */}
 
                 {/* Centered Submit Button */}
                 <div className="flex justify-center">
@@ -206,4 +204,4 @@ function FDPPopUp({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default FDPPopUp;
+export default ConferencePopUp;

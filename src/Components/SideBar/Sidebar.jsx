@@ -105,13 +105,13 @@ const ProfileContent = ({
           label="Add Faculty"
           onClick={() => navigate("/AddFaculty")}
         />
-        <SidebarButton
+        {/* <SidebarButton
           isActive={isEdit}
           ariaLabel="Edit Account Details"
           icon={<SlidersHorizontal />}
           label="Edit Account Details"
           onClick={() => navigate("/editAcc")}
-        />
+        /> */}
         {/* <SidebarButton
           isActive={isChangePasswords}
           ariaLabel="Change Password"

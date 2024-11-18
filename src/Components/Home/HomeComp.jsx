@@ -40,10 +40,10 @@ export default function HomeComp() {
     const fetchSuperAdminData = async () => {
       try {
         const data = await getReq(
-          "api/v1/superAdmin/getSuperAdmin",
+          "api/v1/superAdmin/editSuperAdmin",
           accessToken
         );
-        console.log(data.data);
+        console.log(data);
         setSuperAdminData(data.data);
       } catch (error) {
         console.error("Error fetching super admin data:", error);
@@ -75,22 +75,22 @@ export default function HomeComp() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex p-6 box-border relative overflow-hidden">
+    <div className="box-border relative flex min-h-screen p-6 overflow-hidden bg-gray-200">
       {/* Main Content Area */}
       <div
         className={` flex-grow h-full bg-gray-200 rounded-lg flex flex-col lg:h-[93vh] transition-all duration-300`}
       >
         {/* Hamburger Menu for Mobile and Desktop */}
-        <div className="absolute top-4 left-4 z-10 p-2 right-2 mr-4">
+        <div className="absolute z-10 p-2 mr-4 top-4 left-4 right-2">
           <button
             onClick={toggleProfile}
-            className="bg-slate-200 p-2 mt-1 ml-1  rounded"
+            className="p-2 mt-1 ml-1 rounded bg-slate-200"
             aria-label="Toggle profile"
           >
             {showProfile ? (
-              <X className="h-4 w-4 z-40  " />
+              <X className="z-40 w-4 h-4 " />
             ) : (
-              <Menu className="h-4 w-4" />
+              <Menu className="w-4 h-4" />
             )}
           </button>
         </div>
@@ -106,7 +106,7 @@ export default function HomeComp() {
                 : "lg:w-full lg:ml-0"
             } bg-[url('/src/assets/image2.svg')] `}
           >
-            <h1 className="text-black text-2xl font-bold mb-6">
+            <h1 className="mb-6 text-2xl font-bold text-black">
               {" "}
               Edit Account Details
             </h1>
@@ -140,10 +140,10 @@ export default function HomeComp() {
                 <form action="">
                   <div>
                     <p className="font-semibold"> Name :</p>
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       <input
                         disabled
-                        className="bg-gray-200 w-full p-2 rounded-lg mt-2 placeholder:text-black"
+                        className="w-full p-2 mt-2 bg-gray-200 rounded-lg placeholder:text-black"
                         type="text"
                         placeholder={superAdminData.name}
                       />
@@ -153,10 +153,10 @@ export default function HomeComp() {
 
                   <div className="mt-5">
                     <p className="font-semibold">Address :</p>
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex items-center justify-center gap-2">
                       <input
                         disabled
-                        className="bg-gray-200 w-full p-2 rounded-lg mt-2 placeholder:text-black"
+                        className="w-full p-2 mt-2 bg-gray-200 rounded-lg placeholder:text-black"
                         type="text"
                         placeholder={superAdminData.address}
                       />
@@ -164,24 +164,24 @@ export default function HomeComp() {
                     </div>
                   </div>
                   <div className="flex w-[100%] gap-8">
-                    <div className="mt-5 w-1/2 ">
+                    <div className="w-1/2 mt-5 ">
                       <p className="font-semibold">Phone No :</p>
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         <input
                           disabled
-                          className="bg-gray-200 w-full p-2 rounded-lg mt-2 placeholder:text-black"
+                          className="w-full p-2 mt-2 bg-gray-200 rounded-lg placeholder:text-black"
                           type="text"
                           placeholder={superAdminData.phone}
                         />
                         <FaRegEdit className="text-2xl text-gray-500" />
                       </div>
                     </div>
-                    <div className="mt-5 w-1/2">
+                    <div className="w-1/2 mt-5">
                       <p className="font-semibold">Email :</p>
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         <input
                           disabled
-                          className="bg-gray-200 p-2 rounded-lg mt-2 placeholder:text-black w-full"
+                          className="w-full p-2 mt-2 bg-gray-200 rounded-lg placeholder:text-black"
                           type="text"
                           placeholder={superAdminData.email}
                         />
@@ -190,8 +190,8 @@ export default function HomeComp() {
                     </div>
                   </div>
                   {/* 2 buttons */}
-                  <div className="flex float-end gap-3 mt-5">
-                    {/* <button className="bg-gray-200 rounded-lg px-5 py-2">
+                  <div className="flex gap-3 mt-5 float-end">
+                    {/* <button className="px-5 py-2 bg-gray-200 rounded-lg">
                       Cancel
                     </button> */}
                     <button className="bg-[#03A8FD] text-[#fff] rounded-lg px-5 py-2">

@@ -1,33 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RxCross2 } from 'react-icons/rx';
-import { usePostReq } from '../../../hooks/useHttp';
+import { usePatchReq, usePostReq } from '../../../hooks/useHttp';
 
 function TimerPopUp({ setShowPopup }) {
   const [dates, setDates] = useState([]); 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [selectedOption, setSelectedOption] = useState('IEMN');
   const [postReq] = usePostReq();
+  const [patchReq]= usePatchReq()
+  
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
+  const options = ['IEMN', 'IEMS', 'UEMJ'] ;
+
+  useEffect(()=>{
+    console.log(selectedOption)
+  },[selectedOption])
+
   const handleSetDate = async() => {
-    if (startDate && endDate) {
-      const newDateEntry = { startDate, endDate };
+    if (startDate && endDate && selectedOption) {
+      const newDateEntry = { startDate, endDate, selectedOption };
       setDates([...dates, newDateEntry]);
       
       const response= await postReq('api/v1/timeline/fetchTimeline',
         {
           fetchTimelineStartDate: startDate,
-          fetchTimelineEndDate: endDate
+          fetchTimelineEndDate: endDate,
+          
         },
         accessToken
       )
 
-      console.log(response)
+       //send reponse for dropdown value
+       const responseSetCollege= await patchReq('api/v1/timeline/changeCollegeName', {
+        collegeName : selectedOption
+       }, accessToken)
+
+
+      console.log(responseSetCollege)
 
       setShowPopup(false)
       
       setStartDate('');
       setEndDate('');
+      setSelectedOption('');
     } else {
       alert('Please select both start and end dates.');
     }
@@ -37,7 +54,7 @@ function TimerPopUp({ setShowPopup }) {
     <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
       <div className="bg-white pb-12 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[800px] min-w-[300px]">
         <div
-          className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+          className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
           onClick={() => setShowPopup(false)}
         >
           <RxCross2 className="text-white" />
@@ -73,12 +90,28 @@ function TimerPopUp({ setShowPopup }) {
           </div>
         </div>
 
-        <div className='w-full flex flex-col justify-center md:justify-end md:mr-24 mt-8 md:flex-row'>
+        {/* dropdown */}
+        <div className='w-[350px] mt-4'>
+          <select
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
+            className="w-full p-3 border rounded-lg outline-none border-gray focus:ring-0"
+          >
+            {/* <option value="">Select an option</option> */}
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className='flex flex-col justify-center w-full mt-8 md:justify-end md:mr-24 md:flex-row'>
           <div
             className='w-[90%] ml-5 md:w-[230px] flex align-middle items-center justify-center text-[20px] py-2 text-white bg-[#03a8fd] rounded-[16px] hover:bg-blue-600 cursor-pointer'
             onClick={handleSetDate}
           >
-            Set Date
+            Set 
           </div>
         </div>
       </div>

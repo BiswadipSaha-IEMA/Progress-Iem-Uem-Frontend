@@ -79,6 +79,20 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
         }));
       };
 
+      // function for checking if the phone number is valid or not
+      const isValidPhone = (e) => {
+        const value = e.target.value;
+        // Use regex to allow only digits
+        const numericValue = value.replace(/[^0-9]/g, '');
+
+        if(numericValue.length <= 10){
+          setFacultyData((prevData) => ({
+              ...prevData,
+              contact: numericValue,
+          }));
+        }
+    };
+
     return (
         <>
         <div className='m-4 sm:pb-4 ml-[0px] sm:ml-0 rounded-lg w-auto lg:w-[400px] md:w-[300px] min-w-[350px] min-h-[250px] flex flex-col' style={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
@@ -152,7 +166,7 @@ const MemberCard = ({ role, data, onDataUpdate }) => {
                   type="tel"
                   name="contact"
                   value={facultyData.contact}
-                  onChange={handleFacultyInputChange}
+                  onChange={isValidPhone}
                   className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
                   placeholder="Your Mobile Number"
                 />

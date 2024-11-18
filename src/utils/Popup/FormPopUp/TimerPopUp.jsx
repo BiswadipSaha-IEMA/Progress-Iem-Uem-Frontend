@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RxCross2 } from 'react-icons/rx';
-import { usePatchReq, usePostReq } from '../../../hooks/useHttp';
+import { usePatchReq, usePostReq, useGetReq } from '../../../hooks/useHttp';
 
 function TimerPopUp({ setShowPopup }) {
   const [dates, setDates] = useState([]); 
@@ -8,11 +8,26 @@ function TimerPopUp({ setShowPopup }) {
   const [endDate, setEndDate] = useState('');
   const [selectedOption, setSelectedOption] = useState('IEMN');
   const [postReq] = usePostReq();
+  const [getReq] = useGetReq();
   const [patchReq]= usePatchReq()
   
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const options = ['IEMN', 'IEMS', 'UEMJ'] ;
+
+
+  useEffect(()=>{
+    const getResponseTime=  async ()=>{
+      const response = await getReq('api/v1/timeline/getFetchTimeline', accessToken);
+      // console.log(response)
+      if(response.success){
+        setStartDate(response.data.fetchTimelineStartDate)
+        setEndDate(response.data.fetchTimelineEndDate)
+      }
+    }
+    getResponseTime()
+  },[])
+
 
   useEffect(()=>{
     console.log(selectedOption)
@@ -91,7 +106,7 @@ function TimerPopUp({ setShowPopup }) {
         </div>
 
         {/* dropdown */}
-        <div className='w-[350px] mt-4'>
+        <div className='w-full px-11 mt-4'>
           <select
             value={selectedOption}
             onChange={(e) => setSelectedOption(e.target.value)}

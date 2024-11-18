@@ -159,7 +159,7 @@ export default function ModeratorDashboard() {
   const getCSITfacultyList = () => getFacultyList("/api/csit-faculty");
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 font-poppins">
       <div
         className={`${
           showProfile
@@ -238,7 +238,7 @@ export default function ModeratorDashboard() {
         </div> */}
 
         <div className="bg-white w-[100%] h-full p-5 rounded-lg">
-          <p className="text-[25px] font-semibold text-blue-500">Department</p>
+          <p className="text-[1.6rem] font-semibold text-[#03A8FD]">Department</p>
           {/* <div className=" flex justify-between">
               <p className="text-[1.8rem] font-semibold text-[#03a8fd] font-poppins">
                 Department

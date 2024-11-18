@@ -21,9 +21,20 @@ const AddCommentPopup = ({ setShowPopup, data }) => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && commentText.trim()) {
+      handleSendComment();
+      setIsLottieLoading(true);
+      setTimeout(() => {
+        setIsSend(true);
+        setIsLottieLoading(false);
+      }, 1000);
+    }
+  };
+
   return (
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-[1000px] h-auto sm:h-[70vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-[1000px] sm:w-[90%] md:w-[70%] lg:w-[50%] h-auto sm:h-[70vh] overflow-hidden flex flex-col">
         
         {/* Header with Close Button */}
         <div className="flex justify-between items-center mb-6">
@@ -69,16 +80,14 @@ const AddCommentPopup = ({ setShowPopup, data }) => {
             type="text"
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
+            onKeyPress={handleKeyPress}
             placeholder="Type your comment here..."
             className="bg-[#f0f0f0] h-16 rounded-lg px-4 w-full focus:outline-none focus:border-blue-500"
           />
           {commentText.trim().length !== 0 ? (
             <div
               onClick={() => {
-                if (commentText.trim()) {
-                  setComments([...comments, { text: commentText }]);
-                  setCommentText("");
-                }
+                handleSendComment();
                 setIsLottieLoading(true);
                 setTimeout(() => {
                   setIsSend(true);

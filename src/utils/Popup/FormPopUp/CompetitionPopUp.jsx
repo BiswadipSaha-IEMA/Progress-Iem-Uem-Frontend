@@ -3,23 +3,39 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function MoocsPopUp({ setUtilFor, setShowPopup }) {
+function CompetitionPopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
+  const [error, setError] = useState(false);
+
+  const [dateRange] = useState({
+    startDate: "2023-11-01",
+    endDate: "2024-11-30",
+  });
 
   const [formData, setFormData] = useState({
-    department: "",
-    name: "",
-    designation: "",
-    dateOfFiling: "",
-    nationalOrInternational: "",
-    topicName:"",
    
+    topicName:"",
+    
+    date: "",
+    
+    
+    organizedBy:"",
+    proofDocument: "",
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "date") {
+      if (value < dateRange.startDate || value > dateRange.endDate) {
+        e.target.value = "";
+        setError(true);
+        return;
+      }
+    }
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -29,14 +45,16 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await postReq(
-      "api/v1/document/createPatent",
+      "api/v1/document/createEvent",
       {
-        department: formData.department,
-        name: formData.name,
-        nationalOrInternational: formData.nationalOrInternational,
-        dateOfFiling: formData.dateOfFiling,
-        designation: formData.designation,
+        
         topicName: formData.topicName,
+       
+        date: formData.date,
+       
+        organizedBy: formData.organizedBy,
+        proofDocument: formData.proofDocument,
+        eventType:"Competition",
         
       },
       accessToken
@@ -46,12 +64,13 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
 
   const handleClose = () => {
     setFormData({
-        department: "",
+       
         name: "",
-        designation: "",
-        dateOfFiling: "",
-        nationalOrInternational: "",
+       
+        date: "",
+       
         topicName:"",
+        proofDocument: "",
     });
     console.log("Form closed");
   };
@@ -63,7 +82,10 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
             <div
               className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
-              onClick={() => setShowPopup(false)}
+              onClick={() => {
+                setShowPopup(false);
+                handleClose();
+              }}
             >
               <RxCross2 className="text-white" />
             </div>
@@ -85,83 +107,12 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Faculty */}
+               
+
+                {/* Competetion Name  */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Department
-                  </label>
-                  <input
-                    type="text"
-                    name="department"
-                    value={formData.department}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    required
-                  />
-                </div>
-
-                {/* Developed Module */}
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Name 
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div>
-
-                {/* Platform Used */}
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                  designation
-                  </label>
-                  <input
-                    type="text"
-                    name="designation"
-                    value={formData.designation}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div>
-
-                {/* Date of Launch */}
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Date of Filling
-                  </label>
-                  <input
-                    type="date"
-                    name="dateOfLaunch"
-                    value={formData.dateOfFiling}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div>
-
-
-                {/* Faculty */}
-                <div>
-                <label className="block text-gray-600 font-medium mb-1">
-                nationalOrInternational
-                  </label>
-                <input
-                  type="text"
-                  name="nationalOrInternational"
-                  value={formData.nationalOrInternational}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  required
-                />
-                </div>
-
-                {/* Proof Document */}
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                  topicName
+                    Competetion Name 
                   </label>
                   <input
                     type="text"
@@ -169,6 +120,52 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
                     value={formData.topicName}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+
+              
+
+                {/* Date of Launch */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Event Date
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                 />
+                </div>
+
+
+                {/*  */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                  Competetion Type
+                  </label>
+                  <input
+                    type="text"
+                    name="organizedBy"
+                    value={formData.organizedBy}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+                 {/* Proof Document */}
+                 <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                   Proof of Document
+                  </label>
+                  <input
+                    type="text"
+                    name="proofDocument"
+                    value={formData.proofDocument}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
                   />
                 </div>
 
@@ -184,10 +181,17 @@ function MoocsPopUp({ setUtilFor, setShowPopup }) {
               </form>
             </div>
           </div>
+          {error && (
+        <ManagePopUp
+          setUtilFor={"error"}
+          setPopupShow={setError}
+          takeData={"Not a valid date"}
+        />
+      )}
         </div>
       </>
     )
   );
 }
 
-export default MoocsPopUp;
+export default CompetitionPopUp;

@@ -29,6 +29,7 @@ import FacultyPatentPage from "./Pages/Faculty/FacultyPatent/FacultyPatentPage";
 import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/ModeratorPendingRequests";
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
+import FacultyCompetitionPage from "./Pages/Faculty/FacultyCompetition/FacultyCompetitionPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
 import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList";
 import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList";
@@ -73,6 +74,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
           <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
+          <Route path="/faculty/viewcomp" element={<FacultyCompetitionPage />} />
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
 
           {/* Faculty lists by stream */}

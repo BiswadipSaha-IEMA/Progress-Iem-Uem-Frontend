@@ -77,7 +77,8 @@ const  ModeratorTableData = () => {
       const patents=data.patents.map(({createdAt,createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const sca=data.studentChapters.map(({createdAt,createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
-      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, comment, reviewedBy,createdBy,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const filteredBooksFull=data.publications.filter(pub=>pub.publicationType==="Book")
       const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
@@ -119,7 +120,7 @@ const  ModeratorTableData = () => {
     <>
       <Header backPage="/moderator/dashboard" />
 
-      {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} name={'Book Published'} />}
+      {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} />}
       {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} name={'Research Paper Grade-A'} />}
       {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} name={'Research Paper Grade-B'} />}
       {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} name={'Research Paper Grade-C'} />}

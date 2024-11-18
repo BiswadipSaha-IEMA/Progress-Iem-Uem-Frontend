@@ -43,6 +43,7 @@ import StreamFacultyList from "./Pages/FacultyList/StreamFacultyList";
 import FacultyViewData from "./Pages/FacultyList/FacultyViewData/FacultyViewData";
 import ModeratorSpecificBookPublished from "./Components/Moderator/ViewData/ModeratorTableData";
 import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyList";
+import FacultyFDPPage from "./Pages/Faculty/FacultyFDP/FacultyFDPPage";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -72,6 +73,7 @@ const AppRouter = () => {
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
           <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
+          <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
 
           {/* Faculty lists by stream */}
           <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />

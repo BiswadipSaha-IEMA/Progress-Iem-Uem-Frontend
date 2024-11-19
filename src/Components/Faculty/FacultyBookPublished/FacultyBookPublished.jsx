@@ -102,7 +102,7 @@ export default function FacultyBookPublished() {
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2 
+              <RxCross2
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -128,7 +128,9 @@ export default function FacultyBookPublished() {
                 {/* Table Header */}
                 <thead>
                   <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      SL. No
+                    </th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
@@ -137,6 +139,7 @@ export default function FacultyBookPublished() {
                   </tr>
                 </thead>
 
+                {/* Table Body */}
                 {/* Table Body */}
                 <tbody>
                   {currentRows.map((item, rowIndex) => (
@@ -148,27 +151,48 @@ export default function FacultyBookPublished() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.isbn}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                      <td className="px-4 py-2 sticky left-0 bg-white">
+                        {indexOfFirstRow + rowIndex + 1}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.title}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.date}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.isbn}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.email}
+                      </td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
                             href={item.proofDocument}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 no-underline"
+                            className="text-[#03A8FD] no-underline"
                           >
                             Link
                           </a>
                         ) : (
                           "NA"
                         )}
+                      </td>
+                      {/* New Rejection Reason Column */}
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status === "Rejected"
+                          && <button className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg">Edit</button>}
                       </td>
                     </tr>
                   ))}

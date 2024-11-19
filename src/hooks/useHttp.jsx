@@ -2,23 +2,20 @@ import { createContext, useContext, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ManagePopUp from "../utils/Popup/FormPopUp/ManagePopUp";
 
-
-
 //  const mainURL = "http://192.168.1.176:5000";
 // const mainURL = "http://localhost:5000";
 
-//  const mainURL = "http://192.168.90.24:5000";
+ const mainURL = "http://192.168.90.24:5000";
 // const mainURL = "http://localhost:8080";
 //const mainURL = "http://192.168.1.176:5000";
-const mainURL = "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
-
+// const mainURL =
+//   "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
 
 const ErrorHandleContext = createContext();
 
 export const useErrorHandle = () => useContext(ErrorHandleContext);
 
 export const usePostReq = () => {
-  
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -43,17 +40,15 @@ export const usePostReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          if(paramData.pathname.split('/')[1]=== 'moderator'){
+          if (paramData.pathname.split("/")[1] === "moderator") {
             navigate("/moderator/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+          } else if (paramData.pathname.split("/")[1] === "faculty") {
             navigate("/faculty/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else{
+          } else {
             navigate("/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
@@ -75,8 +70,8 @@ export const usePostReq = () => {
 };
 
 export const useGetReq = () => {
-  const paramData= useLocation()
-  console.log(paramData.pathname.split('/')[1])
+  const paramData = useLocation();
+  console.log(paramData.pathname.split("/")[1]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -93,21 +88,20 @@ export const useGetReq = () => {
         },
       });
       const data = await response.json();
+      console.log("GET", data);
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          if(paramData.pathname.split('/')[1]=== 'moderator'){
+          if (paramData.pathname.split("/")[1] === "moderator") {
+            sessionStorage.clear();
             navigate("/moderator/login", { replace: true });
-            sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+          } else if (paramData.pathname.split("/")[1] === "faculty") {
+            sessionStorage.clear();
             navigate("/faculty/login", { replace: true });
-            sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else{
-            navigate("/", { replace: true });
+          } else {
             sessionStorage.clear();
+            navigate("/", { replace: true });
             throw new Error("Unauthorized Access");
           }
         }
@@ -147,17 +141,15 @@ export const useDeleteReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          if(paramData.pathname.split('/')[1]=== 'moderator'){
+          if (paramData.pathname.split("/")[1] === "moderator") {
             navigate("/moderator/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+          } else if (paramData.pathname.split("/")[1] === "faculty") {
             navigate("/faculty/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else{
+          } else {
             navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
@@ -200,17 +192,15 @@ export const usePatchReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          if(paramData.pathname.split('/')[1]=== 'moderator'){
+          if (paramData.pathname.split("/")[1] === "moderator") {
             navigate("/moderator/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+          } else if (paramData.pathname.split("/")[1] === "faculty") {
             navigate("/faculty/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else{
+          } else {
             navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
@@ -253,17 +243,15 @@ export const usePutReq = () => {
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 401) {
-          if(paramData.pathname.split('/')[1]=== 'moderator'){
+          if (paramData.pathname.split("/")[1] === "moderator") {
             navigate("/moderator/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else if(paramData.pathname.split('/')[1]=== 'faculty'){
+          } else if (paramData.pathname.split("/")[1] === "faculty") {
             navigate("/faculty/login", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");
-          }
-          else{
+          } else {
             navigate("/", { replace: true });
             sessionStorage.clear();
             throw new Error("Unauthorized Access");

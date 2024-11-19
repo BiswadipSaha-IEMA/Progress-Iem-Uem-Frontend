@@ -49,23 +49,23 @@ function EditFormPopUp({ setShowPopup }) {
     if (response.success) setShowPopup(false);
   };
 
-  const handleClose = () => {
-    setFormData({
-      name: "",
-      title: "",
-      isbn: "",
-      category: "",
-      publisher: "",
-      date: "",
-      vol: "",
-      issue: "",
-      pp: "",
-      publicationType: "Book",
-      nationalOrInternational: "",
-      proofDocument: "",
-    });
-    console.log("Form closed");
-  };
+  // const handleClose = () => {
+  //   setFormData({
+  //     name: "",
+  //     title: "",
+  //     isbn: "",
+  //     category: "",
+  //     publisher: "",
+  //     date: "",
+  //     vol: "",
+  //     issue: "",
+  //     pp: "",
+  //     publicationType: "Book",
+  //     nationalOrInternational: "",
+  //     proofDocument: "",
+  //   });
+  //   console.log("Form closed");
+  // };
 
   return (
       <>

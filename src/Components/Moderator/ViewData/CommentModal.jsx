@@ -19,6 +19,7 @@ const CommentModal = ({
   id,
   comment,
   itemData,
+  name
 }) => {
   const [commentText, setCommentText] = useState("");
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -29,6 +30,33 @@ const CommentModal = ({
   const [loading, setLoading] = useState(false);
   const [storeTempMessage, setStoreTempMessage] = useState("");
   const [storeTempStatus, setStoreTempStatus] = useState("");
+  const [storeTempName, setStoreTempName] = useState("");
+  const [commentData, setCommentData] = useState(null);
+
+  console.log(id)
+
+  // const apiList = [
+  //   { nameList: ["Moocs"], api: `/${id}/mooccomment` },
+  //   { nameList: ["Patent"], api: `/${id}/patentcomment` },
+  //   {
+  //     nameList: ["Student Chapter Activity"],
+  //     api: `/${id}/studentchaptercomment`,
+  //   },
+  //   {
+  //     nameList: ["List of Project Proposals"],
+  //     api: `/${id}/projectcomment`,
+  //   },
+  //   {
+  //     nameList: [
+  //       "Research Paper Published (Grade-A)",
+  //       "Research Paper Published (Grade-B)",
+  //       "Research Paper Published (Grade-C)",
+  //       "Book Published",
+  //     ],
+  //     api: `/${id}/publicationcomment`,
+  //   },
+  // ];
+ 
 
   useEffect(() => {
     console.log("---------------------------", itemData);
@@ -48,16 +76,17 @@ const CommentModal = ({
   const handleReqAccept = async () => {
     setLoading(true);
     const response = await postReq(
-      `api/v1/document/reviewPublication`,
+      `${(name==='Book Published'||name==='Research Paper Grade-A'||name==='Research Paper Grade-B'||name==='Research Paper Grade-C')?'api/v1/document/reviewPublication':''}`,
       {
         publicationId: itemData?._id,
         status: "RequestToAccept",
-        comment: "This File Is Accepeted",
+        comment: "Accepetance Requested",
       },
       accessToken
     );
     setStoreTempMessage("This File Is Accepeted");
     setStoreTempStatus("Request To Accept");
+    setStoreTempName(itemData?.reviewedBy?.name)
     setLoading(false);
     console.log(response);
   };
@@ -73,9 +102,10 @@ const CommentModal = ({
     );
     setStoreTempMessage(commentText !== '' ? commentText : null);
     setStoreTempStatus("Request To Reject");
+    setStoreTempName(itemData?.reviewedBy?.name)
     setCommentText("");
   };
-
+  
   const handleSubmit = async () => {
     setIsSend(true);
     try {
@@ -90,6 +120,7 @@ const CommentModal = ({
       );
       setStoreTempMessage(commentText);
       setStoreTempStatus("Request To Reject");
+      setStoreTempName(itemData?.reviewedBy?.name)
     } catch (error) {
       console.error("Error posting comment", error);
     } finally {
@@ -169,7 +200,7 @@ const CommentModal = ({
                     {storeTempMessage ? storeTempMessage : itemData?.comment}
                   </p>
                   <div className="flex pr-2 items-center">
-                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{itemData?.reviewedBy?.name}</p>
+                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{storeTempName? storeTempName : itemData?.reviewedBy?.name}</p>
                     <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
                   </div>
                 </div>

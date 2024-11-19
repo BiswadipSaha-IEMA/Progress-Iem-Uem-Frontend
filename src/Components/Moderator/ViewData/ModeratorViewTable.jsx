@@ -32,7 +32,9 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
           return key;
         });
       };
-      setColumnHeaders(getColumnHeaders(dummyData));
+      setColumnHeaders(getColumnHeaders(dummyData).filter(
+        (header) => header !== "_id"
+      ));
     }
   }, [dummyData]);
 
@@ -129,12 +131,13 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
 
               {/* Table Body */}
               <div className="table-row-group">
-                {currentRows?.map((item, rowIndex) => (
+                {currentRows?.filter((item) => item !== "_id")
+                .map((item, rowIndex) => (
                   <div
                     key={rowIndex}
                     className="table-row border-b"
                     onClick={() => {
-                      const selectedItem = dummy?.find((dt) => dt._id === item._id); // Find item by matching _id
+                      const selectedItem = dummy?.find((dt) => dt._id === id); // Find item by matching _id
                       if (selectedItem) {
                         setData(selectedItem); // Set the data to the found item
                         setDetailedClick(true); // Open the popup
@@ -205,6 +208,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
         itemData={itemData}
         comment={comment}
         setComment={setComment}
+        name={name}
       />
     </>
   );

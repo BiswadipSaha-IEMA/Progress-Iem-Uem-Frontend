@@ -150,7 +150,7 @@ const CommentModal = ({
                         <div className="bg-[#fff] rounded-[50%] mr-2">
                           <TiTick className="text-[15px] text-[#2e9b32]" />
                         </div>
-                        Accepted
+                        Request To Accept
                       </div>
                     ) : (
                       <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
@@ -158,7 +158,7 @@ const CommentModal = ({
                           <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
                         </div>
                         <div className="">
-                          Rejected
+                        Request To Reject
                         </div>
                       </div>
                     )

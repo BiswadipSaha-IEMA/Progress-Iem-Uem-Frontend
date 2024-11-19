@@ -269,7 +269,7 @@ export default function SuperAdminDashboardComp() {
                 <div className="flex flex-col items-start">
                   <button
                     className="rounded-md bg-[#03a8fd] px-6 sm:px-8 py-3 text-lg text-white transition-colors hover:bg-[#37AFE1] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-poppins"
-                    onClick={() => navigate("/addfaculty")}
+                    onClick={() => navigate("/adddepartment")}
                   >
                     Department
                   </button>

@@ -60,7 +60,6 @@ const  ModeratorTableData = () => {
           accessToken
         );
         if (response.success) {
-          console.log(response);
           setData(response.data);
         } else {
           console.error("Error:", response.statusText);

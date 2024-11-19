@@ -9,7 +9,7 @@ import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 
 const ViewDataTable = ({ name, dummyData, dummy }) => {
   const [data, setData] = useState("");
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
@@ -17,22 +17,24 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   // Get current data for pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  console.log(dummyData);
   const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
-
 
   // Get column headers dynamically, accounting for nested properties
   const getColumnHeaders = (data) => {
     if (data.length === 0) return [];
     const keys = Object.keys(data[0]);
     return keys.flatMap((key) => {
-      if (typeof data[0][key] === 'object' && data[0][key] !== null) {
+      if (typeof data[0][key] === "object" && data[0][key] !== null) {
         return Object.keys(data[0][key]).map((subKey) => `${key}.${subKey}`);
       }
       return key;
     });
   };
 
-  const columnHeaders = getColumnHeaders(dummyData);
+  const columnHeaders = getColumnHeaders(dummyData).filter(
+    (header) => header !== "_id"
+  );
 
   // Handle pagination
   const totalPages = Math.ceil(dummyData.length / rowsPerPage);
@@ -48,6 +50,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
   // Open popup for comments
   const handleCommentClick = (selectedData) => {
+    // console.log("selectedData",selectedData);
     setData(selectedData);
     setDetailedClick(true);
   };
@@ -56,36 +59,34 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     console.log(data);
   }, [data]);
 
-    // Function to determine the color based on status
-    const getStatusColor = (status) => {
-      switch (status.toLowerCase()) {
-        case "pending":
-          return "bg-[#F3C623]  px-2 py-1 rounded-xl";
-        case "accepted":
-          return "text-green-500";
-        default:
-          return "text-red-500";
-      }
-    };
+  // Function to determine the color based on status
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return "bg-[#F3C623]  px-2 py-1 rounded-xl";
+      case "accepted":
+        return "text-green-500";
+      default:
+        return "text-red-500";
+    }
+  };
 
-    const handleSearch = (event) => {
-      const searchValue = event.target.value.toLowerCase();
-      setSearchTerm(searchValue);
-    
-      // Filter the data
-      const filteredData = dummy.filter((item) => {
-        return columnHeaders.some((header) => {
-          const value = header.includes(".")
-            ? header.split(".").reduce((acc, part) => acc?.[part], item)
-            : item[header];
-          return value?.toString().toLowerCase().includes(searchValue);
-        });
+  const handleSearch = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    setSearchTerm(searchValue);
+
+    // Filter the data
+    const filteredData = dummy.filter((item) => {
+      return columnHeaders.some((header) => {
+        const value = header.includes(".")
+          ? header.split(".").reduce((acc, part) => acc?.[part], item)
+          : item[header];
+        return value?.toString().toLowerCase().includes(searchValue);
       });
-    
-      setData(filteredData);
-    };
-    
+    });
 
+    setData(filteredData);
+  };
 
   return (
     <>
@@ -134,74 +135,39 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                     SL. No
                   </div>
-                  {columnHeaders.map((header, index) => (
-                    <div
-                      key={index}
-                      className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold"
-                    >
-                      {/* {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')} */}
-                      {header.charAt(0).toUpperCase() + header.slice(1)}
-                    </div>
-                  ))}
-                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold text-center">
+                  {columnHeaders
+                    .filter((item) => item != "_id")
+                    .map((header, index) => (
+                      <div
+                        key={index}
+                        className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold"
+                      >
+                        {/* {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')} */}
+                        {header.charAt(0).toUpperCase() + header.slice(1)}
+                      </div>
+                    ))}
+                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold text-center">
                     Comments
                   </div>
                 </div>
               </div>
 
               {/* Table Body */}
-              <div className="table-row-group text-center">
-                {currentRows?.map((item, rowIndex) => (
-                  <div
-                    key={rowIndex}
-                    className="table-row border-b hover:bg-[#f4f4f4] text-[#575757"
-                    onClick={() => {
-                      const selectedItem = dummy?.find((dt) => dt._id === rowIndex); // Find item by matching _id
-                      if (selectedItem) {
-                        console.log("first")
-                        setData(selectedItem); // Set the data to the found item
-                        setDetailedClick(true); // Open the popup
-                      }
-                    }}
-                  >
-                    {/* Sl. No Column */}
-                    <div className="table-cell px-4 py-2">
+              <div className="table-row-group">
+                {currentRows.map((item, rowIndex) => (
+                  <div key={rowIndex} className="table-row">
+                    <div className="table-cell">
                       {indexOfFirstRow + rowIndex + 1}
                     </div>
-                    {/* Dynamic Data Columns */}
                     {columnHeaders.map((header, colIndex) => (
-                      <div
-                        key={colIndex}
-                        className="table-cell px-4 py-2"
-                      >
-                        {/* {header.includes('.')
-                          ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
-                          : item[header]} */}
-                          {header === "Proof Of Document" ? (
-                          <a
-                            href={item[header]}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#03A8FD] "
-                          >
-                            Link
-                          </a>
-                        ) : header=="Status" ? (
-                          <span className={getStatusColor(item[header])}>{item[header]}</span>
-                        ) : (
-                          item[header] // Render other fields normally
-                        )}
+                      <div key={colIndex} className="table-cell">
+                        {item[header]}
                       </div>
                     ))}
-                    {/* Comments Column */}
-                    <div className=" px-4 py-2 text-[#000] flex items-center justify-center">
-                      <span
-                        className="flex items-center justify-center text-[#03A8FD] cursor-pointer sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg px-2 gap-2 text-sm"
-                        onClick={() => handleCommentClick(item)}
-                      >
-                        <FaRegComments size={16} />
+                    <div className="table-cell">
+                      <button onClick={() => handleCommentClick(item)}>
                         Add Comment
-                      </span>
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -230,7 +196,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
       </div>
       {detailedClick && (
         // <FacultyPopup setShowPopup={setDetailedClick} data={data} />
-        <AddCommentPopup setShowPopup={setDetailedClick} data={data} />
+        <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name}/>
       )}
     </>
   );

@@ -67,7 +67,7 @@ const CommentModal = ({
       {
         publicationId: itemData?._id,
         status: "RequestToReject",
-        comment: `${commentText !== '' ? commentText : null}`,
+        comment: commentText !== '' ? commentText : null,
       },
       accessToken
     );
@@ -120,7 +120,10 @@ const CommentModal = ({
           </h2>
           <button
             className="bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-1"
-            onClick={onClose}
+            onClick={()=>{
+              onClose()
+              setCommentText('')
+            }}
           >
             <RxCross2 className="text-white text-2xl" />
           </button>

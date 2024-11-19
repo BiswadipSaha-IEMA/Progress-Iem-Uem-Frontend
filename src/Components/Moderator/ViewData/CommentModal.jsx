@@ -6,6 +6,8 @@ import { RxCross2 } from "react-icons/rx";
 import sending from "../../../assets/sending.png";
 import Skeleton from "react-loading-skeleton";
 import Lottie from "react-lottie";
+import { TiTick } from "react-icons/ti";
+import { RiAccountCircleFill } from "react-icons/ri";
 
 const CommentModal = ({
   isOpen,
@@ -14,7 +16,7 @@ const CommentModal = ({
   selectedRow,
   id,
   comment,
-  itemData
+  itemData,
 }) => {
   const [commentText, setCommentText] = useState("");
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -23,21 +25,13 @@ const CommentModal = ({
   const { criteriaId } = useParams();
   const [postReq] = usePostReq();
   const [loading, setLoading] = useState(false);
+  const [storeTempMessage, setStoreTempMessage] = useState("");
+  const [storeTempStatus, setStoreTempStatus] = useState("");
 
-  // Set the initial comment text when the modal opens
-  // useEffect(() => {
-  //   if (selectedRow) {
-  //     setCommentText(selectedRow.comment || "");
-  //   }
-  // }, [selectedRow, isOpen]);
-
-  
-
-  useEffect(()=>{
-    console.log('---------------------------',itemData)
-    console.log(loading)
-
-  },[loading])
+  useEffect(() => {
+    console.log("---------------------------", itemData);
+    console.log(loading);
+  }, [loading]);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -50,26 +44,34 @@ const CommentModal = ({
   };
 
   const handleReqAccept = async () => {
-    setLoading(true)
-    const response = await postReq(`api/v1/document/reviewPublication`, {
-      publicationId: itemData._id,
-      status: "RequestToAccept",
-      comment: 'Request to accept',
-    },
-    accessToken
-  );
-  setLoading(false)
-  console.log(response)
+    setLoading(true);
+    const response = await postReq(
+      `api/v1/document/reviewPublication`,
+      {
+        publicationId: itemData?._id,
+        status: "RequestToAccept",
+        comment: "This File Is Accepeted",
+      },
+      accessToken
+    );
+    setStoreTempMessage("This File Is Accepeted");
+    setStoreTempStatus("Request To Accept");
+    setLoading(false);
+    console.log(response);
   };
   const handleReqReject = async () => {
-  //   const response = await postReq(`api/v1/document/reviewPublication`, {
-  //     publicationId: id,
-  //     status: "RequestToAccept",
-  //     comment: 'RequestToAccept',
-  //   },
-  //   accessToken
-  // );
-  // console.log(response)
+    const response = await postReq(
+      `api/v1/document/reviewPublication`,
+      {
+        publicationId: itemData?._id,
+        status: "RequestToReject",
+        comment: `${commentText !== '' ? commentText : null}`,
+      },
+      accessToken
+    );
+    setStoreTempMessage(commentText !== '' ? commentText : null);
+    setStoreTempStatus("Request To Reject");
+    setCommentText("");
   };
 
   const handleSubmit = async () => {
@@ -78,21 +80,31 @@ const CommentModal = ({
       const response = await postReq(
         `api/v1/document/reviewPublication`,
         {
-          publicationId: itemData._id,
+          publicationId: itemData?._id,
           status: "RequestToReject",
           comment: commentText,
         },
         accessToken
       );
-      // onSubmit(response.data);
+      setStoreTempMessage(commentText);
+      setStoreTempStatus("Request To Reject");
     } catch (error) {
       console.error("Error posting comment", error);
-    } 
-    finally{
-      setIsSend(false)
-      setCommentText('')
+    } finally {
+      setIsSend(false);
+      setCommentText("");
     }
   };
+
+  useEffect(() => {
+    if (itemData?.status) {
+      if (itemData.status === "RequestToAccept") {
+        setStoreTempStatus("Request To Accept");
+      } else if (itemData.status === "RequestToReject") {
+        setStoreTempStatus("Request To Reject");
+      }
+    }
+  }, [itemData]);
 
   if (!isOpen) return null;
 
@@ -114,7 +126,7 @@ const CommentModal = ({
 
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
-          {itemData.comment?.length === 0 ? (
+          {!storeTempStatus? (
             <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] rounded-3xl">
               <p className="text-gray-500">
                 Be the first person to add a comment
@@ -122,27 +134,90 @@ const CommentModal = ({
             </div>
           ) : (
             <div className="space-y-3">
-              <div className="pt-8 px-8 rounded-lg text-gray-800">
-                <p>{itemData.comment}</p>
+              <div className="  rounded-lg text-gray-800 bg-[#fff]">
+                <p>
+                  {
+                    storeTempStatus === "Request To Accept" ? (
+                      <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                        <div className="bg-[#fff] rounded-[50%] mr-2">
+                          <TiTick className="text-[15px] text-[#2e9b32]" />
+                        </div>
+                        Accepted
+                      </div>
+                    ) : (
+                      <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                        <div className="bg-[#fff] rounded-[50%] mr-2">
+                          <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
+                        </div>
+                        <div className="">
+                          Rejected
+                        </div>
+                      </div>
+                    )
+                  }
+                </p>
+                <div className="flex justify-between">
+                  <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
+                    {storeTempMessage ? storeTempMessage : itemData?.comment}
+                  </p>
+                  <div className="flex pr-2 items-center">
+                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{itemData?.reviewedBy?.name}</p>
+                    <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
+                  </div>
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        <div className="flex  gap-5 mt-6 justify-end w-[790px] mb-2">
+        <div className="flex gap-5 mt-6 justify-start mb-5">
           <div
-            className="bg-[#d6ffce] p-1 px-2 rounded-md font-[600] text-[#1c6229] cursor-pointer"
+            className={`${
+              storeTempStatus === "Request To Accept"
+                ? "bg-green-500 text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+                : storeTempStatus === "Request To Reject"
+                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+            }`}
             onClick={handleReqAccept}
           >
-            Request To Accept
+            {
+              storeTempStatus === "Request To Accept" ? (
+                <div className="flex items-center px-3">
+                  <div className="pr-2">
+                    Request Sent
+                  </div>
+                  <div className="bg-[#fff] rounded-[50%]">
+                    <TiTick className="text-[20px] text-[#2e9b32]" />
+                  </div>
+                </div>
+              ) : "Request To Accept"
+            }
           </div>
+
           <div
-            className="bg-[#f00] p-1 px-2 rounded-md font-[600] text-[#fff] cursor-pointer"
+            className={`${
+              storeTempStatus === "Request To Reject"
+                ? "bg-[#f84748] text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+                : storeTempStatus === "Request To Accept"
+                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
+            }`}
             onClick={handleReqReject}
           >
-            Request To Reject
+            {
+              storeTempStatus === "Request To Reject" ? (
+                <div className="flex items-center px-3">
+                  <div className="pr-2">
+                    Request Sent
+                  </div>
+                  <div className="bg-[#fff] rounded-[50%]">
+                    <RxCross2 className="text-[20px] text-[#2e9b32]" />
+                  </div>
+                </div>
+              ) : "Request To Reject"
+            }
           </div>
-          {/* <div></div> */}
         </div>
 
         {/* Input and Send Button */}

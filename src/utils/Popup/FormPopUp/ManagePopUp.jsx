@@ -19,6 +19,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   const [loading, setLoading] = useState(false);
   const [postReq] = usePostReq();
   const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOptionModerator, setSelectedOptionModerator] = useState('');
 
   const validatePhone = (phone) => {
     const phoneRegex = /^[0-9]{10}$/; // Adjust the regex for your phone number format
@@ -314,7 +315,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     try {
       const response = await postReq(
         "api/v1/moderator/addModerator",
-        { ...moderatorData, contentAccess: "edit" },
+        { ...moderatorData,college:selectedOptionModerator, contentAccess: "edit" },
         accessToken
       );
 
@@ -334,7 +335,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
     try {
       const response = await postReq(
         "api/v1/user/addUser",
-        { ...facultyData, contentAccess: "read" },
+        { ...facultyData,college:selectedOption, contentAccess: "read" },
         accessToken
       );
 
@@ -720,14 +721,20 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
               </div>
               <div className="flex flex-col gap-2">
                 <p>University/Institute Name</p>
-                <input
-                  type="name"
-                  name="college"
-                  value={moderatorData.college}
-                  onChange={handleModeratorInputChange}
-                  className="bg-[#F0F0F0] h-8 w-full rounded-md p-6 focus:outline-none"
-                  placeholder="University Name"
-                />
+                <div className="w-full mt-4">
+                  <select
+                    value={selectedOptionModerator}
+                    onChange={(e) => setSelectedOptionModerator(e.target.value)}
+                    className="w-full p-3 border rounded-lg outline-none border-gray focus:ring-0"
+                  >
+                    <option value="">Select a department</option> {/* Default placeholder */}
+                    {depts.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="flex flex-col gap-2 mt-4">

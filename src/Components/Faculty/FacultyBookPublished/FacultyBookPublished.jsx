@@ -7,6 +7,8 @@ import { useGetReq } from "../../../hooks/useHttp";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
+// import
+import EditFormPopUp from "./EditFormPopUp";
 
 export default function FacultyBookPublished() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -18,6 +20,8 @@ export default function FacultyBookPublished() {
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
+  const [editBpData, setEditBpData] = useState(false);
+  
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
@@ -136,6 +140,9 @@ export default function FacultyBookPublished() {
                         {header}
                       </th>
                     ))}
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      Action
+                    </th>
                   </tr>
                 </thead>
 
@@ -191,8 +198,16 @@ export default function FacultyBookPublished() {
                       </td>
                       {/* New Rejection Reason Column */}
                       <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status === "Rejected"
-                          && <button className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg">Edit</button>}
+                        {item.status === "Rejected" && (
+                          <button
+                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                            onClick={() => {
+                              setEditBpData(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -246,6 +261,7 @@ export default function FacultyBookPublished() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
+      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
     </div>
   );
 }

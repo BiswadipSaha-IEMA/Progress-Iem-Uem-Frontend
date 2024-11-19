@@ -21,7 +21,7 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const isSuper = location.pathname === "/";
   const isEdit = location.pathname === "/editAcc";
   const isAddMod = location.pathname === "/AddModerator" || location.pathname === "/addmoderator";
-  const isAddFac = location.pathname === "/AddFaculty" || location.pathname === "/addfaculty";
+  const isAddFac = location.pathname === "/AddDepartment" || location.pathname === "/adddepartment";
 
 
 
@@ -100,10 +100,10 @@ const ProfileContent = ({
         />
         <SidebarButton
           isActive={isAddFac}
-          ariaLabel="Add Faculty"
+          ariaLabel="Add Department"
           icon={<UserRound />}
-          label="Add Faculty"
-          onClick={() => navigate("/AddFaculty")}
+          label="Add Department"
+          onClick={() => navigate("/AddDepartment")}
         />
         {/* <SidebarButton
           isActive={isEdit}

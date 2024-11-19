@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import { MdInsertComment } from "react-icons/md";
 import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import { RiAccountCircleFill } from "react-icons/ri";
+import { TiTick } from "react-icons/ti";
 
 const AddCommentPopup = ({ setShowPopup, data, name }) => {
   const [comments, setComments] = useState(data.comments || []);
@@ -18,17 +19,19 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   const [isSend, setIsSend] = useState(false);
   const [storeTempStatus, setStoreTempStatus] = useState("");
   const [storeTempMessage, setStoreTempMessage] = useState("");
-  const [ getReq ] = useGetReq();
+  const [getReq] = useGetReq();
   const [postReq] = usePostReq();
   const [commentData, setCommentData] = useState(null);
-  const [reqReject, setReqReject]= useState('')
-  const [reqAccept, setReqAccept]= useState('')
+  const [storeAsTemp, setStoreAsTemp]= useState('')
+  const [reqReject, setReqReject] = useState(false);
+  const [reqAccept, setReqAccept] = useState(false);
+  const [showInput, setShowInput] = useState(false);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
   };
 
-  const accesssToken= sessionStorage.getItem('token').split('"')[1]
+  const accesssToken = sessionStorage.getItem("token").split('"')[1];
 
   const apiList = [
     { nameList: ["Moocs"], api: `/${data._id}/mooccomment` },
@@ -94,34 +97,104 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   }, [name]);
 
   const handleReqAccept = async () => {
-    try{
-      const response= await postReq('api/v1/document/reviewPublication', {
-        publicationId: data?._id,
-        status:'Approved',
-        comment: 'This Is Accepted'
-      },
-    accesssToken
-    )
-    console.log(response)
+    try {
+      if(data.status!=='RequestToReject' && commentText!== ''){
+      //   const response = await postReq(
+      //     "api/v1/document/reviewPublication",
+      //     {
+      //       publicationId: data?._id,
+      //       status: "Approved",
+      //       comment: commentText,
+      //     },
+      //     accesssToken
+      //   );
+  
+      //   if (response && response.success) {
+      //     setStoreTempStatus("Request To Accept");
+      //     setStoreTempMessage("Successfully Accepted");
+      //     console.log("Request accepted successfully:", response);
+      // }
+
+      setReqAccept(true)
+      
+      }
+      else {
+        // console.error("Failed to accept the request:", response?.message);
+        // setStoreTempMessage("Failed to Accept Request");
+        const response = await postReq(
+          "api/v1/document/reviewPublication",
+          {
+            publicationId: data?._id,
+            status: "Approved",
+            comment: 'Accepted',
+          },
+          accesssToken
+        );
+  
+        if (response && response.success) {
+          setStoreTempStatus("Request To Accept");
+          setStoreTempMessage("Successfully Accepted");
+          console.log("Request accepted successfully:", response);
+      }
+      }
+    } catch (error) {
+      console.error("Error in handleReqAccept:", error);
+      setStoreTempMessage("Error occurred while accepting request");
     }
-    catch(error){
-      console.error(error)
-    }
-    
   };
-  const handleReqReject = async () => {
-    try{
-      const response= await postReq('api/v1/document/reviewPublication', {
-        publicationId: data?._id,
-        status:'Rejected',
-        comment: 'This Is Rejected'
-      },
-    accesssToken
-    )
-    console.log(response)
+
+  // const handleSubmitAccept=()=>{
+  //   try{
+  //     const response = await postReq(
+  //       "api/v1/document/reviewPublication",
+  //       {
+  //         publicationId: data?._id,
+  //         status: "Approved",
+  //         comment: commentText,
+  //       },
+  //       accesssToken
+  //     );
+
+  //     if (response && response.success) {
+  //       setStoreTempStatus("Request To Accept");
+  //       setStoreTempMessage("Successfully Accepted");
+  //       console.log("Request accepted successfully:", response);
+  //   }
+  //   }
+  //   catch(error){
+  //     console.log(error)
+  //   }
+  // }
+
+  useEffect(()=>{
+    if(reqAccept){
+
     }
-    catch(error){
-      console.error(error)
+  },[reqAccept])
+
+  const handleReqReject = async () => {
+    try {
+      const response = await postReq(
+        "api/v1/document/reviewPublication",
+        {
+          publicationId: data?._id,
+          status: "Rejected",
+          comment: "This Is Rejected",
+        },
+        accesssToken
+      );
+
+      if (response && response.success) {
+        setStoreTempStatus("Request To Reject");
+        setStoreTempMessage("Successfully Rejected");
+        console.log("Request rejected successfully:", response);
+      } else {
+        console.error("Failed to reject the request:", response?.message);
+        setStoreTempMessage("Failed to Reject Request");
+      }
+    } catch (error) {
+      console.error("Error in handleReqReject:", error);
+      setStoreTempMessage("Error occurred while rejecting request");
     }
   };
 
@@ -147,8 +220,6 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   };
 
   return (
-
-
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-[1000px] sm:w-[90%] md:w-[70%] lg:w-[50%] h-auto sm:h-[70vh] overflow-hidden flex flex-col">
         {/* Header */}
@@ -204,53 +275,41 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
         </div>
 
         <div className="flex gap-5 mt-6 justify-start mb-5">
-          <div
-            className={`${
-              storeTempStatus === "Request To Accept"
-                ? "bg-green-500 text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : storeTempStatus === "Request To Reject"
-                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-            }`}
-            onClick={handleReqAccept}
-          >
-            {/* {storeTempStatus === "Request To Accept" ? (
-              <div className="flex items-center px-3">
-                <div className="pr-2">Request Sent</div>
-                <div className="bg-[#fff] rounded-[50%]">
-                  <TiTick className="text-[20px] text-[#2e9b32]" />
-                </div>
-              </div>
-            ) : ( */}
-              "Request To Accept"
-            {/* )} */}
-          </div>
+          <div className="flex gap-5 mt-6 justify-start mb-5">
+            <button
+              className={`${
+                storeTempStatus === "Request To Accept"
+                  ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+              }`}
+              onClick={data.status==='RequestToReject'?()=>setShowInput(true):()=>{handleReqAccept()}}
+              disabled={storeTempStatus === "Request To Accept"}
+            >
+              {storeTempStatus === "Request To Accept"
+                ? "Accepted"
+                : "Accept"}
+            </button>
+            
 
-          <div
-            className={`${
-              storeTempStatus === "Request To Reject"
-                ? "bg-[#f84748] text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : storeTempStatus === "Request To Accept"
-                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-            }`}
-            onClick={handleReqReject}
-          >
-            {storeTempStatus === "Request To Reject" ? (
-              <div className="flex items-center px-3">
-                <div className="pr-2">Request Sent</div>
-                <div className="bg-[#fff] rounded-[50%]">
-                  <RxCross2 className="text-[20px] text-[#2e9b32]" />
-                </div>
-              </div>
-            ) : (
-              "Request To Reject"
-            )}
+            <button
+              className={`${
+                storeTempStatus === "Request To Reject"
+                  ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+              }`}
+              onClick={data.status==='RequestToAccept'?()=>setShowInput(true):()=>{handleReqReject()}}
+              disabled={storeTempStatus === "Request To Reject"}
+            >
+              {storeTempStatus === "Request To Reject"
+                ? "Rejected"
+                : "Reject"}
+            </button>
           </div>
         </div>
 
         {/* Input and Send Button */}
-        {/* <div className="flex items-center">
+        {showInput &&
+        <div className="flex items-center">
           <input
             type="text"
             value={commentText}
@@ -260,7 +319,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             className="bg-[#f0f0f0] h-16 rounded-lg px-4 w-full focus:outline-none focus:border-blue-500"
           />
           <button
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
             disabled={commentText.trim().length === 0 || isSend}
             className="h-16 w-[100px] ml-2 rounded-md flex justify-center items-center cursor-pointer"
           >
@@ -276,7 +335,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
               <img src={sending} alt="sending" className="h-16 rounded-md" />
             )}
           </button>
-        </div> */}
+        </div>}
       </div>
     </div>
   );

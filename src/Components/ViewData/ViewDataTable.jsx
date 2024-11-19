@@ -177,7 +177,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                         {/* {header.includes('.')
                           ? header.split('.').reduce((acc, part) => acc?.[part], item) || ''
                           : item[header]} */}
-                          {header === "proofDocument" ? (
+                          {header === "Proof Of Document" ? (
                           <a
                             href={item[header]}
                             target="_blank"
@@ -186,7 +186,7 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                           >
                             Link
                           </a>
-                        ) : header=="status" ? (
+                        ) : header=="Status" ? (
                           <span className={getStatusColor(item[header])}>{item[header]}</span>
                         ) : (
                           item[header] // Render other fields normally

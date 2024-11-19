@@ -126,10 +126,15 @@ const FacultyViewData = () => {
         setRp2(rep2)
         setRp3(rep3)
       }
-      const moocs=data?.moocs?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,obtainedScore, proofDocument, ...rest})=>({...rest, proof: proofDocument}))
-      const projects=data?.projects?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const patents=data?.patents?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
-      const sca=data?.studentChapters?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>rest)
+
+      const moocs=data?.moocs?.map(({createdAt,updatedAt,collegeName,createdBy,department,__v,_id,hasContentAccess,obtainedScore,proofDocument,faculty,developedModule,platformUsed,dateOfLaunch,facility,eFacility,documentLink,status, ...rest})=>({...rest,"Name of the Faculty":faculty,"Name of the module developed":developedModule,"Name of the module developed":platformUsed,"Date of launch":dateOfLaunch,"Link to the relevant document and facility available in the institution":facility,"List of the e-content development facility available ":eFacility, "Proof Of Document": proofDocument,"Document Link":documentLink,"Status":status}))
+
+      const projects=data?.projects?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,title,principleInvestigator,coPrincipleInvestigator,grantAmount,dateOfSubmission,dateOfGranting,projectStatus,proofDocument,documentLink,...rest})=>({...rest, "Title of Project":title,"Name of Principal Investigator":principleInvestigator,"Name of Co-Principal Investigator":coPrincipleInvestigator,"Amount of Grant":grantAmount,"Date of Submission":dateOfSubmission,"Date of Granting":dateOfGranting,"Status":projectStatus,"Proof Of Document":proofDocument,"Document Link":documentLink}))
+
+      const patents=data?.patents?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,name,designation,topicName,dateOfFilling,nationalorInternational,proofDocument,documentLink,...rest})=>({...rest,"Department":department,"Name":name,"Designation":designation,"Topic name":topicName,"Date of Filling":dateOfFilling,"National/International":nationalorInternational, "Proof Of Document": proofDocument,"Document Link":documentLink}))
+
+      const sca=data?.studentChapters?.map(({createdAt,collegeName,createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest, "Proof Of Document": proofDocument}))
+
       // const confPub=data?.studentChapters?.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
       
       setMoocs(moocs)
@@ -167,12 +172,12 @@ const FacultyViewData = () => {
       <Header backPage="/" />
 
       {/* {books?.length > 0 && <ViewDataTable dummyData={modifiedDataBooks} dummy={books} name="Book Published" />} */}
+      {projects?.length > 0 && <ViewDataTable dummyData={projects} dummy={projects} name="List of Project Proposals" />}
       {books?.length > 0 && <ViewDataTable dummyData={books} dummy={books} name="Book Published" />} 
-      {rp1?.length > 0 && <ViewDataTable dummyData={rp1} dummy={rp1} name="Research Paper Grade-A" />}
-      {rp2?.length > 0 && <ViewDataTable dummyData={rp2} dummy={rp2} name="Research Paper Grade-B" />}
-      {rp3?.length > 0 && <ViewDataTable dummyData={rp3} dummy={rp3} name="Research Paper Grade-C" />}
+      {rp1?.length > 0 && <ViewDataTable dummyData={rp1} dummy={rp1} name="Research Paper Published (Grade-A)" />}
+      {rp2?.length > 0 && <ViewDataTable dummyData={rp2} dummy={rp2} name="Research Paper Published (Grade-B)" />}
+      {rp3?.length > 0 && <ViewDataTable dummyData={rp3} dummy={rp3} name="Research Paper Published (Grade-C)" />}
       {patents?.length > 0 && <ViewDataTable dummyData={patents} dummy={patents} name="Patent" />}
-      {projects?.length > 0 && <ViewDataTable dummyData={projects} dummy={projects} name="Projects" />}
       {facultyDevelopment?.length > 0 && <ViewDataTable dummyData={facultyDevelopment} dummy={facultyDevelopment} name="Faculty Development Programmes" />}
       {competition?.length > 0 && <ViewDataTable dummyData={competition} dummy={competition} name="Competition" />}
       {seminar?.length > 0 && <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" />}

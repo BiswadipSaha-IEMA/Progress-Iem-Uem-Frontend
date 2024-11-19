@@ -156,14 +156,37 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
               <div className="table-row-group">
                 {currentRows.map((item, rowIndex) => (
                   <div key={rowIndex} className="table-row">
-                    <div className="table-cell">
+                    <div className="table-cell px-4 py-2">
                       {indexOfFirstRow + rowIndex + 1}
                     </div>
                     {columnHeaders.map((header, colIndex) => (
-                      <div key={colIndex} className="table-cell">
-                        {item[header]}
+                      <div key={colIndex} className="table-cell px-4 py-2 text-center">
+                        {header ===  "proofOfDocument" ? (
+                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">
+                            Link
+                          </a>
+                        ):
+                        header === "Document Link" ? (
+                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">
+                            Document Link
+                          </a>
+                        )
+                        :(item[header])}
+                        
+                        {/* {header === "Proof Of Document" ? (
+                          <a
+                            href={item[header]}
+                            target="_blank"
+                            className="text-[#03A8FD]"
+                          >
+                            Link
+                          </a>
+                        ) : (
+                          item[header]
+                        )} */}
                       </div>
                     ))}
+
                     <div className="table-cell">
                       <button onClick={() => handleCommentClick(item)}>
                         Add Comment

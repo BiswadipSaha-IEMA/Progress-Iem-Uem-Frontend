@@ -8,6 +8,8 @@ import Skeleton from "react-loading-skeleton";
 import Lottie from "react-lottie";
 import { TiTick } from "react-icons/ti";
 import { RiAccountCircleFill } from "react-icons/ri";
+import { MdInsertComment } from "react-icons/md";
+
 
 const CommentModal = ({
   isOpen,
@@ -128,9 +130,12 @@ const CommentModal = ({
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
           {!storeTempStatus? (
             <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] rounded-3xl">
-              <p className="text-gray-500">
+            <div className="flex flex-col items-center justify-center ">
+            <MdInsertComment className="text-[#9f9f9f] text-[5rem]"/>
+              <p className="text-[#9f9f9f] font-[600]">
                 Be the first person to add a comment
               </p>
+            </div>
             </div>
           ) : (
             <div className="space-y-3">

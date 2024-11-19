@@ -42,7 +42,10 @@ function ConferencePopUp({ setUtilFor, setShowPopup }) {
       },
       accessToken
     );
-    if (response.success) setShowPopup(false);
+    if (response.success){ 
+      setShowPopup(false)
+      window.location.reload();
+    };
   };
 
   const handleClose = () => {

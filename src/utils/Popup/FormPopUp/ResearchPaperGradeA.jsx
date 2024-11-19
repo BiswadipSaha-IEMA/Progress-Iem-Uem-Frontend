@@ -55,7 +55,10 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
       },
       accessToken
     );
-    if (response.success) setShowPopup(false);
+    if (response.success){ 
+      setShowPopup(false)
+      window.location.reload();
+    };
   };
 
   const handleClose = () => {

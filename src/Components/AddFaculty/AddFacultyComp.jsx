@@ -9,6 +9,7 @@ import { Menu } from "lucide-react";
 import { useGetReq } from "../../hooks/useHttp";
 import gsap from "gsap";
 import ManagePopUp from "../../utils/Popup/FormPopUp/ManagePopUp";
+import { FaBook } from "react-icons/fa6";
 
 const AddFacultyComp = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -21,7 +22,7 @@ const AddFacultyComp = () => {
   };
 
   return (
-    <div className="flex flex-col overflow-x-hidden">
+    <div className="flex flex-col overflow-x-hidden font-poppins">
       <div className="relative">
         <Sidebar showProfile={sidebar} />
         {sidebar && (
@@ -57,7 +58,8 @@ const AddFacultyComp = () => {
           >
             <span className="hidden lg:inline">Add Department</span>
             <div className="text-2xl">
-              <RiUserAddFill size={20} />
+              {/* <RiUserAddFill size={20} /> */}
+              <FaBook size={20}/>
             </div>
           </button>
         </div>

@@ -33,6 +33,13 @@ function FacultyCardBP({ id, status, title, date, name, ISBN, driveFileUrl }) {
               text: "text-[#1C6229]",
               icon: <TiTick className="text-[#1C6229]" />,
             };
+            case "RequestToAccept":
+            return {
+              bg: "bg-[#D6FFCE]",
+              text: "text-[#1C6229]",
+              icon: <TiTick className="text-[#1C6229]"/>,
+              title: "Accenptence Request"
+            };
           case "Pending":
             return {
               bg: "bg-[#FFC8A0]",
@@ -44,6 +51,13 @@ function FacultyCardBP({ id, status, title, date, name, ISBN, driveFileUrl }) {
               bg: "bg-[#FFD6D6]",
               text: "text-[#D60000]",
               icon: <RiCloseFill className="text-[#C66666]" />,
+            };
+            case "RequestToReject":
+            return {
+              bg: "bg-[#FFD6D6]",
+              text: "text-[#D60000]",
+              icon: <RiCloseFill className="text-[#C66666]" />,
+              title: "Rejection Request"
             };
           default:
             return {

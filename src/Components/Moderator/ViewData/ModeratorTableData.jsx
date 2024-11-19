@@ -80,7 +80,7 @@ const  ModeratorTableData = () => {
 
   useEffect(()=>{
     if(data.publications){
-      const workshop=data.events.filter(pub=>pub.eventType==="Workshop").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const workshop=data.events.filter(pub=>pub.eventType==="Workshop").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,"createdBy":createdBy.name}))
       const workshopFull=data.events.filter(pub=>pub.eventType==="Workshop")
       const seminar=data.events.filter(pub=>pub.eventType==="Seminar").map(({createdBy,department,__v,_id,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const seminarFull=data.events.filter(pub=>pub.eventType==="Seminar")

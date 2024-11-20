@@ -27,6 +27,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   const [reqAccept, setReqAccept] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const [showInputFor, setShowInputFor] = useState("");
+  const [afterOperation, setAfterOperation] = useState(false);
 
   console.log(data.Status);
 
@@ -121,6 +122,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           setStoreTempMessage("Successfully Accepted");
           console.log("Request accepted successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
+          setAfterOperation(true);
         }
       } catch (error) {
         console.error("Error in handleReqAccept:", error);
@@ -151,6 +153,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           setStoreTempMessage("Successfully Rejected");
           console.log("Request rejected successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
+          setAfterOperation(true);
         }
       } catch (error) {
         console.error("Error in handleReqReject:", error);
@@ -191,6 +194,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           setIsSend(true); // Show "send" animation or similar after successful action
           setShowInput(false); // Hide input after successful submission
           setCommentText(""); // Clear the comment input
+          setAfterOperation(true);
         }
       } catch (error) {
         console.error("Error in handleSendComment:", error);
@@ -243,6 +247,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
         </div>
         {console.log(storeTempStatus)}
         {/* Comment Section */}
+        
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
           <div className="space-y-3">
             {/* Show status message (Accepted / Rejected) */}
@@ -250,18 +255,19 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
               <p>
                 {data?.comment === "Accepetance Requested" ||
                 data?.comment === "Accepted" ? (
-                  <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                  <div className={`text-[#fff] ${storeTempStatus === "Request To Accept" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject"?'bg-[#f84748]':'bg-[#2e9b32]'} flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
                     <div className="bg-[#fff] rounded-[50%] mr-2">
-                      <TiTick className="text-[15px] text-[#2e9b32]" />
+                    {storeTempStatus === "Request To Accept"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:<TiTick className="text-[15px] text-[#2e9b32]" />}
                     </div>
-                    Acceptance Requested
+                    {storeTempStatus === "Request To Accept"?'Accepted':storeTempStatus === "Request To Reject"?'Rejected':'Acceptance Requested'}
                   </div>
                 ) : (
-                  <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                  <div className={`text-[#fff]  ${storeTempStatus === "Request To Accept" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject"?'bg-[#f84748]':'bg-[#f84748]'}  flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
                     <div className="bg-[#fff] rounded-[50%] mr-2">
-                      <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
+                    {storeTempStatus === "Request To Accept"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />}
+                      
                     </div>
-                    <div className="">Rejected</div>
+                    <div className="">{storeTempStatus === "Request To Accept"?'Accepted':storeTempStatus === "Request To Reject"?'Rejected':'Rejection Requested'}</div>
                   </div>
                 )}
               </p>
@@ -280,9 +286,12 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           </div>
         </div>
         {/* Action Buttons */}
-        <div className="flex gap-5 mt-6 justify-start mb-5">
-          {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && (
+
+        {
+          !afterOperation &&
+          <div className="flex gap-5 mt-6 justify-start mb-5">
+          {/* {(data.Status === "RequestToReject" ||
+            data.Status === "RequestToAccept") && ( */}
             <button
               className={`${
                 data.Status === "RequestToAccept"
@@ -294,12 +303,12 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             >
               {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
             </button>
-          )}
-          {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && (
+          {/* )} */}
+          {/* {(data.Status === "RequestToReject" ||
+            data.Status === "RequestToAccept") && ( */}
             <button
               className={`${
-                storeTempStatus === "Request To Reject"
+                data.Status === "RequestToReject"
                   ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
                   : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
               }`}
@@ -308,8 +317,10 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             >
               {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
             </button>
-          )}
+          {/* )} */}
         </div>
+        }
+
         {/* Conditional Comment Input */}
         {showInput && (
           <div className="flex items-center mt-4">

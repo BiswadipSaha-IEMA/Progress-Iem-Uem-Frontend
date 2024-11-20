@@ -322,6 +322,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
       // console.log(response);
       if (response.success) {
         setPopupShow(false);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -331,6 +332,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   //for faculty form
   const handelFacultySubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await postReq(
@@ -342,6 +344,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
       console.log(response);
       if (response.success) {
         setPopupShow(false);
+        setLoading(false);
       }
     } catch (error) {
       console.log("NetworkError: ", error);
@@ -467,7 +470,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
   return (
     <>
       {setUtilFor === "form" ? (
-        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+        <div className="font-poppins flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
           <div className="bg-white py-10 px-4 rounded-[14px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px]">
             <div
               className="absolute right-5 top-5 bg-[#f00] rounded-full p-1 flex items-center justify-center align-middle cursor-pointer"
@@ -552,7 +555,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
         </div>
       ) : setUtilFor === "error" ? (
         <>
-          <div className=" fixed top-0 left-0 h-[100vh] w-[100vw] z-[400] flex justify-center items-center bg-[#1414145e] backdrop-blur-md alertcontainer1">
+          <div className=" fixed font-poppins top-0 left-0 h-[100vh] w-[100vw] z-[400] flex justify-center items-center bg-[#1414145e] backdrop-blur-md alertcontainer1">
             <div className="alertcontent1 bg-[#ffffff]  rounded-md flex flex-col justify-center items-center px-[12%] py-10 gap-1">
               <header className="text-[2rem] font-[700]">
                 <Lottie2 options={defaultOptions} height={100} width={100} />
@@ -572,7 +575,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
           </div>
         </>
       ) : setUtilFor === "Faculty" ? (
-        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+        <div className="flex bg-[#00000034] alertcontainer font-poppins backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
           <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
             <div className="flex justify-between p-5">
               <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
@@ -670,7 +673,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
           </div>
         </div>
       ) : setUtilFor === "moderator" ? (
-        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+        <div className="flex bg-[#00000034] alertcontainer font-poppins backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
           <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg alertcontent">
             <div className="flex justify-between p-5">
               <h2 className="flex items-center justify-center mb-4 text-4xl font-bold">
@@ -765,7 +768,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
                   onClick={handleModeratorSubmit}
                 >
-                  Add
+                 {loading ? "Adding..." : "Add"}
                 </button>
               </div>
             </div>
@@ -776,7 +779,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
           {/* <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 backdrop-blur-lg">
   <div className="bg-white p-8 sm:p-12 rounded-2xl flex flex-col justify-center items-center gap-6 shadow-xl w-[90%] max-w-[900px]">
      */}
-          <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
+          <div className="flex bg-[#00000034] font-poppins alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
             <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
               {/* Close Button */}
               <div

@@ -6,6 +6,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
 import { FaCommentDots, FaRegComments } from "react-icons/fa";
 import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
+import { SlActionRedo } from "react-icons/sl";
 
 const ViewDataTable = ({ name, dummyData, dummy }) => {
   const [data, setData] = useState("");
@@ -59,17 +60,22 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
     console.log(data);
   }, [data]);
 
-  // Function to determine the color based on status
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "pending":
-        return "bg-[#F3C623]  px-2 py-1 rounded-xl";
-      case "accepted":
-        return "text-green-500";
+        return " px-2 py-1 rounded-xl text-[#F3C623] "; // Yellow
+      case "requesttoaccept":
+      case "approved":
+        return "px-2 py-1 rounded-xl text-green-500"; // Green
+      case "requesttoreject":
+      case "rejected":
+        return "px-2 py-1 rounded-xl text-red-500"; // Red
       default:
-        return "text-red-500";
+        return "text-gray-500";
     }
   };
+  
+  
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -127,10 +133,10 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
 
         {/* Responsive Table */}
         <div className="overflow-auto mt-5 rounded-lg">
-          <div className="min-w-full bg-white rounded-lg shadow">
+          <div className="min-w-full bg-white rounded-lg "> {/*shadow*/}
             <div className="table w-full">
               {/* Table Header */}
-              <div className="table-header-group text-center">
+              <div className="table-header-group text-center items-center justify-center">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                     SL. No
@@ -147,13 +153,13 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                       </div>
                     ))}
                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold text-center">
-                    Comments
+                    Review Comments
                   </div>
                 </div>
               </div>
 
               {/* Table Body */}
-              <div className="table-row-group">
+              <div className="table-row-group text-center">
                 {currentRows.map((item, rowIndex) => (
                   <div key={rowIndex} className="table-row">
                     <div className="table-cell px-4 py-2">
@@ -161,36 +167,43 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
                     </div>
                     {columnHeaders.map((header, colIndex) => (
                       <div key={colIndex} className="table-cell px-4 py-2 text-center">
-                        {header ===  "proofOfDocument" ? (
+                        {header.toLowerCase() === "status" ? (
+                          <span className={getStatusColor(item[header])}>
+                            {item[header].toLowerCase() === "requesttoaccept"
+                              ? "Acceptance Request"
+                              : item[header].toLowerCase() === "requesttoreject"
+                              ? "Rejection Request"
+                              : item[header]}
+                          </span>
+                        ) : header === "Proof Of Document" || header === "Document Link" ? (
                           <a href={item[header]} target="_blank" className="text-[#03A8FD]">
-                            Link
-                          </a>
-                        ):
-                        header === "Document Link" ? (
-                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">
-                            Document Link
-                          </a>
-                        )
-                        :(item[header])}
-                        
-                        {/* {header === "Proof Of Document" ? (
-                          <a
-                            href={item[header]}
-                            target="_blank"
-                            className="text-[#03A8FD]"
-                          >
                             Link
                           </a>
                         ) : (
                           item[header]
-                        )} */}
+                        )}
                       </div>
                     ))}
 
-                    <div className="table-cell">
-                      <button onClick={() => handleCommentClick(item)}>
-                        Add Comment
-                      </button>
+
+
+                    <div className="table-cell px-4 py-2">
+                      <span
+                        className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-center text-sm sm:text-wrap"
+                        onClick={() => {
+                          handleCommentClick(item)
+                          setId(item._id)
+                          fullData?.map((dt)=>{
+                              // console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=',dt)
+                              if(item.isbn===dt.isbn)
+                                setItemData(dt)
+                          })
+                        }}
+                      >
+                        {/* <FaRegComments size={16} /> */}
+                        <SlActionRedo size={16}/>
+                        Action
+                      </span>
                     </div>
                   </div>
                 ))}

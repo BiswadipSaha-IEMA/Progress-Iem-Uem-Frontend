@@ -45,7 +45,10 @@ function TalksPopUp({ setUtilFor, setShowPopup }) {
     );
     console.log("Lecture Submission")
     console.log(response)
-    if (response.success) setShowPopup(false);
+    if (response.success){ 
+      setShowPopup(false)
+      window.location.reload();
+    };
   };
 
   const handleClose = () => {

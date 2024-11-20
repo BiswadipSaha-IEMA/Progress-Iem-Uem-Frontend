@@ -74,6 +74,7 @@ export default function FacultyBookPublished() {
   };
 
   const columnHeaders = [
+    "Author Type",
     "Title",
     "Faculty",
     "Published Date",
@@ -160,6 +161,9 @@ export default function FacultyBookPublished() {
                     >
                       <td className="px-4 py-2 sticky left-0 bg-white">
                         {indexOfFirstRow + rowIndex + 1}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.authorType}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.title}

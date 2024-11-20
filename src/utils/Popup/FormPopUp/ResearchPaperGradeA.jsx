@@ -5,6 +5,7 @@ import { usePostReq } from "../../../hooks/useHttp";
 
 function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
+  const [authorType, setAuthorType] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,6 +26,11 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
+  const handleChangeAuthor = (e) => {
+    setAuthorType(e.target.value);
+  };
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -42,7 +48,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
         title: formData.title,
         // isbn: formData.isbn,
         category: formData.category,
-        publisher: formData.publisher,
+        // publisher: formData.publisher,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -109,6 +115,25 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+
+              {/* Author Type */}
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Author Type
+              </label>
+              <select
+                name="category"
+                value={authorType}
+                onChange={handleChangeAuthor}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              >
+                <option value="">Select</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+              </select>
+            </div>
+
+
                 {/* Name */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
@@ -176,7 +201,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Publisher */}
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     Publisher
                   </label>
@@ -187,7 +212,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 {/* Date */}
                 <div>
@@ -204,7 +229,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Journal Name */}
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     Journal Name
                   </label>
@@ -215,7 +240,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 {/* Volume, Issue, and Pages */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

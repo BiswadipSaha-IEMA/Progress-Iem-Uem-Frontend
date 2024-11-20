@@ -5,13 +5,14 @@ import { usePostReq } from "../../../hooks/useHttp";
 
 function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
+  const [authorType, setAuthorType] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
     title: "",
     isbn: "",
     category: "",
-    publisher: "",
+    // publisher: "",
     date: "",
     journalName: "",
     vol: "",
@@ -25,6 +26,10 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
+  const handleChangeAuthor = (e) => {
+    console.log(e.target.value)
+    setAuthorType(e.target.value);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -38,11 +43,12 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createPublication",
       {
+        authorType: authorType,
         name: formData.name,
         title: formData.title,
         // isbn: formData.isbn,
         category: formData.category,
-        publisher: formData.publisher,
+        // publisher: formData.publisher,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -66,7 +72,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
       title: "",
       isbn: "",
       category: "",
-      publisher: "",
+      // publisher: "",
       date: "",
       journalName: "",
       vol: "",
@@ -109,6 +115,22 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Author Type */}
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Author Type
+              </label>
+              <select
+                name="category"
+                value={authorType}
+                onChange={handleChangeAuthor}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              >
+                <option value="">Select</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+              </select>
+            </div>
                 {/* Name */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
@@ -171,7 +193,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Publisher */}
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     Publisher
                   </label>
@@ -182,7 +204,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 {/* Date */}
                 <div>
@@ -199,7 +221,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Journal Name */}
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     Journal Name
                   </label>
@@ -210,7 +232,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 {/* Volume, Issue, and Pages */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

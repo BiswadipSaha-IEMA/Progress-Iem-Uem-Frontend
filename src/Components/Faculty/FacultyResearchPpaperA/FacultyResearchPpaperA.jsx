@@ -69,6 +69,7 @@ export default function Component() {
   };
 
   const columnHeaders = [
+    "Author Type",
     "Title",
     "Faculty",
     "Publisher Name",
@@ -148,6 +149,7 @@ export default function Component() {
                       }}
                     >
                       <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.authorType}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>

@@ -5,10 +5,11 @@ import ManagePopUp from "../utils/Popup/FormPopUp/ManagePopUp";
 //  const mainURL = "http://192.168.1.176:5000";
 // const mainURL = "http://localhost:5000";
 
-//  const mainURL = "http://192.168.90.24:5000";
+ const mainURL = "http://192.168.90.24:5000";
 // const mainURL = "http://localhost:8080";
 // const mainURL = "http://192.168.1.176:5000";
-const mainURL = "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
+// const mainURL =
+//   "http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com";
 
 const ErrorHandleContext = createContext();
 
@@ -89,7 +90,7 @@ export const useGetReq = () => {
       const data = await response.json();
       console.log("GET", data);
       if (!response.ok) {
-        console.log(response.message)
+        console.log(response.message);
         if (response.status === 403 || response.status === 401) {
           if (paramData.pathname.split("/")[1] === "moderator") {
             sessionStorage.clear();
@@ -105,14 +106,27 @@ export const useGetReq = () => {
             throw new Error("Unauthorized Access");
           }
         }
-        if(data.message !=='No Events Found' || data.message !=='No Users Found'){
-          showErrorPopUp(data.message);
+
+        if (
+          data.message !== "No events found" ||
+          data.message !== "No Users Found"
+        ) {
+          showErrorPopUp('No records found');
         }
-        throw new Error((data.message!=='No Events Found' || data.message!=='No Users Found') && data.message || "Error Occurred");
+        throw new Error(
+          ((data.message !== "No events found" ||
+            data.message !== "No Users Found") &&
+            'data.message') ||
+            "Error Occurred"
+        );
       }
       return data;
     } catch (error) {
-      showErrorPopUp(error.message);
+      if (
+        data.message !== "No events found" ||
+        data.message !== "No Users Found"
+      )
+        showErrorPopUp("No records found");
       throw error;
     } finally {
       setLoading(false);

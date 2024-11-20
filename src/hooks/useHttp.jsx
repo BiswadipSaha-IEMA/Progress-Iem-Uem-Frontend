@@ -89,6 +89,7 @@ export const useGetReq = () => {
       const data = await response.json();
       console.log("GET", data);
       if (!response.ok) {
+        console.log(response.message)
         if (response.status === 403 || response.status === 401) {
           if (paramData.pathname.split("/")[1] === "moderator") {
             sessionStorage.clear();
@@ -104,8 +105,10 @@ export const useGetReq = () => {
             throw new Error("Unauthorized Access");
           }
         }
-        showErrorPopUp(data.message);
-        throw new Error(data.message || "Error Occurred");
+        if(data.message !=='No Events Found' || data.message !=='No Users Found'){
+          showErrorPopUp(data.message);
+        }
+        throw new Error((data.message!=='No Events Found' || data.message!=='No Users Found') && data.message || "Error Occurred");
       }
       return data;
     } catch (error) {

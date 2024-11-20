@@ -27,7 +27,7 @@ export default function SuperAdminDashboardComp() {
   const navigate = useNavigate();
   const [showDate,setShowDate]= useState(false);
   const [timeLine, setTimeline] = useState([]);
-
+  const [departments, setDepartments] = useState([])
   const [facultyData, setFacultyData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -36,8 +36,8 @@ export default function SuperAdminDashboardComp() {
   const access = sessionStorage.getItem("user");
   const location = useLocation();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
-  // const [department, setDepartment] = useState([])
 
+  // const [department, setDepartment] = useState([])
   // useEffect(() => {
   //   const availableDepartments = sessionStorage.getItem("Available");
   //   if (availableDepartments) {
@@ -45,10 +45,18 @@ export default function SuperAdminDashboardComp() {
   //   }
   // }, []);
 
-  const department = ["CSE","CSE (AI & ML) ", "CSE (IOT)" ,"ECE", "MCA", "BCA", "CSIT", "BE"];
+  // const department = ["CSE","CSE (AI & ML) ", "CSE (IOT)" ,"ECE", "MCA", "BCA", "CSIT", "BE"];
   useEffect(() => {
     const allInfo = async () => {
       try {
+        // Fetch Departments
+        const departmentResponse = await getReq("api/v1/user/getAllDepartments", accessToken)
+        if(departmentResponse.success){
+          // setLoading(false)
+          setDepartments(departmentResponse.data)
+        }
+        
+
         // Fetch publication counts
         const response = await getReq(
           "api/v1/document/getAllPublications",
@@ -91,6 +99,10 @@ export default function SuperAdminDashboardComp() {
 
     allInfo();
   }, [accessToken]);
+
+  // useEffect(()=>{
+  //   console.log("DEPARTMENTS--------------------",departments)
+  // },[departments])
 
   const handleSubmit = async (formData) => {
     try {
@@ -297,14 +309,15 @@ export default function SuperAdminDashboardComp() {
             {/* All departments */}
             <div className="w-full p-6"> 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {department.map((dept) => (
+              {departments.map((dept) => (
                 <div
                   key={dept} // Use the department name as the key
                   onClick={() =>
 
                     {
                       sessionStorage.setItem('dept', dept)
-                      navigate('/viewdata')}
+                      console.log("vdvdvdfvdvdvd-------------",dept)
+                      navigate(`/${dept.toLowerCase()}/viewdata`)}
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }
                   className="h-[150px] relative group cursor-pointer rounded-lg bg-gradient-to-br from-[white] to-[#C1EAFFB2] p-4 shadow-sm hover:shadow-md transition-all duration-200 font-poppins font-semibold"

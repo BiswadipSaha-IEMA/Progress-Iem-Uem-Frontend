@@ -69,7 +69,7 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex left-5 bottom-4 mb-2 mt-6 relative">
+      <div className="flex left-5 bottom-4 mb-2 mt-6 relative font-poppins">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
@@ -113,7 +113,8 @@ const ProfileContent = ({
           onClick={() => {
             logout()
             sessionStorage.clear()
-            navigate('/moderator/login')
+            navigate('/faculty/login')
+            window.location.reload()
           }}
         />
       </div>
@@ -123,9 +124,9 @@ const ProfileContent = ({
 
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
-    className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start ${
+    className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start font-poppins ${
       isActive
-        ? "text-white bg-blue-500" : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
+        ? "text-white bg-[#03a8fd]" : "text-black hover:text-white hover:bg-[#03a8fd] active:bg-[#03a8fd] duration-300"
     }`}
     aria-label={ariaLabel}
     onClick={onClick}

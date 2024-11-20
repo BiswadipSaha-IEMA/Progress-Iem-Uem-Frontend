@@ -103,7 +103,7 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
   };
 
   return (
-    <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[0px] left-0 z-40 alertcontainer">
+    <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[0px] left-0 z-40 alertcontainer font-poppins text-">
       <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
         <div
           className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
@@ -255,7 +255,7 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full sm:w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
+                className="w-full sm:w-[200px] bg-[#03a8fd] text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-[#03a8fd] transition-all duration-200"
               >
                 Submit
               </button>

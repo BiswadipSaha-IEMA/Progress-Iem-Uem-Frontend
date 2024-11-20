@@ -3,10 +3,12 @@ import { dummyData, dummyData as originalDummyData } from '../../../constants/st
 import Header from '../../Header/Header';
 import { useGetReq } from '../../../hooks/useHttp';
 import ModeratorViewTable from './ModeratorViewTable';
+import Lottie from "react-lottie";
+import noDataFound from "../../../Lottie/noDataFound.json";
 
 
 
-const  ModeratorTableData = () => {
+const ModeratorTableData = () => {
   const [data, setData] = useState([]);
   const [books,setBooks]=useState([])
   const [booksFull,setBooksFull]=useState([])
@@ -51,7 +53,9 @@ const  ModeratorTableData = () => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const id=sessionStorage.getItem("userId")
-  console.log(typeof(department))
+  // console.log(typeof(department))
+
+
   useEffect(() => {
     const getFaculty = async () => {
       try {
@@ -74,10 +78,42 @@ const  ModeratorTableData = () => {
     }
   }, [accessToken]);
   
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const isAllDataEmpty =
+  !(
+    projects?.length > 0 ||
+    books?.length > 0 ||
+    rp1?.length > 0 ||
+    rp2?.length > 0 ||
+    rp3?.length > 0 ||
+    patents?.length > 0 ||
+    facultyDevelopment?.length > 0 ||
+    competition?.length > 0 ||
+    seminar?.length > 0 ||
+    conf?.length > 0 ||
+    lecture?.length > 0 ||
+    workshop?.length > 0 ||
+    industrialTour?.length > 0 ||
+    hackathon?.length > 0 ||
+    consultancy?.length > 0 ||
+    studentChapters?.length > 0 ||
+    confPub?.length > 0 ||
+    trimentor?.length > 0 ||
+    moocs?.length > 0
+  );
+//fot lottie
+const options= {
+  loop: false,
+  autoplay: false,
+  animationData: noDataFound,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  }
+}
 
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+ 
   useEffect(()=>{
     if(data.publications){
 
@@ -172,6 +208,22 @@ const  ModeratorTableData = () => {
     <>
       <Header backPage="/moderator/dashboard" />
 
+      {isAllDataEmpty ? (
+        <div className="flex flex-col justify-center items-center py-8 m-10 bg-white  rounded-lg font-poppins">
+        <Lottie options={options} height={400} width={400} />
+        <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center" >
+          No records available
+        </p>
+      </div>
+      
+
+      // {isAllDataEmpty ? (
+      //   <div className="flex justify-center items-center h-screen">
+      //   <Lottie options={{ animationData: noDataFound }} height={400} width={400} loop={true}/>
+      //   <p className="text-gray-500 mt-4">No data to display</p>
+      //   </div>
+      ) : (
+        <>
       {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} />}
       {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Grade-A'} />}
       {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Grade-B'} />}
@@ -190,6 +242,8 @@ const  ModeratorTableData = () => {
       {studentChapters.length>0 && <ModeratorViewTable dummyData={studentChapters} dummy={studentChapters} fullData={studentChaptersFull} name={'Student Chapter Activity'} />}
       {moocs.length>0 && <ModeratorViewTable dummyData={moocs} dummy={moocs} fullData={moocsFull} name={'Moocs'} />}
       {trimentor.length>0 && <ModeratorViewTable dummyData={trimentor} dummy={trimentor} fullData={trimentoFull} name={'Tri-Mentoring System'} />}
+        </>
+      )}
     </>
   );
 };

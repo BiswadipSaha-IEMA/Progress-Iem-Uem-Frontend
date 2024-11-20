@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ViewDataTable from "../../../Components/ViewData/ViewDataTable";
-import {
-  dummyData,
-  dummyData as originalDummyData,
-} from "../../../constants/studentData";
+// import {
+//   dummyData,
+//   dummyData as originalDummyData,
+// } from "../../../constants/studentData";
 import Header from "../../../Components/Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
 import Lottie from "react-lottie";
 import noDataFound from "../../../Lottie/noDataFound.json";
 
 const FacultyViewData = () => {
-
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
   const [rp1, setRp1] = useState([]);
@@ -31,6 +30,7 @@ const FacultyViewData = () => {
   const [trimentor, setTrimentor] = useState([]);
   const [lecture, setLecture] = useState([]);
   const [industrialTour, setIndustrialTour] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
   const [getReq] = useGetReq();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
@@ -39,6 +39,8 @@ const FacultyViewData = () => {
   // let check;
   const [check, setCheck] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
+
     const fetchData = async () => {
       try {
         const response = await getReq(
@@ -47,6 +49,7 @@ const FacultyViewData = () => {
         );
         if (response.success) {
           // check = response.success;
+          setIsLoading(false);
           setCheck(response.success);
           console.log(response.data);
           setData(response.data);
@@ -54,6 +57,7 @@ const FacultyViewData = () => {
           console.error("Error:", response.statusText);
         }
       } catch (error) {
+        setIsLoading(false);
         console.error("Error:", error);
       }
     };
@@ -62,38 +66,37 @@ const FacultyViewData = () => {
       fetchData();
     }
   }, [accessToken]);
-  
-  const isAllDataEmpty =
-    !(
-      projects?.length > 0 ||
-      books?.length > 0 ||
-      rp1?.length > 0 ||
-      rp2?.length > 0 ||
-      rp3?.length > 0 ||
-      patents?.length > 0 ||
-      facultyDevelopment?.length > 0 ||
-      competition?.length > 0 ||
-      seminar?.length > 0 ||
-      conf?.length > 0 ||
-      lecture?.length > 0 ||
-      workshop?.length > 0 ||
-      industrialTour?.length > 0 ||
-      hackathon?.length > 0 ||
-      consultancy?.length > 0 ||
-      studentChapters?.length > 0 ||
-      confPub?.length > 0 ||
-      trimentor?.length > 0 ||
-      moocs?.length > 0
-    );
+
+  const isAllDataEmpty = !(
+    projects?.length > 0 ||
+    books?.length > 0 ||
+    rp1?.length > 0 ||
+    rp2?.length > 0 ||
+    rp3?.length > 0 ||
+    patents?.length > 0 ||
+    facultyDevelopment?.length > 0 ||
+    competition?.length > 0 ||
+    seminar?.length > 0 ||
+    conf?.length > 0 ||
+    lecture?.length > 0 ||
+    workshop?.length > 0 ||
+    industrialTour?.length > 0 ||
+    hackathon?.length > 0 ||
+    consultancy?.length > 0 ||
+    studentChapters?.length > 0 ||
+    confPub?.length > 0 ||
+    trimentor?.length > 0 ||
+    moocs?.length > 0
+  );
   //fot lottie
-  const options= {
+  const options = {
     loop: false,
     autoplay: false,
     animationData: noDataFound,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
-    }
-  }
+    },
+  };
 
   // useEffect(()=>{
   //   console.log("ffyfyyyyy-------------------------",check)
@@ -128,7 +131,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const seminar = events
         .filter((event) => event.eventType === "Seminar")
@@ -147,7 +155,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const confEvent = events
         .filter((event) => event.eventType === "Conference")
@@ -166,7 +179,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const fdp = events
         .filter((event) => event.eventType === "FDP")
@@ -185,7 +203,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const competition = events
         .filter((event) => event.eventType === "Competiton")
@@ -204,7 +227,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const hackathon = events
         .filter((event) => event.eventType === "Hackathon")
@@ -223,7 +251,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const trimentor = events
         .filter((event) => event.eventType === "Tri-mentoring")
@@ -242,7 +275,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const lecture = events
         .filter((event) => event.eventType === "Lecture")
@@ -261,7 +299,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const itour = events
         .filter((event) => event.eventType === "IndustrialTour")
@@ -280,7 +323,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       setWorkshop(workshop);
       setSeminar(seminar);
@@ -305,10 +353,16 @@ const FacultyViewData = () => {
             proofDocument,
             documentLink,
             __v,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status
+          })
         );
       const filteredBooks = publications
         .filter((pub) => pub.publicationType === "Book")
@@ -327,7 +381,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink,"Status":status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const rep1 = publications
         .filter(
@@ -351,7 +410,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink, "Status":status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const rep2 = publications
         .filter(
@@ -374,7 +438,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink, "Status":status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       const rep3 = publications
         .filter(
@@ -397,7 +466,12 @@ const FacultyViewData = () => {
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink,"Status":status})
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
         );
       console.log(rep1);
       setConfPub(conf);
@@ -438,7 +512,7 @@ const FacultyViewData = () => {
           facility,
         "List of the e-content development facility available ": eFacility,
         "Proof Of Document": proofDocument,
-        "Document Link": documentLink,
+        // "Document Link": documentLink,
         "Status": status,
       })
     );
@@ -459,6 +533,7 @@ const FacultyViewData = () => {
         dateOfSubmission,
         dateOfGranting,
         projectStatus,
+        status,
         proofDocument,
         documentLink,
         ...rest
@@ -470,9 +545,10 @@ const FacultyViewData = () => {
         "Amount of Grant": grantAmount,
         "Date of Submission": dateOfSubmission,
         "Date of Granting": dateOfGranting,
-        "Status": projectStatus,
+        "ProjectStatus": projectStatus,
+        "Status":status,
         "Proof Of Document": proofDocument,
-        "Document Link": documentLink,
+        // "Document Link": documentLink,
       })
     );
 
@@ -497,15 +573,15 @@ const FacultyViewData = () => {
         ...rest
       }) => ({
         ...rest,
-        "Department": department,
-        "Name": name,
-        "Designation": designation,
+        Department: department,
+        Name: name,
+        Designation: designation,
         "Topic name": topicName,
         "Date of Filling": dateOfFilling,
         "National/International": nationalorInternational,
         "Proof Of Document": proofDocument,
-        "Document Link": documentLink,
-        "Status" :status
+        // "Document Link": documentLink,
+        "Status": status,
       })
     );
 
@@ -518,9 +594,11 @@ const FacultyViewData = () => {
         __v,
         // _id,
         hasContentAccess,
+        status,
         proofDocument,
+        documentLink,
         ...rest
-      }) => ({ ...rest, "Proof Of Document": proofDocument })
+      }) => ({ ...rest, "Proof Of Document": proofDocument,"Status": status })
     );
 
     // const confPub=data?.studentChapters?.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
@@ -533,27 +611,22 @@ const FacultyViewData = () => {
     // }
   }, [data, check]);
 
-
-
   return (
     <>
       <Header backPage="/" />
-      {isAllDataEmpty ? (
+      {!isLoading&&isAllDataEmpty ? (
         <div className="flex flex-col justify-center items-center py-8 m-10 bg-white  rounded-lg font-poppins">
-        <Lottie options={options} height={400} width={400} />
-        <p className="text-[#000#1A1A1D] mt-2 text-4xl font-semibold text-center" >
-          No records available
-        </p>
-      </div>
-      
-      
-      
-      // {isAllDataEmpty ? (
-      //   <div className="flex justify-center items-center h-screen">
-      //   <Lottie options={{ animationData: noDataFound }} height={400} width={400} loop={true}/>
-      //   <p className="text-gray-500 mt-4">No data to display</p>
-      //   </div>
+          <Lottie options={options} height={400} width={400} />
+          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">
+            No records available
+          </p>
+        </div>
       ) : (
+        // {isAllDataEmpty ? (
+        //   <div className="flex justify-center items-center h-screen">
+        //   <Lottie options={{ animationData: noDataFound }} height={400} width={400} loop={true}/>
+        //   <p className="text-gray-500 mt-4">No data to display</p>
+        //   </div>
         <>
           {projects?.length > 0 && (
             <ViewDataTable

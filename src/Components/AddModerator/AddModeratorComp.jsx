@@ -22,7 +22,7 @@ const AddModeratorComp = () => {
 
 
   return (
-    <div className="flex flex-col overflow-x-hidden">
+    <div className="flex flex-col overflow-x-hidden font-poppins">
       <div className="relative">
         <Sidebar showProfile={sidebar} />
         {sidebar && (

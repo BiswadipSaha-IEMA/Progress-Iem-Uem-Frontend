@@ -24,9 +24,10 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
   return (
     <>
       <div
-        className={`left-2 fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${
+        className={`left-2 fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform 
+          lg:hidden flex flex-col ${
           showProfile ? "translate-x-0" : "-translate-x-full"
-        } overflow-y-auto`}
+        } `}
       >
         <ProfileContent
           // isEdit={isEdit}
@@ -41,9 +42,9 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
       <div
         className={`fixed inset-y-0 left-0 ${
           showProfile ? "left-4" : "left-0"
-        } w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
+        } w-80 lg:h-[93vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
           showProfile ? "translate-x-0 h-full" : "-translate-x-full"
-        } overflow-y-auto`}
+        } `}
       >
         <ProfileContent
           // isEdit={isEdit}
@@ -74,7 +75,7 @@ const ProfileContent = ({
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover mt-10"
         />
-        <span className="p-2   flex absolute left-32 text-xm font-bold top-16 text-black rounded-md">
+        <span className="p-2 flex absolute left-32 text-xm font-bold top-16 text-black rounded-md">
           FACULTY
         </span>
       </div>
@@ -100,7 +101,7 @@ const ProfileContent = ({
         /> */}
         {/* <SidebarButton
           // isActive={isChangePasswords}
-          ariaLabel="Change Password"
+          ariaLabel="Change Password"I
           icon={<KeyRound />}
           label="Change Password"
           onClick={() => navigate("/changepassword")}

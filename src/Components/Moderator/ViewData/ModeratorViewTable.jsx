@@ -113,26 +113,28 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
         </div>
 
         {/* Responsive Table */}
-        <div className="overflow-auto mt-5 rounded-lg">
+        <div className="overflow-auto mt-5 rounded-lg text-center">
           <div className="min-w-full bg-white rounded-lg table-scrollbar" >
             <div className="table w-full" style={{boxShadow:'0px 10px 10px rgba(0,0,0,0.1)'}}>
               {/* Table Header */}
-              <div className="table-header-group">
+              <div className="table-header-group text-center">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
-                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">SL. No</div>
+                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">SL. No</div>
                   {columnHeaders.map((header, index) => (
-                    <div key={index} className="table-cell px-4 py-2 text-[#575757] font-semibold">
+                    <div key={index} className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                       {header.charAt(0).toUpperCase() + header.slice(1)}
                     </div>
                   ))}
-                  <div className="table-cell px-4 py-2 text-[#575757] font-semibold">Any COMMENT</div>
+                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">Add Comment</div>
                 </div>
               </div>
 
               {/* Table Body */}
+
               <div className="table-row-group">
                 {currentRows?.filter((item) => item !== "_id")
                 .map((item, rowIndex) => (
+
                   <div
                     key={rowIndex}
                     className="table-row border-b"
@@ -144,19 +146,19 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
                       }
                     }}
                   >
-                    <div className="table-cell px-4 py-2 text-[#000]">{indexOfFirstRow + rowIndex + 1}</div>
+                    <div className="table-cell px-4 py-2">{indexOfFirstRow + rowIndex + 1}</div>
                     {columnHeaders.map((header, colIndex) => (
-                      <div key={colIndex} className="table-cell px-4 py-2 text-[#000]">
+                      <div key={colIndex} className="table-cell px-4 py-2">
                         {header === "proofDocument" ? (
-                          <a href={item[header]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                            Document
+                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">
+                            Link
                           </a>
                         ) : (
                           item[header] // Render other fields normally
                         )}
                       </div>
                     ))}
-                    <div className="table-cell px-4 py-2 text-[#000]">
+                    <div className="table-cell px-4 py-2">
                       <span
                         className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-items-center text-sm sm:text-wrap"
                         onClick={() => {

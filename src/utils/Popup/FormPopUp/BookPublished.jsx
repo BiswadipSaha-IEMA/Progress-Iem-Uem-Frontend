@@ -63,7 +63,10 @@ function BookPublished({ setUtilFor, setShowPopup }) {
       },
       accessToken
     );
-    if (response.success) setShowPopup(false);
+    if (response.success){ 
+      setShowPopup(false)
+      window.location.reload();
+    };
   };
 
   const handleClose = () => {
@@ -146,7 +149,7 @@ function BookPublished({ setUtilFor, setShowPopup }) {
                   ISBN
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="isbn"
                   value={formData.isbn}
                   onChange={handleInputChange}

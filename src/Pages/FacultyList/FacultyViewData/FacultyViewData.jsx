@@ -105,10 +105,16 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            reviewedBy,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({...rest,})
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const seminar = events
         .filter((event) => event.eventType === "Seminar")
@@ -119,10 +125,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const confEvent = events
         .filter((event) => event.eventType === "Conference")
@@ -133,10 +144,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const fdp = events
         .filter((event) => event.eventType === "FDP")
@@ -147,10 +163,15 @@ const FacultyViewData = () => {
             collegeName,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const competition = events
         .filter((event) => event.eventType === "Competiton")
@@ -161,10 +182,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const hackathon = events
         .filter((event) => event.eventType === "Hackathon")
@@ -175,10 +201,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const trimentor = events
         .filter((event) => event.eventType === "Tri-mentoring")
@@ -189,10 +220,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const lecture = events
         .filter((event) => event.eventType === "Lecture")
@@ -203,10 +239,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       const itour = events
         .filter((event) => event.eventType === "IndustrialTour")
@@ -217,10 +258,15 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            createdAt,
+            updatedAt,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest,"Proof Of Document":proofDocument,"Document Link":documentLink,"Status": status})
         );
       setWorkshop(workshop);
       setSeminar(seminar);
@@ -242,11 +288,13 @@ const FacultyViewData = () => {
             createdBy,
             obtainedScore,
             department,
+            proofDocument,
+            documentLink,
             __v,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink})
         );
       const filteredBooks = publications
         .filter((pub) => pub.publicationType === "Book")
@@ -259,10 +307,13 @@ const FacultyViewData = () => {
             department,
             reviewedBy,
             __v,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink,"Status":status})
         );
       const rep1 = publications
         .filter(
@@ -279,10 +330,14 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            proofDocument,
+            documentLink,
+            reviewedBy,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => ({ ...rest })
+          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink, "Status":status})
         );
       const rep2 = publications
         .filter(
@@ -298,11 +353,14 @@ const FacultyViewData = () => {
             publicationType,
             obtainedScore,
             department,
+            proofDocument,
+            documentLink,
             __v,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink, "Status":status})
         );
       const rep3 = publications
         .filter(
@@ -319,10 +377,13 @@ const FacultyViewData = () => {
             obtainedScore,
             department,
             __v,
+            proofDocument,
+            documentLink,
+            status,
             // _id,
             hasContentAccess,
             ...rest
-          }) => rest
+          }) => ({...rest, "Proof Of Document":proofDocument, "Document Link" :documentLink,"Status":status})
         );
       console.log(rep1);
       setConfPub(conf);
@@ -411,10 +472,12 @@ const FacultyViewData = () => {
         // _id,
         hasContentAccess,
         name,
+        obtainedScore,
         designation,
         topicName,
         dateOfFilling,
         nationalorInternational,
+        status,
         proofDocument,
         documentLink,
         ...rest
@@ -428,6 +491,7 @@ const FacultyViewData = () => {
         "National/International": nationalorInternational,
         "Proof Of Document": proofDocument,
         "Document Link": documentLink,
+        "Status" :status
       })
     );
 
@@ -440,6 +504,7 @@ const FacultyViewData = () => {
         __v,
         // _id,
         hasContentAccess,
+        proofDocument,
         ...rest
       }) => ({ ...rest, "Proof Of Document": proofDocument })
     );

@@ -494,17 +494,18 @@ export default function Faculty() {
                     }
                   }}
                 >
-                  Add A Response
+                  Add Response
                 </button>
               </div>
               {item.details.map((book, index) => {
-                const { bg, text, icon } = getStatusStyles(book.status);
+                const { bg, text, icon, title } = getStatusStyles(book.status);
                 return (
                   <div
                     key={index}
                     className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base"
                   >
-                    <h1>{book.title}</h1>
+                    {title? (<h1>{title}</h1>):
+                    (<h1>{book.title}</h1>)}
                     <div
                       className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
                     >

@@ -7,6 +7,7 @@ import {
   LogOut,
   UserRound,
 } from "lucide-react";
+import { FaStream } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetReq } from "../../hooks/useHttp";
 import { logout } from "../../Store/Action";
@@ -69,7 +70,7 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="relative flex mt-6 mb-2 left-5 bottom-4">
+      <div className="relative flex mt-6 mb-2 left-5 bottom-4 font-poppins">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
@@ -83,7 +84,7 @@ const ProfileContent = ({
         </span>
       </div>
       <div className="border-b"></div>
-      <div className="flex-grow">
+      <div className="flex-grow font-poppins text-[0.9rem]">
         <SidebarButton
           isActive={isSuper}
           ariaLabel="Super Admin Dashboard"
@@ -101,7 +102,7 @@ const ProfileContent = ({
         <SidebarButton
           isActive={isAddFac}
           ariaLabel="Add Department"
-          icon={<UserRound />}
+          icon={<FaStream size={19}/>}
           label="Add Department"
           onClick={() => navigate("/AddDepartment")}
         />
@@ -140,7 +141,7 @@ const ProfileContent = ({
 const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
     className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start ${
-      isActive ? "text-white bg-blue-500" : "text-black hover:text-white hover:bg-blue-500 active:bg-blue-50 duration-300"
+      isActive ? "text-white bg-[#03A8FD]" : "text-black hover:text-white hover:bg-[#03A8FD] active:bg-blue-50 duration-300"
     }`}
     aria-label={ariaLabel}
     onClick={onClick}

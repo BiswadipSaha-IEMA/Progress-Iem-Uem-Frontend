@@ -124,12 +124,11 @@ const ProfileContent = ({
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
-          onClick={
-
-            ()=>{
+          onClick={()=>{
               logout();
-              navigate("/login");
               sessionStorage.clear()
+              navigate("/");
+              window.location.reload()
             }
           }
         />

@@ -192,9 +192,9 @@ export default function ModeratorDashboard() {
                       // sessionStorage.setItem("dept", dept);
                       // sessionStorage.setItem("role", moderator);
                       // navigate(`/md/${dept.toLowerCase()}/facultylist`);
-                      sessionStorage.setItem("dept", dept.trim());
+                      sessionStorage.setItem("dept", dept);
                       sessionStorage.setItem("role", "moderator"); // Ensure the role is valid
-                      navigate(`/md/${dept.toLowerCase()}/facultylist`);
+                      navigate(`/md/${dept.toLowerCase()}/viewdata`);
                     }
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
                   }

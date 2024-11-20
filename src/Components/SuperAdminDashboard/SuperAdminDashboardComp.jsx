@@ -35,30 +35,16 @@ export default function SuperAdminDashboardComp() {
 
   const access = sessionStorage.getItem("user");
   const location = useLocation();
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+  // const [department, setDepartment] = useState([])
 
   // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch counts
-  //       const response = await getReq('api/v1/document/getAllPublications', accessToken.token);
-  //       if (response.success) {
-  //         console.log("API Response:", response);
-  //         setFormCount(response.data.pendingCount);
-  //       }
-
-  //       // Fetch super admin data
-  //       const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken.token);
-  //       console.log(data.data);
-  //       setSuperAdminData(data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
+  //   const availableDepartments = sessionStorage.getItem("Available");
+  //   if (availableDepartments) {
+  //     setDepartment(availableDepartments.split(","));
+  //   }
   // }, []);
 
-  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = ["CSE","CSE (AI & ML) ", "CSE (IOT)" ,"ECE", "MCA", "BCA", "CSIT", "BE"];
   useEffect(() => {
     const allInfo = async () => {
@@ -363,34 +349,6 @@ export default function SuperAdminDashboardComp() {
             </div>
         </div>   */}
 
-        {/* All dept */}
-        {/* <div className="flex justify-center gap-5 text-white">
-          <div
-            onClick={getCSEfacultyList}
-            className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer"
-          >
-            CSE
-          </div>
-          <div
-            onClick={getESEfacultyList}
-            className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer"
-          >
-            ESE
-          </div>
-          <div
-            onClick={getMCAfacultyList}
-            className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer"
-          >
-            MCA
-          </div>
-          <div
-            onClick={getCSITfacultyList}
-            className="px-4 py-2 bg-blue-500 rounded-lg cursor-pointer"
-          >
-            CSIT
-          </div>
-        </div> */}
-
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center mt-8">
@@ -401,9 +359,6 @@ export default function SuperAdminDashboardComp() {
         {/* Error State */}
         {error && <div className="mt-8 text-center text-red-500">{error}</div>}
 
-        {/* // if loading = false & error false then call FacultyList */}
-
-        {/* {!loading && !error && <FacultyList facultyData={facultyData} />} */}
 
         <Sidebar showProfile={showProfile} />
       </div>

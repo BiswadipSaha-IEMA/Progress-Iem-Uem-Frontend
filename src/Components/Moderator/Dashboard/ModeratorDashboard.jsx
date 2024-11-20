@@ -24,113 +24,36 @@ export default function ModeratorDashboard() {
 
   const [facultyData, setFacultyData] = useState([]);
   const [error, setError] = useState(null);
+  const [department, setDepartment] = useState([])
 
-  const toggleProfile = () => setShowProfile((prev) => !prev);
-
-  // const access = sessionStorage.getItem("user");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch counts
-  //       const response = await getReq('api/v1/document/getAllPublications', accessToken.token);
-  //       if (response.success) {
-  //         console.log("API Response:", response);
-  //         setFormCount(response.data.pendingCount);
-  //       }
-
-  //       // Fetch super admin data
-  //       const data = await getReq('api/v1/superAdmin/getSuperAdmin', accessToken.token);
-  //       console.log(data.data);
-  //       setSuperAdminData(data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
-  const department = [
-    "CSE",
-    "CSE (AI & ML) ",
-    "CSE (IOT)",
-    "ECE",
-    "MCA",
-    "BCA",
-    "CSIT",
-    "BE",
-  ];
-  // useEffect(() => {
-  //   const allInfo = async () => {
-  //     try {
-  //       // Fetch publication counts
-  //       const response = await getReq(
-  //         "api/v1/document/getAllPublications",
-  //         accessToken
-  //       );
-  //       if (response.success) {
-  //         setFormCount(response.data.pendingCount);
-  //         console.log("Publication Count Response:", response);
-  //       }
-
-  //       // Fetch super admin data
-  //       const superAdminResponse = await getReq(
-  //         "api/v1/superAdmin/getSuperAdmin",
-  //         accessToken
-  //       );
-  //       if (superAdminResponse.success) {
-  //         console.log("Super Admin Data:", superAdminResponse.data);
-  //         setSuperAdminData(superAdminResponse.data);
-  //       }
-
-  //       // fetch start and end date
-  //       const dates = await getReq('api/v1/timeline/getSetTimeline', accessToken);
-  //       if (dates.success) {
-  //         setTimeline(dates.data);
-  //         setDateRange([dates.data.setTimeLineStartDate, dates.data.setTimeLineEndDate]);
-  //         console.log("Dates",dates.data);
-  //       }
-
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   allInfo();
-  // }, [accessToken]);
-
-  // const handleSubmit = async (formData) => {
-  //   try {
-  //     const dataToUpdate = {
-  //       name: formData.name,
-  //       address: formData.address,
-  //       phone: formData.phone,
-  //       email: formData.email,
-  //     };
-  //     const data = await putReq(
-  //       "api/v1/superAdmin/editSuperAdmin",
-  //       dataToUpdate,
-  //       accessToken.token
-  //     );
-  //     console.log(data);
-  //     setSuperAdminData(data.data);
-  //   } catch (error) {
-  //     console.error("Error updating data:", error);
-  //   }
+  useEffect(() => {
+    const availableDepartments = sessionStorage.getItem("Available");
+    if (availableDepartments) {
+      setDepartment(availableDepartments.split(","));
+    }
+  }, []);
+  
+  // const handleNavigate = (dept) => {
+  //   sessionStorage.setItem("dept", dept.trim());
+  //   sessionStorage.setItem("role", "moderator"); // Ensure the role is valid
+  //   navigate(`/md/${dept.toLowerCase()}/facultylist`);
   // };
 
+  const toggleProfile = () => setShowProfile((prev) => !prev);
+  
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
-  // const getCSEfacultyList = async () =>{
-  //   try{
-  //     console.log("getCSEfacultyList api data");
-  //     navigate("cse-faculty");
-  //   }catch(error){
-  //     console.log("CSE Faculty errors :",  error);
+  // const department = [
+  //   "CSE",
+  //   "CSE (AI & ML) ",
+  //   "CSE (IOT)",
+  //   "ECE",
+  //   "MCA",
+  //   "BCA",
+  //   "CSIT",
+  //   "BE",
+  // ];
 
-  //   }
-  // }
 
   // Function to fetch faculty data
   const getFacultyList = async (endpoint) => {
@@ -266,8 +189,11 @@ export default function ModeratorDashboard() {
                   key={dept} // Use the department name as the key
                   onClick={
                     () => {
-                      sessionStorage.setItem("dept", dept);
-                      sessionStorage.setItem("role", 'moderator');
+                      // sessionStorage.setItem("dept", dept);
+                      // sessionStorage.setItem("role", moderator);
+                      // navigate(`/md/${dept.toLowerCase()}/facultylist`);
+                      sessionStorage.setItem("dept", dept.trim());
+                      sessionStorage.setItem("role", "moderator"); // Ensure the role is valid
                       navigate(`/md/${dept.toLowerCase()}/facultylist`);
                     }
                     // getFacultyList(`/api/${dept.toLowerCase()}-faculty`)
@@ -296,14 +222,14 @@ export default function ModeratorDashboard() {
   );
 }
 
-const departmentData = ["CSE", "ECE", "CSIT", "MCA"];
-const department = [
-  "CSE",
-  "CSEAIML",
-  "CSEIOT",
-  "ECE",
-  "MCA",
-  "BCA",
-  "CSIT",
-  "BE",
-];
+// const departmentData = ["CSE", "ECE", "CSIT", "MCA"];
+// const department = [
+//   "CSE",
+//   "CSEAIML",
+//   "CSEIOT",
+//   "ECE",
+//   "MCA",
+//   "BCA",
+//   "CSIT",
+//   "BE",
+// ];

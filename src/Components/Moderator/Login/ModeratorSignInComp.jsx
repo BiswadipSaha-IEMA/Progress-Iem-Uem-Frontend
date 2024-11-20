@@ -13,37 +13,7 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
   const [postReq] = usePostReq()
   const [loading, setLoading] = useState(false);
 
-  // const handleSubmit =async (e) => {
-  //   e.preventDefault();
-  //   const data={
-  //     email:email,
-  //     password:password,
-  //   }
-  //   try{
-  //     const response=await fetch('http://192.168.90.24:5000/api/v1/users/login',{
-  //       method:'POST',
-  //       headers:{
-  //         'Content-Type':'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-
-  //     if(response.ok){
-  //       const result=await response.json()
-  //       setAccessToken(result.data.accessToken)
-  //       console.log(result)
-  //       setHandleLogin(true)
-  //     }
-  //     else{
-  //       const errorData=await response.json()
-  //       console.log(errorData)
-  //     }
-  //   }
-  //   catch(error){
-  //     console.error(error)
-  //   }
-  // };
-
+  
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
@@ -54,6 +24,8 @@ function ModeratorSignInComp({ email, setEmail, password, setPassword, setHandle
         if (json) {
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);
+            console.log(json.data.moderator.department)
+            sessionStorage.setItem('Available', json.data.moderator.department)
         }
     } catch (error) {
         console.error("Error during login:", error.message);

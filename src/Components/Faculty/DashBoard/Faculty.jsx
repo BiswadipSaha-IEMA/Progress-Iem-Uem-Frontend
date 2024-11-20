@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X } from 'lucide-react';
+import { Menu, X } from "lucide-react";
 import { FaBookBookmark } from "react-icons/fa6";
 import { TiTick } from "react-icons/ti";
 import { RiCloseFill } from "react-icons/ri";
@@ -57,6 +57,7 @@ export default function Faculty() {
   const navigate = useNavigate();
 
   const [getReq] = useGetReq();
+  const [isLoading,setIsLoading] = useState(false)
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
@@ -64,13 +65,16 @@ export default function Faculty() {
   useEffect(() => {
     const getBPData = async () => {
       try {
-        const response = await getReq('api/v1/document/getAllEvents', accessToken);
+        const response = await getReq(
+          "api/v1/document/getAllEvents",
+          accessToken
+        );
         if (response.success) {
-          console.log("BookPublished")
+          console.log("BookPublished");
           console.log(response.data);
           setData(response.data.data);
           setData1(response.data.data);
-        } 
+        }
       } catch (error) {
         console.log(error);
       }
@@ -78,165 +82,210 @@ export default function Faculty() {
     getBPData();
   }, [showPopUp]);
 
+
+  const allInfo = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        setBookData(
+          response.data.data.filter(
+            (publication) => publication.publicationType === "Book"
+          )
+        );
+        setResearchData(
+          response.data.data.filter(
+            (publication) => publication.publicationType === "Research Paper"
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  };
+
+  const getConfInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (item) => item.eventType === "Conference"
+        );
+        console.log(filteredData);
+        setConfOrg(filteredData);
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
+
+  const getLecture = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (item) => item.eventType === "Lecture"
+        );
+        console.log("lecture", filteredData);
+        setLecture(filteredData);
+      }
+    } catch (error) {
+      console.error("Error fetching lectures:", error);
+    }
+  };
+
+  const getMoocs = async () => {
+    try {
+      const response = await getReq("api/v1/document/getAllMoocs", accessToken);
+      console.log(response);
+      console.log("Moocs");
+      if (response.success) {
+        setMoocs(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
+
+  const getTrimentor = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (item) => item.eventType === "Tri-Mentoring"
+        );
+        console.log("Trimentor", filteredData);
+        setTriMentor(filteredData);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getWorkInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      console.log("Workshop");
+      if (response.success) {
+        const arr = [];
+        response.data.data.forEach((dt) => {
+          if (dt.eventType === "Workshop") arr.push(dt);
+        });
+        setWorkOrg(arr);
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
+
+  const getIndTour = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      console.log("Industrial Tour");
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (dt) => dt.eventType === "IndustrialTour"
+        );
+        console.log(filteredData);
+        setIndTour(filteredData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPatentInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPatents",
+        accessToken
+      );
+      console.log(response);
+      console.log("Patent");
+      if (response.success) {
+        setPatentData(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching patent info:", error);
+    }
+  };
+
+  const getFdpInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      // console.log(response);
+      if (response.success) {
+        const arr = [];
+        response.data.data.forEach((dt) => {
+          if (dt.eventType === "FDP") {
+            arr.push(dt);
+          }
+        });
+        console.log("FDP", arr);
+        setFdpData(arr);
+      }
+    } catch (error) {
+      console.error("Error fetching FDP info:", error);
+    }
+  };
+
+  const getCompeteInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (dt) => dt.eventType === "Competition"
+        );
+        console.log(filteredData);
+        setCompete(filteredData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const allInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllPublications", accessToken);
-        console.log(response);
-        if (response.success) {
-          setBookData(response.data.data.filter((publication) => publication.publicationType === "Book"));
-          setResearchData(response.data.data.filter((publication) => publication.publicationType === "Research Paper"));
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    const getConfInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        if (response.success) {
-          const filteredData = response.data.data.filter((item) => item.eventType === "Conference");
-          console.log(filteredData);
-          setConfOrg(filteredData);
-        }
-      } catch (error) {
-        console.error("Error fetching conference info:", error);
-      }
-    };
-
-    const getLecture = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        if (response.success) {
-          const filteredData = response.data.data.filter((item) => item.eventType === "Lecture");
-          console.log("lecture", filteredData);
-          setLecture(filteredData);
-        }
-      } catch (error) {
-        console.error("Error fetching lectures:", error);
-      }
-    };
-
-    const getMoocs = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllMoocs", accessToken);
-        console.log(response);
-        console.log("Moocs")
-        if (response.success) {
-          setMoocs(response.data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching conference info:", error);
-      }
-    };
-
-    const getTrimentor = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        if (response.success) {
-          const filteredData = response.data.data.filter((item) => item.eventType === "Tri-Mentoring");
-          console.log("Trimentor", filteredData);
-          setTriMentor(filteredData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    const getWorkInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        console.log("Workshop")
-        if (response.success) {
-          const arr = [];
-          response.data.data.forEach((dt) => {
-            if (dt.eventType === "Workshop") arr.push(dt);
-          });
-          setWorkOrg(arr);
-        }
-      } catch (error) {
-        console.error("Error fetching conference info:", error);
-      }
-    };
-
-    const getIndTour = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        console.log("Industrial Tour")
-        if (response.success) {
-          const filteredData = response.data.data.filter((dt) => dt.eventType === "IndustrialTour");
-          console.log(filteredData);
-          setIndTour(filteredData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-    const getPatentInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllPatents", accessToken);
-        console.log(response);
-        console.log("Patent")
-        if (response.success) {
-          setPatentData(response.data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching patent info:", error);
-      }
-    };
-
-    const getFdpInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        // console.log(response);
-        if (response.success) {
-          const arr = [];
-          response.data.data.forEach((dt) => {
-            if (dt.eventType === "FDP") {
-              arr.push(dt);
-            }
-          });
-          console.log("FDP",arr)
-          setFdpData(arr);
-        }
-      } catch (error) {
-        console.error("Error fetching FDP info:", error);
-      }
-    };
-
-    const getCompeteInfo = async () => {
-      try {
-        const response = await getReq("api/v1/document/getAllEvents", accessToken);
-        console.log(response);
-        if (response.success) {
-          const filteredData = response.data.data.filter((dt) => dt.eventType === "Competition");
-          console.log(filteredData);
-          setCompete(filteredData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-
     allInfo();
-    getConfInfo();
-    getLecture();
-    getWorkInfo();
-    getIndTour();
-    getMoocs();
-    getTrimentor();
-    getPatentInfo();
-    getFdpInfo();
-    getCompeteInfo();
-  }, [accessToken, workshopPopUp]);
+    getConfInfo()
+  }, [accessToken, bookPub, mooc, industrial, triMentor, researchPaperGradeAData, researchPaperGradeBData, researchPaperGradeCData,workshopPopUp, showPatentPopup,showFDPPopup, showLecturePopup, showCompetitionPopup, showConferencePopup]);
+
+  // useEffect(() => {
+  //   getConfInfo();
+  // }, [accessToken, bookPub]);
 
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -326,25 +375,33 @@ export default function Faculty() {
     },
     {
       title: "Faculty Development Programmes/ MDP",
-      details: fdpData.filter((paper) => paper.eventType === "FDP").map((paper) => ({
-        title: paper.topicName,
-        status: paper.status,
-      })),
+      details: fdpData
+        .filter((paper) => paper.eventType === "FDP")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
     },
     {
       title: "Competition Organized",
-      details: compete.filter((paper) => paper.eventType === "Competition").map(
-        (paper) => ({
+      details: compete
+        .filter((paper) => paper.eventType === "Competition")
+        .map((paper) => ({
           title: paper.topicName,
           status: paper.status,
-        })
-      ),
+        })),
     },
   ];
 
   const getStatusStyles = (status) => {
     switch (status) {
       case "Approved":
+        return {
+          bg: "bg-[#D6FFCE]",
+          text: "text-[#1C6229]",
+          icon: <TiTick className="text-[#1C6229]" />,
+        };
+        case "RequestToAccept":
         return {
           bg: "bg-[#D6FFCE]",
           text: "text-[#1C6229]",
@@ -357,6 +414,12 @@ export default function Faculty() {
           icon: <LuLoader className="text-[#873D22]" />,
         };
       case "Rejected":
+        return {
+          bg: "bg-[#FFD6D6]",
+          text: "text-[#D60000]",
+          icon: <RiCloseFill className="text-[#C66666]" />,
+        };
+        case "RequestToReject":
         return {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
@@ -428,15 +491,13 @@ export default function Faculty() {
                   navigate("/faculty/viewmooc");
                 } else if (item.title === "Tri-Mentoring System") {
                   navigate("/faculty/viewrtrimentor");
-                }
-                else if (item.title === "Patent") {
+                } else if (item.title === "Patent") {
                   navigate("/faculty/viewpatent");
-                }
-                else if (item.title === "Faculty Development Programmes/ MDP") {
+                } else if (
+                  item.title === "Faculty Development Programmes/ MDP"
+                ) {
                   navigate("/faculty/viewfdp");
-                }
-
-                else if (item.title === "Competition Organized") {
+                } else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
                 }
               }}
@@ -451,45 +512,38 @@ export default function Faculty() {
                 <button
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
-                    event.stopPropagation(); 
+                    event.stopPropagation();
                     console.log("hello");
-                    if(item.title === "Books Published"){
+                    if (item.title === "Books Published") {
                       setBookPub(true);
-                    }
-                    else if(item.title === "Research Paper Grade A"){
+                    } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       console.log(setResearchPaperGradeAData);
-                    }
-                    else if(item.title === "Research Paper Grade B"){
+                    } else if (item.title === "Research Paper Grade B") {
                       setResearchPaperGradeBData(true);
-                    }
-                    else if(item.title === "Research Paper Grade C"){
+                    } else if (item.title === "Research Paper Grade C") {
                       setResearchPaperGradeCData(true);
-                    }
-                    else if(item.title === "MOOCs"){
+                    } else if (item.title === "MOOCs") {
                       setmooc(true);
-                    }
-                    else if(item.title === "Conference"){
+                    } else if (item.title === "Conference") {
                       setShowConferencePopup(true);
-                    }
-                    else if(item.title === "Industrial Tour"){
+                    } else if (item.title === "Industrial Tour") {
                       setIndustrial(true);
-                    }
-                    else if(item.title === "Tri-Mentoring System"){
+                    } else if (item.title === "Tri-Mentoring System") {
                       settriMentor(true);
-                    }
-                    else if(item.title === "Workshop Organized"){
+                    } else if (item.title === "Workshop Organized") {
                       setworkshopPopUp(true);
-                    }
-                    else if(item.title === "Patent"){
+                    } else if (item.title === "Patent") {
                       setShowPatentPopup(true);
-                    } else if(item.title === "Faculty Development Programmes/ MDP"){
+                    } else if (
+                      item.title === "Faculty Development Programmes/ MDP"
+                    ) {
                       setShowFDPPopup(true);
-                    }
-                    else if(item.title === "Competition Organized"){
+                    } else if (item.title === "Competition Organized") {
                       setShowCompetitionPopup(true);
-                    }
-                    else if(item.title === "Talks and Distinguished Lecture Series"){
+                    } else if (
+                      item.title === "Talks and Distinguished Lecture Series"
+                    ) {
                       setShowLecturePopup(true);
                     }
                   }}
@@ -504,8 +558,7 @@ export default function Faculty() {
                     key={index}
                     className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base"
                   >
-                    {title? (<h1>{title}</h1>):
-                    (<h1>{book.title}</h1>)}
+                    {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
                     <div
                       className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
                     >
@@ -521,83 +574,59 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {bookPub && 
-        <BookPublished
-          setShowPopup={setBookPub}
-        />
-      }
-      {mooc && 
-        <MoocsPopUp
-          setShowPopup={setmooc}
-          setUtilFor='bpAddForm'
-        />
-      }
-      {industrial && 
-        <IndustrialPopup
-        setShowPopup={setIndustrial}
-        setUtilFor='bpAddForm'
-        />
-      }
-      {triMentor && 
-        <TriMentoringPopUp
-        setShowPopup={settriMentor}
-        setUtilFor='bpAddForm'
-        />
-      }
-      {researchPaperGradeAData && 
+      {bookPub && <BookPublished setShowPopup={setBookPub} />}
+      {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
+      {industrial && (
+        <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />
+      )}
+      {triMentor && (
+        <TriMentoringPopUp setShowPopup={settriMentor} setUtilFor="bpAddForm" />
+      )}
+      {researchPaperGradeAData && (
         <ResearchPaperGradeA
-          setUtilFor={'bpAddForm'}
+          setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeAData}
         />
-      }
-      {researchPaperGradeBData && 
+      )}
+      {researchPaperGradeBData && (
         <ResearchPaperGradeB
-        setUtilFor={'bpAddForm'}
-        setShowPopup={setResearchPaperGradeBData}
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeBData}
         />
-      }
-      {researchPaperGradeCData && 
+      )}
+      {researchPaperGradeCData && (
         <ResearchPaperGradeC
-        setUtilFor={'bpAddForm'}
-        setShowPopup={setResearchPaperGradeCData}
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeCData}
         />
-      }
-      {workshopPopUp && 
+      )}
+      {workshopPopUp && (
         <WorkShopPopUp
-          setUtilFor={'bpAddForm'}
+          setUtilFor={"bpAddForm"}
           setShowPopup={setworkshopPopUp}
-          />
-        }
-        {showPatentPopup && 
-          <PatentPopUp
-            setShowPopup={setShowPatentPopup}
-            setUtilFor='bpAddForm'
-          />
-        }
-      {showFDPPopup && 
-        <FDPPopUp
-        setShowPopup={setShowFDPPopup}
-        setUtilFor='bpAddForm'
         />
-      }
-      {showLecturePopup && 
-        <TalksPopUp
-        setShowPopup={setShowLecturePopup}
-        setUtilFor='bpAddForm'
-        />
-      }
-      {showCompetitionPopup && 
+      )}
+      {showPatentPopup && (
+        <PatentPopUp setShowPopup={setShowPatentPopup} setUtilFor="bpAddForm" />
+      )}
+      {showFDPPopup && (
+        <FDPPopUp setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />
+      )}
+      {showLecturePopup && (
+        <TalksPopUp setShowPopup={setShowLecturePopup} setUtilFor="bpAddForm" />
+      )}
+      {showCompetitionPopup && (
         <CompetitionPopUp
-        setShowPopup={setShowCompetitionPopup}
-        setUtilFor='bpAddForm'
+          setShowPopup={setShowCompetitionPopup}
+          setUtilFor="bpAddForm"
         />
-      }
-      {showConferencePopup && 
+      )}
+      {showConferencePopup && (
         <ConferencePopUp
-        setShowPopup={setShowConferencePopup}
-          setUtilFor='bpAddForm'
+          setShowPopup={setShowConferencePopup}
+          setUtilFor="bpAddForm"
         />
-      }
+      )}
     </div>
   );
 }

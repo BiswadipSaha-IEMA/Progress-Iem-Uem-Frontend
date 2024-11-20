@@ -61,7 +61,6 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
     );
     if (response.success){ 
       setShowPopup(false)
-      window.location.reload();
     };
   };
 

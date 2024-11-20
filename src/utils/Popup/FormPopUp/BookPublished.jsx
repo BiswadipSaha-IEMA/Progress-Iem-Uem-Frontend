@@ -4,14 +4,14 @@ import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function BookPublished({ setUtilFor, setShowPopup }) {
+function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
-  const[error, setError]= useState(false)
+  const [error, setError] = useState(false);
+  const [authorType, setAuthorType] = useState("");
 
-  
   const [dateRange] = useState({
-    startDate: '2023-11-01',
-    endDate: '2024-11-30',
+    startDate: "2023-11-01",
+    endDate: "2024-11-30",
   });
 
   const [formData, setFormData] = useState({
@@ -29,30 +29,43 @@ function BookPublished({ setUtilFor, setShowPopup }) {
     proofDocument: "",
   });
 
+  const handleChangeAuthor = (e) => {
+    setAuthorType(e.target.value);
+  };
+
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'date') {
+    // Date validation
+    if (name === "date") {
       if (value < dateRange.startDate || value > dateRange.endDate) {
-        e.target.value = '';
-        setError(true)
+        e.target.value = ""; // Clear the input if the date is outside the range
+        setError(true); // Set error to true
         return;
+      } else {
+        setError(false); // Reset error when a valid date is entered
       }
     }
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: value, // The [name] dynamically updates the correct field
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (error) {
+      // If there is an error, do not submit
+      return;
+    }
+
     const response = await postReq(
       "api/v1/document/createPublication",
       {
+        authorType: authorType,
         name: formData.name,
         title: formData.title,
         isbn: formData.isbn,
@@ -60,12 +73,14 @@ function BookPublished({ setUtilFor, setShowPopup }) {
         date: formData.date,
         publicationType: "Book",
         proofDocument: formData.proofDocument,
+        publisher: formData.publisher
       },
       accessToken
     );
-    if (response.success){ 
-      setShowPopup(false)
-    };
+    if (response.success) {
+      setShowPopup(false);
+      getAllInfo()
+    }
   };
 
   const handleClose = () => {
@@ -83,6 +98,7 @@ function BookPublished({ setUtilFor, setShowPopup }) {
       nationalOrInternational: "",
       proofDocument: "",
     });
+    setError(false); // Reset error when form is closed
     console.log("Form closed");
   };
 
@@ -92,9 +108,9 @@ function BookPublished({ setUtilFor, setShowPopup }) {
         <div
           className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
           onClick={() => {
-            setShowPopup(false)
+            setShowPopup(false);
             handleClose();
-            }}
+          }}
         >
           <RxCross2 className="text-white" />
         </div>
@@ -111,6 +127,23 @@ function BookPublished({ setUtilFor, setShowPopup }) {
           `}</style>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Author Type */}
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Author Type
+              </label>
+              <select
+                name="category"
+                value={authorType}
+                onChange={handleChangeAuthor}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              >
+                <option value="">Select</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+              </select>
+            </div>
+
             {/* Name */}
             <div>
               <label className="block text-gray-600 font-medium mb-1">
@@ -129,7 +162,7 @@ function BookPublished({ setUtilFor, setShowPopup }) {
             {/* Title */}
             <div>
               <label className="block text-gray-600 font-medium mb-1">
-                Title
+                Book Name
               </label>
               <input
                 type="text"
@@ -145,7 +178,7 @@ function BookPublished({ setUtilFor, setShowPopup }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-gray-600 font-medium mb-1">
-                  ISBN
+                  ISBN/ISSN
                 </label>
                 <input
                   type="number"
@@ -172,6 +205,21 @@ function BookPublished({ setUtilFor, setShowPopup }) {
                   <option value="Other">Other</option>
                 </select>
               </div>
+            </div>
+
+            {/* Publisher Name */}
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Publisher Name
+              </label>
+              <input
+                type="text"
+                name="publisher" // Corrected the name attribute
+                value={formData.publisher}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                required
+              />
             </div>
 
             {/* Date */}
@@ -215,9 +263,14 @@ function BookPublished({ setUtilFor, setShowPopup }) {
           </form>
         </div>
       </div>
-      {
-        error && <ManagePopUp setUtilFor={'error'} setPopupShow={setError} takeData={'Not a valid date'}/>
-      }
+
+      {error && (
+        <ManagePopUp
+          setUtilFor={"error"}
+          setPopupShow={setError}
+          takeData={"Not a valid date"}
+        />
+      )}
     </div>
   );
 }

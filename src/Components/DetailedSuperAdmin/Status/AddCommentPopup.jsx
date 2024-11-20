@@ -22,13 +22,13 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   const [getReq] = useGetReq();
   const [postReq] = usePostReq();
   const [commentData, setCommentData] = useState(null);
-  const [storeAsTemp, setStoreAsTemp]= useState('');
+  const [storeAsTemp, setStoreAsTemp] = useState("");
   const [reqReject, setReqReject] = useState(false);
   const [reqAccept, setReqAccept] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [showInputFor, setShowInputFor] = useState('');
+  const [showInputFor, setShowInputFor] = useState("");
 
-  console.log(data.Status)
+  console.log(data.Status);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -100,13 +100,18 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   }, [name]);
 
   const handleReqAccept = async () => {
-    try { 
+    if (data.Status === "RequestToReject") {
+      // Show the input if trying to accept a reject request
+      setShowInput(true);
+      setShowInputFor("Accept");
+    } else {
+      try {
         const response = await postReq(
           "api/v1/document/reviewPublication",
           {
             publicationId: data?._id,
             status: "Approved",
-            comment: 'Accepted',
+            comment: "Accepted",
           },
           accesssToken
         );
@@ -117,20 +122,26 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request accepted successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
         }
-    } catch (error) {
-      console.error("Error in handleReqAccept:", error);
-      setStoreTempMessage("Error occurred while accepting request");
+      } catch (error) {
+        console.error("Error in handleReqAccept:", error);
+        setStoreTempMessage("Error occurred while accepting request");
+      }
     }
   };
 
   const handleReqReject = async () => {
-    try {
+    if (data.Status === "RequestToAccept") {
+      // Show the input if trying to reject an accept request
+      setShowInput(true);
+      setShowInputFor("Reject");
+    } else {
+      try {
         const response = await postReq(
           "api/v1/document/reviewPublication",
           {
             publicationId: data?._id,
             status: "Rejected",
-            comment: 'Rejected',
+            comment: "Rejected",
           },
           accesssToken
         );
@@ -141,9 +152,50 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request rejected successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
         }
-    } catch (error) {
-      console.error("Error in handleReqReject:", error);
-      setStoreTempMessage("Error occurred while rejecting request");
+      } catch (error) {
+        console.error("Error in handleReqReject:", error);
+        setStoreTempMessage("Error occurred while rejecting request");
+      }
+    }
+  };
+
+  const handleSendComment = async () => {
+    if (commentText.trim() && showInputFor) {
+      try {
+        const status =
+          showInputFor === "Accept"
+            ? "Approved"
+            : showInputFor === "Reject"
+            ? "Rejected"
+            : null;
+
+        const response = await postReq(
+          "api/v1/document/reviewPublication",
+          {
+            publicationId: data?._id,
+            status,
+            comment: commentText,
+          },
+          accesssToken
+        );
+
+        if (response && response.success) {
+          const successMessage =
+            status === "Approved"
+              ? "Successfully Accepted"
+              : "Successfully Rejected";
+          setStoreTempStatus(
+            status === "Approved" ? "Request To Accept" : "Request To Reject"
+          );
+          setStoreTempMessage(successMessage);
+          setIsSend(true); // Show "send" animation or similar after successful action
+          setShowInput(false); // Hide input after successful submission
+          setCommentText(""); // Clear the comment input
+        }
+      } catch (error) {
+        console.error("Error in handleSendComment:", error);
+        setStoreTempMessage("Error occurred while processing the request");
+      }
     }
   };
 
@@ -157,45 +209,6 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   //     setCommentText("");
   //   }
   // };
-  const handleSendComment= async(showInputFor)=>{
-    console.log('-----------------------------------------', showInputFor)
-    if(showInputFor==='Accept'){
-      const response = await postReq(
-        "api/v1/document/reviewPublication",
-        {
-          publicationId: data?._id,
-          status: "Approved",
-          comment: commentText,
-        },
-        accesssToken
-      );
-      console.log(response)
-      if (response && response.success) {
-        setStoreTempStatus("Request To Accept");
-        setStoreTempMessage("Successfully Accepted");
-        console.log("Request accepted successfully:", response);
-        setIsSend(true); // Show "send" animation or similar after successful action
-      }
-    }
-    else{
-      const response = await postReq(
-        "api/v1/document/reviewPublication",
-        {
-          publicationId: data?._id,
-          status: "Rejected",
-          comment: commentText,
-        },
-        accesssToken
-      );
-
-      if (response && response.success) {
-        setStoreTempStatus("Request To Reject");
-        setStoreTempMessage("Successfully Rejected");
-        console.log("Request rejected successfully:", response);
-        setIsSend(true); // Show "send" animation or similar after successful action
-      }
-    }
-  }
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && commentText.trim()) {
@@ -208,10 +221,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
     }
   };
 
-
-  useEffect(()=>{
-    
-  },[showInput])
+  useEffect(() => {}, [showInput]);
 
   return (
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
@@ -231,18 +241,15 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             <RxCross2 className="text-white text-2xl" />
           </button>
         </div>
-
-        {
-          console.log(storeTempStatus)
-        }
-
+        {console.log(storeTempStatus)}
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
           <div className="space-y-3">
             {/* Show status message (Accepted / Rejected) */}
             <div className="rounded-lg text-gray-800 bg-[#fff]">
               <p>
-                {data?.comment=== "Accepetance Requested" || data?.comment==='Accepted' ? (
+                {data?.comment === "Accepetance Requested" ||
+                data?.comment === "Accepted" ? (
                   <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
                     <div className="bg-[#fff] rounded-[50%] mr-2">
                       <TiTick className="text-[15px] text-[#2e9b32]" />
@@ -272,82 +279,61 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             </div>
           </div>
         </div>
-
         {/* Action Buttons */}
         <div className="flex gap-5 mt-6 justify-start mb-5">
-          {
-            (data.Status==='RequestToReject' || data.Status==='RequestToAccept') &&  
-          <button
-            className={`${
-              data.Status==='RequestToAccept'
-                ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-            }`}
-            onClick={data.Status === 'RequestToReject' ? () => {
-              setShowInput(true)
-              setShowInputFor('Accept')
-              }: handleReqAccept}
-            disabled={storeTempStatus === "Request To Accept"}
-          >
-            {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
-          </button>
-          }
-          {
-            (data.Status==='RequestToReject' || data.Status==='RequestToAccept') &&  
+          {(data.Status === "RequestToReject" ||
+            data.Status === "RequestToAccept") && (
             <button
-            className={`${
-              storeTempStatus === "Request To Reject"
-                ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-            }`}
-            onClick={data.Status === 'RequestToAccept' ?   () => {
-              setShowInput(true)
-              setShowInputFor('Reject')
-              }:handleReqReject}
-            disabled={storeTempStatus === "Request To Reject"}
-          >
-            {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
-          </button>
-          }
-          
-
-          
+              className={`${
+                data.Status === "RequestToAccept"
+                  ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+              }`}
+              onClick={handleReqAccept}
+              disabled={storeTempStatus === "Request To Accept"}
+            >
+              {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
+            </button>
+          )}
+          {(data.Status === "RequestToReject" ||
+            data.Status === "RequestToAccept") && (
+            <button
+              className={`${
+                storeTempStatus === "Request To Reject"
+                  ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+              }`}
+              onClick={handleReqReject}
+              disabled={storeTempStatus === "Request To Reject"}
+            >
+              {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
+            </button>
+          )}
         </div>
-
-        {/* Comment Input */}
+        {/* Conditional Comment Input */}
         {showInput && (
-          <div className="flex items-center">
+          <div className="flex items-center mt-4">
             <input
               type="text"
               value={commentText}
               onChange={handleCommentChange}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your comment here..."
+              placeholder={`Add a comment to ${
+                showInputFor === "Accept" ? "accept" : "reject"
+              }`}
               className="bg-[#f0f0f0] h-16 rounded-lg px-4 w-full focus:outline-none focus:border-blue-500"
             />
             <button
               disabled={commentText.trim().length === 0 || isSend}
-              className="h-16 w-[100px] ml-2 rounded-md flex justify-center items-center cursor-pointer"
+              className="bg-blue-500 text-white h-16 px-4 ml-2 rounded-md"
               onClick={handleSendComment}
             >
-              {isSend ? (
-                <Skeleton
-                  className="flex flex-row rounded-full"
-                  width={70}
-                  height={70}
-                  enableAnimation={true}
-                  highlightColor={"#d1e3ff"}
-                />
-              ) : (
-                <img src={sending} alt="sending" className="h-16 rounded-md" />
-              )}
+              Submit
             </button>
           </div>
         )}
-        
       </div>
     </div>
-  ); 
+  );
 };
 
 export default AddCommentPopup;

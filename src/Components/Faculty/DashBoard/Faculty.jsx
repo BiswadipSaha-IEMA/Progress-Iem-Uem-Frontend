@@ -33,7 +33,7 @@ export default function Faculty() {
   const [TriMentor, setTriMentor] = useState([]);
   const [Lecture, setLecture] = useState([]);
   const [researchData, setResearchData] = useState([]);
-  const [seminarData, setSeminarData] = useState([]);
+  const [seminarOrg, setSeminarOrg] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
@@ -57,7 +57,7 @@ export default function Faculty() {
   const navigate = useNavigate();
 
   const [getReq] = useGetReq();
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
@@ -82,7 +82,6 @@ export default function Faculty() {
     getBPData();
   }, [showPopUp]);
 
-
   const allInfo = async () => {
     setIsLoading(true);
     try {
@@ -105,8 +104,7 @@ export default function Faculty() {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-    }
-    finally{
+    } finally {
       setIsLoading(false);
     }
   };
@@ -278,14 +276,46 @@ export default function Faculty() {
     }
   };
 
+  const getSeminarOrgInfo = async () => {
+    try {
+      const response = await getReq("api/v1/document/getAllEvents", accessToken);
+      console.log("Response:", response); 
+
+      if (response.success) {
+        const filteredSeminarData = response.data.data.filter(
+          (dt) => dt.eventType === "Seminar"
+        );
+        console.log("Filtered Seminar Data:", filteredSeminarData);
+        setSeminarOrg(filteredSeminarData);
+      }
+    } catch (error) {
+      console.error("Error fetching seminar data:", error);
+    }
+  };
+
+  
+  useEffect(()=>{
+    getSeminarOrgInfo()
+    console.log('--------------------------------------------------',seminarOrg)
+  },[])
+
+
+
   useEffect(() => {
     allInfo();
-    getConfInfo()
-  }, [accessToken, bookPub, mooc, industrial, triMentor, researchPaperGradeAData, researchPaperGradeBData, researchPaperGradeCData,workshopPopUp, showPatentPopup,showFDPPopup, showLecturePopup, showCompetitionPopup, showConferencePopup]);
+    getConfInfo();
+    getLecture()
+    getMoocs();
+    getTrimentor()
+    getWorkInfo()
+    getIndTour()
+    getPatentInfo()
+    getFdpInfo()
+    getCompeteInfo()
+  }, [
+    accessToken,
+  ]);
 
-  // useEffect(() => {
-  //   getConfInfo();
-  // }, [accessToken, bookPub]);
 
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -391,6 +421,15 @@ export default function Faculty() {
           status: paper.status,
         })),
     },
+    {
+      title: "Seminar",
+      details: seminarOrg
+        .filter((paper) => paper.eventType === "Seminar")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
   ];
 
   const getStatusStyles = (status) => {
@@ -401,7 +440,7 @@ export default function Faculty() {
           text: "text-[#1C6229]",
           icon: <TiTick className="text-[#1C6229]" />,
         };
-        case "RequestToAccept":
+      case "RequestToAccept":
         return {
           bg: "bg-[#D6FFCE]",
           text: "text-[#1C6229]",
@@ -419,7 +458,7 @@ export default function Faculty() {
           text: "text-[#D60000]",
           icon: <RiCloseFill className="text-[#C66666]" />,
         };
-        case "RequestToReject":
+      case "RequestToReject":
         return {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
@@ -497,9 +536,13 @@ export default function Faculty() {
                   item.title === "Faculty Development Programmes/ MDP"
                 ) {
                   navigate("/faculty/viewfdp");
-                } else if (item.title === "Competition Organized") {
+                } 
+                else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
                 }
+                // else if (item.title === "Seminar") {
+                //   navigate("/faculty/viewseminar");
+                // }
               }}
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -574,7 +617,7 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {bookPub && <BookPublished setShowPopup={setBookPub} />}
+      {bookPub && <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo}/>}
       {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
       {industrial && (
         <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />

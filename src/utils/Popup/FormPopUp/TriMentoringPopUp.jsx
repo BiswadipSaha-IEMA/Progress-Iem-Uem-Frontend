@@ -56,7 +56,6 @@ function TriMentoringPopUp({ setUtilFor, setShowPopup }) {
     );
     if (response.success){ 
       setShowPopup(false)
-      window.location.reload();
     };
   };
 

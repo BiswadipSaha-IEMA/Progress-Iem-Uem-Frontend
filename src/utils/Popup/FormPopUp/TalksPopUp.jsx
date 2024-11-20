@@ -47,7 +47,6 @@ function TalksPopUp({ setUtilFor, setShowPopup }) {
     console.log(response)
     if (response.success){ 
       setShowPopup(false)
-      window.location.reload();
     };
   };
 

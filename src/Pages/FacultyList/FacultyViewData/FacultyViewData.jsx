@@ -6,26 +6,10 @@ import {
 } from "../../../constants/studentData";
 import Header from "../../../Components/Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
+import Lottie from "react-lottie";
+import noDataFound from "../../../Lottie/noDataFound.json";
 
 const FacultyViewData = () => {
-  // const modifiedData = originalDummyData.map(({proofOfDocument, name, _id, ...rest }) => ({
-  //   // Name: name,
-  //   // UserID: _id,
-  //   ...rest,
-  // }));
-
-  // const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
-
-  // const [workshop, setWorkshop] = useState([]);
-  // const [bookPublishedData, setBookPublishedData] = useState([]);
-  // const [gradeAData, setGradeAData] = useState([]);
-  // const [gradeBData, setGradeBData] = useState([]);
-  // const [gradeCData, setGradeCData] = useState([]);
-  // const [conferenceData, setConferenceData] = useState([]);
-  // const [lectureData, setLectureData] = useState([]);
-  // const [idustrialTourData, setIdustrialTourData] = useState([]);
-
-  // const [getReq] = useGetReq();
 
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -38,7 +22,6 @@ const FacultyViewData = () => {
   const [projects, setProjects] = useState([]);
   const [consultancy, setConsultancy] = useState([]);
   const [studentChapters, setStudentChapters] = useState([]);
-
   const [workshop, setWorkshop] = useState([]);
   const [seminar, setSeminar] = useState([]);
   const [conf, setConf] = useState([]);
@@ -53,7 +36,6 @@ const FacultyViewData = () => {
   const department = sessionStorage.getItem("dept");
   // const id=sessionStorage.getItem("userId")
 
-  console.log(typeof department);
   // let check;
   const [check, setCheck] = useState(false);
   useEffect(() => {
@@ -80,6 +62,38 @@ const FacultyViewData = () => {
       fetchData();
     }
   }, [accessToken]);
+  
+  const isAllDataEmpty =
+    !(
+      projects?.length > 0 ||
+      books?.length > 0 ||
+      rp1?.length > 0 ||
+      rp2?.length > 0 ||
+      rp3?.length > 0 ||
+      patents?.length > 0 ||
+      facultyDevelopment?.length > 0 ||
+      competition?.length > 0 ||
+      seminar?.length > 0 ||
+      conf?.length > 0 ||
+      lecture?.length > 0 ||
+      workshop?.length > 0 ||
+      industrialTour?.length > 0 ||
+      hackathon?.length > 0 ||
+      consultancy?.length > 0 ||
+      studentChapters?.length > 0 ||
+      confPub?.length > 0 ||
+      trimentor?.length > 0 ||
+      moocs?.length > 0
+    );
+  //fot lottie
+  const options= {
+    loop: false,
+    autoplay: false,
+    animationData: noDataFound,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    }
+  }
 
   // useEffect(()=>{
   //   console.log("ffyfyyyyy-------------------------",check)
@@ -519,135 +533,146 @@ const FacultyViewData = () => {
     // }
   }, [data, check]);
 
-  // const [modifiedDataBooks, setModifiedDataBooks] = useState([]);
 
-  // useEffect(() => {
-  //   if (books) {
-  //     const newModifiedData = books.map(({ proofDocument, ...rest }) => ({
-  //       ...rest,
-  //     }));
-
-  //     setModifiedDataBooks(newModifiedData);
-  //   }
-  // }, [books]);
-
-  // const modifiedData =
-
-  // const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
   return (
     <>
       <Header backPage="/" />
-
-      {/* {books?.length > 0 && <ViewDataTable dummyData={modifiedDataBooks} dummy={books} name="Book Published" />} */}
-      {projects?.length > 0 && (
-        <ViewDataTable
-          dummyData={projects}
-          dummy={projects}
-          name="List of Project Proposals"
-        />
-      )}
-      {books?.length > 0 && (
-        <ViewDataTable dummyData={books} dummy={books} name="Book Published" />
-      )}
-      {rp1?.length > 0 && (
-        <ViewDataTable
-          dummyData={rp1}
-          dummy={rp1}
-          name="Research Paper Published (Grade-A)"
-        />
-      )}
-      {rp2?.length > 0 && (
-        <ViewDataTable
-          dummyData={rp2}
-          dummy={rp2}
-          name="Research Paper Published (Grade-B)"
-        />
-      )}
-      {rp3?.length > 0 && (
-        <ViewDataTable
-          dummyData={rp3}
-          dummy={rp3}
-          name="Research Paper Published (Grade-C)"
-        />
-      )}
-      {patents?.length > 0 && (
-        <ViewDataTable dummyData={patents} dummy={patents} name="Patent" />
-      )}
-      {facultyDevelopment?.length > 0 && (
-        <ViewDataTable
-          dummyData={facultyDevelopment}
-          dummy={facultyDevelopment}
-          name="Faculty Development Programmes"
-        />
-      )}
-      {competition?.length > 0 && (
-        <ViewDataTable
-          dummyData={competition}
-          dummy={competition}
-          name="Competition"
-        />
-      )}
-      {seminar?.length > 0 && (
-        <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" />
-      )}
-      {conf?.length > 0 && (
-        <ViewDataTable dummyData={conf} dummy={conf} name="Conference" />
-      )}
-      {lecture?.length > 0 && (
-        <ViewDataTable
-          dummyData={lecture}
-          dummy={lecture}
-          name="Talks & Distinguished Lecture Series"
-        />
-      )}
-      {workshop?.length > 0 && (
-        <ViewDataTable dummyData={workshop} dummy={workshop} name="Workshop" />
-      )}
-      {industrialTour?.length > 0 && (
-        <ViewDataTable
-          dummyData={industrialTour}
-          dummy={industrialTour}
-          name="Industrial Tour"
-        />
-      )}
-      {hackathon?.length > 0 && (
-        <ViewDataTable
-          dummyData={hackathon}
-          dummy={hackathon}
-          name="Hackathon"
-        />
-      )}
-      {consultancy?.length > 0 && (
-        <ViewDataTable
-          dummyData={consultancy}
-          dummy={consultancy}
-          name="Consultancy"
-        />
-      )}
-      {studentChapters?.length > 0 && (
-        <ViewDataTable
-          dummyData={studentChapters}
-          dummy={studentChapters}
-          name="Student Chapter Activity"
-        />
-      )}
-      {confPub?.length > 0 && (
-        <ViewDataTable
-          dummyData={confPub}
-          dummy={confPub}
-          name="Comference Publication"
-        />
-      )}
-      {trimentor?.length > 0 && (
-        <ViewDataTable
-          dummyData={trimentor}
-          dummy={trimentor}
-          name="Tri-Mentoring System"
-        />
-      )}
-      {moocs?.length > 0 && (
-        <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />
+      {isAllDataEmpty ? (
+        <div className="flex flex-col justify-center items-center py-8 m-10 bg-white  rounded-lg font-poppins">
+        <Lottie options={options} height={400} width={400} />
+        <p className="text-[#000#1A1A1D] mt-2 text-4xl font-semibold text-center" >
+          No records available
+        </p>
+      </div>
+      
+      
+      
+      // {isAllDataEmpty ? (
+      //   <div className="flex justify-center items-center h-screen">
+      //   <Lottie options={{ animationData: noDataFound }} height={400} width={400} loop={true}/>
+      //   <p className="text-gray-500 mt-4">No data to display</p>
+      //   </div>
+      ) : (
+        <>
+          {projects?.length > 0 && (
+            <ViewDataTable
+              dummyData={projects}
+              dummy={projects}
+              name="List of Project Proposals"
+            />
+          )}
+          {books?.length > 0 && (
+            <ViewDataTable
+              dummyData={books}
+              dummy={books}
+              name="Book Published"
+            />
+          )}
+          {rp1?.length > 0 && (
+            <ViewDataTable
+              dummyData={rp1}
+              dummy={rp1}
+              name="Research Paper Published (Grade-A)"
+            />
+          )}
+          {rp2?.length > 0 && (
+            <ViewDataTable
+              dummyData={rp2}
+              dummy={rp2}
+              name="Research Paper Published (Grade-B)"
+            />
+          )}
+          {rp3?.length > 0 && (
+            <ViewDataTable
+              dummyData={rp3}
+              dummy={rp3}
+              name="Research Paper Published (Grade-C)"
+            />
+          )}
+          {patents?.length > 0 && (
+            <ViewDataTable dummyData={patents} dummy={patents} name="Patent" />
+          )}
+          {facultyDevelopment?.length > 0 && (
+            <ViewDataTable
+              dummyData={facultyDevelopment}
+              dummy={facultyDevelopment}
+              name="Faculty Development Programmes"
+            />
+          )}
+          {competition?.length > 0 && (
+            <ViewDataTable
+              dummyData={competition}
+              dummy={competition}
+              name="Competition"
+            />
+          )}
+          {seminar?.length > 0 && (
+            <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" />
+          )}
+          {conf?.length > 0 && (
+            <ViewDataTable dummyData={conf} dummy={conf} name="Conference" />
+          )}
+          {lecture?.length > 0 && (
+            <ViewDataTable
+              dummyData={lecture}
+              dummy={lecture}
+              name="Talks & Distinguished Lecture Series"
+            />
+          )}
+          {workshop?.length > 0 && (
+            <ViewDataTable
+              dummyData={workshop}
+              dummy={workshop}
+              name="Workshop"
+            />
+          )}
+          {industrialTour?.length > 0 && (
+            <ViewDataTable
+              dummyData={industrialTour}
+              dummy={industrialTour}
+              name="Industrial Tour"
+            />
+          )}
+          {hackathon?.length > 0 && (
+            <ViewDataTable
+              dummyData={hackathon}
+              dummy={hackathon}
+              name="Hackathon"
+            />
+          )}
+          {consultancy?.length > 0 && (
+            <ViewDataTable
+              dummyData={consultancy}
+              dummy={consultancy}
+              name="Consultancy"
+            />
+          )}
+          {studentChapters?.length > 0 && (
+            <ViewDataTable
+              dummyData={studentChapters}
+              dummy={studentChapters}
+              name="Student Chapter Activity"
+            />
+          )}
+          {confPub?.length > 0 && (
+            <ViewDataTable
+              dummyData={confPub}
+              dummy={confPub}
+              name="Comference Publication"
+            />
+          )}
+          {trimentor?.length > 0 && (
+            <ViewDataTable
+              dummyData={trimentor}
+              dummy={trimentor}
+              name="Tri-Mentoring System"
+            />
+          )}
+          {moocs?.length > 0 && (
+            <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />
+          )}
+        </>
       )}
     </>
   );

@@ -26,6 +26,9 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   const [reqReject, setReqReject] = useState(false);
   const [reqAccept, setReqAccept] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const [showInputFor, setShowInputFor] = useState('');
+
+  console.log(data.Status)
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -97,20 +100,13 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   }, [name]);
 
   const handleReqAccept = async () => {
-    try {
-      // If commentText is empty, prompt user to input a comment before accepting
-      if (commentText.trim() === "") {
-        setStoreTempMessage("Please add a comment before accepting.");
-        return;
-      }
-
-      if (data.status !== 'RequestToReject') {
+    try { 
         const response = await postReq(
           "api/v1/document/reviewPublication",
           {
             publicationId: data?._id,
             status: "Approved",
-            comment: commentText,
+            comment: 'Accepted',
           },
           accesssToken
         );
@@ -121,7 +117,6 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request accepted successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
         }
-      }
     } catch (error) {
       console.error("Error in handleReqAccept:", error);
       setStoreTempMessage("Error occurred while accepting request");
@@ -130,19 +125,12 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
 
   const handleReqReject = async () => {
     try {
-      // If commentText is empty, prompt user to input a comment before rejecting
-      if (commentText.trim() === "") {
-        setStoreTempMessage("Please add a comment before rejecting.");
-        return;
-      }
-
-      if (data.status !== 'RequestToAccept') {
         const response = await postReq(
           "api/v1/document/reviewPublication",
           {
             publicationId: data?._id,
             status: "Rejected",
-            comment: commentText,
+            comment: 'Rejected',
           },
           accesssToken
         );
@@ -153,7 +141,6 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request rejected successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
         }
-      }
     } catch (error) {
       console.error("Error in handleReqReject:", error);
       setStoreTempMessage("Error occurred while rejecting request");
@@ -164,12 +151,51 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
     setShowPopup(false);
   };
 
-  const handleSendComment = () => {
-    if (commentText.trim()) {
-      setComments([...comments, { text: commentText }]);
-      setCommentText("");
+  // const handleSendComment = () => {
+  //   if (commentText.trim()) {
+  //     setComments([...comments, { text: commentText }]);
+  //     setCommentText("");
+  //   }
+  // };
+  const handleSendComment= async(showInputFor)=>{
+    console.log('-----------------------------------------', showInputFor)
+    if(showInputFor==='Accept'){
+      const response = await postReq(
+        "api/v1/document/reviewPublication",
+        {
+          publicationId: data?._id,
+          status: "Approved",
+          comment: commentText,
+        },
+        accesssToken
+      );
+      console.log(response)
+      if (response && response.success) {
+        setStoreTempStatus("Request To Accept");
+        setStoreTempMessage("Successfully Accepted");
+        console.log("Request accepted successfully:", response);
+        setIsSend(true); // Show "send" animation or similar after successful action
+      }
     }
-  };
+    else{
+      const response = await postReq(
+        "api/v1/document/reviewPublication",
+        {
+          publicationId: data?._id,
+          status: "Rejected",
+          comment: commentText,
+        },
+        accesssToken
+      );
+
+      if (response && response.success) {
+        setStoreTempStatus("Request To Reject");
+        setStoreTempMessage("Successfully Rejected");
+        console.log("Request rejected successfully:", response);
+        setIsSend(true); // Show "send" animation or similar after successful action
+      }
+    }
+  }
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && commentText.trim()) {
@@ -181,6 +207,11 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
       }, 1000);
     }
   };
+
+
+  useEffect(()=>{
+    
+  },[showInput])
 
   return (
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
@@ -201,18 +232,22 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           </button>
         </div>
 
+        {
+          console.log(storeTempStatus)
+        }
+
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
           <div className="space-y-3">
             {/* Show status message (Accepted / Rejected) */}
             <div className="rounded-lg text-gray-800 bg-[#fff]">
               <p>
-                {storeTempStatus === "Request To Accept" ? (
+                {data?.comment=== "Accepetance Requested" || data?.comment==='Accepted' ? (
                   <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
                     <div className="bg-[#fff] rounded-[50%] mr-2">
                       <TiTick className="text-[15px] text-[#2e9b32]" />
                     </div>
-                    Accepted
+                    Acceptance Requested
                   </div>
                 ) : (
                   <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
@@ -240,29 +275,43 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
 
         {/* Action Buttons */}
         <div className="flex gap-5 mt-6 justify-start mb-5">
+          {
+            (data.Status==='RequestToReject' || data.Status==='RequestToAccept') &&  
           <button
             className={`${
-              storeTempStatus === "Request To Accept"
+              data.Status==='RequestToAccept'
                 ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
                 : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
             }`}
-            onClick={data.status === 'RequestToReject' ? () => setShowInput(true) : handleReqAccept}
+            onClick={data.Status === 'RequestToReject' ? () => {
+              setShowInput(true)
+              setShowInputFor('Accept')
+              }: handleReqAccept}
             disabled={storeTempStatus === "Request To Accept"}
           >
             {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
           </button>
-
-          <button
+          }
+          {
+            (data.Status==='RequestToReject' || data.Status==='RequestToAccept') &&  
+            <button
             className={`${
               storeTempStatus === "Request To Reject"
                 ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
                 : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
             }`}
-            onClick={data.status === 'RequestToAccept' ? () => setShowInput(true) : handleReqReject}
+            onClick={data.Status === 'RequestToAccept' ?   () => {
+              setShowInput(true)
+              setShowInputFor('Reject')
+              }:handleReqReject}
             disabled={storeTempStatus === "Request To Reject"}
           >
             {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
           </button>
+          }
+          
+
+          
         </div>
 
         {/* Comment Input */}
@@ -295,9 +344,10 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             </button>
           </div>
         )}
+        
       </div>
     </div>
-  );
+  ); 
 };
 
 export default AddCommentPopup;

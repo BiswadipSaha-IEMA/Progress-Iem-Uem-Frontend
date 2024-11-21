@@ -49,7 +49,7 @@ const CommentModal = ({
     setLoading(true);
     try {
       const response = await postReq(
-        `${name === 'Book Published' || name === 'Research Paper Grade-A' || name === 'Research Paper Grade-B' || name === 'Research Paper Grade-C' ? 'api/v1/document/reviewPublication' : ''}`,
+        `${name === 'Book Published' || name === 'Research Paper Grade-A' || name === 'Research Paper Grade-B' || name === 'Research Paper Grade-C' ? 'api/v1/document/reviewPublication':''}`,
         {
           publicationId: itemData?._id,
           status: "RequestToAccept",

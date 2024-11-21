@@ -6,6 +6,7 @@ import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import Header from "../../Header/Header";
+import ConferenceGradeB from "../../../utils/Popup/FormPopUp/ConferenceGradeB";
 
 function FacultyConferenceGradeBComp() {
     const [showPopUp, setShowPopUp] = useState(false);
@@ -215,7 +216,7 @@ function FacultyConferenceGradeBComp() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeB setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeB setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (

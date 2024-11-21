@@ -35,6 +35,7 @@ export default function Component() {
           });
           setData(arr);
           setData1(arr);
+          console.log("Hello Grade B data is coming")
         }
       } catch (error) {
         console.log(error);

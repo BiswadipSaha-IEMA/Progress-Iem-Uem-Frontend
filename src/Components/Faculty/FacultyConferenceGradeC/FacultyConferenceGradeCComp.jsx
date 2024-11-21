@@ -30,7 +30,7 @@ function FacultyConferenceGradeCComp() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-C") arr.push(data);
+            if (data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr);

@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Header/Header";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import FacultyPopup from "../DetailedSuperAdmin/FacultyPopup";
-import { FaCommentDots, FaRegComments } from "react-icons/fa";
-import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 import { SlActionRedo } from "react-icons/sl";
+import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 
 const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState(dummyData); // Set initial data to dummyData
   const [searchTerm, setSearchTerm] = useState("");
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
   // Get current data for pagination
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  console.log(dummyData);
-  const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
+  
+  // Filtered data based on search term
+  const filteredData = data.filter((item) => {
+    return Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
 
   // Get column headers dynamically, accounting for nested properties
   const getColumnHeaders = (data) => {
@@ -38,7 +41,7 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
   );
 
   // Handle pagination
-  const totalPages = Math.ceil(dummyData.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -51,16 +54,13 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
 
   // Open popup for comments
   const handleCommentClick = (selectedData) => {
-    // console.log("selectedData",selectedData);
-    setData(selectedData);
+    setId(selectedData._id); // Store the selected item's ID
     setDetailedClick(true);
   };
 
   useEffect(() => {
-    console.log(data);
+    console.log(data); // for debugging purposes
   }, [data]);
-
-  
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
@@ -76,24 +76,11 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
         return "text-gray-500";
     }
   };
-  
-  
 
+  // Handle search input
   const handleSearch = (event) => {
-    const searchValue = event.target.value.toLowerCase();
-    setSearchTerm(searchValue);
-
-    // Filter the data
-    const filteredData = dummy.filter((item) => {
-      return columnHeaders.some((header) => {
-        const value = header.includes(".")
-          ? header.split(".").reduce((acc, part) => acc?.[part], item)
-          : item[header];
-        return value?.toString().toLowerCase().includes(searchValue);
-      });
-    });
-
-    setData(filteredData);
+    setSearchTerm(event.target.value); // Update searchTerm state
+    setCurrentPage(1); // Reset to first page on new search
   };
 
   return (
@@ -102,40 +89,31 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
-            <div className="text-[20px] sm:text-[25px] font-semibold">
-              {name}
-            </div>
+            <div className="text-[20px] sm:text-[25px] font-semibold">{name}</div>
           </div>
 
+          {/* Search Box */}
           <div className="w-full sm:w-[300px] lg:w-[500px] h-[50px] font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)] flex px-2 items-center justify-between">
             <div className="flex w-full justify-center items-center">
               <div>
                 <CiSearch size={23} className="font-bold text-[#7A7A7A]" />
               </div>
               <input
-                type="text"
-                onChange={handleSearch}
-                value={searchTerm}
                 className="outline-none w-full pl-3 py-2 mr-2"
                 placeholder="Search by Book Name"
+                value={searchTerm}
+                onChange={handleSearch}
               />
             </div>
             <div>
-              <IoIosCloseCircleOutline
-                size={25}
-                onClick={() => {
-                  setSearchTerm("");
-                  // setData(data1);
-                }}
-                className="font-bold text-[#7A7A7A]"
-              />
+              <IoIosCloseCircleOutline size={25} className="font-bold text-[#7A7A7A]" />
             </div>
           </div>
         </div>
 
-        {/* Responsive Table */}
+        {/* Table */}
         <div className="overflow-auto mt-5 rounded-lg">
-          <div className="min-w-full bg-white rounded-lg "> {/*shadow*/}
+          <div className="min-w-full bg-white rounded-lg">
             <div className="table w-full">
               {/* Table Header */}
               <div className="table-header-group text-center items-center justify-center">
@@ -143,17 +121,11 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                     SL. No
                   </div>
-                  {columnHeaders
-                    .filter((item) => item != "_id")
-                    .map((header, index) => (
-                      <div
-                        key={index}
-                        className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold"
-                      >
-                        {/* {header.split('.').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')} */}
-                        {header.charAt(0).toUpperCase() + header.slice(1)}
-                      </div>
-                    ))}
+                  {columnHeaders.map((header, index) => (
+                    <div key={index} className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
+                      {header.charAt(0).toUpperCase() + header.slice(1)}
+                    </div>
+                  ))}
                   <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold text-center">
                     Review Comments
                   </div>
@@ -186,24 +158,12 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
                         )}
                       </div>
                     ))}
-
-
-
                     <div className="table-cell px-4 py-2">
                       <span
                         className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-center text-sm sm:text-wrap"
-                        onClick={() => {
-                          handleCommentClick(item)
-                          setId(item._id)
-                          fullData?.map((dt)=>{
-                              // console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=',dt)
-                              if(item.isbn===dt.isbn)
-                                setItemData(dt)
-                          })
-                        }}
+                        onClick={() => handleCommentClick(item)}
                       >
-                        {/* <FaRegComments size={16} /> */}
-                        <SlActionRedo size={16}/>
+                        <SlActionRedo size={16} />
                         Action
                       </span>
                     </div>
@@ -232,10 +192,7 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
           </div>
         </div>
       </div>
-      {detailedClick && (
-        // <FacultyPopup setShowPopup={setDetailedClick} data={data} />
-        <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name}/>
-      )}
+      {detailedClick && <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name} />}
     </>
   );
 };

@@ -1,132 +1,210 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { FaBookBookmark } from "react-icons/fa6";
-import { CiFilter, CiSearch } from "react-icons/ci";
-import { GoSortDesc } from "react-icons/go";
-import DataTable from "react-data-table-component";
+import "./styles.css";
+import { usePostReq } from "../../../hooks/useHttp";
 
-export default function SeminarPopUp({ setPopupShow, setUtilFor, takeData }) {
+function SeminarPopUp({ setUtilFor, setShowPopup }) {
+  const [postReq] = usePostReq();
 
-    const [calendarShow, setCalendarShow] = useState(false);
-    const [searchInput, setSearchInput] = useState("");
+  const [formData, setFormData] = useState({
+    eventType: "Seminar",
+    organizedBy: "",
+    topicName:'',
+    date: "",
+    attendedBy: "",
+   
+    type: "Attended",
+    proofDocument: "",
+  });
 
-    const handleSearch = (e) => setSearchInput(e.target.value);
+  const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await postReq(
+      "api/v1/document/createEvent",
+      {
+        eventType: formData.eventType,
+        organizedBy: formData.organizedBy,
+       
+        topicName: formData.topicName,
+        date: formData.date,
+        attendedBy: formData.attendedBy,
+        proofDocument: formData.proofDocument,
+      },
+      accessToken
+    );
+    if (response.success){ 
+      setShowPopup(false)
+      handleClose()
+    };
+  };
+
+  const handleClose = () => {
+    setFormData({
+      eventType: "Seminar",
+      organizedBy: "",
+      topicName: "",
+      date: "",
+      attendedBy: "",
+      
+      type: "Attended",
+      proofDocument: "",
+    });
+    console.log("Form closed");
+  };
+
   return (
-    <>
-      {setUtilFor === "viewSeminarTable" && (
-        <div className="flex bg-[#00000034] alertcontainer backdrop-blur-md fixed justify-center items-center w-[100%] h-[100%] top-0 left-0 z-40">
-          <div className="bg-white py-10 px-4 rounded-[0px] flex flex-col justify-center items-center alertcontent gap-2 relative w-[1000px] min-w-[300px] h-full lg:h-[600px] md:h-[600px] lg:rounded-[14px] md:rounded-[14px]">
-            {/* Close Button */}
+    setUtilFor === "bpAddForm" && (
+      <>
+        <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
+          <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
             <div
               className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
-              onClick={() => setPopupShow(false)}
+              onClick={() => setShowPopup(false)}
             >
               <RxCross2 className="text-white" />
             </div>
 
-            {/* Header Section */}
-            <div className="flex flex-col sm:flex-row justify-between items-center w-full gap-6 mt-10">
-              <div className="flex items-center gap-3">
-                <FaBookBookmark className="text-3xl text-blue-500" />
-                <h2 className="text-2xl font-bold text-gray-800">
-                  Seminar Organized
-                </h2>
-              </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 ml-4">
+              Seminar Organized
+            </h2>
 
-              {/* Search Field */}
-              <div className="relative w-full sm:w-1/2">
-                <CiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
-                <input
-                  type="text"
-                  placeholder="Search with Name or ISS..."
-                  value={searchInput}
-                  onChange={handleSearch}
-                  className="w-full pl-12 py-2 rounded-lg border border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
-                />
-              </div>
-            </div>
+            {/* Inner container with scroll */}
+            <div
+              className="overflow-y-scroll h-[calc(800px-160px)] p-4"
+              style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
+            >
+              {/* Hide scrollbar for Firefox and Internet Explorer */}
+              <style>{`
+            ::-webkit-scrollbar {
+              display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+            }
+          `}</style>
 
-            {/* Filter & Sort Section */}
-            <div className="flex gap-4 mt-6 w-full overflow-x-auto">
-              <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
-                <CiFilter className="text-lg" />
-                <span>Filter</span>
-              </button>
-              <button className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150">
-                <GoSortDesc className="text-lg" />
-                <span>Sort: Chronological</span>
-              </button>
-              <button
-                className="border border-gray-300 rounded-md px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100 transition duration-150"
-                onClick={() => setCalendarShow(!calendarShow)}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Event Type Dropdown */}
+                {/* <div>
+              <label className="block text-gray-600 font-medium mb-1">Event Type</label>
+              <select
+                name="eventType"
+                value={formData.type}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                required
               >
-                <span>Current Month</span>
-              </button>
-            </div>
+                <option value="">Select Event Type</option>
+                <option value="Attended">Attended</option>
+                <option value="Conducted">Conducted</option>
+              </select>
+            </div> */}
 
-            {/* Calendar Overlay */}
-            {calendarShow && (
-              <div
-                id="calendar-overlay"
-                className="fixed top-[150px] flex justify-center items-center left-0 z-50 w-full h-full bg-black bg-opacity-25"
-                onClick={() => setCalendarShow(false)}
-              >
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                  <div className="text-center text-lg font-semibold">
-                    Calendar Component
-                  </div>
+                {/* Organized By */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Organizing Institute
+                  </label>
+                  <input
+                    type="text"
+                    name="organizedBy"
+                    value={formData.organizedBy}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
                 </div>
-              </div>
-            )}
 
-            {/* DataTable Section */}
-            <div className="w-full h-[300px] overflow-x-auto mt-6 bg-gray-100 rounded-lg p-4 shadow-inner">
-              {takeData[0].length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <Lottie options={defaultOptions} height={200} width={200} />
-                  <p className="text-2xl font-bold text-blue-500 mt-4">
-                    No Files Submitted
-                  </p>
+                {/* Topic Name */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Topic Name
+                  </label>
+                  <input
+                    type="text"
+                    name="topicName"
+                    value={formData.topicName}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
                 </div>
-              ) : (
-                <DataTable
-                  columns={takeData[0]}
-                  data={takeData[1].map((row, i) => ({
-                    ...row,
-                    ref: (el) => (rowRefs.current[i] = el),
-                  }))}
-                  defaultSortField="serial"
-                  defaultSortAsc={true}
-                  customStyles={{
-                    headCells: {
-                      style: {
-                        backgroundColor: "#e0f7ff",
-                        color: "#333",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                      },
-                    },
-                    headRow: {
-                      style: {
-                        backgroundColor: "#e0f7ff",
-                      },
-                    },
-                    cells: {
-                      style: {
-                        backgroundColor: "#fff",
-                        color: "#333",
-                        textAlign: "center",
-                        fontSize: "14px",
-                      },
-                    },
-                  }}
-                  className=""
-                />
-              )}
+
+                {/* Date */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+
+                {/* Attended By */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Attended By
+                  </label>
+                  <input
+                    type="text"
+                    name="attendedBy"
+                    value={formData.attendedBy}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+
+                {/* Department */}
+                {/* <div>
+              <label className="block text-gray-600 font-medium mb-1">Department</label>
+              <input
+                type="text"
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+              />
+            </div> */}
+
+                {/* Proof Document */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Proof Document
+                  </label>
+                  <input
+                    type="text"
+                    name="proofDocument"
+                    value={formData.proofDocument}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+
+                {/* Centered Submit Button */}
+                <div className="flex justify-center">
+                  <button
+                    type="submit"
+                    className="w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      )}
-    </>
+      </>
+    )
   );
 }
+
+export default SeminarPopUp;

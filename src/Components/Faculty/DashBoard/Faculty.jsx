@@ -21,6 +21,7 @@ import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
 import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
+import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -50,6 +51,7 @@ export default function Faculty() {
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
+  const [showSeminarPopup, setShowSeminarPopup] = useState(false);
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
@@ -294,15 +296,16 @@ export default function Faculty() {
   };
 
   
-  useEffect(()=>{
-    getSeminarOrgInfo()
-    console.log('--------------------------------------------------',seminarOrg)
-  },[])
+  // useEffect(()=>{
+    
+  //   console.log('--------------------------------------------------',seminarOrg)
+  // },[])
 
 
 
   useEffect(() => {
     allInfo();
+    getSeminarOrgInfo()
     getConfInfo();
     getLecture()
     getMoocs();
@@ -430,6 +433,13 @@ export default function Faculty() {
           status: paper.status,
         })),
     },
+    {
+      title: "Research Paper Published Conference (Grade A)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    }
   ];
 
   const getStatusStyles = (status) => {
@@ -477,16 +487,16 @@ export default function Faculty() {
 
   return (
     <div className="bg-[#ECECEC] h-screen">
-      <div className="absolute top-4 left-4 z-10 p-2 mr-4">
+      <div className="absolute z-10 p-2 mr-4 top-4 left-4">
         <button
           onClick={toggleProfile}
-          className="bg-slate-200 p-2 rounded absolute lsx:hidden"
+          className="absolute p-2 rounded bg-slate-200 lsx:hidden"
           aria-label="Toggle profile"
         >
           {showProfile ? (
-            <X className="h-5 w-5" />
+            <X className="w-5 h-5" />
           ) : (
-            <Menu className="h-5 w-5" />
+            <Menu className="w-5 h-5" />
           )}
         </button>
       </div>
@@ -497,14 +507,14 @@ export default function Faculty() {
             : "lg:w-full lg:ml-0"
         } `}
       >
-        <div className="flex justify-center items-center relative rounded-lg ">
+        <div className="relative flex items-center justify-center rounded-lg ">
           <div className="flex justify-center items-center text-[4.375rem] font-bold text-[#437F9E] absolute">
             <h1>FACULTY</h1>
           </div>
           <img src={rolebg} alt="img" className="object-cover w-full h-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-poppins">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 font-poppins">
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
@@ -541,16 +551,22 @@ export default function Faculty() {
                 } 
                 else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
+                }else if (item.title === "Research Paper Published Conference (Grade A)"){
+                  navigate("/faculty/viewconferencegradea");
+                  console.log("hello ji")
+                }
+                else if (item.title === "Seminar") {
+                  navigate("/faculty/viewseminar");
                 }
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
               }}
             >
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-2">
-                  <FaBookBookmark className="text-blue-700 w-6 h-6 sm:w-8 sm:h-8" />
-                  <h1 className="font-semibold text-lg sm:text-xl">
+                  <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
+                  <h1 className="text-lg font-semibold sm:text-xl">
                     {item.title}
                   </h1>
                 </div>
@@ -590,6 +606,10 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
+                    } else if (
+                      item.title === "Seminar"
+                    ) {
+                      setShowSeminarPopup(true);
                     }
                   }}
                 >
@@ -669,6 +689,12 @@ export default function Faculty() {
       {showConferencePopup && (
         <ConferencePopUp
           setShowPopup={setShowConferencePopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showSeminarPopup && (
+        <SeminarPopUp
+          setShowPopup={setShowSeminarPopup}
           setUtilFor="bpAddForm"
         />
       )}

@@ -53,25 +53,26 @@ const ModeratorTableData = () => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const id=sessionStorage.getItem("userId")
+  // const [btn ]
   // console.log(typeof(department))
 
 
-  useEffect(() => {
-    const getFaculty = async () => {
-      try {
-        const response = await getReq(
-          `api/v1/document/getAllSubmissions/${department}`,
-          accessToken
-        );
-        if (response.success) {
-          setData(response.data);
-        } else {
-          console.error("Error:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error);
+  const getFaculty = async () => {
+    try {
+      const response = await getReq(
+        `api/v1/document/getAllSubmissions/${department}`,
+        accessToken
+      );
+      if (response.success) {
+        setData(response.data);
+      } else {
+        console.error("Error:", response.statusText);
       }
-    };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  useEffect(() => {
   
     if (accessToken) {
       getFaculty();
@@ -146,7 +147,9 @@ const options= {
       const scaFull=data.studentChapters.map(({...rest})=>({...rest}))
       const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const confFull=data.publications.filter(pub=>pub.eventType==="Conference")
-      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, comment, reviewedBy,createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, 
+        comment, reviewedBy,
+        createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const filteredBooksFull=data.publications.filter(pub=>pub.publicationType==="Book")
       const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const rep1Full=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A")

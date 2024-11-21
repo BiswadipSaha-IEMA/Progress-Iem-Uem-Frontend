@@ -35,6 +35,8 @@ const CommentModal = ({
 
   console.log(id)
 
+  console.log(itemData)
+
   // const apiList = [
   //   { nameList: ["Moocs"], api: `/${id}/mooccomment` },
   //   { nameList: ["Patent"], api: `/${id}/patentcomment` },

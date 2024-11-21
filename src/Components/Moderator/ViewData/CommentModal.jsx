@@ -131,7 +131,7 @@ const CommentModal = ({
 
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
-          {!itemData?.status ? (
+          {!itemData?.status ? itemData.status==='Pending' &&(
             <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] rounded-3xl">
               <div className="flex flex-col items-center justify-center ">
                 <MdInsertComment className="text-[#9f9f9f] text-[5rem]" />
@@ -142,22 +142,53 @@ const CommentModal = ({
             <div className="space-y-3">
               <div className="rounded-lg text-gray-800 bg-[#fff]">
                 <p>
-                  {status === "RequestToAccept" ? (
+                  {status === "RequestToAccept" && status !== "Pending" ? (
                     <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
                       <div className="bg-[#fff] rounded-[50%] mr-2">
                         <TiTick className="text-[15px] text-[#2e9b32]" />
                       </div>
                       Request To Accept
+                      {
+                        console.log(status)
+                      }
                     </div>
-                  ) : (
+                  ) :status === "RequestToReject" && status !== "Pending" ? (
                     <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
                       <div className="bg-[#fff] rounded-[50%] mr-2">
                         <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
                       </div>
                       Request To Reject
+                      {
+                        console.log(status)
+                      }
                     </div>
-                  )}
+                  ): status === "Approved" && status !== "Pending"? (
+                    <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <TiTick className="text-[15px] text-[#2e9b32]" />
+                      </div>
+                      Accepted
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ):
+                  (
+                    <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
+                      </div>
+                      Rejected
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ) && status !== "Pending"
+                  
+                  }
                 </p>
+                {
+                  status !== 'Pending'?
                 <div className="flex justify-between">
                   <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
                     {commentText || itemData?.comment}
@@ -167,13 +198,21 @@ const CommentModal = ({
                     <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
                   </div>
                 </div>
+                :
+                <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] mt-32">
+              <div className="flex flex-col items-center justify-center ">
+                <MdInsertComment className="text-[#9f9f9f] text-[5rem]" />
+                <p className="text-[#9f9f9f] font-[600]">Be the first person to add a comment</p>
+              </div>
+            </div>
+                }
               </div>
             </div>
           )}
         </div>
 
         {
-          (itemData.status==='RequestToAccept' || itemData.status==='RequestToReject') &&
+          (itemData.status==='Pending') &&
           <>
         <div className="flex gap-5 mt-6 justify-start mb-5">
           <div

@@ -627,11 +627,18 @@ export default function Faculty() {
                       key={index}
                       className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
                     >
-
-                      {icon}
-                      {/* {book.status==="RequestToAccept" || book.status==="RequestToReject" ?  */}
-                      <p className={`${text}`}>{book.status==='RequestToAccept'? 'Pending':book.status==="RequestToReject"? 'Pending': book.status }</p>
-                     
+                      {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+                      <div
+                        className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 min-w-fit max-w-full`}
+                      >
+                        {icon}
+                        {book.status === "RequestToAccept" &&
+                        book.status === "RequestToReject" ? (
+                          <p className={`${text}`}>{book.title}</p>
+                        ) : (
+                          <p className={`${text}`}>{book.status}</p>
+                        )}
+                      </div>
                     </div>
                   );
                 })}

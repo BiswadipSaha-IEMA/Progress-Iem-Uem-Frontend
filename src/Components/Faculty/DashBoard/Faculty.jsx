@@ -281,7 +281,24 @@ export default function Faculty() {
     }
   };
 
-  
+  const getSeminarOrg = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log(response);
+      if (response.success) {
+        const filteredData = response.data.data.filter(
+          (dt) => dt.eventType === "Seminar"
+        );
+        console.log(filteredData);
+        setSeminarOrg(filteredData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const getStudentChapterInfo = async () => {
     try {
       const response = await getReq("api/v1/document/getAllStudentChapters", accessToken);
@@ -297,7 +314,7 @@ export default function Faculty() {
   };
 
   
-  // useEffect(()=>{8+
+  // useEffect(()=>{
   //   getSeminarOrgInfo()
   //   console.log('--------------------------------------------------',seminarOrg)
   // },[])
@@ -315,7 +332,7 @@ export default function Faculty() {
     getPatentInfo()
     getFdpInfo()
     getCompeteInfo()
-   
+    getSeminarOrg()
     getStudentChapterInfo()
   }, [
     accessToken,

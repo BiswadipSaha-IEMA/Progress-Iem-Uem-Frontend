@@ -5,6 +5,10 @@ import { usePostReq } from "../../../hooks/useHttp";
 
 function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
+  const [authorType, setAuthorType] = useState("");
+  const handleChangeAuthor = (e) => {
+    setAuthorType(e.target.value);
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -43,6 +47,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
         // isbn: formData.isbn,
         category: formData.category,
         publisher: formData.publisher,
+        authorType : authorType,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -86,13 +91,13 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
         <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
             <div
-              className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+              className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
               onClick={() => setShowPopup(false)}
             >
               <RxCross2 className="text-white" />
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
               Research Paper Publication Form
             </h2>
 
@@ -109,9 +114,25 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+                 {/* Author Type */}
+            <div>
+              <label className="block mb-1 font-medium text-gray-600">
+                Author Type
+              </label>
+              <select
+                name="category"
+                value={authorType}
+                onChange={handleChangeAuthor}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+              >
+                <option value="">Select</option>
+                <option value="Student">Student</option>
+                <option value="Faculty">Faculty</option>
+              </select>
+            </div>
                 {/* Name */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Name
                   </label>
                   <input
@@ -126,7 +147,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Title */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Paper Name
                   </label>
                   <input
@@ -140,9 +161,9 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* ISBN and Category */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   {/* <div>
-                    <label className="block text-gray-600 font-medium mb-1">
+                    <label className="block mb-1 font-medium text-gray-600">
                       ISBN
                     </label>
                     <input
@@ -155,14 +176,14 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
                   </div> */}
 
                   <div>
-                    <label className="block text-gray-600 font-medium mb-1">
+                    <label className="block mb-1 font-medium text-gray-600">
                       Category
                     </label>
                     <select
                       name="category"
                       value={formData.category}
                       onChange={handleInputChange}
-                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                      className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                     >
                       <option value="">Select</option>
                       <option value="Others">Others</option>
@@ -172,7 +193,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Publisher */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Publisher
                   </label>
                   <input
@@ -186,7 +207,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Date */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Date of Issue
                   </label>
                   <input
@@ -200,7 +221,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Journal Name */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Journal Name
                   </label>
                   <input
@@ -213,9 +234,9 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
                 </div>
 
                 {/* Volume, Issue, and Pages */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <div>
-                    <label className="block text-gray-600 font-medium mb-1">
+                    <label className="block mb-1 font-medium text-gray-600">
                       Volume
                     </label>
                     <input
@@ -228,7 +249,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
                   </div>
 
                   <div>
-                    <label className="block text-gray-600 font-medium mb-1">
+                    <label className="block mb-1 font-medium text-gray-600">
                       Issue Number
                     </label>
                     <input
@@ -241,7 +262,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
                   </div>
 
                   <div>
-                    <label className="block text-gray-600 font-medium mb-1">
+                    <label className="block mb-1 font-medium text-gray-600">
                       pp. No.
                     </label>
                     <input
@@ -256,7 +277,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Publication Grade Dropdown */}
                 {/* <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Publication Grade
                   </label>
                   <select
@@ -273,7 +294,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* National or International Dropdown */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     National or International
                   </label>
                   <select
@@ -289,7 +310,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup }) {
 
                 {/* Proof Document */}
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Proof Document
                   </label>
                   <input

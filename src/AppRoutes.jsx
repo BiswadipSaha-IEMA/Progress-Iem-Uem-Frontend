@@ -49,6 +49,7 @@ import FacultyFDPPage from "./Pages/Faculty/FacultyFDP/FacultyFDPPage";
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
   const { routeName } = useParams();
+  const {adminDept} = useParams()
 
   return (
     <>
@@ -56,6 +57,7 @@ const AppRouter = () => {
         <Routes>
           <Route path="/" element={<SuperAdminDashboard />} />
           <Route path="/editAcc" element={<Home />} />
+          <Route path={`/:adminDept/viewdata`} element={<FacultyViewData />} />
           {/* <Route path="/viewdata" element={<Student />} /> */}
           <Route path="/adddepartment" element={<AddFaculty />} />
           <Route path="/addmoderator" element={<AddModerator />} />
@@ -88,12 +90,11 @@ const AppRouter = () => {
           <Route path="/cse-aiml-facultylist" element={<CSEAIMLFacultyList />} />
           <Route path="/cse-iot-facultylist" element={<CSEIOTFacultyList />} />
           <Route path="/moderator/specificbookpublished" element={<ModeratorSpecificBookPublished />} />
-          <Route path={`/md/:routeName/facultylist`} element={<MdStreamFacultyList />} />
+          <Route path={`/md/:routeName/viewdata`} element={<MdStreamFacultyList />} />
           
           <Route path={`/:routeName/facultylist`} element={<StreamFacultyList />} />
 
 
-          <Route path="/viewdata" element={<FacultyViewData />} />
 
           <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>

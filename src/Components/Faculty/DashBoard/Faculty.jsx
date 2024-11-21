@@ -442,9 +442,10 @@ export default function Faculty() {
         };
       case "RequestToAccept":
         return {
-          bg: "bg-[#D6FFCE]",
-          text: "text-[#1C6229]",
-          icon: <TiTick className="text-[#1C6229]" />,
+          bg: "bg-[#FFC8A0]",
+          text: "text-[#873D22]",
+          icon: <LuLoader className="text-[#873D22]" />,
+          tilte: "Pending",
         };
       case "Pending":
         return {
@@ -457,12 +458,13 @@ export default function Faculty() {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
           icon: <RiCloseFill className="text-[#C66666]" />,
+          tilte: "Pending"
         };
       case "RequestToReject":
         return {
-          bg: "bg-[#FFD6D6]",
-          text: "text-[#D60000]",
-          icon: <RiCloseFill className="text-[#C66666]" />,
+          bg: "bg-[#FFC8A0]",
+          text: "text-[#873D22]",
+          icon: <LuLoader className="text-[#873D22]" />,
         };
       default:
         return {
@@ -502,7 +504,7 @@ export default function Faculty() {
           <img src={rolebg} alt="img" className="object-cover w-full h-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-poppins">
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
@@ -599,14 +601,14 @@ export default function Faculty() {
                 return (
                   <div
                     key={index}
-                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base"
+                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
                   >
                     {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
                     <div
                       className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
                     >
                       {icon}
-                      <p className={`${text}`}>{book.status}</p>
+                      {book.status==="RequestToAccept" && book.status==="RequestToReject" ? (<p className={`${text}`}>{book.tilte}</p>) : (<p className={`${text}`}>{book.status}</p>)}
                     </div>
                   </div>
                 );

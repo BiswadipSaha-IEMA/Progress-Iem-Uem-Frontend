@@ -666,7 +666,7 @@ const ManagePopUp = ({ setPopupShow, setSave, setUtilFor, takeData }) => {
                   className="flex justify-center items-center py-2 bg-[#03A8FD] text-center w-[20%] text-white rounded-md font-semibold cursor-pointer"
                   onClick={handelFacultySubmit}
                 >
-                  Add
+                  {loading? "Adding..." : "Add"}
                 </button>
               </div>
             </div>

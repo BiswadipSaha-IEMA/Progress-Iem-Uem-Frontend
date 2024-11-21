@@ -113,6 +113,7 @@ const ProfileContent = ({
             logout()
             sessionStorage.clear()
             navigate('/moderator/login')
+            window.location.reload()
           }}
         />
       </div>

@@ -10,7 +10,6 @@ import { TiTick } from "react-icons/ti";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { MdInsertComment } from "react-icons/md";
 
-
 const CommentModal = ({
   isOpen,
   onClose,
@@ -24,44 +23,17 @@ const CommentModal = ({
   const [commentText, setCommentText] = useState("");
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const [isSend, setIsSend] = useState(false);
-  const [isLottieLoading, setIsLottieLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { criteriaId } = useParams();
   const [postReq] = usePostReq();
-  const [loading, setLoading] = useState(false);
-  const [storeTempMessage, setStoreTempMessage] = useState("");
-  const [storeTempStatus, setStoreTempStatus] = useState("");
-  const [storeTempName, setStoreTempName] = useState("");
-  const [commentData, setCommentData] = useState(null);
 
-  console.log(id)
-
-  // const apiList = [
-  //   { nameList: ["Moocs"], api: `/${id}/mooccomment` },
-  //   { nameList: ["Patent"], api: `/${id}/patentcomment` },
-  //   {
-  //     nameList: ["Student Chapter Activity"],
-  //     api: `/${id}/studentchaptercomment`,
-  //   },
-  //   {
-  //     nameList: ["List of Project Proposals"],
-  //     api: `/${id}/projectcomment`,
-  //   },
-  //   {
-  //     nameList: [
-  //       "Research Paper Published (Grade-A)",
-  //       "Research Paper Published (Grade-B)",
-  //       "Research Paper Published (Grade-C)",
-  //       "Book Published",
-  //     ],
-  //     api: `/${id}/publicationcomment`,
-  //   },
-  // ];
- 
+  const [status, setStatus] = useState(itemData?.status || ""); // To track the current status (Accept/Reject)
 
   useEffect(() => {
-    console.log("---------------------------", itemData);
-    console.log(loading);
-  }, [loading]);
+    if (itemData?.status) {
+      setStatus(itemData?.status);
+    }
+  }, [itemData]);
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -75,42 +47,52 @@ const CommentModal = ({
 
   const handleReqAccept = async () => {
     setLoading(true);
-    const response = await postReq(
-      `${(name==='Book Published'||name==='Research Paper Grade-A'||name==='Research Paper Grade-B'||name==='Research Paper Grade-C')?'api/v1/document/reviewPublication':''}`,
-      {
-        publicationId: itemData?._id,
-        status: "RequestToAccept",
-        comment: "Accepetance Requested",
-      },
-      accessToken
-    );
-    setStoreTempMessage("This File Is Accepeted");
-    setStoreTempStatus("Request To Accept");
-    setStoreTempName(itemData?.reviewedBy?.name)
-    setLoading(false);
-    console.log(response);
+    try {
+      const response = await postReq(
+        `${name === 'Book Published' || name === 'Research Paper Grade-A' || name === 'Research Paper Grade-B' || name === 'Research Paper Grade-C' ? 'api/v1/document/reviewPublication' : ''}`,
+        {
+          publicationId: itemData?._id,
+          status: "RequestToAccept",
+          comment: "Acceptance Requested",
+        },
+        accessToken
+      );
+      setStatus("RequestToAccept");
+      console.log(response);
+    } catch (error) {
+      console.error("Error accepting request", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
   const handleReqReject = async () => {
-    const response = await postReq(
-      `api/v1/document/reviewPublication`,
-      {
-        publicationId: itemData?._id,
-        status: "RequestToReject",
-        comment: commentText !== '' ? commentText : null,
-      },
-      accessToken
-    );
-    setStoreTempMessage(commentText !== '' ? commentText : null);
-    setStoreTempStatus("Request To Reject");
-    setStoreTempName(itemData?.reviewedBy?.name)
-    setCommentText("");
+    setLoading(true);
+    try {
+      const response = await postReq(
+        "api/v1/document/reviewPublication",
+        {
+          publicationId: itemData?._id,
+          status: "RequestToReject",
+          comment: commentText || null,
+        },
+        accessToken
+      );
+      setStatus("RequestToReject");
+      console.log(response);
+    } catch (error) {
+      console.error("Error rejecting request", error);
+    } finally {
+      setLoading(false);
+      setCommentText(""); // Clear comment input after rejection
+    }
   };
-  
+
   const handleSubmit = async () => {
     setIsSend(true);
     try {
       const response = await postReq(
-        `api/v1/document/reviewPublication`,
+        "api/v1/document/reviewPublication",
         {
           publicationId: itemData?._id,
           status: "RequestToReject",
@@ -118,26 +100,15 @@ const CommentModal = ({
         },
         accessToken
       );
-      setStoreTempMessage(commentText);
-      setStoreTempStatus("Request To Reject");
-      setStoreTempName(itemData?.reviewedBy?.name)
+      setStatus("RequestToReject");
+      console.log(response);
     } catch (error) {
       console.error("Error posting comment", error);
     } finally {
       setIsSend(false);
-      setCommentText("");
+      setCommentText(""); // Clear comment input after submission
     }
   };
-
-  useEffect(() => {
-    if (itemData?.status) {
-      if (itemData.status === "RequestToAccept") {
-        setStoreTempStatus("Request To Accept");
-      } else if (itemData.status === "RequestToReject") {
-        setStoreTempStatus("Request To Reject");
-      }
-    }
-  }, [itemData]);
 
   if (!isOpen) return null;
 
@@ -146,14 +117,12 @@ const CommentModal = ({
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-[1000px] sm:w-[90%] md:w-[70%] lg:w-[50%] h-auto sm:h-[70vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold font-poppins text-[#03A8FD]">
-            Add Comment
-          </h2>
+          <h2 className="text-2xl font-semibold font-poppins text-[#03A8FD]">Add Comment</h2>
           <button
             className="bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-1"
-            onClick={()=>{
-              onClose()
-              setCommentText('')
+            onClick={() => {
+              onClose();
+              setCommentText('');
             }}
           >
             <RxCross2 className="text-white text-2xl" />
@@ -162,100 +131,124 @@ const CommentModal = ({
 
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
-          {!storeTempStatus? (
+          {!itemData?.status ? itemData.status==='Pending' &&(
             <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] rounded-3xl">
-            <div className="flex flex-col items-center justify-center ">
-            <MdInsertComment className="text-[#9f9f9f] text-[5rem]"/>
-              <p className="text-[#9f9f9f] font-[600]">
-                Be the first person to add a comment
-              </p>
-            </div>
+              <div className="flex flex-col items-center justify-center ">
+                <MdInsertComment className="text-[#9f9f9f] text-[5rem]" />
+                <p className="text-[#9f9f9f] font-[600]">Be the first person to add a comment</p>
+              </div>
             </div>
           ) : (
             <div className="space-y-3">
-              <div className="  rounded-lg text-gray-800 bg-[#fff]">
+              <div className="rounded-lg text-gray-800 bg-[#fff]">
                 <p>
-                  {
-                    storeTempStatus === "Request To Accept" ? (
-                      <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
-                        <div className="bg-[#fff] rounded-[50%] mr-2">
-                          <TiTick className="text-[15px] text-[#2e9b32]" />
-                        </div>
-                        Request To Accept
+                  {status === "RequestToAccept" && status !== "Pending" ? (
+                    <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <TiTick className="text-[15px] text-[#2e9b32]" />
                       </div>
-                    ) : (
-                      <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
-                        <div className="bg-[#fff] rounded-[50%] mr-2">
-                          <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
-                        </div>
-                        <div className="">
-                        Request To Reject
-                        </div>
+                      Request To Accept
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ) :status === "RequestToReject" && status !== "Pending" ? (
+                    <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
                       </div>
-                    )
+                      Request To Reject
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ): status === "Approved" && status !== "Pending"? (
+                    <div className="text-[#fff] bg-[#2e9b32] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <TiTick className="text-[15px] text-[#2e9b32]" />
+                      </div>
+                      Accepted
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ):
+                  (
+                    <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
+                      <div className="bg-[#fff] rounded-[50%] mr-2">
+                        <RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />
+                      </div>
+                      Rejected
+                      {
+                        console.log(status)
+                      }
+                    </div>
+                  ) && status !== "Pending"
+                  
                   }
                 </p>
+                {
+                  status !== 'Pending'?
                 <div className="flex justify-between">
                   <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
-                    {storeTempMessage ? storeTempMessage : itemData?.comment}
+                    {commentText || itemData?.comment}
                   </p>
                   <div className="flex pr-2 items-center">
-                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{storeTempName? storeTempName : itemData?.reviewedBy?.name}</p>
+                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{itemData?.reviewedBy?.name}</p>
                     <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
                   </div>
                 </div>
+                :
+                <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] mt-32">
+              <div className="flex flex-col items-center justify-center ">
+                <MdInsertComment className="text-[#9f9f9f] text-[5rem]" />
+                <p className="text-[#9f9f9f] font-[600]">Be the first person to add a comment</p>
+              </div>
+            </div>
+                }
               </div>
             </div>
           )}
         </div>
 
+        {
+          (itemData.status==='Pending') &&
+          <>
         <div className="flex gap-5 mt-6 justify-start mb-5">
           <div
             className={`${
-              storeTempStatus === "Request To Accept"
+              status === "RequestToAccept"
                 ? "bg-green-500 text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : storeTempStatus === "Request To Reject"
-                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
                 : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
             }`}
             onClick={handleReqAccept}
           >
-            {
-              storeTempStatus === "Request To Accept" ? (
-                <div className="flex items-center px-3">
-                  <div className="pr-2">
-                    Request Sent
-                  </div>
-                  <div className="bg-[#fff] rounded-[50%]">
-                    <TiTick className="text-[20px] text-[#2e9b32]" />
-                  </div>
+            {status === "RequestToAccept" ? (
+              <div className="flex items-center px-3">
+                <div className="pr-2">Request Sent</div>
+                <div className="bg-[#fff] rounded-[50%]">
+                  <TiTick className="text-[20px] text-[#2e9b32]" />
                 </div>
-              ) : "Request To Accept"
-            }
+              </div>
+            ) : "Request To Accept"}
           </div>
 
           <div
             className={`${
-              storeTempStatus === "Request To Reject"
+              status === "RequestToReject"
                 ? "bg-[#f84748] text-white p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
-                : storeTempStatus === "Request To Accept"
-                ? "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
                 : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] border-[#bae8ff] border-[2px] pl-5 pr-5 cursor-pointer"
             }`}
             onClick={handleReqReject}
           >
-            {
-              storeTempStatus === "Request To Reject" ? (
-                <div className="flex items-center px-3">
-                  <div className="pr-2">
-                    Request Sent
-                  </div>
-                  <div className="bg-[#fff] rounded-[50%]">
-                    <RxCross2 className="text-[20px] text-[#2e9b32]" />
-                  </div>
+            {status === "RequestToReject" ? (
+              <div className="flex items-center px-3">
+                <div className="pr-2">Request Sent</div>
+                <div className="bg-[#fff] rounded-[50%]">
+                  <RxCross2 className="text-[20px] text-[#2e9b32]" />
                 </div>
-              ) : "Request To Reject"
-            }
+              </div>
+            ) : "Request To Reject"}
           </div>
         </div>
 
@@ -287,6 +280,9 @@ const CommentModal = ({
             )}
           </button>
         </div>
+          {/* Action Buttons */}
+          </>
+        }
       </div>
     </div>
   );

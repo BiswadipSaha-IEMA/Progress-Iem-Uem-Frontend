@@ -164,7 +164,7 @@ const CommentModal = ({
 
         {/* Comment Section */}
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
-          {!storeTempStatus? (
+          {!itemData? (
             <div className="flex h-full w-full justify-center items-center bg-[#F0F0F0] rounded-3xl">
             <div className="flex flex-col items-center justify-center ">
             <MdInsertComment className="text-[#9f9f9f] text-[5rem]"/>

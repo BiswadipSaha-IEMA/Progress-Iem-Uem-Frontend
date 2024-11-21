@@ -93,7 +93,7 @@ export default function FacultyBookPublished() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Research Paper Grade B (Book Chapter)
+            Research Paper - Book Chapter (Grade B)
             </div>
           </div>
 

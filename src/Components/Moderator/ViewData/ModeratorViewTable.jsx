@@ -18,7 +18,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
   const [selectedRow, setSelectedRow] = useState(null); // Selected row for comments
   const [columnHeaders, setColumnHeaders] = useState([]); // Store dynamic column headers
   const [id, setId] = useState("");
-  const [itemData, setItemData] = useState([]);
+  const [itemData, setItemData] = useState([]); 
 
   // Dynamically generate column headers
   useEffect(() => {

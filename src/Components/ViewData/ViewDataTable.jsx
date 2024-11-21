@@ -8,7 +8,7 @@ import { FaCommentDots, FaRegComments } from "react-icons/fa";
 import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 import { SlActionRedo } from "react-icons/sl";
 
-const ViewDataTable = ({ name, dummyData, dummy }) => {
+const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
   const [data, setData] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   // Pagination state
@@ -59,6 +59,8 @@ const ViewDataTable = ({ name, dummyData, dummy }) => {
   useEffect(() => {
     console.log(data);
   }, [data]);
+
+  
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {

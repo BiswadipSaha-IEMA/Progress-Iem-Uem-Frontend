@@ -8,7 +8,7 @@ import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
 
-export default function Component() {
+export default function FacultySeminarOrganisedComp() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
@@ -41,6 +41,7 @@ export default function Component() {
       }
     };
     getBPData();
+    console.log(data)
   }, [showPopUp]);
 
   const handleSearch = (event) => {
@@ -48,9 +49,11 @@ export default function Component() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title?.toLowerCase().includes(searchData) ||
-        item.name?.toLowerCase().includes(searchData) ||
-        item.isbn?.toLowerCase().includes(searchData)
+        item.topicName?.toLowerCase().includes(searchData) ||
+        item.organizedBy?.toLowerCase().includes(searchData) ||
+        item.attendedBy?.toLowerCase().includes(searchData)||
+        item.createdBy.email?.toLowerCase().includes(searchData)||
+        item.createdBy.name?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);

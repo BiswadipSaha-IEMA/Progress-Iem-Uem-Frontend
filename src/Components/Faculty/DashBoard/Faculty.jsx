@@ -21,6 +21,7 @@ import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
 import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
+import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -50,6 +51,7 @@ export default function Faculty() {
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
+  const [showSeminarPopup, setShowSeminarPopup] = useState(false);
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
@@ -294,15 +296,16 @@ export default function Faculty() {
   };
 
   
-  useEffect(()=>{
-    getSeminarOrgInfo()
-    console.log('--------------------------------------------------',seminarOrg)
-  },[])
+  // useEffect(()=>{
+    
+  //   console.log('--------------------------------------------------',seminarOrg)
+  // },[])
 
 
 
   useEffect(() => {
     allInfo();
+    getSeminarOrgInfo()
     getConfInfo();
     getLecture()
     getMoocs();
@@ -542,6 +545,9 @@ export default function Faculty() {
                 else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
                 }
+                else if (item.title === "Seminar") {
+                  navigate("/faculty/viewseminar");
+                }
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
@@ -590,6 +596,10 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
+                    } else if (
+                      item.title === "Seminar"
+                    ) {
+                      setShowSeminarPopup(true);
                     }
                   }}
                 >
@@ -669,6 +679,12 @@ export default function Faculty() {
       {showConferencePopup && (
         <ConferencePopUp
           setShowPopup={setShowConferencePopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showSeminarPopup && (
+        <SeminarPopUp
+          setShowPopup={setShowSeminarPopup}
           setUtilFor="bpAddForm"
         />
       )}

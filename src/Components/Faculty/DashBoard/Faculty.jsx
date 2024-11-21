@@ -21,6 +21,8 @@ import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
 import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
+import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -44,6 +46,7 @@ export default function Faculty() {
   const [conference, setConference] = useState(false);
   const [industrial, setIndustrial] = useState(false);
   const [triMentor, settriMentor] = useState(false);
+  const [StudentChapter, setStudentChapter] = useState([]);
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
@@ -53,6 +56,8 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
+  const [showSeminarPopup, setshowSeminarPopup] = useState(false);
+  const [showstudentChapterPopup, setshowstudentChapterPopup] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -276,28 +281,26 @@ export default function Faculty() {
     }
   };
 
-  const getSeminarOrgInfo = async () => {
+  
+  const getStudentChapterInfo = async () => {
     try {
-      const response = await getReq("api/v1/document/getAllEvents", accessToken);
-      console.log("Response:", response); 
-
+      const response = await getReq("api/v1/document/getAllStudentChapters", accessToken);
+      console.log(response);
+      console.log("StudentChapters");
       if (response.success) {
-        const filteredSeminarData = response.data.data.filter(
-          (dt) => dt.eventType === "Seminar"
-        );
-        console.log("Filtered Seminar Data:", filteredSeminarData);
-        setSeminarOrg(filteredSeminarData);
+        console.log("responses",response.data.data);
+        setStudentChapter(response.data.data);
       }
     } catch (error) {
-      console.error("Error fetching seminar data:", error);
+      console.error("Error fetching conference info:", error);
     }
   };
 
   
-  useEffect(()=>{
-    getSeminarOrgInfo()
-    console.log('--------------------------------------------------',seminarOrg)
-  },[])
+  // useEffect(()=>{8+
+  //   getSeminarOrgInfo()
+  //   console.log('--------------------------------------------------',seminarOrg)
+  // },[])
 
 
 
@@ -312,6 +315,8 @@ export default function Faculty() {
     getPatentInfo()
     getFdpInfo()
     getCompeteInfo()
+   
+    getStudentChapterInfo()
   }, [
     accessToken,
   ]);
@@ -421,14 +426,13 @@ export default function Faculty() {
           status: paper.status,
         })),
     },
+    
     {
-      title: "Seminar",
-      details: seminarOrg
-        .filter((paper) => paper.eventType === "Seminar")
-        .map((paper) => ({
-          title: paper.topicName,
-          status: paper.status,
-        })),
+      title: "Student Chapter Activity",
+      details: StudentChapter.map((paper) => ({
+        title: paper.companyName,
+        status: paper.status,
+      })),
     },
   ];
 
@@ -542,9 +546,12 @@ export default function Faculty() {
                 else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
                 }
-                // else if (item.title === "Seminar") {
-                //   navigate("/faculty/viewseminar");
-                // }
+                else if (item.title === "Seminar") {
+                  navigate("/faculty/viewseminar");
+                }
+                else if (item.title === "Student Chapter Activity") {
+                  navigate("/faculty/viewstudentchapter");
+                }
               }}
             >
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -590,6 +597,15 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
+                    }else if (
+                      item.title === "Seminar"
+                    ) {
+                      setshowSeminarPopup(true);
+                    }
+                    else if (
+                      item.title === "Student Chapter Activity"
+                    ) {
+                      setshowstudentChapterPopup(true);
                     }
                   }}
                 >
@@ -669,6 +685,18 @@ export default function Faculty() {
       {showConferencePopup && (
         <ConferencePopUp
           setShowPopup={setShowConferencePopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showSeminarPopup && (
+        <SeminarPopUp
+          setShowPopup={setshowSeminarPopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showstudentChapterPopup && (
+        <StudentChapterPopUp
+          setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
         />
       )}

@@ -379,6 +379,7 @@ const FacultyViewData = () => {
             documentLink,
             status,
             // _id,
+            comment,
             hasContentAccess,
             ...rest
           }) => ({
@@ -646,21 +647,21 @@ const FacultyViewData = () => {
             <ViewDataTable
               dummyData={rp1}
               dummy={rp1}
-              name="Research Paper Published (Grade-A)"
+              name="Research Paper Published-Journal (Grade-A)"
             />
           )}
           {rp2?.length > 0 && (
             <ViewDataTable
               dummyData={rp2}
               dummy={rp2}
-              name="Research Paper Published (Grade-B)"
+              name="Research Paper Published-Journal (Grade-B)"
             />
           )}
           {rp3?.length > 0 && (
             <ViewDataTable
               dummyData={rp3}
               dummy={rp3}
-              name="Research Paper Published (Grade-C)"
+              name="Research Paper Published-Journal (Grade-C)"
             />
           )}
           {patents?.length > 0 && (

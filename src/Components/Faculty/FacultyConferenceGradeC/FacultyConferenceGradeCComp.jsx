@@ -4,23 +4,22 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
-import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-import Header from "../../../Components/Header/Header";
+import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
+import Header from "../../Header/Header";
 
-export default function Component() {
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [data, setData] = useState([]);
-  const [data1, setData1] = useState([]);
-  const [getReq] = useGetReq();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [detailedClick, setDetailedClick] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const rowsPerPage = 10;
-
-  const accessToken = sessionStorage.getItem("token").split('"')[1];
-
+function FacultyConferenceGradeCComp() {
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [getReq] = useGetReq();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [detailedClick, setDetailedClick] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const rowsPerPage = 10;
+  
+    const accessToken = sessionStorage.getItem("token").split('"')[1];
+    
   useEffect(() => {
     const getBPData = async () => {
       try {
@@ -31,7 +30,7 @@ export default function Component() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-B") arr.push(data);
+            if (data.publicationGrade === "Grade-C") arr.push(data);
           });
           setData(arr);
           setData1(arr);
@@ -69,15 +68,14 @@ export default function Component() {
   };
 
   const columnHeaders = [
-    'Author Type',
-    'Title',
-    'Faculty',
-    'Publisher Name',
-    'Published Date',
-    'Issue No',
-    'Status',
-    'Email',
-    'Proof of Document'
+    "Title",
+    "Faculty",
+    "Publisher Name",
+    "Published Date",
+    "Issue No",
+    "Status",
+    "Email",
+    "Proof of Document",
   ];
 
   return (
@@ -88,7 +86,7 @@ export default function Component() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Research Paper Grade B
+              Research Paper Published Conference Grade C
             </div>
           </div>
 
@@ -149,7 +147,6 @@ export default function Component() {
                       }}
                     >
                       <td className="sticky left-0 px-4 py-2 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.authorType}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
@@ -217,12 +214,14 @@ export default function Component() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeB setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ResearchPaperGradeC setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
     </div>
-  );
+  )
 }
+
+export default FacultyConferenceGradeCComp

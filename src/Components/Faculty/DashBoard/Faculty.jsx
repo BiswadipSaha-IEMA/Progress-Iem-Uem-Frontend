@@ -436,7 +436,21 @@ export default function Faculty() {
         title: paper.title,
         status: paper.status,
       })),
-    }
+    },
+    {
+      title: "Research Paper Published Conference (Grade B)",
+      details: groupResearchByGrade("Grade-B").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Published Conference (Grade C)",
+      details: groupResearchByGrade("Grade-C").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
   ];
 
   const getStatusStyles = (status) => {
@@ -550,8 +564,13 @@ export default function Faculty() {
                   navigate("/faculty/viewcomp");
                 }else if (item.title === "Research Paper Published Conference (Grade A)"){
                   navigate("/faculty/viewconferencegradea");
-                  console.log("hello ji")
+                }else if(item.title === "Research Paper Published Conference (Grade B)"){
+                  navigate("/faculty/viewconferencegradeb");
+                }else if (item.title ===  "Research Paper Published Conference (Grade C)"){
+                  navigate("/faculty/viewconferencegradec");
                 }
+
+
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }

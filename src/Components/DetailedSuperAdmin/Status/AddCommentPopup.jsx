@@ -231,18 +231,18 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-[1000px] sm:w-[90%] md:w-[70%] lg:w-[50%] h-auto sm:h-[70vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-semibold font-poppins text-[#03A8FD]">
             Add Comment
           </h2>
           <button
-            className="bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-1"
+            className="p-1 transition-colors duration-200 bg-red-500 rounded-full hover:bg-red-600"
             onClick={() => {
               onClose();
               setCommentText("");
             }}
           >
-            <RxCross2 className="text-white text-2xl" />
+            <RxCross2 className="text-2xl text-white" />
           </button>
         </div>
         {console.log(storeTempStatus)}
@@ -275,7 +275,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
                 <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
                   {commentData?.comment}
                 </p>
-                <div className="flex pr-2 items-center">
+                <div className="flex items-center pr-2">
                   <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">
                     @{commentData?.reviewedBy?.name}
                   </p>
@@ -289,7 +289,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
 
         {
           !afterOperation &&
-          <div className="flex gap-5 mt-6 justify-start mb-5">
+          <div className="flex justify-start gap-5 mt-6 mb-5">
           {/* {(data.Status === "RequestToReject" ||
             data.Status === "RequestToAccept") && ( */}
             <button
@@ -335,7 +335,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             />
             <button
               disabled={commentText.trim().length === 0 || isSend}
-              className="bg-blue-500 text-white h-16 px-4 ml-2 rounded-md"
+              className="h-16 px-4 ml-2 text-white bg-blue-500 rounded-md"
               onClick={handleSendComment}
             >
               Submit

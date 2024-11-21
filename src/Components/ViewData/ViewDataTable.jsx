@@ -2,29 +2,32 @@ import React, { useEffect, useState } from "react";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { SlActionRedo } from "react-icons/sl";
 import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
+import { SlActionRedo } from "react-icons/sl";
 
-const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
-  const [data, setData] = useState(dummyData); // Set initial data to dummyData
+const ViewDataTable = ({ name, dummyData }) => {
+  const [data, setData] = useState(dummyData);  // Initialize data with dummyData
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
-  // Get current data for pagination
+  // Update filtered data based on search term
+  const filteredData = searchTerm
+    ? dummyData.filter((item) =>
+        Object.values(item).some((value) =>
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      )
+    : dummyData;
+
+  // Get current data for pagination based on filtered data
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  
-  // Filtered data based on search term
-  const filteredData = data.filter((item) => {
-    return Object.values(item).some((value) =>
-      String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
-
   const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
 
-  // Get column headers dynamically, accounting for nested properties
+  // Get column headers dynamically
   const getColumnHeaders = (data) => {
     if (data.length === 0) return [];
     const keys = Object.keys(data[0]);
@@ -54,13 +57,9 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
 
   // Open popup for comments
   const handleCommentClick = (selectedData) => {
-    setId(selectedData._id); // Store the selected item's ID
+    setData(selectedData);
     setDetailedClick(true);
   };
-
-  useEffect(() => {
-    console.log(data); // for debugging purposes
-  }, [data]);
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
@@ -77,10 +76,14 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
     }
   };
 
-  // Handle search input
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value); // Update searchTerm state
-    setCurrentPage(1); // Reset to first page on new search
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);  // Reset to the first page when search term changes
+  };
+
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    setCurrentPage(1);  // Reset to first page when search is reset
   };
 
   return (
@@ -92,12 +95,9 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
             <div className="text-[20px] sm:text-[25px] font-semibold">{name}</div>
           </div>
 
-          {/* Search Box */}
           <div className="w-full sm:w-[300px] lg:w-[500px] h-[50px] font-semibold py-2 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)] flex px-2 items-center justify-between">
             <div className="flex w-full justify-center items-center">
-              <div>
-                <CiSearch size={23} className="font-bold text-[#7A7A7A]" />
-              </div>
+              <CiSearch size={23} className="font-bold text-[#7A7A7A]" />
               <input
                 className="outline-none w-full pl-3 py-2 mr-2"
                 placeholder="Search by Book Name"
@@ -106,21 +106,19 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
               />
             </div>
             <div>
-              <IoIosCloseCircleOutline size={25} className="font-bold text-[#7A7A7A]" />
+              <IoIosCloseCircleOutline size={25} onClick={handleResetSearch} className="font-bold text-[#7A7A7A]" />
             </div>
           </div>
         </div>
 
-        {/* Table */}
+        {/* Responsive Table */}
         <div className="overflow-auto mt-5 rounded-lg">
           <div className="min-w-full bg-white rounded-lg">
             <div className="table w-full">
               {/* Table Header */}
               <div className="table-header-group text-center items-center justify-center">
                 <div className="table-row bg-[#DEF4FF] h-12 rounded-lg items-center justify-center">
-                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
-                    SL. No
-                  </div>
+                  <div className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">SL. No</div>
                   {columnHeaders.map((header, index) => (
                     <div key={index} className="table-cell px-4 py-2 text-[#1A1A1D] font-semibold">
                       {header.charAt(0).toUpperCase() + header.slice(1)}
@@ -136,9 +134,7 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
               <div className="table-row-group text-center">
                 {currentRows.map((item, rowIndex) => (
                   <div key={rowIndex} className="table-row">
-                    <div className="table-cell px-4 py-2">
-                      {indexOfFirstRow + rowIndex + 1}
-                    </div>
+                    <div className="table-cell px-4 py-2">{indexOfFirstRow + rowIndex + 1}</div>
                     {columnHeaders.map((header, colIndex) => (
                       <div key={colIndex} className="table-cell px-4 py-2 text-center">
                         {header.toLowerCase() === "status" ? (
@@ -150,9 +146,7 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
                               : item[header]}
                           </span>
                         ) : header === "Proof Of Document" || header === "Document Link" ? (
-                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">
-                            Link
-                          </a>
+                          <a href={item[header]} target="_blank" className="text-[#03A8FD]">Link</a>
                         ) : (
                           item[header]
                         )}
@@ -192,7 +186,11 @@ const ViewDataTable = ({ name, dummyData, dummy, fetchData }) => {
           </div>
         </div>
       </div>
-      {detailedClick && <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name} />}
+
+      {/* Show Add Comment Popup if selected data */}
+      {detailedClick && (
+        <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name} />
+      )}
     </>
   );
 };

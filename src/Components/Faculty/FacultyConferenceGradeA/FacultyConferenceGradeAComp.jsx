@@ -31,7 +31,7 @@ export default function FacultyConferenceGradeAComp() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationType === "Conference") arr.push(data);
+            if (data.publicationGrade === "Grade-A" && data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr);

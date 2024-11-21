@@ -5,6 +5,7 @@ import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
+import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC"
 import Header from "../../Header/Header";
 
 function FacultyConferenceGradeCComp() {
@@ -30,7 +31,7 @@ function FacultyConferenceGradeCComp() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationType === "Conference") arr.push(data);
+            if (data.publicationGrade === "Grade-C" && data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr);
@@ -214,7 +215,7 @@ function FacultyConferenceGradeCComp() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeC setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeC setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (

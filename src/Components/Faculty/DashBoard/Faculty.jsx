@@ -53,6 +53,7 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
+  const [raConfGa, setRaConfGa]= useState(null)
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -70,8 +71,8 @@ export default function Faculty() {
           accessToken
         );
         if (response.success) {
-          console.log("BookPublished");
-          console.log(response.data);
+          // console.log("BookPublished");
+          // console.log(response.data);
           setData(response.data.data);
           setData1(response.data.data);
         }
@@ -89,7 +90,7 @@ export default function Faculty() {
         "api/v1/document/getAllPublications",
         accessToken
       );
-      console.log(response);
+      console.log('--------------------------------------------',response);
       if (response.success) {
         setBookData(
           response.data.data.filter(
@@ -101,6 +102,13 @@ export default function Faculty() {
             (publication) => publication.publicationType === "Research Paper"
           )
         );
+        let arrGa=[]
+        // setRaConfGa(
+          response.data.data.forEach((data) => {
+            if (data.publicationGrade === "Grade-B" && data.publicationType === "Conference") arrGa.push(data);
+          })
+        // );
+        setRaConfGa(arrGa);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -109,18 +117,22 @@ export default function Faculty() {
     }
   };
 
+  useEffect(()=>{
+    console.log('-----------------------------------',raConfGa)
+  },[raConfGa])
+
   const getConfInfo = async () => {
     try {
       const response = await getReq(
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         const filteredData = response.data.data.filter(
           (item) => item.eventType === "Conference"
         );
-        console.log(filteredData);
+        // console.log(filteredData);
         setConfOrg(filteredData);
       }
     } catch (error) {
@@ -134,12 +146,12 @@ export default function Faculty() {
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         const filteredData = response.data.data.filter(
           (item) => item.eventType === "Lecture"
         );
-        console.log("lecture", filteredData);
+        // console.log("lecture", filteredData);
         setLecture(filteredData);
       }
     } catch (error) {
@@ -150,8 +162,8 @@ export default function Faculty() {
   const getMoocs = async () => {
     try {
       const response = await getReq("api/v1/document/getAllMoocs", accessToken);
-      console.log(response);
-      console.log("Moocs");
+      // console.log(response);
+      // console.log("Moocs");
       if (response.success) {
         setMoocs(response.data.data);
       }
@@ -166,12 +178,12 @@ export default function Faculty() {
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
+      // console.log(response);
       if (response.success) {
         const filteredData = response.data.data.filter(
           (item) => item.eventType === "Tri-Mentoring"
         );
-        console.log("Trimentor", filteredData);
+        // console.log("Trimentor", filteredData);
         setTriMentor(filteredData);
       }
     } catch (error) {
@@ -185,8 +197,8 @@ export default function Faculty() {
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
-      console.log("Workshop");
+      // console.log(response);
+      // console.log("Workshop");
       if (response.success) {
         const arr = [];
         response.data.data.forEach((dt) => {
@@ -205,13 +217,13 @@ export default function Faculty() {
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
-      console.log("Industrial Tour");
+      // console.log(response);
+      // console.log("Industrial Tour");
       if (response.success) {
         const filteredData = response.data.data.filter(
           (dt) => dt.eventType === "IndustrialTour"
         );
-        console.log(filteredData);
+        // console.log(filteredData);
         setIndTour(filteredData);
       }
     } catch (error) {
@@ -225,8 +237,8 @@ export default function Faculty() {
         "api/v1/document/getAllPatents",
         accessToken
       );
-      console.log(response);
-      console.log("Patent");
+      // console.log(response);
+      // console.log("Patent");
       if (response.success) {
         setPatentData(response.data.data);
       }
@@ -249,7 +261,7 @@ export default function Faculty() {
             arr.push(dt);
           }
         });
-        console.log("FDP", arr);
+        // console.log("FDP", arr);
         setFdpData(arr);
       }
     } catch (error) {
@@ -279,13 +291,13 @@ export default function Faculty() {
   const getSeminarOrgInfo = async () => {
     try {
       const response = await getReq("api/v1/document/getAllEvents", accessToken);
-      console.log("Response:", response); 
+      // console.log("Response:", response); 
 
       if (response.success) {
         const filteredSeminarData = response.data.data.filter(
           (dt) => dt.eventType === "Seminar"
         );
-        console.log("Filtered Seminar Data:", filteredSeminarData);
+        // console.log("Filtered Seminar Data:", filteredSeminarData);
         setSeminarOrg(filteredSeminarData);
       }
     } catch (error) {
@@ -296,7 +308,7 @@ export default function Faculty() {
   
   useEffect(()=>{
     getSeminarOrgInfo()
-    console.log('--------------------------------------------------',seminarOrg)
+    // console.log('--------------------------------------------------',seminarOrg)
   },[])
 
 
@@ -317,9 +329,15 @@ export default function Faculty() {
   ]);
 
 
+
+
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
   };
+
+  const groupResearchPaperByType=(type)=>{
+    return researchData.filter((paper)=>paper.publicationType===type)
+  }
 
   const items = [
     {
@@ -432,21 +450,21 @@ export default function Faculty() {
     },
     {
       title: "Research Paper Published Conference (Grade A)",
-      details: groupResearchByGrade("Grade-A").map((paper) => ({
+      details: groupResearchPaperByType("Conference").map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
     {
       title: "Research Paper Published Conference (Grade B)",
-      details: groupResearchByGrade("Grade-B").map((paper) => ({
+      details: groupResearchPaperByType("Conference").map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
     {
       title: "Research Paper Published Conference (Grade C)",
-      details: groupResearchByGrade("Grade-C").map((paper) => ({
+      details: groupResearchPaperByType("Conference").map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
@@ -587,12 +605,12 @@ export default function Faculty() {
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
                     event.stopPropagation();
-                    console.log("hello");
+                    // console.log("hello");
                     if (item.title === "Books Published") {
                       setBookPub(true);
                     } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
-                      console.log(setResearchPaperGradeAData);
+                      // console.log(setResearchPaperGradeAData);
                     } else if (item.title === "Research Paper Grade B") {
                       setResearchPaperGradeBData(true);
                     } else if (item.title === "Research Paper Grade C") {

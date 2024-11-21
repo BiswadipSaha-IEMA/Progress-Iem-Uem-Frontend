@@ -79,7 +79,7 @@ function ConferenceGradeB({ setUtilFor, setShowPopup }) {
       issue: "",
       pp: "",
       publicationGrade: "Grade-B", // Default value
-      publicationType: "Research Paper", // Default value
+      publicationType: "Conference", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
     });

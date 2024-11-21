@@ -628,7 +628,9 @@ export default function Faculty() {
                       className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
                     >
                       {icon}
-                      {book.status==="RequestToAccept" && book.status==="RequestToReject" ? (<p className={`${text}`}>{book.tilte}</p>) : (<p className={`${text}`}>{book.status}</p>)}
+                      {/* {book.status==="RequestToAccept" || book.status==="RequestToReject" ?  */}
+                      <p className={`${text}`}>{book.status==='RequestToAccept'? 'Pending':book.status==="RequestToReject"? 'Pending': book.status }</p>
+                      {/* } */}
                     </div>
                   </div>
                 );

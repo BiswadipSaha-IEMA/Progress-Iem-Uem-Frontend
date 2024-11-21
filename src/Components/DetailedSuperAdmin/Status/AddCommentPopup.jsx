@@ -288,10 +288,15 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
         {/* Action Buttons */}
 
         {
-          !afterOperation &&
+          !afterOperation 
+          &&
+           {/* (data.Status==='RequstToAccept' ||  data.Status==='RequstToReject') && */} &&
           <div className="flex gap-5 mt-6 justify-start mb-5">
           {/* {(data.Status === "RequestToReject" ||
             data.Status === "RequestToAccept") && ( */}
+            {
+            data.Status==='Approved'||data.Status==='Rejected' && 
+            <>
             <button
               className={`${
                 data.Status === "RequestToAccept"
@@ -301,7 +306,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
               onClick={handleReqAccept}
               disabled={storeTempStatus === "Request To Accept"}
             >
-              {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
+              {storeTempStatus === "Request To Accept" ? "Accepted" :data.Status==='Approved'?'': "Accept"}
             </button>
           {/* )} */}
           {/* {(data.Status === "RequestToReject" ||
@@ -318,6 +323,9 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
               {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
             </button>
           {/* )} */}
+            </>
+
+            }
         </div>
         }
 

@@ -443,7 +443,15 @@ export default function Faculty() {
           status: paper.status,
         })),
     },
-    
+    {
+      title: "Seminar",
+      details: seminarOrg
+        .filter((paper) => paper.eventType === "Seminar")
+        .map((paper) => ({
+          title: paper.topicName,
+          status: paper.status,
+        })),
+    },
     {
       title: "Student Chapter Activity",
       details: StudentChapter.map((paper) => ({

@@ -280,8 +280,11 @@ export default function Faculty() {
 
   const getSeminarOrgInfo = async () => {
     try {
-      const response = await getReq("api/v1/document/getAllEvents", accessToken);
-      console.log("Response:", response); 
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log("Response:", response);
 
       if (response.success) {
         const filteredSeminarData = response.data.data.filter(
@@ -295,30 +298,24 @@ export default function Faculty() {
     }
   };
 
-  
   // useEffect(()=>{
-    
+
   //   console.log('--------------------------------------------------',seminarOrg)
   // },[])
 
-
-
   useEffect(() => {
     allInfo();
-    getSeminarOrgInfo()
+    getSeminarOrgInfo();
     getConfInfo();
-    getLecture()
+    getLecture();
     getMoocs();
-    getTrimentor()
-    getWorkInfo()
-    getIndTour()
-    getPatentInfo()
-    getFdpInfo()
-    getCompeteInfo()
-  }, [
-    accessToken,
-  ]);
-
+    getTrimentor();
+    getWorkInfo();
+    getIndTour();
+    getPatentInfo();
+    getFdpInfo();
+    getCompeteInfo();
+  }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
@@ -439,7 +436,7 @@ export default function Faculty() {
         title: paper.title,
         status: paper.status,
       })),
-    }
+    },
   ];
 
   const getStatusStyles = (status) => {
@@ -468,7 +465,7 @@ export default function Faculty() {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
           icon: <RiCloseFill className="text-[#C66666]" />,
-          tilte: "Pending"
+          tilte: "Pending",
         };
       case "RequestToReject":
         return {
@@ -518,11 +515,12 @@ export default function Faculty() {
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
-              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80 cursor-pointer"
+              className="bg-[#fff] rounded-lg flex flex-col min-h-40 cursor-pointer h-96 relative overflow-hidden"
               onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
-                } else if (item.title === "Research Paper Grade A") {
+                }
+                else if (item.title === "Research Paper Grade A") {
                   navigate("/faculty/researchpapergradea");
                 } else if (item.title === "Research Paper Grade B") {
                   navigate("/faculty/researchpapergradeb");
@@ -563,7 +561,8 @@ export default function Faculty() {
                 // }
               }}
             >
-              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+              
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
                 <div className="flex items-center gap-2">
                   <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
                   <h1 className="text-lg font-semibold sm:text-xl">
@@ -574,10 +573,10 @@ export default function Faculty() {
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
                     event.stopPropagation();
-                    console.log("hello");
                     if (item.title === "Books Published") {
                       setBookPub(true);
-                    } else if (item.title === "Research Paper Grade A") {
+                    }
+                    else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       console.log(setResearchPaperGradeAData);
                     } else if (item.title === "Research Paper Grade B") {
@@ -616,30 +615,43 @@ export default function Faculty() {
                   Add Response
                 </button>
               </div>
-              {item.details.map((book, index) => {
-                const { bg, text, icon, title } = getStatusStyles(book.status);
-                return (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
-                  >
-                    {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+
+              {/* Scrollable Content */}
+              <div className="overflow-y-auto px-4 md:px-6 flex-1 flex flex-col gap-4 pb-4">
+                {item.details.map((book, index) => {
+                  const { bg, text, icon, title } = getStatusStyles(
+                    book.status
+                  );
+                  return (
                     <div
-                      className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
+                      key={index}
+                      className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
                     >
-                      {icon}
-                      {book.status==="RequestToAccept" && book.status==="RequestToReject" ? (<p className={`${text}`}>{book.tilte}</p>) : (<p className={`${text}`}>{book.status}</p>)}
+                      {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+                      <div
+                        className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 min-w-fit max-w-full`}
+                      >
+                        {icon}
+                        {book.status === "RequestToAccept" &&
+                        book.status === "RequestToReject" ? (
+                          <p className={`${text}`}>{book.title}</p>
+                        ) : (
+                          <p className={`${text}`}>{book.status}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {bookPub && <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo}/>}
+      {bookPub && (
+        <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo} />
+      )}
       {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
       {industrial && (
         <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />

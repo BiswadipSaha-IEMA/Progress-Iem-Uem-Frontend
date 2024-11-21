@@ -29,6 +29,7 @@ const CommentModal = ({
   const [commentStore, setCommentStore] = useState('');
   const [nameAuthor, setNameAuthor] = useState('');
   const [status, setStatus] = useState(itemData?.status || ""); // To track the current status (Accept/Reject)
+  const [handleBtnVissible, setHandleBtnVissible] = useState(false);
 
   useEffect(() => {
     if (itemData?.status) {
@@ -61,6 +62,7 @@ const CommentModal = ({
       setStatus("RequestToAccept");
       setCommentStore("Acceptance Requested");
       setNameAuthor(response.data.name);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error accepting request", error);
@@ -68,7 +70,7 @@ const CommentModal = ({
       setLoading(false);
     }
   };
-
+  
   const handleReqReject = async () => {
     setLoading(true);
     try {
@@ -84,6 +86,7 @@ const CommentModal = ({
       setStatus("RequestToReject");
       setCommentStore(commentText);
       setNameAuthor(response.data.name);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error rejecting request", error);
@@ -109,6 +112,7 @@ const CommentModal = ({
       setStatus("RequestToReject");
       setNameAuthor(response.data.name);
       setCommentStore(commentText);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error posting comment", error);
@@ -220,7 +224,7 @@ const CommentModal = ({
         </div>
 
         {
-          (itemData.status==='Pending') &&
+          (itemData.status==='Pending') &&  handleBtnVissible===false && 
           <>
         <div className="flex gap-5 mt-6 justify-start mb-5">
           <div

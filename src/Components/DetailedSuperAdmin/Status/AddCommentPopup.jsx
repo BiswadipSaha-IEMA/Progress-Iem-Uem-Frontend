@@ -11,7 +11,7 @@ import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
 
-const AddCommentPopup = ({ setShowPopup, data, name }) => {
+const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
   const [comments, setComments] = useState(data.comments || []);
   const [commentText, setCommentText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +45,19 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
       api: `/${data._id}/studentchaptercomment`,
     },
     {
+      nameList: ["Workshop",
+              "Seminar" ,
+              "Conference" ,
+              "Faculty Development Programmes" ,
+              "Competition Organized" ,
+              "Talks & Distinguished Lecture Series" ,
+              "Industrial Tour" ,
+              "Tri-Mentoring System" ,
+              'Webinar' ,
+              'Hackathon' ],
+      api: `/${data._id}/eventcomment`,
+    },
+    {
       nameList: ["List of Project Proposals"],
       api: `/${data._id}/projectcomment`,
     },
@@ -54,6 +67,9 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
         "Research Paper Published (Grade-B)",
         "Research Paper Published (Grade-C)",
         "Book Published",
+        "Research Paper Published-Journal (Grade-A)",
+        "Research Paper Published-Journal (Grade-B)",
+        "Research Paper Published-Journal (Grade-C)" 
       ],
       api: `/${data._id}/publicationcomment`,
     },
@@ -108,9 +124,36 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
     } else {
       try {
         const response = await postReq(
-          "api/v1/document/reviewPublication",
+          `${
+          name === "Book Published" ||
+          name === "Research Paper Grade-A" ||
+          name === "Research Paper Grade-B" ||
+          name === "Research Paper Grade-C" ||
+          name === "Research Paper Published-Journal (Grade-A)" ||
+          name === "Research Paper Published-Journal (Grade-B)" ||
+          name === "Research Paper Published-Journal (Grade-C)" 
+            ? "api/v1/document/reviewPublication"
+            : name === "Workshop" ||
+              name === "Seminar" ||
+              name === "Conference" ||
+              name === "Faculty Development Programmes" ||
+              name === "Competition Organized" ||
+              name === "Talks & Distinguished Lecture Series" ||
+              name === "Industrial Tour" ||
+              name === "Tri-Mentoring System" ||
+              name  === 'Webinar' ||
+              name === 'Hackathon' 
+            ? "api/v1/document/reviewEvent"
+            : name === "Moocs"
+            ? "api/v1/document/reviewMooc"
+            : name === "Student Chapter Activity"
+            ? "api/v1/document/reviewStudentChapter"
+            :name === 'Patent' ?
+            'api/v1/document/reviewPatent' 
+            :''
+        }`,
           {
-            publicationId: data?._id,
+            id: data?._id,
             status: "Approved",
             comment: "Accepted",
           },
@@ -123,6 +166,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request accepted successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
           setAfterOperation(true);
+          fetchTableData()
         }
       } catch (error) {
         console.error("Error in handleReqAccept:", error);
@@ -139,9 +183,36 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
     } else {
       try {
         const response = await postReq(
-          "api/v1/document/reviewPublication",
+          `${
+          name === "Book Published" ||
+          name === "Research Paper Grade-A" ||
+          name === "Research Paper Grade-B" ||
+          name === "Research Paper Grade-C" ||
+          name === "Research Paper Published-Journal (Grade-A)" ||
+          name === "Research Paper Published-Journal (Grade-B)" ||
+          name === "Research Paper Published-Journal (Grade-C)" 
+            ? "api/v1/document/reviewPublication"
+            : name === "Workshop" ||
+              name === "Seminar" ||
+              name === "Conference" ||
+              name === "Faculty Development Programmes" ||
+              name === "Competition Organized" ||
+              name === "Talks & Distinguished Lecture Series" ||
+              name === "Industrial Tour" ||
+              name === "Tri-Mentoring System" ||
+              name  === 'Webinar' ||
+              name === 'Hackathon' 
+            ? "api/v1/document/reviewEvent"
+            : name === "Moocs"
+            ? "api/v1/document/reviewMooc"
+            : name === "Student Chapter Activity"
+            ? "api/v1/document/reviewStudentChapter"
+            :name === 'Patent' ?
+            'api/v1/document/reviewPatent' 
+            :''
+        }`,
           {
-            publicationId: data?._id,
+            id: data?._id,
             status: "Rejected",
             comment: "Rejected",
           },
@@ -154,6 +225,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           console.log("Request rejected successfully:", response);
           setIsSend(true); // Show "send" animation or similar after successful action
           setAfterOperation(true);
+          fetchTableData()
         }
       } catch (error) {
         console.error("Error in handleReqReject:", error);
@@ -173,9 +245,36 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
             : null;
 
         const response = await postReq(
-          "api/v1/document/reviewPublication",
+          `${
+          name === "Book Published" ||
+          name === "Research Paper Grade-A" ||
+          name === "Research Paper Grade-B" ||
+          name === "Research Paper Grade-C" ||
+          name === "Research Paper Published-Journal (Grade-A)" ||
+          name === "Research Paper Published-Journal (Grade-B)" ||
+          name === "Research Paper Published-Journal (Grade-C)" 
+            ? "api/v1/document/reviewPublication"
+            : name === "Workshop" ||
+              name === "Seminar" ||
+              name === "Conference" ||
+              name === "Faculty Development Programmes" ||
+              name === "Competition Organized" ||
+              name === "Talks & Distinguished Lecture Series" ||
+              name === "Industrial Tour" ||
+              name === "Tri-Mentoring System" ||
+              name  === 'Webinar' ||
+              name === 'Hackathon' 
+            ? "api/v1/document/reviewEvent"
+            : name === "Moocs"
+            ? "api/v1/document/reviewMooc"
+            : name === "Student Chapter Activity"
+            ? "api/v1/document/reviewStudentChapter"
+            :name === 'Patent' ?
+            'api/v1/document/reviewPatent' 
+            :''
+        }`,
           {
-            publicationId: data?._id,
+            id: data?._id,
             status,
             comment: commentText,
           },
@@ -195,6 +294,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
           setShowInput(false); // Hide input after successful submission
           setCommentText(""); // Clear the comment input
           setAfterOperation(true);
+          fetchTableData()
         }
       } catch (error) {
         console.error("Error in handleSendComment:", error);
@@ -299,7 +399,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
   <div className="flex gap-5 mt-6 justify-start mb-5">
     <button
       className={`${
-        data.Status === "RequestToAccept"
+        data.Status === "RequestToAccept" 
           ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
           : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
       }`}

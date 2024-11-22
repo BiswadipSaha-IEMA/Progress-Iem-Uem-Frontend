@@ -245,6 +245,19 @@ export default function Faculty() {
     }
   };
 
+  const getProjectInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllProjects",
+        accessToken
+      );
+      console.log("Projects",response.data);
+      
+    } catch (error) {
+      console.error("Error fetching project info:", error);
+    }
+  };
+
   const getFdpInfo = async () => {
     try {
       const response = await getReq(
@@ -339,6 +352,7 @@ export default function Faculty() {
     getFdpInfo();
     getCompeteInfo();
     getDates();
+    getProjectInfo();
   }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {

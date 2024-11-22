@@ -94,7 +94,9 @@ function ConferenceGradeA({ setUtilFor, setShowPopup }) {
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
             <div
               className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
-              onClick={() => setShowPopup(false)}
+              onClick={() => {
+                setShowPopup(false);
+              }}
             >
               <RxCross2 className="text-white" />
             </div>

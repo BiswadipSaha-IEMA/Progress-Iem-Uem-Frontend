@@ -22,6 +22,10 @@ import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import ConferenceGradeA from "../../../utils/Popup/FormPopUp/ConferenceGradeA"
+import  ConferenceGradeB from "../../../utils/Popup/FormPopUp/ConferenceGradeB"
+import  ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC"
+
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -48,6 +52,12 @@ export default function Faculty() {
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
+  
+  const [conferenceGradeA,  setConferenceGradeA] = useState(false);
+  const  [conferenceGradeB,  setConferenceGradeB] = useState(false);
+  const [conferenceGradeC,  setConferenceGradeC] = useState(false);
+
+
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
@@ -665,6 +675,7 @@ export default function Faculty() {
                   onClick={(event) => {
                     event.stopPropagation();
                     if (item.title === "Books Published") {
+                      console.log("booooksssssssssss");
                       setBookPub(true);
                     } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
@@ -697,6 +708,12 @@ export default function Faculty() {
                       setShowLecturePopup(true);
                     } else if (item.title === "Seminar") {
                       setShowSeminarPopup(true);
+                    }else if(item.title === "Research Paper Published Conference (Grade A)"){
+                      setConferenceGradeA(true);
+                    }else if(item.title === "Research Paper Published Conference (Grade B)"){
+                      setConferenceGradeB(true);
+                    }else if(item.title === "Research Paper Published Conference (Grade C)"){
+                      setConferenceGradeC(true);
                     }
                   }}
                 >
@@ -796,6 +813,25 @@ export default function Faculty() {
         <SeminarPopUp
           setShowPopup={setShowSeminarPopup}
           setUtilFor="bpAddForm"
+        />
+      )}
+      {conferenceGradeA && (
+          <ConferenceGradeA
+          setShowPopUp={setConferenceGradeA}
+          setUtilFor={"bpAddForm"}
+          />
+        )
+      }
+      {conferenceGradeB && (
+        <ConferenceGradeB
+        setShowPopup={setConferenceGradeB}
+        setUtilFor = {"bpAddForm"}
+        />
+      )}
+      {conferenceGradeC && (
+        <ConferenceGradeC
+        setShowPopup={setConferenceGradeC}
+        setUtilFor = {"bpAddForm"}
         />
       )}
     </div>

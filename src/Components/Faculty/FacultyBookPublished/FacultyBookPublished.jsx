@@ -7,6 +7,9 @@ import { useGetReq } from "../../../hooks/useHttp";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
+import Lottie from "react-lottie";
+import NoDataFaculty from '../../../Lottie/NoDataFaculty.json'
+
 // import
 import EditFormPopUp from "./EditFormPopUp";
 
@@ -21,12 +24,23 @@ export default function FacultyBookPublished() {
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
   const [editBpData, setEditBpData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const options={
+    loop: true,
+    autoplay: true,
+    animationData: NoDataFaculty,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  }
   
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
     const getBPData = async () => {
+      setIsLoading(true)
       try {
         const response = await getReq(
           "api/v1/document/getAllPublications",
@@ -43,6 +57,9 @@ export default function FacultyBookPublished() {
         }
       } catch (error) {
         console.log(error);
+      }
+      finally{
+        setIsLoading(false)
       }
     };
     getBPData();
@@ -86,9 +103,19 @@ export default function FacultyBookPublished() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col ">
       <div className="flex-1 overflow-auto px-4 sm:px-10">
         <Header backPage="/faculty/dashboard" />
+
+        {
+        isLoading ?
+        <div className="flex items-center w-full h-[70vh] justify-center">
+        <div className=" flex justify-center items-center ">
+          <Lottie options={options}  className=''/>
+        </div>
+        </div>
+        :
+        <>
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
@@ -238,6 +265,10 @@ export default function FacultyBookPublished() {
             Next
           </button>
         </div>
+        
+        </>
+      }
+
       </div>
 
       {/* Mobile Pagination Controls */}
@@ -257,6 +288,7 @@ export default function FacultyBookPublished() {
           Next
         </button>
       </div>
+      
 
       {showPopUp && (
         <BookPublished setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />

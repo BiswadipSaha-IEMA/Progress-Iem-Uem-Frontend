@@ -1,12 +1,7 @@
 import React, { useContext } from "react";
 import {
   LayoutDashboard,
-  UserRoundPen,
-  SlidersHorizontal,
-  KeyRound,
   LogOut,
-  FilePenLine,
-  UserRound,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../Store/Action";
@@ -15,42 +10,35 @@ import { AuthContext } from "../../../Context/AuthContext";
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const {logout}= useContext(AuthContext)
-  const isEdit = location.pathname === "/";
+  const { logout } = useContext(AuthContext);
   const isSuper = location.pathname === "/faculty/dashboard";
-  // const isAddMod = location.pathname === "/AddModerator";
-  // const isAddFac = location.pathname === "/AddFaculty";
 
   return (
     <>
+      {/* Sidebar for mobile */}
       <div
         className={`left-2 fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform 
           lg:hidden flex flex-col ${
-          showProfile ? "translate-x-0" : "-translate-x-full"
-        } `}
+          showProfile ? "translate-x-0" : "translate-x-full"
+        } overflow-y-auto`} // Enable scrolling for mobile sidebar
       >
         <ProfileContent
-          // isEdit={isEdit}
           isSuper={isSuper}
-          // isAddMod={isAddMod}
-          // isAddFac={isAddFac}
           isChangePasswords={isChangePasswords}
           navigate={navigate}
         />
       </div>
 
+      {/* Sidebar for large screens */}
       <div
         className={`fixed inset-y-0 left-0 ${
           showProfile ? "left-4" : "left-0"
         } w-80 lg:h-[93vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
           showProfile ? "translate-x-0 h-full" : "-translate-x-full"
-        } `}
+        } `} // Enable scrolling for large screens too if needed
       >
         <ProfileContent
-          // isEdit={isEdit}
           isSuper={isSuper}
-          // isAddMod={isAddMod}
-          // isAddFac={isAddFac}
           isChangePasswords={isChangePasswords}
           navigate={navigate}
         />
@@ -60,10 +48,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
 };
 
 const ProfileContent = ({
-  isEdit,
   isSuper,
-  isAddMod,
-  isAddFac,
   isChangePasswords,
   navigate,
 }) => {
@@ -80,11 +65,6 @@ const ProfileContent = ({
         </span>
       </div>
       <div className="flex-grow">
-        <div
-          className="w-full mb-2 text-red-500 bg-transparent text-sm border-b border-gray-800"
-          aria-label="Remove Profile Picture"
-        >
-        </div>
         <SidebarButton
           isActive={isSuper}
           ariaLabel="Faculty Dashboard"
@@ -92,29 +72,15 @@ const ProfileContent = ({
           label="Faculty Dashboard"
           onClick={() => navigate("/SuperAdminDashboard")}
         />
-        {/* <SidebarButton
-          // isActive={isEdit}
-          ariaLabel="Edit Account Details"
-          icon={<SlidersHorizontal />}
-          label="Edit Account Details"
-          onClick={() => navigate("/")}
-        /> */}
-        {/* <SidebarButton
-          // isActive={isChangePasswords}
-          ariaLabel="Change Password"I
-          icon={<KeyRound />}
-          label="Change Password"
-          onClick={() => navigate("/changepassword")}
-        /> */}
         <SidebarButton
           ariaLabel="Log Out"
           icon={<LogOut />}
           label="Log Out"
           onClick={() => {
-            logout()
-            sessionStorage.clear()
-            navigate('/faculty/login')
-            window.location.reload()
+            logout();
+            sessionStorage.clear();
+            navigate("/faculty/login");
+            window.location.reload();
           }}
         />
       </div>
@@ -126,7 +92,8 @@ const SidebarButton = ({ isActive, ariaLabel, icon, label, onClick }) => (
   <button
     className={`p-6 w-full py-1 mb-2 rounded-md transition-colors flex items-center justify-start font-poppins ${
       isActive
-        ? "text-white bg-[#03a8fd]" : "text-black hover:text-white hover:bg-[#03a8fd] active:bg-[#03a8fd] duration-300"
+        ? "text-white bg-[#03a8fd]"
+        : "text-black hover:text-white hover:bg-[#03a8fd] active:bg-[#03a8fd] duration-300"
     }`}
     aria-label={ariaLabel}
     onClick={onClick}

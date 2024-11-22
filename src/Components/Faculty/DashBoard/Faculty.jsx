@@ -14,6 +14,9 @@ import PatentPopUp from "../../../utils/Popup/FormPopUp/PatentPopUp";
 import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
 import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
+import ResearchPaperGradeAbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeAbookChapter";
+import ResearchPaperGradeBbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeBbookChapter";
+import ResearchPaperGradeCbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeCbookChapter";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
@@ -48,8 +51,11 @@ export default function Faculty() {
   const [triMentor, settriMentor] = useState(false);
   const [StudentChapter, setStudentChapter] = useState([]);
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
+  const [researchPaperGradeADatabook, setResearchPaperGradeADatabook] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
+  const [researchPaperGradeBDatabook, setResearchPaperGradeBDatabook] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
+  const [researchPaperGradeCDatabook, setResearchPaperGradeCDatabook] = useState(false);
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
@@ -287,7 +293,9 @@ export default function Faculty() {
         "api/v1/document/getAllEvents",
         accessToken
       );
-      console.log(response);
+
+      console.log("Response:", response);
+
       if (response.success) {
         const filteredData = response.data.data.filter(
           (dt) => dt.eventType === "Seminar"
@@ -313,19 +321,24 @@ export default function Faculty() {
     }
   };
 
-  
   // useEffect(()=>{
+
   //   getSeminarOrgInfo()
+
+
+
   //   console.log('--------------------------------------------------',seminarOrg)
   // },[])
 
-
-
   useEffect(() => {
     allInfo();
+
+    getSeminarOrgInfo();
+
     getConfInfo();
-    getLecture()
+    getLecture();
     getMoocs();
+
     getTrimentor()
     getWorkInfo()
     getIndTour()
@@ -337,6 +350,15 @@ export default function Faculty() {
   }, [
     accessToken,
   ]);
+
+
+    getTrimentor();
+    getWorkInfo();
+    getIndTour();
+    getPatentInfo();
+    getFdpInfo();
+    getCompeteInfo();
+  }, [accessToken]);
 
 
   const groupResearchByGrade = (grade) => {
@@ -459,6 +481,29 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+
+    {
+      title: "Research Paper - Book Chapter (Grade A)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Grade - Book Chapter (Grade B)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Grade - Book Chapter (Grade C)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+
   ];
 
   const getStatusStyles = (status) => {
@@ -487,7 +532,7 @@ export default function Faculty() {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
           icon: <RiCloseFill className="text-[#C66666]" />,
-          tilte: "Pending"
+          tilte: "Pending",
         };
       case "RequestToReject":
         return {
@@ -537,16 +582,23 @@ export default function Faculty() {
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
-              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80 cursor-pointer"
+              className="bg-[#fff] rounded-lg flex flex-col min-h-40 cursor-pointer h-96 relative overflow-hidden"
               onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
-                } else if (item.title === "Research Paper Grade A") {
+                }
+                else if (item.title === "Research Paper Grade A") {
                   navigate("/faculty/researchpapergradea");
                 } else if (item.title === "Research Paper Grade B") {
                   navigate("/faculty/researchpapergradeb");
                 } else if (item.title === "Research Paper Grade C") {
                   navigate("/faculty/researchpapergradec");
+                }else if (item.title === "Research Paper - Book Chapter (Grade A)") {
+                  navigate("/faculty/researchpapergradeabook");
+                }else if (item.title === "Research Paper - Book Chapter (Grade B)") {
+                  navigate("/faculty/researchpapergradebbook");
+                }else if (item.title === "Research Paper - Book Chapter (Grade C)") {
+                  navigate("/faculty/researchpapergradecbook");
                 } else if (item.title === "Conference") {
                   navigate("/faculty/viewconferenceorganized");
                 } else if (
@@ -579,7 +631,9 @@ export default function Faculty() {
                 }
               }}
             >
+
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+
                 <div className="flex items-center gap-2">
                   <FaBookBookmark className="text-blue-700 w-6 h-6 sm:w-8 sm:h-8" />
                   <h1 className="font-semibold text-lg sm:text-xl">
@@ -590,12 +644,21 @@ export default function Faculty() {
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
                     event.stopPropagation();
-                    console.log("hello");
                     if (item.title === "Books Published") {
                       setBookPub(true);
-                    } else if (item.title === "Research Paper Grade A") {
+                    }
+                    else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       console.log(setResearchPaperGradeAData);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade A)") {
+                      setResearchPaperGradeADatabook(true);
+                      console.log(setResearchPaperGradeADatabook);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade B)") {
+                      setResearchPaperGradeBDatabook(true);
+                      console.log(setResearchPaperGradeBDatabook);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade C)") {
+                      setResearchPaperGradeCDatabook(true);
+                      console.log(setResearchPaperGradeCDatabook);
                     } else if (item.title === "Research Paper Grade B") {
                       setResearchPaperGradeBData(true);
                     } else if (item.title === "Research Paper Grade C") {
@@ -660,7 +723,9 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {bookPub && <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo}/>}
+      {bookPub && (
+        <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo} />
+      )}
       {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
       {industrial && (
         <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />
@@ -672,6 +737,24 @@ export default function Faculty() {
         <ResearchPaperGradeA
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeAData}
+        />
+      )}
+       {researchPaperGradeADatabook && (
+        <ResearchPaperGradeAbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeADatabook}
+        />
+      )}
+       {researchPaperGradeBDatabook && (
+        <ResearchPaperGradeBbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeBDatabook}
+        />
+      )}
+       {researchPaperGradeCDatabook && (
+        <ResearchPaperGradeCbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeCDatabook}
         />
       )}
       {researchPaperGradeBData && (

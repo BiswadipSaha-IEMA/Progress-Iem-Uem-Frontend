@@ -118,45 +118,61 @@ const options= {
   useEffect(()=>{
     if(data.publications){
 
-      const workshop=data.events.filter(pub=>pub.eventType==="Workshop").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
-
+      const workshop=data.events.filter(pub=>pub.eventType==="Workshop").map(({attendedBy,organizedBy,createdAt,updatedAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Organized By":organizedBy,"Attended By":attendedBy,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const workshopFull=data.events.filter(pub=>pub.eventType==="Workshop")
-      const seminar=data.events.filter(pub=>pub.eventType==="Seminar").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const seminar=data.events.filter(pub=>pub.eventType==="Seminar").map(({createdAt,updatedAt,organizedBy,attendedBy,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Organized By":organizedBy,"Attended By":attendedBy,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const seminarFull=data.events.filter(pub=>pub.eventType==="Seminar")
+
       const confEvent=data.events.filter(pub=>pub.eventType==="Conference").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const confEventFull=data.events.filter(pub=>pub.eventType==="Conference")
-      const fdp=data.events.filter(pub=>pub.eventType==="FDP").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const fdp=data.events.filter(pub=>pub.eventType==="FDP").map(({createdAt,updatedAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const fdpFull=data.events.filter(pub=>pub.eventType==="FDP")
+
       const competition=data.events.filter(pub=>pub.eventType==="Competiton").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const competitionFull=data.events.filter(pub=>pub.eventType==="Competiton")
+
       const hackathon=data.events.filter(pub=>pub.eventType==="Hackathon").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const hackathonFull=data.events.filter(pub=>pub.eventType==="Hackathon")
+
       const trimentor=data.events.filter(pub=>pub.eventType==="Tri-Mentoring").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const trimentorFull=data.events.filter(pub=>pub.eventType==="Tri-Mentoring")
-      const lecture=data.events.filter(pub=>pub.eventType==="Lecture").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const lecture=data.events.filter(pub=>pub.eventType==="Lecture").map(({attendedBy,organizedBy,createdAt,updatedAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Organized By":organizedBy,"Attended By":attendedBy,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const lectureFull=data.events.filter(pub=>pub.eventType==="Lecture")
-      const itour=data.events.filter(pub=>pub.eventType==="IndustrialTour").map(({createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const itour=data.events.filter(pub=>pub.eventType==="IndustrialTour").map(({attendedBy,organizedBy,createdAt,updatedAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Organized By":organizedBy,"Attended By":attendedBy,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const itourFull=data.events.filter(pub=>pub.eventType==="IndustrialTour")
-      const moocs=data.moocs.map(({createdAt,createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const moocs=data.moocs.map(({createdAt,updatedAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const moocsFull=data.moocs.map(({...rest})=>({...rest}))
-      const projects=data.projects.map(({createdAt,createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const projects=data.projects.map(({createdAt,createdBy,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name}))
       const projectsFull=data.projects.map(({...rest})=>({...rest}))
-      const patents=data.patents.map(({createdAt,createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const patents=data.patents.map(({createdAt,createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,nationalOrInternational,__v,hasContentAccess,...rest})=>({...rest, "National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const patentsFull=data.patents.map(({...rest})=>({...rest}))
+      console.log(patentsFull)
+
       const sca=data.studentChapters.map(({createdAt,createdBy,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const scaFull=data.studentChapters.map(({...rest})=>({...rest}))
-      const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name}))
       const confFull=data.publications.filter(pub=>pub.eventType==="Conference")
-      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, 
-        comment, reviewedBy,
-        createdBy,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const filteredBooksFull=data.publications.filter(pub=>pub.publicationType==="Book")
-      const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const rep1Full=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A")
-      const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const rep2=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B").map(({createdBy,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const rep2Full=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-B")
-      const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
+
+      const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const rep3Full=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C")
+
       console.log("first")
       setWorkshop(workshop)
       setWorkshopFull(workshopFull)
@@ -199,13 +215,6 @@ const options= {
     }
   },[data])
 
-  const modifiedData = originalDummyData.map(({ proofOfDocument, name, _id, ...rest }) => ({
-    // Name: name,
-    // UserID: _id,
-    ...rest,
-  }));
-
-  const proofOfDocuments = originalDummyData.map((item) => item.proofOfDocument)
 
   return (
     <>
@@ -217,20 +226,12 @@ const options= {
         <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center" >
           No records available
         </p>
-      </div>
-      
-
-      // {isAllDataEmpty ? (
-      //   <div className="flex justify-center items-center h-screen">
-      //   <Lottie options={{ animationData: noDataFound }} height={400} width={400} loop={true}/>
-      //   <p className="text-gray-500 mt-4">No data to display</p>
-      //   </div>
-      ) : (
+      </div>) : (
         <>
       {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} />}
-      {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Grade-A'} />}
-      {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Grade-B'} />}
-      {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} fullData={rp3Full} name={'Research Paper Grade-C'} />}
+      {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Published-Journal (Grade-A)'} />}
+      {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Published-Journal (Grade-B)'} />}
+      {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} fullData={rp3Full} name={'Research Paper Published-Journal (Grade-C)'} />}
       {patents.length>0 && <ModeratorViewTable dummyData={patents} dummy={patents} fullData={patentsFull} name={'Patent'} />}
       {projects.length>0 && <ModeratorViewTable dummyData={projects} dummy={projects} fullData={projectsFull} name={'Projects'} />}
       {facultyDevelopment.length>0 && <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment} fullData={facultyDevelopmentFull} name={'Faculty Development Programmes'} />}

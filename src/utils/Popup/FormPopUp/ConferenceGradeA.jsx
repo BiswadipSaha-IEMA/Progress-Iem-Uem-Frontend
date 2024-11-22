@@ -96,6 +96,8 @@ function ConferenceGradeA({ setUtilFor, setShowPopup }) {
               className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
               onClick={() => {
                 setShowPopup(false);
+                console.log("Close button clicked");
+
               }}
             >
               <RxCross2 className="text-white" />

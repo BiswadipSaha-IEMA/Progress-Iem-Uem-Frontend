@@ -295,43 +295,9 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
 
         {/* Action Buttons */}
 
-<<<<<<< HEAD
-        {
-          !afterOperation &&
-          <div className="flex justify-start gap-5 mt-6 mb-5">
-          {/* {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && ( */}
-            <button
-              className={`${
-                data.Status === "RequestToAccept"
-                  ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-              }`}
-              onClick={handleReqAccept}
-              disabled={storeTempStatus === "Request To Accept"}
-            >
-              {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
-            </button>
-          {/* )} */}
-          {/* {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && ( */}
-            <button
-              className={`${
-                data.Status === "RequestToReject"
-                  ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-              }`}
-              onClick={handleReqReject}
-              disabled={storeTempStatus === "Request To Reject"}
-            >
-              {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
-            </button>
-          {/* )} */}
-        </div>
-        }
-=======
+
         {(data.Status !== 'Approved' && data.Status !== 'Rejected' && data.Status !== 'Pending') && !afterOperation && (
-  <div className="flex gap-5 mt-6 justify-start mb-5">
+  <div className="flex justify-start gap-5 mt-6 mb-5">
     <button
       className={`${
         data.Status === "RequestToAccept"
@@ -360,7 +326,7 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
 
         {/* </div>
         } */}
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
+
 
         {/* Conditional Comment Input */}
         {showInput && (

@@ -292,16 +292,12 @@ export default function Faculty() {
 
   const getSeminarOrgInfo = async () => {
     try {
-<<<<<<< HEAD
-      const response = await getReq("api/v1/document/getAllEvents", accessToken);
-      // console.log("Response:", response); 
-=======
       const response = await getReq(
         "api/v1/document/getAllEvents",
         accessToken
       );
       console.log("Response:", response);
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
+
 
       if (response.success) {
         const filteredSeminarData = response.data.data.filter(
@@ -315,16 +311,16 @@ export default function Faculty() {
     }
   };
 
-<<<<<<< HEAD
+
   
   useEffect(()=>{
     getSeminarOrgInfo()
     // console.log('--------------------------------------------------',seminarOrg)
   },[])
 
-=======
+
   // useEffect(()=>{
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
+
 
   //   console.log('--------------------------------------------------',seminarOrg)
   // },[])
@@ -469,7 +465,7 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
-<<<<<<< HEAD
+
     {
       title: "Research Paper Published Conference (Grade B)",
       details: groupResearchPaperByType("Conference").map((paper) => ({
@@ -484,8 +480,8 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
-=======
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
+
+
   ];
 
   const getStatusStyles = (status) => {
@@ -605,14 +601,11 @@ export default function Faculty() {
                 }else if (item.title ===  "Research Paper Published Conference (Grade C)"){
                   navigate("/faculty/viewconferencegradec");
                 }
-<<<<<<< HEAD
 
-
-=======
                 else if (item.title === "Seminar") {
                   navigate("/faculty/viewseminar");
                 }
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
+
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
@@ -630,10 +623,6 @@ export default function Faculty() {
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
                     event.stopPropagation();
-<<<<<<< HEAD
-                    // console.log("hello");
-=======
->>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
                     if (item.title === "Books Published") {
                       setBookPub(true);
                     }
@@ -678,7 +667,7 @@ export default function Faculty() {
               </div>
 
               {/* Scrollable Content */}
-              <div className="overflow-y-auto px-4 md:px-6 flex-1 flex flex-col gap-4 pb-4">
+              <div className="flex flex-col flex-1 gap-4 px-4 pb-4 overflow-y-auto md:px-6">
                 {item.details.map((book, index) => {
                   const { bg, text, icon, title } = getStatusStyles(
                     book.status

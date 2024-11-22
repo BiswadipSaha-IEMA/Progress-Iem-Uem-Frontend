@@ -47,6 +47,8 @@ import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyLi
 import FacultyFDPPage from "./Pages/Faculty/FacultyFDP/FacultyFDPPage";
 import FacultyConferenceGradeAPage from "./Pages/Faculty/FacultyConferenceGradeA/FacultyConferenceGradeAPage";
 import { FacultySeminar } from "./Pages/Faculty/FacultySeminar/FacultySeminar";
+import FacultyConferenceGradeBPage from "./Pages/Faculty/FacultyConferenceGradeB/FacultyConferenceGradeBPage";
+import FacultyConferenceGradeCPage from "./Pages/Faculty/FacultyConferenceGradeC/FacultyConferenceGradeCPage";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);

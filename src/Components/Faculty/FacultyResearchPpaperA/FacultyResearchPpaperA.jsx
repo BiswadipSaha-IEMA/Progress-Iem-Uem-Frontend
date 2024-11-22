@@ -226,7 +226,7 @@ export default function Component() {
                             ) : (
                               "NA"
                             )}
-                          </td>
+                          </td> 
                           <td className="px-4 py-2 whitespace-nowrap">
                             {item.status === "Rejected" && (
                               <button

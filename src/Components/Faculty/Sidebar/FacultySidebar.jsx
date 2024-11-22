@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   LayoutDashboard,
   UserRoundPen,
@@ -11,6 +11,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../Store/Action";
 import { AuthContext } from "../../../Context/AuthContext";
+import { useGetReq } from "../../../hooks/useHttp";
 
 const Sidebar = ({ showProfile, isChangePasswords }) => {
   const location = useLocation();
@@ -18,8 +19,12 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
   const {logout}= useContext(AuthContext)
   const isEdit = location.pathname === "/";
   const isSuper = location.pathname === "/faculty/dashboard";
+  const [getReq]= useGetReq()
+  const accessToken= sessionStorage.getItem('token').split('"')[1]
   // const isAddMod = location.pathname === "/AddModerator";
   // const isAddFac = location.pathname === "/AddFaculty";
+
+  
 
   return (
     <>
@@ -69,19 +74,19 @@ const ProfileContent = ({
 }) => {
   return (
     <>
-      <div className="flex left-5 bottom-4 mb-2 mt-6 relative font-poppins">
+      <div className="relative flex mt-6 mb-2 left-5 bottom-4 font-poppins">
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="w-24 h-24 rounded-full object-cover mt-10"
+          className="object-cover w-24 h-24 mt-10 rounded-full"
         />
-        <span className="p-2 flex absolute left-32 text-xm font-bold top-16 text-black rounded-md">
+        <span className="absolute flex p-2 font-bold text-black rounded-md left-32 text-xm top-16">
           FACULTY
         </span>
       </div>
       <div className="flex-grow">
         <div
-          className="w-full mb-2 text-red-500 bg-transparent text-sm border-b border-gray-800"
+          className="w-full mb-2 text-sm text-red-500 bg-transparent border-b border-gray-800"
           aria-label="Remove Profile Picture"
         >
         </div>

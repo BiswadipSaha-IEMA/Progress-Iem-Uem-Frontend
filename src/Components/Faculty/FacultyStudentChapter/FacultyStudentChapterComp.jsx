@@ -129,6 +129,9 @@ export default function FacultyStudentChapter() {
                         {header}
                       </th>
                     ))}
+                      <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      Action
+                    </th>
                   </tr>
                 </thead>
 
@@ -161,6 +164,18 @@ export default function FacultyStudentChapter() {
                           </a>
                         ) : (
                           "NA"
+                        )}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status === "Rejected" && (
+                          <button
+                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                            onClick={() => {
+                              setEditBpData(true);
+                            }}
+                          >
+                            Edit
+                          </button>
                         )}
                       </td>
                     </tr>

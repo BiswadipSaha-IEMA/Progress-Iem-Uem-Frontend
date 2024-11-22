@@ -38,6 +38,7 @@ export default function Component() {
           });
           setData(arr);
           setData1(arr);
+          console.log("Hello Grade B data is coming")
         }
       } catch (error) {
         console.log(error);
@@ -85,9 +86,9 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen">
-     <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
+     <div className="flex-1 px-4 pb-16 overflow-auto sm:px-10 md:pb-2">
         <Header backPage="/faculty/dashboard" />
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
+        <div className="flex flex-col justify-between mt-10 mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
@@ -95,7 +96,7 @@ export default function Component() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
@@ -125,7 +126,7 @@ export default function Component() {
 
         {/* Responsive Table */}
         <div className="mt-5 overflow-x-auto rounded-lg">
-          <div className="min-w-full bg-white rounded-lg overflow-hidden">
+          <div className="min-w-full overflow-hidden bg-white rounded-lg">
             <div className="overflow-x-auto">
               <table className="min-w-full">
                 {/* Table Header */}
@@ -154,7 +155,7 @@ export default function Component() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
+                      <td className="sticky left-0 px-4 py-2 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.authorType}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
@@ -198,7 +199,7 @@ export default function Component() {
         </div>
 
        {/* Pagination Controls */}
-       <div className="mt-4 hidden md:flex justify-end">
+       <div className="justify-end hidden mt-4 md:flex">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -216,7 +217,7 @@ export default function Component() {
         </div>
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md md:hidden">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

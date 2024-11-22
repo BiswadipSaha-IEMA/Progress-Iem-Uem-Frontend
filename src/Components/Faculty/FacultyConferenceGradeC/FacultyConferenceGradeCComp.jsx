@@ -4,31 +4,25 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import ResearchPaperGradeCbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeCbookChapter";
-import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-import Header from "../../../Components/Header/Header";
-// import
-import EditFormPopUp from "./EditFormPopUp";
+import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
+import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC"
+import Header from "../../Header/Header";
 
-export default function FacultyBookPublished() {
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [data, setData] = useState([]);
-  const [data1, setData1] = useState([]);
-  const [getReq] = useGetReq();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [detailedClick, setDetailedClick] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const rowsPerPage = 10;
-  const [editBpData, setEditBpData] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+function FacultyConferenceGradeCComp() {
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [getReq] = useGetReq();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [detailedClick, setDetailedClick] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const rowsPerPage = 10;
   
-
-  const accessToken = sessionStorage.getItem("token").split('"')[1];
-
+    const accessToken = sessionStorage.getItem("token").split('"')[1];
+    
   useEffect(() => {
     const getBPData = async () => {
-      setIsLoading(true);
       try {
         const response = await getReq(
           "api/v1/document/getAllPublications",
@@ -37,15 +31,13 @@ export default function FacultyBookPublished() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-C" && data.publicationType === "Book Chapter")arr.push(data);
+            if (data.publicationGrade === "Grade-C" && data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr);
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
       }
     };
     getBPData();
@@ -58,7 +50,7 @@ export default function FacultyBookPublished() {
       (item) =>
         item.title.toLowerCase().includes(searchData) ||
         item.name.toLowerCase().includes(searchData) ||
-        item.isbn.toLowerCase().includes(searchData)
+        item.isbn?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);
@@ -77,12 +69,11 @@ export default function FacultyBookPublished() {
   };
 
   const columnHeaders = [
-    "Author Type",
     "Title",
     "Faculty",
-    "Published Date",
     "Publisher Name",
-    "ISBN",
+    "Published Date",
+    "Issue No",
     "Status",
     "Email",
     "Proof of Document",
@@ -90,27 +81,27 @@ export default function FacultyBookPublished() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-1 overflow-auto px-4 sm:px-10">
+      <div className="flex-1 px-4 overflow-auto sm:px-10">
         <Header backPage="/faculty/dashboard" />
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
+        <div className="flex flex-col justify-between mt-10 mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Research Paper - Book Chapter (Grade C)
+              Research Paper Published Conference Grade C
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Book Name"
+                placeholder="Search by Paper Title"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2
+              <RxCross2 
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -130,27 +121,21 @@ export default function FacultyBookPublished() {
 
         {/* Responsive Table */}
         <div className="mt-5 overflow-x-auto rounded-lg">
-          <div className="min-w-full bg-white rounded-lg overflow-hidden">
+          <div className="min-w-full overflow-hidden bg-white rounded-lg">
             <div className="overflow-x-auto">
               <table className="min-w-full">
                 {/* Table Header */}
                 <thead>
                   <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      SL. No
-                    </th>
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
                       </th>
                     ))}
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      Action
-                    </th>
                   </tr>
                 </thead>
 
-                {/* Table Body */}
                 {/* Table Body */}
                 <tbody>
                   {currentRows.map((item, rowIndex) => (
@@ -162,58 +147,26 @@ export default function FacultyBookPublished() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="px-4 py-2 sticky left-0 bg-white">
-                        {indexOfFirstRow + rowIndex + 1}
-                        </td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                            {item.authorType}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.title}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.date}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.issue}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.email}
-                          </td>
+                      <td className="sticky left-0 px-4 py-2 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.issue}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
                             href={item.proofDocument}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#03A8FD] no-underline"
+                            className="text-blue-500 no-underline"
                           >
                             Link
                           </a>
                         ) : (
                           "NA"
-                        )}
-                      </td>
-                      {/* New Rejection Reason Column */}
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status === "Rejected" && (
-                          <button
-                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                            onClick={() => {
-                              setEditBpData(true);
-                            }}
-                          >
-                            Edit
-                          </button>
                         )}
                       </td>
                     </tr>
@@ -224,8 +177,8 @@ export default function FacultyBookPublished() {
           </div>
         </div>
 
-       {/* Pagination Controls */}
-       <div className="mt-4 hidden md:flex justify-end">
+        {/* Pagination Controls for large screens */}
+        <div className="justify-end hidden mt-4 sm:flex">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -243,7 +196,8 @@ export default function FacultyBookPublished() {
         </div>
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      {/* Pagination Controls for small screens */}
+      <div className="sticky bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md sm:hidden">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
@@ -261,13 +215,14 @@ export default function FacultyBookPublished() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeCbookChapter setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeC setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
     </div>
-  );
+  )
 }
+
+export default FacultyConferenceGradeCComp

@@ -64,7 +64,7 @@ const AddFacultyComp = () => {
           </button>
         </div>
 
-        <div className="flex flex-wrap justify-center lg:justify-start w-full gap-8 p-10 mt-8 bg-white rounded-lg">
+        <div className="flex flex-wrap justify-center lg:justify-start w-full gap-6 p-10 mt-8 bg-white rounded-lg">
           <Cards sidebar={sidebar} showPopup={showPopup}/>
         </div>
       </div>

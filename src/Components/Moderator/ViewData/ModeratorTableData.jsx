@@ -18,6 +18,12 @@ const ModeratorTableData = () => {
   const [rp2Full,setRp2Full]=useState([])
   const [rp3,setRp3]=useState([])
   const [rp3Full,setRp3Full]=useState([])
+  const [conf1,setConf1]=useState([])
+  const [conf1Full,setConf1Full]=useState([])
+  const [conf2,setConf2]=useState([])
+  const [conf2Full,setConf2Full]=useState([])
+  const [conf3,setConf3]=useState([])
+  const [conf3Full,setConf3Full]=useState([])
   const [confPub,setConfPub]=useState([])
   const [confPubFull,setConfPubFull]=useState([])
   const [moocs,setMoocs]=useState([])
@@ -88,6 +94,9 @@ const ModeratorTableData = () => {
     rp1?.length > 0 ||
     rp2?.length > 0 ||
     rp3?.length > 0 ||
+    conf1?.length > 0 ||
+    conf2?.length > 0 ||
+    conf3?.length > 0 ||
     patents?.length > 0 ||
     facultyDevelopment?.length > 0 ||
     competition?.length > 0 ||
@@ -132,8 +141,8 @@ const options= {
       const fdp=data.events.filter(pub=>pub.eventType==="FDP").map(({createdAt,updatedAt,createdBy,comment,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const fdpFull=data.events.filter(pub=>pub.eventType==="FDP")
 
-      const competition=data.events.filter(pub=>pub.eventType==="Competiton").map(({createdBy,comment,department,__v,hasContentAccess,...rest})=>({...rest,"CreatedBy":createdBy.name}))
-      const competitionFull=data.events.filter(pub=>pub.eventType==="Competiton")
+      const competition=data.events.filter(pub=>pub.eventType==="Competition").map(({createdBy,comment,department,__v,hasContentAccess,...rest})=>({...rest,"CreatedBy":createdBy.name}))
+      const competitionFull=data.events.filter(pub=>pub.eventType==="Competition")
 
       const hackathon=data.events.filter(pub=>pub.eventType==="Hackathon").map(({createdBy,comment,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const hackathonFull=data.events.filter(pub=>pub.eventType==="Hackathon")
@@ -160,8 +169,8 @@ const options= {
       const sca=data.studentChapters.map(({createdAt,createdBy,comment,department,__v,hasContentAccess,...rest})=>({...rest,createdBy:createdBy.name}))
       const scaFull=data.studentChapters.map(({...rest})=>({...rest}))
 
-      const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy, comment,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name}))
-      const confFull=data.publications.filter(pub=>pub.eventType==="Conference")
+      const conf=data.events.filter(pub=>pub.eventType==="Conference").map(({category,createdBy, comment,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name}))
+      const confFull=data.events.filter(pub=>pub.eventType==="Conference")
 
 
       const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, 
@@ -177,8 +186,17 @@ const options= {
 
       const rep3=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C").map(({createdBy,comment,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
       const rep3Full=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-C")
+      
+      const conf1=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-A").map(({createdBy,comment,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
+      const conf1Full=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-A")
 
-      console.log("first")
+      const conf2=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-B").map(({createdBy,comment,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
+      const conf2Full=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-B")
+
+      const conf3=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-C").map(({createdBy,comment,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
+      const conf3Full=data.publications.filter(pub=>pub.publicationType==="Conference"&&pub.publicationGrade==="Grade-C")
+
+      console.log("Competiton",competitionFull)
       setWorkshop(workshop)
       setWorkshopFull(workshopFull)
       setSeminar(seminar)
@@ -217,6 +235,12 @@ const options= {
       setRp2Full(rep2Full)
       setRp3(rep3)
       setRp3Full(rep3Full)
+      setConf1(conf1)
+      setConf1Full(conf1Full)
+      setConf2(conf2)
+      setConf2Full(conf2Full)
+      setConf3(conf3)
+      setConf3Full(conf3Full)
     }
   },[data])
 
@@ -237,6 +261,9 @@ const options= {
       {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Published-Journal (Grade-A)'} />}
       {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Published-Journal (Grade-B)'} />}
       {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} fullData={rp3Full} name={'Research Paper Published-Journal (Grade-C)'} />}
+      {conf1.length>0 && <ModeratorViewTable dummyData={conf1} dummy={conf1} fullData={conf1Full} name={'Research Paper Conference (Grade-A)'} />}
+      {conf2.length>0 && <ModeratorViewTable dummyData={conf2} dummy={conf2} fullData={conf2Full} name={'Research Paper Conference (Grade-B)'} />}
+      {conf3.length>0 && <ModeratorViewTable dummyData={conf3} dummy={conf3} fullData={conf3Full} name={'Research Paper Conference (Grade-C)'} />}
       {patents.length>0 && <ModeratorViewTable dummyData={patents} dummy={patents} fullData={patentsFull} name={'Patent'} />}
       {projects.length>0 && <ModeratorViewTable dummyData={projects} dummy={projects} fullData={projectsFull} name={'Projects'} />}
       {facultyDevelopment.length>0 && <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment} fullData={facultyDevelopmentFull} name={'Faculty Development Programmes'} />}

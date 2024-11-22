@@ -14,6 +14,9 @@ import PatentPopUp from "../../../utils/Popup/FormPopUp/PatentPopUp";
 import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
 import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
+import ResearchPaperGradeAbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeAbookChapter";
+import ResearchPaperGradeBbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeBbookChapter";
+import ResearchPaperGradeCbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeCbookChapter";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
@@ -48,8 +51,11 @@ export default function Faculty() {
   const [industrial, setIndustrial] = useState(false);
   const [triMentor, settriMentor] = useState(false);
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
+  const [researchPaperGradeADatabook, setResearchPaperGradeADatabook] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
+  const [researchPaperGradeBDatabook, setResearchPaperGradeBDatabook] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
+  const [researchPaperGradeCDatabook, setResearchPaperGradeCDatabook] = useState(false);
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
@@ -455,6 +461,27 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+    {
+      title: "Research Paper - Book Chapter (Grade A)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Grade - Book Chapter (Grade B)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Grade - Book Chapter (Grade C)",
+      details: groupResearchByGrade("Grade-A").map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
   ];
 
   const getStatusStyles = (status) => {
@@ -544,7 +571,8 @@ export default function Faculty() {
             <div
               key={cellIndex}
               className="bg-[#fff] rounded-lg flex flex-col min-h-40 cursor-pointer h-96 relative overflow-hidden"
-              onClick={() => {
+              
+                onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
                 } else if (item.title === "Research Paper Grade A") {
@@ -553,6 +581,12 @@ export default function Faculty() {
                   navigate("/faculty/researchpapergradeb");
                 } else if (item.title === "Research Paper Grade C") {
                   navigate("/faculty/researchpapergradec");
+                }else if (item.title === "Research Paper - Book Chapter (Grade A)") {
+                  navigate("/faculty/researchpapergradeabook");
+                }else if (item.title === "Research Paper - Book Chapter (Grade B)") {
+                  navigate("/faculty/researchpapergradebbook");
+                }else if (item.title === "Research Paper - Book Chapter (Grade C)") {
+                  navigate("/faculty/researchpapergradecbook");
                 } else if (item.title === "Conference") {
                   navigate("/faculty/viewconferenceorganized");
                 } else if (
@@ -604,6 +638,15 @@ export default function Faculty() {
                     } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       console.log(setResearchPaperGradeAData);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade A)") {
+                      setResearchPaperGradeADatabook(true);
+                      console.log(setResearchPaperGradeADatabook);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade B)") {
+                      setResearchPaperGradeBDatabook(true);
+                      console.log(setResearchPaperGradeBDatabook);
+                    }else if (item.title === "Research Paper - Book Chapter (Grade C)") {
+                      setResearchPaperGradeCDatabook(true);
+                      console.log(setResearchPaperGradeCDatabook);
                     } else if (item.title === "Research Paper Grade B") {
                       setResearchPaperGradeBData(true);
                     } else if (item.title === "Research Paper Grade C") {
@@ -687,6 +730,24 @@ export default function Faculty() {
         <ResearchPaperGradeA
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeAData}
+        />
+      )}
+       {researchPaperGradeADatabook && (
+        <ResearchPaperGradeAbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeADatabook}
+        />
+      )}
+       {researchPaperGradeBDatabook && (
+        <ResearchPaperGradeBbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeBDatabook}
+        />
+      )}
+       {researchPaperGradeCDatabook && (
+        <ResearchPaperGradeCbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeCDatabook}
         />
       )}
       {researchPaperGradeBData && (

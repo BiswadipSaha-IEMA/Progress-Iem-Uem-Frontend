@@ -10,6 +10,8 @@ import Header from '../../../Components/Header/Header'
 import WorkShopPopUp from '../../../utils/Popup/FormPopUp/WorkShopPopUp'
 import FDPPopUp from '../../../utils/Popup/FormPopUp/FDPPopUp'
 
+import EditFormPopUp from "./EditFormPopUp";
+
 export default function FacultyFDPComp() {
     const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData] = useState([])
@@ -20,6 +22,7 @@ export default function FacultyFDPComp() {
     const [selectedData, setSelectedData] = useState(null)
     const [searchTerm, setSearchTerm] = useState("");
     const rowsPerPage = 5
+    const [editBpData, setEditBpData] = useState(false);
 
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 
@@ -76,7 +79,7 @@ export default function FacultyFDPComp() {
 
     return (
         <div className="flex flex-col min-h-screen">
-      <div className="flex-1 overflow-auto px-4 sm:px-10">
+      <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -127,7 +130,11 @@ export default function FacultyFDPComp() {
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
                       </th>
+                      
                     ))}
+                        <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      Action
+                    </th>
                   </tr>
                 </thead>
 
@@ -163,8 +170,20 @@ export default function FacultyFDPComp() {
                           "NA"
                         )}
                       </td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                        <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status === "Rejected" && (
+                          <button
+                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                            onClick={() => {
+                              setEditBpData(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,8 +192,8 @@ export default function FacultyFDPComp() {
           </div>
         </div>
 
-        {/* Pagination Controls for large screens */}
-        <div className="hidden sm:flex justify-end mt-4">
+       {/* Pagination Controls */}
+       <div className="mt-4 hidden md:flex justify-end">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -192,8 +211,7 @@ export default function FacultyFDPComp() {
         </div>
       </div>
 
-      {/* Pagination Controls for small screens */}
-      <div className="sm:hidden sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
@@ -217,6 +235,7 @@ export default function FacultyFDPComp() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
+       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
     </div>
     )
 }

@@ -242,7 +242,7 @@ const ModeratorTableData = () => {
             __v,
             hasContentAccess,
             ...rest
-          }) => ({ ...rest, CreatedBy: createdBy.name, "Proof of Document": proofDocument })
+          }) => ({ ...rest, CreatedBy: createdBy.name })
         );
       const competitionFull = data.events.filter(
         (pub) => pub.eventType === "Competition"
@@ -438,7 +438,7 @@ const ModeratorTableData = () => {
             __v,
             hasContentAccess,
             ...rest
-          }) => ({ ...rest, "Created By": createdBy.name, "Proof of Document": proofDocument })
+          }) => ({ ...rest, "Created By": createdBy.name })
         );
       const confFull = data.events.filter(
         (pub) => pub.eventType === "Conference"

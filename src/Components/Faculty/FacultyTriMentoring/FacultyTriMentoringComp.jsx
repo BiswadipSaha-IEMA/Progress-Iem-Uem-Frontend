@@ -12,7 +12,7 @@ import EditFormPopUp from "./EditFormPopUp";
 
 // lottie
 import Lottie from "react-lottie";
-import noDataFound from "../../../Lottie/noDataFound.json";
+import NoDataFaculty from '../../../Lottie/NoDataFaculty.json'
 
 export default function Component() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -94,9 +94,9 @@ export default function Component() {
   const lottieOptions = {
     loop: true,
     autoplay: true,
-    animationData: noDataFound,
+    animationData: NoDataFaculty,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: "xMidYMid meet",
     },
   };
 
@@ -114,13 +114,11 @@ export default function Component() {
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center h-64"></div>
+          <div className="flex justify-center items-center"></div>
         ) : data.length === 0 ? (
           <div className="flex flex-col justify-center items-center py-8 m-10 bg-white rounded-lg font-poppins">
-            <Lottie options={lottieOptions} height={400} width={400} />
-            <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">
-              No records available
-            </p>
+            <Lottie options={lottieOptions} height={250} width={250}  />
+          
           </div>
         ) : (
           <>

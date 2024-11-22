@@ -10,6 +10,8 @@ import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
 import NoDataFaculty from "../../../Lottie/NoDataFaculty.json";
 
+import EditFormPopUp from "./EditFormPopUp";
+
 export default function Competetion() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
@@ -93,7 +95,7 @@ export default function Competetion() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-1 overflow-auto px-4 sm:px-10">
+          <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
         <Header backPage="/faculty/dashboard" />
         {isLoading ? (
           <div className="flex items-center w-full h-[70vh] justify-center">

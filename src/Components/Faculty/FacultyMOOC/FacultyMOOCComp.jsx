@@ -10,6 +10,8 @@ import Header from "../../../Components/Header/Header";
 import Lottie from "react-lottie";
 import NoDataFaculty from '../../../Lottie/NoDataFaculty.json';
 
+import EditFormPopUp from "./EditFormPopUp";
+
 export default function Component() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
@@ -93,7 +95,7 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-1 overflow-auto px-4 sm:px-10">
+     <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
         <Header backPage="/faculty/dashboard" />
         {isLoading ? (
           <div className="flex items-center w-full h-[70vh] justify-center">

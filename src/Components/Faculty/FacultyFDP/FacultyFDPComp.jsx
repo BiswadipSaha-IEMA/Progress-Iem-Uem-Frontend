@@ -10,6 +10,8 @@ import Header from '../../../Components/Header/Header';
 import Lottie from "react-lottie";
 import NoDataFaculty from '../../../Lottie/NoDataFaculty.json';
 
+import EditFormPopUp from "./EditFormPopUp";
+
 export default function FacultyFDPComp() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);

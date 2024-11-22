@@ -52,7 +52,7 @@ function LoginComp({ email, setEmail, password, setPassword, setHandleLogin, acc
     try {
         const json = await postReq('api/v1/superAdmin/login', data);
         if (json) {
-          console.log(json)
+          console.log(json + "**************----------------------")
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);
             // sessionStorage.setItem()

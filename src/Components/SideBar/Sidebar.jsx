@@ -15,6 +15,7 @@ import { logout } from "../../Store/Action";
 const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const [superAdminData, setSuperAdminData] = useState({});
   const [getReq, { error, loading }] = useGetReq();
+  const [profileImage, setProfileImage] = useState("");
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const isAddMod = location.pathname === "/AddModerator" || location.pathname === "/addmoderator";
   const isAddFac = location.pathname === "/AddDepartment" || location.pathname === "/adddepartment";
 
-
+  
+  
 
   return (
     <>
@@ -33,6 +35,7 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
       >
         <ProfileContent
           username={username}
+          profileImage={profileImage}
           isEdit={isEdit}
           isSuper={isSuper}
           isAddMod={isAddMod}
@@ -47,6 +50,7 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
       >
         <ProfileContent
           username={username}
+          profileImage= {profileImage}
           isEdit={isEdit}
           isSuper={isSuper}
           isAddMod={isAddMod}
@@ -61,6 +65,7 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
 
 const ProfileContent = ({
   username,
+  profileImage,
   isEdit,
   isSuper,
   isAddMod,
@@ -76,6 +81,7 @@ const ProfileContent = ({
           alt="Profile"
           className="w-20 h-20 mt-10 rounded-full"
         />
+        
         <span className="absolute flex p-2 ml-20 font-bold text-black rounded-md text-xm top-14">
         {username}
         </span>

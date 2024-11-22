@@ -41,29 +41,29 @@ const FacultyViewData = () => {
 
   // let check;
   const [check, setCheck] = useState(false);
+  const fetchData = async () => {
+    try {
+      const response = await getReq(
+        `api/v1/document/getAllSubmissions/${department}`,
+        accessToken
+      );
+      if (response.success) {
+        // check = response.success;
+        setIsLoading(false);
+        setCheck(response.success);
+        console.log(response.data);
+        setData(response.data);
+      } else {
+        console.error("Error:", response.statusText);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error:", error);
+    }
+  };
   useEffect(() => {
     setIsLoading(true);
 
-    const fetchData = async () => {
-      try {
-        const response = await getReq(
-          `api/v1/document/getAllSubmissions/${department}`,
-          accessToken
-        );
-        if (response.success) {
-          // check = response.success;
-          setIsLoading(false);
-          setCheck(response.success);
-          console.log(response.data);
-          setData(response.data);
-        } else {
-          console.error("Error:", response.statusText);
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.error("Error:", error);
-      }
-    };
 
     if (accessToken) {
       fetchData();
@@ -729,6 +729,7 @@ const FacultyViewData = () => {
               dummyData={projects}
               dummy={projects}
               name="List of Project Proposals"
+              fetchData={fetchData}
             />
           )}
           {books?.length > 0 && (
@@ -736,6 +737,7 @@ const FacultyViewData = () => {
               dummyData={books}
               dummy={books}
               name="Book Published"
+              fetchData={fetchData}
             />
           )}
           {rp1?.length > 0 && (
@@ -743,6 +745,7 @@ const FacultyViewData = () => {
               dummyData={rp1}
               dummy={rp1}
               name="Research Paper Published-Journal (Grade-A)"
+              fetchData={fetchData}
             />
           )}
           {rp2?.length > 0 && (
@@ -750,6 +753,7 @@ const FacultyViewData = () => {
               dummyData={rp2}
               dummy={rp2}
               name="Research Paper Published-Journal (Grade-B)"
+              fetchData={fetchData}
             />
           )}
           {rp3?.length > 0 && (
@@ -757,6 +761,7 @@ const FacultyViewData = () => {
               dummyData={rp3}
               dummy={rp3}
               name="Research Paper Published-Journal (Grade-C)"
+              fetchData={fetchData}
             />
           )}
           {conf1?.length > 0 && (
@@ -781,13 +786,14 @@ const FacultyViewData = () => {
             />
           )}
           {patents?.length > 0 && (
-            <ViewDataTable dummyData={patents} dummy={patents} name="Patent" />
+            <ViewDataTable dummyData={patents} dummy={patents} name="Patent" fetchData={fetchData}/>
           )}
           {facultyDevelopment?.length > 0 && (
             <ViewDataTable
               dummyData={facultyDevelopment}
               dummy={facultyDevelopment}
               name="Faculty Development Programmes"
+              fetchData={fetchData}
             />
           )}
           {competition?.length > 0 && (
@@ -795,19 +801,21 @@ const FacultyViewData = () => {
               dummyData={competition}
               dummy={competition}
               name="Competition"
+              fetchData={fetchData}
             />
           )}
           {seminar?.length > 0 && (
-            <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" />
+            <ViewDataTable dummyData={seminar} dummy={seminar} name="Seminar" fetchData={fetchData}/>
           )}
           {conf?.length > 0 && (
-            <ViewDataTable dummyData={conf} dummy={conf} name="Conference" />
+            <ViewDataTable dummyData={conf} dummy={conf} name="Conference" fetchData={fetchData}/>
           )}
           {lecture?.length > 0 && (
             <ViewDataTable
               dummyData={lecture}
               dummy={lecture}
               name="Talks & Distinguished Lecture Series"
+              fetchData={fetchData}
             />
           )}
           {workshop?.length > 0 && (
@@ -815,6 +823,7 @@ const FacultyViewData = () => {
               dummyData={workshop}
               dummy={workshop}
               name="Workshop"
+              fetchData={fetchData}
             />
           )}
           {industrialTour?.length > 0 && (
@@ -822,6 +831,7 @@ const FacultyViewData = () => {
               dummyData={industrialTour}
               dummy={industrialTour}
               name="Industrial Tour"
+              fetchData={fetchData}
             />
           )}
           {hackathon?.length > 0 && (
@@ -829,6 +839,7 @@ const FacultyViewData = () => {
               dummyData={hackathon}
               dummy={hackathon}
               name="Hackathon"
+              fetchData={fetchData}
             />
           )}
           {consultancy?.length > 0 && (
@@ -836,6 +847,7 @@ const FacultyViewData = () => {
               dummyData={consultancy}
               dummy={consultancy}
               name="Consultancy"
+              fetchData={fetchData}
             />
           )}
           {studentChapters?.length > 0 && (
@@ -843,12 +855,14 @@ const FacultyViewData = () => {
               dummyData={studentChapters}
               dummy={studentChapters}
               name="Student Chapter Activity"
+              fetchData={fetchData}
             />
           )}
           {confPub?.length > 0 && (
             <ViewDataTable
               dummyData={confPub}
               dummy={confPub}
+              fetchData={fetchData}
               name="Comference Publication"
             />
           )}
@@ -857,10 +871,11 @@ const FacultyViewData = () => {
               dummyData={trimentor}
               dummy={trimentor}
               name="Tri-Mentoring System"
+              fetchData={fetchData}
             />
           )}
           {moocs?.length > 0 && (
-            <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" />
+            <ViewDataTable dummyData={moocs} dummy={moocs} name="Moocs" fetchData={fetchData}/>
           )}
         </>
       )}

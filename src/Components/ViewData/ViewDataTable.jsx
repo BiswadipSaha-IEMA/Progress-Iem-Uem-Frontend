@@ -5,7 +5,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import AddCommentPopup from "../DetailedSuperAdmin/Status/AddCommentPopup";
 import { SlActionRedo } from "react-icons/sl";
 
-const ViewDataTable = ({ name, dummyData }) => {
+const ViewDataTable = ({ name, dummyData, fetchData }) => {
   const [data, setData] = useState(dummyData);  // Initialize data with dummyData
   const [searchTerm, setSearchTerm] = useState("");
   
@@ -189,7 +189,7 @@ const ViewDataTable = ({ name, dummyData }) => {
 
       {/* Show Add Comment Popup if selected data */}
       {detailedClick && (
-        <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name} />
+        <AddCommentPopup setShowPopup={setDetailedClick} data={data} name={name} fetchTableData={fetchData}/>
       )}
     </>
   );

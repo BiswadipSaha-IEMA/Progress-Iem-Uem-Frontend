@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
@@ -8,10 +8,22 @@ function IndustrialPopup({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
 
-  const [dateRange] = useState({
-    startDate: "2023-11-01",
-    endDate: "2024-11-30",
-  });
+  const [dateRange, setDateRange] = useState(["", ""]);
+
+  const getDates = async () => {
+    try {
+      const dates = await getReq("api/v1/timeline/getSetTimeline", accessToken);
+      if (dates.success) {
+        setDateRange([
+          dates.data.setTimeLineStartDate,
+          dates.data.setTimeLineEndDate,
+        ]);
+        console.log("Dates", dates.data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const [formData, setFormData] = useState({
     organizedBy: "",
@@ -27,7 +39,7 @@ function IndustrialPopup({ setUtilFor, setShowPopup }) {
     const { name, value } = e.target;
 
     if (name === "date") {
-      if (value < dateRange.startDate || value > dateRange.endDate) {
+      if (value < dateRange[0] || value > dateRange[1]) {
         e.target.value = "";
         setError(true);
         return;
@@ -70,6 +82,10 @@ function IndustrialPopup({ setUtilFor, setShowPopup }) {
     });
     console.log("Form closed");
   };
+
+  useEffect(() => {
+    getDates();
+  }, [accessToken]);
 
   return (
     <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-[-25px] left-0 z-40 alertcontainer">

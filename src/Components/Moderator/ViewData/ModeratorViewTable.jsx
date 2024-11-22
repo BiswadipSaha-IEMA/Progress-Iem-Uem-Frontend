@@ -8,7 +8,7 @@ import "./Tablescrollbar.css"
 import { FaRegComments } from "react-icons/fa";
 import CommentModal from "./CommentModal";
 
-const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
+const ModeratorViewTable = ({ name, dummyData, dummy, fullData, fetchData }) => {
   const [data, setData] = useState(""); // for selected row data
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
   const rowsPerPage = 5;
@@ -81,7 +81,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case "pending":
+      case "Pending":
         return " px-2 py-1 rounded-xl text-[#F3C623] "; // Yellow
       case "requesttoaccept":
       case "approved":
@@ -189,7 +189,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
                           setId(item._id)
                           fullData?.map((dt)=>{
                               // console.log('=-=-=-=-=-=-=-=-==-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=',dt)
-                              if(item.isbn===dt.isbn)
+                              if(item._id===dt._id)
                                 setItemData(dt)
                           })
                         }}
@@ -234,6 +234,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
         comment={comment}
         setComment={setComment}
         name={name}
+        fetchDataTable={fetchData}
       />
     </>
   );

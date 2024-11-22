@@ -30,6 +30,9 @@ import { ModeratorPendingRequests } from "./Pages/Moderator/PenidngRequests/Mode
 import FacultyMOOCPage from "./Pages/Faculty/FacultyMOOC/FacultyMOOCPage";
 import FacultyTriMentoringPage from "./Pages/Faculty/FacultyFacultyTriMentoring/FacultyTriMentoringPage";
 import FacultyCompetitionPage from "./Pages/Faculty/FacultyCompetition/FacultyCompetitionPage";
+import FacultyResearchPpaperAbookChapterPage from "./Pages/Faculty/FacultyResearchPpaperAbookChapter/FacultyResearchPpaperAbookChapterPage";
+import FacultyResearchPpaperBbookChapterPage from "./Pages/Faculty/FacultyResearchPpaperBbookChapter/FacultyResearchPpaperBbookChapterPage";
+import FacultyResearchPpaperCbookChapterPage from "./Pages/Faculty/FacultyResearchPpaperCbookChapter/FacultyResearchPpaperCbookChapterPage";
 import FacultyList from "./Components/AddFaculty/FacultyList";
 import CSEFacultyList from "./Pages/Moderator/FacultyList/CSEFacultyList";
 import ECEFacultyList from "./Pages/Moderator/FacultyList/ECEFacultyList";
@@ -79,6 +82,9 @@ const AppRouter = () => {
           <Route path="/faculty/viewrtrimentor" element={<FacultyTriMentoringPage />} />
           <Route path="/faculty/viewpatent" element={<FacultyPatentPage />} />
           <Route path="/faculty/viewcomp" element={<FacultyCompetitionPage />} />
+          <Route path="/faculty/researchpapergradeabook" element={<FacultyResearchPpaperAbookChapterPage />} />
+          <Route path="/faculty/researchpapergradebbook" element={<FacultyResearchPpaperBbookChapterPage />} />
+          <Route path="/faculty/researchpapergradecbook" element={<FacultyResearchPpaperCbookChapterPage />} />
           <Route path="/faculty/viewseminar" element={<FacultySeminar />} />
           {/* <Route path="/faculty/viewseminar" element={<FacultyCompetitionPage />} /> */}
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />

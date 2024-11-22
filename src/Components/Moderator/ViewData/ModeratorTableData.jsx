@@ -163,8 +163,10 @@ const options= {
       const conf=data.publications.filter(pub=>pub.eventType==="Conference").map(({category,createdBy, comment,obtainedScore,department,__v,hasContentAccess,...rest})=>({...rest,"Created By":createdBy.name}))
       const confFull=data.publications.filter(pub=>pub.eventType==="Conference")
 
+
       const filteredBooks=data.publications.filter(pub=>pub.publicationType==="Book").map(({category, 
         comment, reviewedBy, createdBy,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,hasContentAccess,...rest})=>({...rest,"CreatedBy":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))
+
       const filteredBooksFull=data.publications.filter(pub=>pub.publicationType==="Book")
 
       const rep1=data.publications.filter(pub=>pub.publicationType==="Research Paper"&&pub.publicationGrade==="Grade-A").map(({createdBy,comment,publicationGrade,publicationType,documentLink,collegeName,proofDocument,obtainedScore,status,department,__v,nationalOrInternational,hasContentAccess,...rest})=>({...rest,"National/International":nationalOrInternational,"Created By":createdBy.name, "Proof of Document": proofDocument,"Status":status,}))

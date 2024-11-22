@@ -248,9 +248,11 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
         {console.log(storeTempStatus)}
         {/* Comment Section */}
         
+
         <div className="mb-4 h-full w-full bg-[#F0F0F0] rounded-xl p-4 overflow-y-auto">
           <div className="space-y-3">
-            {/* Show status message (Accepted / Rejected) */}
+            {
+              data.Status!=='Pending'?
             <div className="rounded-lg text-gray-800 bg-[#fff]">
               <p>
                 {data?.comment === "Accepetance Requested" ||
@@ -262,12 +264,12 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
                     {storeTempStatus === "Request To Accept"?'Accepted':storeTempStatus === "Request To Reject"?'Rejected':'Acceptance Requested'}
                   </div>
                 ) : (
-                  <div className={`text-[#fff]  ${storeTempStatus === "Request To Accept" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject"?'bg-[#f84748]':'bg-[#f84748]'}  flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
+                  <div className={`text-[#fff]  ${storeTempStatus === "Request To Accept" || data.Status === "Approved" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'bg-[#f84748]':'bg-[#f84748]'}  flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
                     <div className="bg-[#fff] rounded-[50%] mr-2">
-                    {storeTempStatus === "Request To Accept"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />}
+                    {storeTempStatus === "Request To Accept" || data.Status === "Approved"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject" || data.Status === "Rejected"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />}
                       
                     </div>
-                    <div className="">{storeTempStatus === "Request To Accept"?'Accepted':storeTempStatus === "Request To Reject"?'Rejected':'Rejection Requested'}</div>
+                    <div className="">{storeTempStatus === "Request To Accept" || data.Status === "Approved"?'Accepted':storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'Rejected':'Rejection Requested'}</div>
                   </div>
                 )}
               </p>
@@ -282,52 +284,47 @@ const AddCommentPopup = ({ setShowPopup, data, name }) => {
                   <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
                 </div>
               </div>
+            </div>:
+            <div className="w-[100vh] h-[50vh] text-gray-400 flex justify-center items-center">
+              No Comment Found From The Moderator End
             </div>
+            }
+            {/* Show status message (Accepted / Rejected) */}
           </div>
         </div>
+
         {/* Action Buttons */}
 
-        {
-          !afterOperation 
-          &&
-           {/* (data.Status==='RequstToAccept' ||  data.Status==='RequstToReject') && */} &&
-          <div className="flex gap-5 mt-6 justify-start mb-5">
-          {/* {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && ( */}
-            {
-            data.Status==='Approved'||data.Status==='Rejected' && 
-            <>
-            <button
-              className={`${
-                data.Status === "RequestToAccept"
-                  ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-              }`}
-              onClick={handleReqAccept}
-              disabled={storeTempStatus === "Request To Accept"}
-            >
-              {storeTempStatus === "Request To Accept" ? "Accepted" :data.Status==='Approved'?'': "Accept"}
-            </button>
-          {/* )} */}
-          {/* {(data.Status === "RequestToReject" ||
-            data.Status === "RequestToAccept") && ( */}
-            <button
-              className={`${
-                data.Status === "RequestToReject"
-                  ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
-                  : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
-              }`}
-              onClick={handleReqReject}
-              disabled={storeTempStatus === "Request To Reject"}
-            >
-              {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
-            </button>
-          {/* )} */}
-            </>
+        {(data.Status !== 'Approved' && data.Status !== 'Rejected' && data.Status !== 'Pending') && !afterOperation && (
+  <div className="flex gap-5 mt-6 justify-start mb-5">
+    <button
+      className={`${
+        data.Status === "RequestToAccept"
+          ? "bg-green-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+          : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+      }`}
+      onClick={handleReqAccept}
+      disabled={storeTempStatus === "Request To Accept"}
+    >
+      {storeTempStatus === "Request To Accept" ? "Accepted" : "Accept"}
+    </button>
 
-            }
-        </div>
-        }
+    <button
+      className={`${
+        data.Status === "RequestToReject"
+          ? "bg-red-500 text-white p-2 rounded-md font-[600] cursor-pointer"
+          : "bg-[#def4ff] text-[#69a7c6] p-2 rounded-md font-[600] cursor-pointer"
+      }`}
+      onClick={handleReqReject}
+      disabled={storeTempStatus === "Request To Reject"}
+    >
+      {storeTempStatus === "Request To Reject" ? "Rejected" : "Reject"}
+    </button>
+  </div>
+)}
+
+        {/* </div>
+        } */}
 
         {/* Conditional Comment Input */}
         {showInput && (

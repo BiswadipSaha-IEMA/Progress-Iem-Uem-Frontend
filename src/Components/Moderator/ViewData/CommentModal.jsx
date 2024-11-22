@@ -26,8 +26,10 @@ const CommentModal = ({
   const [loading, setLoading] = useState(false);
   const { criteriaId } = useParams();
   const [postReq] = usePostReq();
-
+  const [commentStore, setCommentStore] = useState('');
+  const [nameAuthor, setNameAuthor] = useState('');
   const [status, setStatus] = useState(itemData?.status || ""); // To track the current status (Accept/Reject)
+  const [handleBtnVissible, setHandleBtnVissible] = useState(false);
 
   useEffect(() => {
     if (itemData?.status) {
@@ -49,7 +51,7 @@ const CommentModal = ({
     setLoading(true);
     try {
       const response = await postReq(
-        `${name === 'Book Published' || name === 'Research Paper Grade-A' || name === 'Research Paper Grade-B' || name === 'Research Paper Grade-C' ? 'api/v1/document/reviewPublication' : ''}`,
+        `${name === 'Book Published' || name === 'Research Paper Grade-A' || name === 'Research Paper Grade-B' || name === 'Research Paper Grade-C' ? 'api/v1/document/reviewPublication':''}`,
         {
           publicationId: itemData?._id,
           status: "RequestToAccept",
@@ -58,6 +60,9 @@ const CommentModal = ({
         accessToken
       );
       setStatus("RequestToAccept");
+      setCommentStore("Acceptance Requested");
+      setNameAuthor(response.data.name);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error accepting request", error);
@@ -65,7 +70,7 @@ const CommentModal = ({
       setLoading(false);
     }
   };
-
+  
   const handleReqReject = async () => {
     setLoading(true);
     try {
@@ -79,6 +84,9 @@ const CommentModal = ({
         accessToken
       );
       setStatus("RequestToReject");
+      setCommentStore(commentText);
+      setNameAuthor(response.data.name);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error rejecting request", error);
@@ -87,7 +95,7 @@ const CommentModal = ({
       setCommentText(""); // Clear comment input after rejection
     }
   };
-
+  
   const handleSubmit = async () => {
     setIsSend(true);
     try {
@@ -100,7 +108,11 @@ const CommentModal = ({
         },
         accessToken
       );
+      console.log(response)
       setStatus("RequestToReject");
+      setNameAuthor(response.data.name);
+      setCommentStore(commentText);
+      setHandleBtnVissible(true)
       console.log(response);
     } catch (error) {
       console.error("Error posting comment", error);
@@ -172,7 +184,7 @@ const CommentModal = ({
                         console.log(status)
                       }
                     </div>
-                  ):
+                  ): status === "Approved" && status !== "Pending"&&
                   (
                     <div className="text-[#fff] bg-[#f84748] flex rounded-t-lg items-center pl-7 pt-2 pb-2">
                       <div className="bg-[#fff] rounded-[50%] mr-2">
@@ -191,10 +203,10 @@ const CommentModal = ({
                   status !== 'Pending'?
                 <div className="flex justify-between">
                   <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
-                    {commentText || itemData?.comment}
+                    {commentStore || itemData?.comment}
                   </p>
                   <div className="flex pr-2 items-center">
-                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{itemData?.reviewedBy?.name}</p>
+                    <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">@{itemData?.reviewedBy?.name || nameAuthor}</p>
                     <RiAccountCircleFill className="text-[#0000ffb8] text-[3rem] pr-5" />
                   </div>
                 </div>
@@ -212,7 +224,7 @@ const CommentModal = ({
         </div>
 
         {
-          (itemData.status==='Pending') &&
+          (itemData.status==='Pending') &&  handleBtnVissible===false && 
           <>
         <div className="flex gap-5 mt-6 justify-start mb-5">
           <div

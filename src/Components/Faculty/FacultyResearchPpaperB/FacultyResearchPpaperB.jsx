@@ -86,11 +86,7 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen">
-<<<<<<< HEAD
-      <div className="flex-1 px-4 overflow-auto sm:px-10">
-=======
-     <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
->>>>>>> 9bb830eb7fcc84140f783ff35c853b635e8234c9
+     <div className="flex-1 px-4 pb-16 overflow-auto sm:px-10 md:pb-2">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col justify-between mt-10 mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -202,13 +198,8 @@ export default function Component() {
           </div>
         </div>
 
-<<<<<<< HEAD
-        {/* Pagination Controls for large screens */}
-        <div className="justify-end hidden mt-4 sm:flex">
-=======
        {/* Pagination Controls */}
-       <div className="mt-4 hidden md:flex justify-end">
->>>>>>> 9bb830eb7fcc84140f783ff35c853b635e8234c9
+       <div className="justify-end hidden mt-4 md:flex">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -226,12 +217,7 @@ export default function Component() {
         </div>
       </div>
 
-<<<<<<< HEAD
-      {/* Pagination Controls for small screens */}
-      <div className="sticky bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md sm:hidden">
-=======
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
->>>>>>> 9bb830eb7fcc84140f783ff35c853b635e8234c9
+      <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md md:hidden">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

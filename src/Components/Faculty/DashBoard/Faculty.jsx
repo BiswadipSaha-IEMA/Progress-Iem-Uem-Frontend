@@ -55,7 +55,9 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
-  const [raConfGa, setRaConfGa]= useState(null)
+  const [raConfGa, setRaConfGa] = useState(null);
+  const [raConfGb, setRaConfGb] = useState(null);
+  const [raConfGc, setRaConfGc] = useState(null);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -92,7 +94,7 @@ export default function Faculty() {
         "api/v1/document/getAllPublications",
         accessToken
       );
-      console.log('--------------------------------------------',response);
+      console.log("--------------------------------------------", response);
       if (response.success) {
         setBookData(
           response.data.data.filter(
@@ -104,13 +106,45 @@ export default function Faculty() {
             (publication) => publication.publicationType === "Research Paper"
           )
         );
-        let arrGa=[]
+        let arrGa = [];
         // setRaConfGa(
-          response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-B" && data.publicationType === "Conference") arrGa.push(data);
-          })
+        response.data.data.forEach((data) => {
+          if (
+            data.publicationGrade === "Grade-A" &&
+            data.publicationType === "Conference"
+          )
+            arrGa.push(data);
+        });
         // );
         setRaConfGa(arrGa);
+
+        
+        let arrGb = [];
+        // setRaConfGa(
+        response.data.data.forEach((data) => {
+          if (
+            data.publicationGrade === "Grade-B" &&
+            data.publicationType === "Conference"
+          )
+            arrGb.push(data);
+        });
+        // );
+        setRaConfGb(arrGb);
+
+        
+        let arrGc = [];
+        // setRaConfGa(
+        response.data.data.forEach((data) => {
+          if (
+            data.publicationGrade === "Grade-C" &&
+            data.publicationType === "Conference"
+          )
+            arrGc.push(data);
+        });
+        // );
+        setRaConfGc(arrGc);
+        
+        
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -119,9 +153,9 @@ export default function Faculty() {
     }
   };
 
-  useEffect(()=>{
-    console.log('-----------------------------------',raConfGa)
-  },[raConfGa])
+  useEffect(() => {
+    console.log("-----------------------------------", raConfGa);
+  }, [raConfGa]);
 
   const getConfInfo = async () => {
     try {
@@ -292,14 +326,11 @@ export default function Faculty() {
 
   const getSeminarOrgInfo = async () => {
     try {
-
-
       const response = await getReq(
         "api/v1/document/getAllEvents",
         accessToken
       );
       console.log("Response:", response);
-
 
       if (response.success) {
         const filteredSeminarData = response.data.data.filter(
@@ -313,16 +344,12 @@ export default function Faculty() {
     }
   };
 
-
-  
-  useEffect(()=>{
-    getSeminarOrgInfo()
+  useEffect(() => {
+    getSeminarOrgInfo();
     // console.log('--------------------------------------------------',seminarOrg)
-  },[])
-
+  }, []);
 
   // useEffect(()=>{
-
 
   //   console.log('--------------------------------------------------',seminarOrg)
   // },[])
@@ -341,15 +368,26 @@ export default function Faculty() {
     getCompeteInfo();
   }, [accessToken]);
 
-
-
   const groupResearchByGrade = (grade) => {
     return researchData.filter((paper) => paper.publicationGrade === grade);
   };
 
-  const groupResearchPaperByType=(type)=>{
-    return researchData.filter((paper)=>paper.publicationType===type)
-  }
+  useEffect(() => {
+    console.log("***************************---------", raConfGa);
+  }, [raConfGa]);
+
+  const groupResearchPaperByType = (type, grade) => {
+    console.log(
+      "***********************************",
+      researchData.filter((paper) => paper.publicationType === type)
+    );
+    if (grade === "Grade-A")
+      return raConfGa?.filter((paper) => paper.publicationType === type);
+    if (grade === "Grade-B")
+      return raConfGb?.filter((paper) => paper.publicationType === type);
+    if (grade === "Grade-C")
+      return raConfGc?.filter((paper) => paper.publicationType === type);
+  };
 
   const items = [
     {
@@ -462,28 +500,28 @@ export default function Faculty() {
     },
     {
       title: "Research Paper Published Conference (Grade A)",
-      details: groupResearchPaperByType("Conference").map((paper) => ({
-        title: paper.title,
-        status: paper.status,
-      })),
+      details: groupResearchPaperByType("Conference", "Grade-A")?.map(
+        (paper) => ({
+          title: paper.title,
+          status: paper.status,
+        })
+      ),
     },
 
     {
       title: "Research Paper Published Conference (Grade B)",
-      details: groupResearchPaperByType("Conference").map((paper) => ({
+      details: groupResearchPaperByType("Conference", "Grade-B")?.map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
     {
       title: "Research Paper Published Conference (Grade C)",
-      details: groupResearchPaperByType("Conference").map((paper) => ({
+      details: groupResearchPaperByType("Conference", "Grade-C")?.map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
-
-
   ];
 
   const getStatusStyles = (status) => {
@@ -566,8 +604,7 @@ export default function Faculty() {
               onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
-                }
-                else if (item.title === "Research Paper Grade A") {
+                } else if (item.title === "Research Paper Grade A") {
                   navigate("/faculty/researchpapergradea");
                 } else if (item.title === "Research Paper Grade B") {
                   navigate("/faculty/researchpapergradeb");
@@ -593,18 +630,21 @@ export default function Faculty() {
                   item.title === "Faculty Development Programmes/ MDP"
                 ) {
                   navigate("/faculty/viewfdp");
-                } 
-                else if (item.title === "Competition Organized") {
+                } else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
-                }else if (item.title === "Research Paper Published Conference (Grade A)"){
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade A)"
+                ) {
                   navigate("/faculty/viewconferencegradea");
-                }else if(item.title === "Research Paper Published Conference (Grade B)"){
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade B)"
+                ) {
                   navigate("/faculty/viewconferencegradeb");
-                }else if (item.title ===  "Research Paper Published Conference (Grade C)"){
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade C)"
+                ) {
                   navigate("/faculty/viewconferencegradec");
-                }
-
-                else if (item.title === "Seminar") {
+                } else if (item.title === "Seminar") {
                   navigate("/faculty/viewseminar");
                 }
 
@@ -613,7 +653,6 @@ export default function Faculty() {
                 // }
               }}
             >
-              
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
                 <div className="flex items-center gap-2">
                   <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
@@ -627,8 +666,7 @@ export default function Faculty() {
                     event.stopPropagation();
                     if (item.title === "Books Published") {
                       setBookPub(true);
-                    }
-                    else if (item.title === "Research Paper Grade A") {
+                    } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       // console.log(setResearchPaperGradeAData);
                     } else if (item.title === "Research Paper Grade B") {
@@ -657,9 +695,7 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
-                    } else if (
-                      item.title === "Seminar"
-                    ) {
+                    } else if (item.title === "Seminar") {
                       setShowSeminarPopup(true);
                     }
                   }}
@@ -670,7 +706,7 @@ export default function Faculty() {
 
               {/* Scrollable Content */}
               <div className="flex flex-col flex-1 gap-4 px-4 pb-4 overflow-y-auto md:px-6">
-                {item.details.map((book, index) => {
+                {item.details?.map((book, index) => {
                   const { bg, text, icon, title } = getStatusStyles(
                     book.status
                   );

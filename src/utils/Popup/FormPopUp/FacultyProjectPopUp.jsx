@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function CompetitionPopUp({ setUtilFor, setShowPopup }) {
+function FacultyProjectPopUp({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
-  const [dateRange, setDateRange] = useState(["", ""]);
 
-  const getDates = async () => {
-    try {
-      const dates = await getReq("api/v1/timeline/getSetTimeline", accessToken);
-      if (dates.success) {
-        setDateRange([
-          dates.data.setTimeLineStartDate,
-          dates.data.setTimeLineEndDate,
-        ]);
-        console.log("Dates", dates.data);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const [dateRange] = useState({
+    startDate: "2023-11-01",
+    endDate: "2024-11-30",
+  });
 
   const [formData, setFormData] = useState({
    
@@ -40,7 +29,7 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
     const { name, value } = e.target;
 
     if (name === "date") {
-      if (value < dateRange[0] || value > dateRange[1]) {
+      if (value < dateRange.startDate || value > dateRange.endDate) {
         e.target.value = "";
         setError(true);
         return;
@@ -88,12 +77,8 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
     console.log("Form closed");
   };
 
-  useEffect(() => {
-    getDates();
-  }, [accessToken]);
-
   return (
-    setUtilFor === "bpAddForm" && (
+    setUtilFor === "projectPopUp" && (
       <>
         <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
@@ -211,4 +196,4 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default CompetitionPopUp;
+export default FacultyProjectPopUp;

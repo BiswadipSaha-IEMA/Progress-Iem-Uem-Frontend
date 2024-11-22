@@ -262,7 +262,6 @@ const ModeratorTableData = () => {
             createdAt,
             updatedAt,
             attendedBy,
-            status,
             ...rest
           }) => ({ ...rest, participants:attendedBy, createdBy: createdBy.name })
         );

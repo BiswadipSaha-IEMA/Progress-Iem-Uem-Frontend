@@ -22,6 +22,7 @@ import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -38,6 +39,7 @@ export default function Faculty() {
   const [WorkOrg, setWorkOrg] = useState([]);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
+  const [hackathon, setHackathon] = useState([]);
   const [fdpData, setFdpData] = useState([]);
   const [compete, setCompete] = useState([]);
   const [bookPub, setBookPub] = useState(false);
@@ -55,6 +57,7 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
+  const [showHackPopup, setShowHackPopup] = useState(false);
   const [raConfGa, setRaConfGa] = useState(null);
   const [raConfGb, setRaConfGb] = useState(null);
   const [raConfGc, setRaConfGc] = useState(null);
@@ -246,6 +249,26 @@ export default function Faculty() {
       console.error("Error fetching conference info:", error);
     }
   };
+  const getHack = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      // console.log(response);
+      // console.log("Workshop");
+      if (response.success) {
+        const arr = [];
+        response.data.data.forEach((dt) => {
+          if (dt.eventType === "Hackathon") arr.push(dt);
+        });
+        setHackathon(arr);
+        console.log(arr,"Hackathon")
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
 
   const getIndTour = async () => {
     try {
@@ -365,6 +388,7 @@ export default function Faculty() {
     getIndTour();
     getPatentInfo();
     getFdpInfo();
+    getHack();
     getCompeteInfo();
   }, [accessToken]);
 
@@ -447,6 +471,13 @@ export default function Faculty() {
       title: "Industrial Tour",
       details: IndTour.map((paper) => ({
         title: paper.industryName,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Hackathon",
+      details: hackathon.map((paper) => ({
+        title: paper.topicName,
         status: paper.status,
       })),
     },
@@ -620,6 +651,8 @@ export default function Faculty() {
                   navigate("/faculty/viewworkshoporganized");
                 } else if (item.title === "Industrial Tour") {
                   navigate("/faculty/viewIndustrialTour");
+                } else if (item.title === "Hackathon") {
+                  navigate("/faculty/viewHackathon");
                 } else if (item.title === "MOOCs") {
                   navigate("/faculty/viewmooc");
                 } else if (item.title === "Tri-Mentoring System") {
@@ -679,6 +712,8 @@ export default function Faculty() {
                       setShowConferencePopup(true);
                     } else if (item.title === "Industrial Tour") {
                       setIndustrial(true);
+                    } else if (item.title === "Hackathon") {
+                      setShowHackPopup(true);
                     } else if (item.title === "Tri-Mentoring System") {
                       settriMentor(true);
                     } else if (item.title === "Workshop Organized") {
@@ -776,6 +811,9 @@ export default function Faculty() {
       )}
       {showFDPPopup && (
         <FDPPopUp setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />
+      )}
+      {showHackPopup && (
+        <HackPopUp setShowPopup={setShowHackPopup} setUtilFor="bpAddForm" />
       )}
       {showLecturePopup && (
         <TalksPopUp setShowPopup={setShowLecturePopup} setUtilFor="bpAddForm" />

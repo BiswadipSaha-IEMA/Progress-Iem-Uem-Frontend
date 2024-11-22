@@ -52,6 +52,7 @@ import FacultyConferenceGradeAPage from "./Pages/Faculty/FacultyConferenceGradeA
 import { FacultySeminar } from "./Pages/Faculty/FacultySeminar/FacultySeminar";
 import FacultyConferenceGradeBPage from "./Pages/Faculty/FacultyConferenceGradeB/FacultyConferenceGradeBPage";
 import FacultyConferenceGradeCPage from "./Pages/Faculty/FacultyConferenceGradeC/FacultyConferenceGradeCPage";
+import FacultyHackathonComp from "./Components/Faculty/FacultyHackathon/FacultyHackathonComp";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -78,6 +79,7 @@ const AppRouter = () => {
           <Route path="/faculty/researchpapergradec" element={<FacultyResearchPpaperCPage />} />
           <Route path="/faculty/viewconferenceorganized" element={<FacultyConferenceOrganized />} />
           <Route path="/faculty/viewLecture" element={<Lectureseries />} />
+          <Route path="/faculty/viewHackathon" element={<FacultyHackathonComp />} />
           <Route path="/faculty/viewIndustrialTour" element={<FacultyIndustrialTourPage />} />
           <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />

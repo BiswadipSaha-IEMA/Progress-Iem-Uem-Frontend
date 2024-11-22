@@ -345,6 +345,7 @@ const FacultyViewData = () => {
       setTrimentor(trimentor);
       setLecture(lecture);
       setIndustrialTour(itour);
+      console.log(hackathon,"hackathon")
     }
     if (publications) {
       const conf = publications

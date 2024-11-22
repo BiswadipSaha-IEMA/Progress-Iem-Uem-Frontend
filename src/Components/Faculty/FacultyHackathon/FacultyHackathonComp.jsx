@@ -56,7 +56,7 @@ export default function FacultyHackathonComp() {
     const filteredData = data1.filter(
       (item) =>
         item.attendedBy?.toLowerCase().includes(searchData) ||
-        item.industryName?.toLowerCase().includes(searchData) ||
+        item.topicName?.toLowerCase().includes(searchData) ||
         item.organizedBy?.toLowerCase().includes(searchData)
     );
     setData(filteredData);

@@ -292,6 +292,8 @@ export default function Faculty() {
 
   const getSeminarOrgInfo = async () => {
     try {
+
+
       const response = await getReq(
         "api/v1/document/getAllEvents",
         accessToken

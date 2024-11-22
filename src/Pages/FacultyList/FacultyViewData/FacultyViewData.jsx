@@ -30,7 +30,7 @@ const FacultyViewData = () => {
   const [trimentor, setTrimentor] = useState([]);
   const [lecture, setLecture] = useState([]);
   const [industrialTour, setIndustrialTour] = useState([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [getReq] = useGetReq();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
@@ -135,7 +135,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const seminar = events
@@ -159,7 +159,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const confEvent = events
@@ -183,13 +183,14 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const fdp = events
         .filter((event) => event.eventType === "FDP")
         .map(
           ({
+            eventType,
             createdBy,
             obtainedScore,
             collegeName,
@@ -197,6 +198,8 @@ const FacultyViewData = () => {
             __v,
             createdAt,
             updatedAt,
+            reviewedBy,
+            comment,
             proofDocument,
             documentLink,
             status,
@@ -207,7 +210,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const competition = events
@@ -231,7 +234,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const hackathon = events
@@ -255,7 +258,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const trimentor = events
@@ -279,7 +282,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const lecture = events
@@ -303,7 +306,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const itour = events
@@ -327,7 +330,7 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       setWorkshop(workshop);
@@ -361,14 +364,25 @@ const FacultyViewData = () => {
             ...rest,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status
+            Status: status,
           })
         );
       const filteredBooks = publications
         .filter((pub) => pub.publicationType === "Book")
         .map(
           ({
+            authorType,
+            name,
+            title,
+            isbn,
+            publisher,
             category,
+            date,
+            vol,
+            issue,
+            pp,
+            nationalorInternational,
+            publicationType,
             collegeName,
             createdBy,
             obtainedScore,
@@ -384,6 +398,13 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "ISBN Number": isbn,
+            "Category": category,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
             "Status": status,
@@ -397,6 +418,17 @@ const FacultyViewData = () => {
         )
         .map(
           ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
             createdBy,
             collegeName,
             publicationGrade,
@@ -413,9 +445,20 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const rep2 = publications
@@ -426,6 +469,17 @@ const FacultyViewData = () => {
         )
         .map(
           ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
             createdBy,
             collegeName,
             publicationGrade,
@@ -441,9 +495,20 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       const rep3 = publications
@@ -454,6 +519,17 @@ const FacultyViewData = () => {
         )
         .map(
           ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
             createdBy,
             collegeName,
             publicationGrade,
@@ -469,9 +545,20 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
           })
         );
       console.log(rep1);
@@ -514,7 +601,7 @@ const FacultyViewData = () => {
         "List of the e-content development facility available ": eFacility,
         "Proof Of Document": proofDocument,
         // "Document Link": documentLink,
-        "Status": status,
+        Status: status,
       })
     );
 
@@ -546,8 +633,8 @@ const FacultyViewData = () => {
         "Amount of Grant": grantAmount,
         "Date of Submission": dateOfSubmission,
         "Date of Granting": dateOfGranting,
-        "ProjectStatus": projectStatus,
-        "Status":status,
+        ProjectStatus: projectStatus,
+        Status: status,
         "Proof Of Document": proofDocument,
         // "Document Link": documentLink,
       })
@@ -582,7 +669,7 @@ const FacultyViewData = () => {
         "National/International": nationalorInternational,
         "Proof Of Document": proofDocument,
         // "Document Link": documentLink,
-        "Status": status,
+        Status: status,
       })
     );
 
@@ -599,7 +686,7 @@ const FacultyViewData = () => {
         proofDocument,
         documentLink,
         ...rest
-      }) => ({ ...rest, "Proof Of Document": proofDocument,"Status": status })
+      }) => ({ ...rest, "Proof Of Document": proofDocument, Status: status })
     );
 
     // const confPub=data?.studentChapters?.map(({createdAt,createdBy,proofDocument,department,__v,_id,hasContentAccess,...rest})=>rest)
@@ -615,7 +702,7 @@ const FacultyViewData = () => {
   return (
     <>
       <Header backPage="/" />
-      {!isLoading&&isAllDataEmpty ? (
+      {!isLoading && isAllDataEmpty ? (
         <div className="flex flex-col justify-center items-center py-8 m-10 bg-white  rounded-lg font-poppins">
           <Lottie options={options} height={400} width={400} />
           <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">

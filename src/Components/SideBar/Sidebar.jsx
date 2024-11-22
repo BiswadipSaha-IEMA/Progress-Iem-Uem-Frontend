@@ -25,7 +25,13 @@ const Sidebar = ({ showProfile, isChangePasswords,username }) => {
   const isAddMod = location.pathname === "/AddModerator" || location.pathname === "/addmoderator";
   const isAddFac = location.pathname === "/AddDepartment" || location.pathname === "/adddepartment";
 
-  
+  useEffect(() => {
+    if (showProfile) {
+      document.body.style.overflow = "hidden"; 
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showProfile]);
   
 
   return (

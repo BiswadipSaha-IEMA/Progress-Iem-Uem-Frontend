@@ -568,18 +568,21 @@ export default function Faculty() {
   };
 
   return (
-    <div className="bg-[#ECECEC] h-screen">
+    <div className="min-h-screen bg-gray-100">
       <div className="absolute z-10 p-2 mr-4 top-4 left-4">
         <button
           onClick={toggleProfile}
-          className="absolute p-2 rounded bg-slate-200 lsx:hidden"
+          className="absolute p-2 rounded bg-slate-200  "
           aria-label="Toggle profile"
         >
           {showProfile ? (
-            <X className="w-5 h-5" />
-          ) : (
-            <Menu className="w-5 h-5" />
-          )}
+      // Show X icon when profile is visible
+      <X className="w-5 h-5" />
+    ) : (
+      // Show Menu icon when profile is hidden
+      <Menu className="w-5 h-5" />
+    )}
+    
         </button>
       </div>
       <div

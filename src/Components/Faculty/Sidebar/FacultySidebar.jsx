@@ -20,10 +20,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
     <>
       {/* Sidebar for mobile */}
       <div
-        className={`left-2 fixed inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform 
-          lg:hidden flex flex-col ${
-          showProfile ? "translate-x-0" : "translate-x-full"
-        } overflow-y-auto`} // Enable scrolling for mobile sidebar
+        className={`fixed z-50 inset-0 bg-white shadow-md p-6 rounded-lg transform transition-transform lg:hidden flex flex-col ${showProfile ? "translate-x-0" : "-translate-x-full"} overflow-y-auto`}// Enable scrolling for mobile sidebar
       >
         <ProfileContent
           isSuper={isSuper}
@@ -34,11 +31,7 @@ const Sidebar = ({ showProfile, isChangePasswords }) => {
 
       {/* Sidebar for large screens */}
       <div
-        className={`fixed inset-y-0 left-0 ${
-          showProfile ? "left-4" : "left-0"
-        } w-80 lg:h-[93vh] mt-6 bg-white shadow-md p-4 rounded-lg transform transition-transform duration-300 hidden lg:flex flex-col ${
-          showProfile ? "translate-x-0 h-full" : "-translate-x-full"
-        } `} // Enable scrolling for large screens too if needed
+        className={`fixed inset-y-0 left-0 ${showProfile ? "left-4" : "left-0"} w-80 lg:h-[90vh] mt-6 bg-white shadow-md p-4 rounded-2xl transform transition-transform duration-300 hidden lg:flex flex-col ${showProfile ? "translate-x-0 h-full" : "-translate-x-full"} `} // Enable scrolling for large screens too if needed
       >
         <ProfileContent
           isSuper={isSuper}
@@ -61,9 +54,9 @@ const ProfileContent = ({
         <img
           src="/src/assets/dp.jpeg"
           alt="Profile"
-          className="object-cover w-24 h-24 mt-10 rounded-full"
+          className="w-20 h-20 mt-10 rounded-full"
         />
-        <span className="absolute flex p-2 font-bold text-black rounded-md left-32 text-xm top-16">
+        <span className="absolute flex p-2 ml-20 font-bold text-black rounded-md text-xm top-14">
           FACULTY
         </span>
       </div>
@@ -73,7 +66,7 @@ const ProfileContent = ({
           ariaLabel="Faculty Dashboard"
           icon={<LayoutDashboard />}
           label="Faculty Dashboard"
-          onClick={() => navigate("/SuperAdminDashboard")}
+          onClick={() => navigate("/faculty/dashboard")}
         />
         <SidebarButton
           ariaLabel="Log Out"

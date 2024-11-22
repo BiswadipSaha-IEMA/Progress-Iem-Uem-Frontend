@@ -93,13 +93,13 @@ function EditFormPopUp({ setShowPopup, data }) {
       <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
         <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
           <div
-            className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
+            className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
             onClick={() => setShowPopup(false)}
           >
             <RxCross2 className="text-white" />
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 pl-4">
+          <h2 className="pl-4 mb-6 text-2xl font-bold text-gray-800">
             Book Publication Form
           </h2>
 
@@ -115,7 +115,7 @@ function EditFormPopUp({ setShowPopup, data }) {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block mb-1 font-medium text-gray-600">
                   Name
                 </label>
                 <input
@@ -123,14 +123,14 @@ function EditFormPopUp({ setShowPopup, data }) {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   required
                 />
               </div>
 
               {/* Title */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block mb-1 font-medium text-gray-600">
                   Title
                 </label>
                 <input
@@ -138,15 +138,15 @@ function EditFormPopUp({ setShowPopup, data }) {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   required
                 />
               </div>
 
               {/* ISBN and Category */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     ISBN
                   </label>
                   <input
@@ -154,19 +154,19 @@ function EditFormPopUp({ setShowPopup, data }) {
                     name="isbn"
                     value={formData.isbn}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="block mb-1 font-medium text-gray-600">
                     Category
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   >
                     <option value="">Select</option>
                     <option value="Scopus">Scopus</option>
@@ -178,7 +178,7 @@ function EditFormPopUp({ setShowPopup, data }) {
 
               {/* Date */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block mb-1 font-medium text-gray-600">
                   Date
                 </label>
                 <input
@@ -186,13 +186,13 @@ function EditFormPopUp({ setShowPopup, data }) {
                   name="date"
                   value={formData.date}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                 />
               </div>
 
               {/* Proof Document */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block mb-1 font-medium text-gray-600">
                   Proof Document
                 </label>
                 <input
@@ -200,7 +200,7 @@ function EditFormPopUp({ setShowPopup, data }) {
                   name="proofDocument"
                   value={formData.proofDocument}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                 />
               </div>
 

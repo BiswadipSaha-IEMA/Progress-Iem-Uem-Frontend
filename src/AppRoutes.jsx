@@ -50,6 +50,8 @@ import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyLi
 import FacultyFDPPage from "./Pages/Faculty/FacultyFDP/FacultyFDPPage";
 import FacultyConferenceGradeAPage from "./Pages/Faculty/FacultyConferenceGradeA/FacultyConferenceGradeAPage";
 import { FacultySeminar } from "./Pages/Faculty/FacultySeminar/FacultySeminar";
+import FacultyConferenceGradeBPage from "./Pages/Faculty/FacultyConferenceGradeB/FacultyConferenceGradeBPage";
+import FacultyConferenceGradeCPage from "./Pages/Faculty/FacultyConferenceGradeC/FacultyConferenceGradeCPage";
 
 const AppRouter = () => {
   const { userLogin } = useContext(AuthContext);
@@ -89,6 +91,9 @@ const AppRouter = () => {
           {/* <Route path="/faculty/viewseminar" element={<FacultyCompetitionPage />} /> */}
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
           <Route path="/faculty/viewconferencegradea" element={<FacultyConferenceGradeAPage/>} />
+          <Route path="/faculty/viewconferencegradeb" element={<FacultyConferenceGradeBPage/>}/>
+          <Route  path="/faculty/viewconferencegradec" element={<FacultyConferenceGradeCPage/>}/>
+
 
           {/* Faculty lists by stream */}
           <Route path="/api/moderator/cse-faculty" element={<CSEFacultyList />} />

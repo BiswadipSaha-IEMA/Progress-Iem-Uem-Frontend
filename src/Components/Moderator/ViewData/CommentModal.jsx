@@ -66,15 +66,15 @@ const CommentModal = ({
               name === "Seminar" ||
               name === "Seminar" ||
               name === "Conference" ||
-              name === "Faculty Development Programmes"
-              || name === "Competition Organized"
-              || name === "Talks & Distinguished Lecture Series"
-              || name === "Industrial Tour"
-              || name === "Tri-Mentoring System"?
+              name === "Faculty Development Programmes"||
+              name === "Competition Organized"||
+              name === "Talks & Distinguished Lecture Series"||
+              name === "Industrial Tour"||
+              name === "Tri-Mentoring System"?
               "api/v1/document/reviewEvent":''
         }`,
         {
-          eventId: id,
+          id: id,
           status: "RequestToAccept",
           comment: "Acceptance Requested",
         },

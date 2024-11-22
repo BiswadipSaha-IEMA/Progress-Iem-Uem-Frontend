@@ -4,29 +4,23 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
-import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
-import Header from "../../../Components/Header/Header";
-import Lottie from "react-lottie";
-import NoDataFaculty from '../../../Lottie/NoDataFaculty.json'
+import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
+import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC"
+import Header from "../../Header/Header";
 
-
-import EditFormPopUp from "./EditFormPopUp";
-
-export default function Component() {
-  const [showPopUp, setShowPopUp] = useState(false);
-  const [data, setData] = useState([]);
-  const [data1, setData1] = useState([]);
-  const [getReq] = useGetReq();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [detailedClick, setDetailedClick] = useState(false);
-  const [selectedData, setSelectedData] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const rowsPerPage = 10;
-  const [editBpData, setEditBpData] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const accessToken = sessionStorage.getItem("token").split('"')[1];
-
+function FacultyConferenceGradeCComp() {
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [getReq] = useGetReq();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [detailedClick, setDetailedClick] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const rowsPerPage = 10;
+  
+    const accessToken = sessionStorage.getItem("token").split('"')[1];
+    
   useEffect(() => {
     const getBPData = async () => {
       try {
@@ -37,11 +31,10 @@ export default function Component() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-B") arr.push(data);
+            if (data.publicationGrade === "Grade-C" && data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr);
-          console.log("Hello Grade B data is coming")
         }
       } catch (error) {
         console.log(error);
@@ -76,28 +69,25 @@ export default function Component() {
   };
 
   const columnHeaders = [
-    'Author Type',
-    'Title',
-    'Faculty',
-    'Publisher Name',
-    'Published Date',
-    'Issue No',
-    'Status',
-    'Email',
-    'Proof of Document'
+    "Title",
+    "Faculty",
+    "Publisher Name",
+    "Published Date",
+    "Issue No",
+    "Status",
+    "Email",
+    "Proof of Document",
   ];
-
-  
 
   return (
     <div className="flex flex-col min-h-screen">
-     <div className="flex-1 px-4 pb-16 overflow-auto sm:px-10 md:pb-2">
+      <div className="flex-1 px-4 overflow-auto sm:px-10">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col justify-between mt-10 mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              Research Paper Grade B
+              Research Paper Published Conference Grade C
             </div>
           </div>
 
@@ -143,9 +133,6 @@ export default function Component() {
                         {header}
                       </th>
                     ))}
-                      <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      Action
-                    </th>
                   </tr>
                 </thead>
 
@@ -161,7 +148,6 @@ export default function Component() {
                       }}
                     >
                       <td className="sticky left-0 px-4 py-2 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.authorType}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
                       <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
@@ -183,18 +169,6 @@ export default function Component() {
                           "NA"
                         )}
                       </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status === "Rejected" && (
-                          <button
-                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                            onClick={() => {
-                              setEditBpData(true);
-                            }}
-                          >
-                            Edit
-                          </button>
-                        )}
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -203,8 +177,8 @@ export default function Component() {
           </div>
         </div>
 
-       {/* Pagination Controls */}
-       <div className="justify-end hidden mt-4 md:flex">
+        {/* Pagination Controls for large screens */}
+        <div className="justify-end hidden mt-4 sm:flex">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -222,7 +196,8 @@ export default function Component() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md md:hidden">
+      {/* Pagination Controls for small screens */}
+      <div className="sticky bottom-0 left-0 right-0 z-20 flex justify-end px-4 py-2 bg-white shadow-md sm:hidden">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
@@ -240,13 +215,14 @@ export default function Component() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeB setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeC setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
     </div>
-  );
+  )
 }
+
+export default FacultyConferenceGradeCComp

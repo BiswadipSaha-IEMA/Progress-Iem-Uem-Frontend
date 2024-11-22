@@ -40,7 +40,7 @@ export default function FacultyConferenceGradeAComp() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-A") arr.push(data);
+            if (data.publicationGrade === "Grade-A" && data.publicationType === "Conference") arr.push(data);
           });
           setData(arr);
           setData1(arr); // Keep the original data for resetting after search
@@ -231,7 +231,7 @@ export default function FacultyConferenceGradeAComp() {
 
       {/* Pop-up Modal */}
       {showPopUp && (
-        <ResearchPaperGradeA setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeA setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
     </div>
   );

@@ -21,6 +21,7 @@ import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
 import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
+import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -50,6 +51,7 @@ export default function Faculty() {
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
+  const [showSeminarPopup, setShowSeminarPopup] = useState(false);
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
@@ -290,8 +292,16 @@ export default function Faculty() {
 
   const getSeminarOrgInfo = async () => {
     try {
+<<<<<<< HEAD
       const response = await getReq("api/v1/document/getAllEvents", accessToken);
       // console.log("Response:", response); 
+=======
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      console.log("Response:", response);
+>>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
 
       if (response.success) {
         const filteredSeminarData = response.data.data.filter(
@@ -305,29 +315,33 @@ export default function Faculty() {
     }
   };
 
+<<<<<<< HEAD
   
   useEffect(()=>{
     getSeminarOrgInfo()
     // console.log('--------------------------------------------------',seminarOrg)
   },[])
 
+=======
+  // useEffect(()=>{
+>>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
 
+  //   console.log('--------------------------------------------------',seminarOrg)
+  // },[])
 
   useEffect(() => {
     allInfo();
+    getSeminarOrgInfo();
     getConfInfo();
-    getLecture()
+    getLecture();
     getMoocs();
-    getTrimentor()
-    getWorkInfo()
-    getIndTour()
-    getPatentInfo()
-    getFdpInfo()
-    getCompeteInfo()
-  }, [
-    accessToken,
-  ]);
-
+    getTrimentor();
+    getWorkInfo();
+    getIndTour();
+    getPatentInfo();
+    getFdpInfo();
+    getCompeteInfo();
+  }, [accessToken]);
 
 
 
@@ -455,6 +469,7 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+<<<<<<< HEAD
     {
       title: "Research Paper Published Conference (Grade B)",
       details: groupResearchPaperByType("Conference").map((paper) => ({
@@ -469,6 +484,8 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+=======
+>>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
   ];
 
   const getStatusStyles = (status) => {
@@ -497,7 +514,7 @@ export default function Faculty() {
           bg: "bg-[#FFD6D6]",
           text: "text-[#D60000]",
           icon: <RiCloseFill className="text-[#C66666]" />,
-          tilte: "Pending"
+          tilte: "Pending",
         };
       case "RequestToReject":
         return {
@@ -547,11 +564,12 @@ export default function Faculty() {
           {items.map((item, cellIndex) => (
             <div
               key={cellIndex}
-              className="bg-[#fff] rounded-lg p-4 md:p-6 flex flex-col gap-3 min-h-80 cursor-pointer"
+              className="bg-[#fff] rounded-lg flex flex-col min-h-40 cursor-pointer h-96 relative overflow-hidden"
               onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
-                } else if (item.title === "Research Paper Grade A") {
+                }
+                else if (item.title === "Research Paper Grade A") {
                   navigate("/faculty/researchpapergradea");
                 } else if (item.title === "Research Paper Grade B") {
                   navigate("/faculty/researchpapergradeb");
@@ -587,14 +605,21 @@ export default function Faculty() {
                 }else if (item.title ===  "Research Paper Published Conference (Grade C)"){
                   navigate("/faculty/viewconferencegradec");
                 }
+<<<<<<< HEAD
 
 
+=======
+                else if (item.title === "Seminar") {
+                  navigate("/faculty/viewseminar");
+                }
+>>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
               }}
             >
-              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+              
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
                 <div className="flex items-center gap-2">
                   <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
                   <h1 className="text-lg font-semibold sm:text-xl">
@@ -605,10 +630,14 @@ export default function Faculty() {
                   className="bg-[#03A8FD] text-white px-3 py-1 rounded-md w-full sm:w-auto"
                   onClick={(event) => {
                     event.stopPropagation();
+<<<<<<< HEAD
                     // console.log("hello");
+=======
+>>>>>>> 455d2f78d59db480d765a4161df4513043dd2f1c
                     if (item.title === "Books Published") {
                       setBookPub(true);
-                    } else if (item.title === "Research Paper Grade A") {
+                    }
+                    else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       // console.log(setResearchPaperGradeAData);
                     } else if (item.title === "Research Paper Grade B") {
@@ -637,36 +666,53 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
+                    } else if (
+                      item.title === "Seminar"
+                    ) {
+                      setShowSeminarPopup(true);
                     }
                   }}
                 >
                   Add Response
                 </button>
               </div>
-              {item.details.map((book, index) => {
-                const { bg, text, icon, title } = getStatusStyles(book.status);
-                return (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
-                  >
-                    {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+
+              {/* Scrollable Content */}
+              <div className="overflow-y-auto px-4 md:px-6 flex-1 flex flex-col gap-4 pb-4">
+                {item.details.map((book, index) => {
+                  const { bg, text, icon, title } = getStatusStyles(
+                    book.status
+                  );
+                  return (
                     <div
-                      className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
+                      key={index}
+                      className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
                     >
-                      {icon}
-                      {book.status==="RequestToAccept" && book.status==="RequestToReject" ? (<p className={`${text}`}>{book.tilte}</p>) : (<p className={`${text}`}>{book.status}</p>)}
+                      {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+                      <div
+                        className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 min-w-fit max-w-full`}
+                      >
+                        {icon}
+                        {book.status === "RequestToAccept" &&
+                        book.status === "RequestToReject" ? (
+                          <p className={`${text}`}>{book.title}</p>
+                        ) : (
+                          <p className={`${text}`}>{book.status}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>
 
         <Sidebar showProfile={showProfile} />
       </div>
-      {bookPub && <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo}/>}
+      {bookPub && (
+        <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo} />
+      )}
       {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
       {industrial && (
         <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />
@@ -716,6 +762,12 @@ export default function Faculty() {
       {showConferencePopup && (
         <ConferencePopUp
           setShowPopup={setShowConferencePopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showSeminarPopup && (
+        <SeminarPopUp
+          setShowPopup={setShowSeminarPopup}
           setUtilFor="bpAddForm"
         />
       )}

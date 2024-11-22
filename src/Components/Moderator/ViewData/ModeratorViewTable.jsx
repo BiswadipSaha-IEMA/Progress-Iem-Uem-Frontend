@@ -18,7 +18,7 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
   const [selectedRow, setSelectedRow] = useState(null); // Selected row for comments
   const [columnHeaders, setColumnHeaders] = useState([]); // Store dynamic column headers
   const [id, setId] = useState("");
-  const [itemData, setItemData] = useState([]);
+  const [itemData, setItemData] = useState([]); 
 
   // Dynamically generate column headers
   useEffect(() => {
@@ -76,6 +76,21 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
       console.log("Updated comment:", updatedComment);
       setSelectedRow(null); // Clear selected row after submission
       setIsModalOpen(false); // Close modal after submitting comment
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return " px-2 py-1 rounded-xl text-[#F3C623] "; // Yellow
+      case "requesttoaccept":
+      case "approved":
+        return "px-2 py-1 rounded-xl text-green-500"; // Green
+      case "requesttoreject":
+      case "rejected":
+        return "px-2 py-1 rounded-xl text-red-500"; // Red
+      default:
+        return "text-gray-500";
     }
   };
 
@@ -149,12 +164,20 @@ const ModeratorViewTable = ({ name, dummyData, dummy, fullData }) => {
                     <div className="table-cell px-4 py-2">{indexOfFirstRow + rowIndex + 1}</div>
                     {columnHeaders.map((header, colIndex) => (
                       <div key={colIndex} className="table-cell px-4 py-2">
-                        {header === "proofDocument" ? (
+                        {header.toLowerCase() === "status" ? (
+                          <span className={getStatusColor(item[header])}>
+                            {item[header].toLowerCase() === "requesttoaccept"
+                              ? "Acceptance Request"
+                              : item[header].toLowerCase() === "requesttoreject"
+                              ? "Rejection Request"
+                              : item[header]}
+                          </span>
+                        ) : header === "Proof of Document" || header === "Document Link" ? (
                           <a href={item[header]} target="_blank" className="text-[#03A8FD]">
                             Link
                           </a>
                         ) : (
-                          item[header] // Render other fields normally
+                          item[header]
                         )}
                       </div>
                     ))}

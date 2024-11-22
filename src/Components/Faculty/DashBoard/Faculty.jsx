@@ -22,6 +22,7 @@ import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import { IoCalendar } from "react-icons/io5";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -40,6 +41,7 @@ export default function Faculty() {
   const [patentData, setPatentData] = useState([]);
   const [fdpData, setFdpData] = useState([]);
   const [compete, setCompete] = useState([]);
+  const [dateRange, setDateRange] = useState(['', '']);
   const [bookPub, setBookPub] = useState(false);
   const [mooc, setmooc] = useState(false);
   const [conference, setConference] = useState(false);
@@ -297,6 +299,21 @@ export default function Faculty() {
       console.error("Error fetching seminar data:", error);
     }
   };
+  const getDates = async () => {
+    try{
+      const dates = await getReq("api/v1/timeline/getSetTimeline", accessToken);
+      if (dates.success) {
+        setDateRange([
+          dates.data.setTimeLineStartDate,
+          dates.data.setTimeLineEndDate,
+        ]);
+        console.log("Dates", dates.data);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   // useEffect(()=>{
 
@@ -315,6 +332,7 @@ export default function Faculty() {
     getPatentInfo();
     getFdpInfo();
     getCompeteInfo();
+    getDates();
   }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {
@@ -510,7 +528,17 @@ export default function Faculty() {
           </div>
           <img src={rolebg} alt="img" className="object-cover w-full h-full" />
         </div>
-
+        <div className="flex justify-end items-end">
+          <div className="bg-white rounded-[15px] border-[1.5px] relative">
+            <div
+              className="
+                text-[#a0a0a0] p-[1rem] flex  items-center gap-2 font-poppins"
+            >
+              <IoCalendar />
+              <p className="text-[15px] md:text-base xl:text-[1.25rem]">{`${dateRange[0]} - ${dateRange[1]}`}</p>
+            </div>
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 font-poppins">
           {items.map((item, cellIndex) => (
             <div
@@ -519,8 +547,7 @@ export default function Faculty() {
               onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
-                }
-                else if (item.title === "Research Paper Grade A") {
+                } else if (item.title === "Research Paper Grade A") {
                   navigate("/faculty/researchpapergradea");
                 } else if (item.title === "Research Paper Grade B") {
                   navigate("/faculty/researchpapergradeb");
@@ -546,14 +573,14 @@ export default function Faculty() {
                   item.title === "Faculty Development Programmes/ MDP"
                 ) {
                   navigate("/faculty/viewfdp");
-                } 
-                else if (item.title === "Competition Organized") {
+                } else if (item.title === "Competition Organized") {
                   navigate("/faculty/viewcomp");
-                }else if (item.title === "Research Paper Published Conference (Grade A)"){
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade A)"
+                ) {
                   navigate("/faculty/viewconferencegradea");
-                  console.log("hello ji")
-                }
-                else if (item.title === "Seminar") {
+                  console.log("hello ji");
+                } else if (item.title === "Seminar") {
                   navigate("/faculty/viewseminar");
                 }
                 // else if (item.title === "Seminar") {
@@ -561,7 +588,6 @@ export default function Faculty() {
                 // }
               }}
             >
-              
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
                 <div className="flex items-center gap-2">
                   <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
@@ -575,8 +601,7 @@ export default function Faculty() {
                     event.stopPropagation();
                     if (item.title === "Books Published") {
                       setBookPub(true);
-                    }
-                    else if (item.title === "Research Paper Grade A") {
+                    } else if (item.title === "Research Paper Grade A") {
                       setResearchPaperGradeAData(true);
                       console.log(setResearchPaperGradeAData);
                     } else if (item.title === "Research Paper Grade B") {
@@ -605,9 +630,7 @@ export default function Faculty() {
                       item.title === "Talks and Distinguished Lecture Series"
                     ) {
                       setShowLecturePopup(true);
-                    } else if (
-                      item.title === "Seminar"
-                    ) {
+                    } else if (item.title === "Seminar") {
                       setShowSeminarPopup(true);
                     }
                   }}
@@ -649,6 +672,7 @@ export default function Faculty() {
 
         <Sidebar showProfile={showProfile} />
       </div>
+
       {bookPub && (
         <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo} />
       )}

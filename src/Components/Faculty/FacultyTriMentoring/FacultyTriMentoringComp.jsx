@@ -36,7 +36,6 @@ const Component = () => {
   useEffect(() => {
     const getBPData = async () => {
       setIsLoading(true);
-      setIsLoading(true);
       try {
         const response = await getReq("api/v1/document/getAllEvents", accessToken);
         if (response.success) {
@@ -92,19 +91,9 @@ const Component = () => {
     "Proof of Document",
   ];
 
-  // lottie
-  const lottieOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: NoDataFaculty,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid meet",
-    },
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
+      <div className="flex-1 overflow-auto px-4 sm:px-10">
         <Header backPage="/faculty/dashboard" />
         {isLoading ? (
           <div className="flex items-center w-full h-[70vh] justify-center">

@@ -7,6 +7,9 @@ import { useGetReq } from "../../../hooks/useHttp";
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
+import Lottie from "react-lottie";
+import NoDataFaculty from '../../../Lottie/NoDataFaculty.json'
+
 
 import EditFormPopUp from "./EditFormPopUp";
 
@@ -21,7 +24,7 @@ export default function Component() {
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
   const [editBpData, setEditBpData] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
@@ -82,6 +85,8 @@ export default function Component() {
     'Email',
     'Proof of Document'
   ];
+
+  
 
   return (
     <div className="flex flex-col min-h-screen">

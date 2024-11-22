@@ -101,7 +101,7 @@ export default function FacultyHackathonComp() {
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Tour Name"
+                placeholder="Search by Hackathon Name"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"

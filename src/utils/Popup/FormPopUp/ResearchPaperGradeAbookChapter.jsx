@@ -80,7 +80,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
       issue: "",
       pp: "",
       publicationGrade: "Grade-A", // Default value
-      publicationType: "Research Paper", // Default value
+      publicationType: "Book Chapter", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
     });

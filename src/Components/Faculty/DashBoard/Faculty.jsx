@@ -25,6 +25,7 @@ import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -39,6 +40,9 @@ export default function Faculty() {
   const [researchData, setResearchData] = useState([]);
   const [seminarOrg, setSeminarOrg] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
+  const [researchA, setResearchA] = useState([]);
+  const [researchB, setResearchB] = useState([]);
+  const [researchC, setResearchC] = useState([]);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
   const [fdpData, setFdpData] = useState([]);
@@ -48,6 +52,7 @@ export default function Faculty() {
   const [conference, setConference] = useState(false);
   const [industrial, setIndustrial] = useState(false);
   const [triMentor, settriMentor] = useState(false);
+  const [StudentChapter, setStudentChapter] = useState([]);
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeADatabook, setResearchPaperGradeADatabook] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
@@ -61,6 +66,7 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
+  const [showstudentChapterPopup, setshowstudentChapterPopup] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -116,6 +122,30 @@ export default function Faculty() {
       setIsLoading(false);
     }
   };
+
+  const getResearchpaperAInfo = async () => {
+    try {
+        const response = await getReq(
+            "api/v1/document/getAllPublications",
+            accessToken
+        );
+        console.log(response);
+        if (response.success) {
+
+            const filteredData = response.data.data.filter(
+                (item) => 
+                    item.publicationGrade === "Grade-A" &&
+                    item.publicationType === "Book Chapter"
+            );
+            console.log(filteredData);
+  
+            setResearchA(filteredData); 
+        }
+    } catch (error) {
+        console.error("Error fetching publication info:", error);
+    }
+};
+
 
   const getConfInfo = async () => {
     try {
@@ -303,6 +333,19 @@ export default function Faculty() {
       console.error("Error fetching seminar data:", error);
     }
   };
+  const getStudentChapterInfo = async () => {
+    try {
+      const response = await getReq("api/v1/document/getAllStudentChapters", accessToken);
+      console.log(response);
+      console.log("StudentChapters");
+      if (response.success) {
+        console.log("responses",response.data.data);
+        setStudentChapter(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
 
   // useEffect(()=>{
 
@@ -321,6 +364,8 @@ export default function Faculty() {
     getPatentInfo();
     getFdpInfo();
     getCompeteInfo();
+    getStudentChapterInfo();
+    getResearchpaperAInfo();
   }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {
@@ -349,7 +394,7 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
-    {
+    { 
       title: "Research Paper Grade C",
       details: groupResearchByGrade("Grade-C").map((paper) => ({
         title: paper.title,
@@ -445,22 +490,29 @@ export default function Faculty() {
     },
     {
       title: "Research Paper - Book Chapter (Grade A)",
-      details: groupResearchByGrade("Grade-A").map((paper) => ({
+      details: researchA.map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
     {
       title: "Research Paper Grade - Book Chapter (Grade B)",
-      details: groupResearchByGrade("Grade-A").map((paper) => ({
+      details: groupResearchByGrade("Grade-B").map((paper) => ({
         title: paper.title,
         status: paper.status,
       })),
     },
     {
       title: "Research Paper Grade - Book Chapter (Grade C)",
-      details: groupResearchByGrade("Grade-A").map((paper) => ({
+      details: groupResearchByGrade("Grade-C").map((paper) => ({
         title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Student Chapter Activity",
+      details: StudentChapter.map((paper) => ({
+        title: paper.companyName,
         status: paper.status,
       })),
     },
@@ -592,6 +644,9 @@ export default function Faculty() {
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
+                else if (item.title === "Student Chapter Activity") {
+                  navigate("/faculty/viewstudentchapter");
+                }
               }}
             >
               
@@ -651,6 +706,11 @@ export default function Faculty() {
                       item.title === "Seminar"
                     ) {
                       setShowSeminarPopup(true);
+                    }
+                    else if (
+                      item.title === "Student Chapter Activity"
+                    ) {
+                      setshowstudentChapterPopup(true);
                     }
                   }}
                 >
@@ -756,6 +816,12 @@ export default function Faculty() {
       {showSeminarPopup && (
         <SeminarPopUp
           setShowPopup={setShowSeminarPopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showstudentChapterPopup && (
+        <StudentChapterPopUp
+          setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
         />
       )}

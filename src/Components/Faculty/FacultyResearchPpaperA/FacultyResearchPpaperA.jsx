@@ -145,7 +145,7 @@ export default function Component() {
                 className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
                 onClick={() => setShowPopUp(true)}
               >
-                Add New Tri-Mentoring System
+                Add New Paper
                 <VscDiffAdded className="text-[1.3rem]" />
               </button>
             </div>

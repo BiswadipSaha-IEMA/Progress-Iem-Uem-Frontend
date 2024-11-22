@@ -543,7 +543,8 @@ export default function Faculty() {
             <div
               key={cellIndex}
               className="bg-[#fff] rounded-lg flex flex-col min-h-40 cursor-pointer h-96 relative overflow-hidden"
-              onClick={() => {
+              
+                onClick={() => {
                 if (item.title === "Books Published") {
                   navigate("/faculty/viewbookpublished");
                 }
@@ -657,23 +658,34 @@ export default function Faculty() {
                   Add Response
                 </button>
               </div>
-              {item.details.map((book, index) => {
-                const { bg, text, icon, title } = getStatusStyles(book.status);
-                return (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
-                  >
-                    {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+
+              {/* Scrollable Content */}
+              <div className="overflow-y-auto px-4 md:px-6 flex-1 flex flex-col gap-4 pb-4">
+                {item.details.map((book, index) => {
+                  const { bg, text, icon, title } = getStatusStyles(
+                    book.status
+                  );
+                  return (
                     <div
-                      className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 w-20 sm:w-28`}
+                      key={index}
+                      className="flex justify-between items-center bg-[#EFEFEF] rounded-md p-2 text-sm sm:text-base font-poppins"
                     >
-                      {icon}
-                      {book.status==="RequestToAccept" && book.status==="RequestToReject" ? (<p className={`${text}`}>{book.tilte}</p>) : (<p className={`${text}`}>{book.status}</p>)}
+                      {title ? <h1>{title}</h1> : <h1>{book.title}</h1>}
+                      <div
+                        className={`${bg} p-1 rounded-md flex items-center justify-center gap-1 min-w-fit max-w-full`}
+                      >
+                        {icon}
+                        {book.status === "RequestToAccept" &&
+                        book.status === "RequestToReject" ? (
+                          <p className={`${text}`}>{book.title}</p>
+                        ) : (
+                          <p className={`${text}`}>{book.status}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>

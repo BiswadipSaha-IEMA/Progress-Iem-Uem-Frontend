@@ -233,24 +233,24 @@ const options= {
         </p>
       </div>) : (
         <>
-      {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} />}
-      {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Published-Journal (Grade-A)'} />}
-      {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Published-Journal (Grade-B)'} />}
-      {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} fullData={rp3Full} name={'Research Paper Published-Journal (Grade-C)'} />}
-      {patents.length>0 && <ModeratorViewTable dummyData={patents} dummy={patents} fullData={patentsFull} name={'Patent'} />}
-      {projects.length>0 && <ModeratorViewTable dummyData={projects} dummy={projects} fullData={projectsFull} name={'Projects'} />}
-      {facultyDevelopment.length>0 && <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment} fullData={facultyDevelopmentFull} name={'Faculty Development Programmes'} />}
-      {competition.length>0 && <ModeratorViewTable dummyData={competition} dummy={competition} fullData={competitionFull} name={'Competition'} />}
-      {seminar.length>0 && <ModeratorViewTable dummyData={seminar} dummy={seminar} fullData={seminarFull} name={'Seminar'} />}
-      {confPub.length>0 && <ModeratorViewTable dummyData={confPub} dummy={confPub} fullData={confPubFull} name={'Conference'} />}
-      {lecture.length>0 && <ModeratorViewTable dummyData={lecture} dummy={lecture} fullData={lectureFull} name={'Talks & Distinguished Lecture Series'} />}
-      {workshop.length>0 && <ModeratorViewTable dummyData={workshop} dummy={workshop} fullData={workshopFull} name={'Workshop'} />}
-      {industrialTour.length>0 && <ModeratorViewTable dummyData={industrialTour} dummy={industrialTour} fullData={industrialTourFull} name={'Industrial Tour'} />}
-      {hackathon.length>0 && <ModeratorViewTable dummyData={hackathon} dummy={hackathon} fullData={hackathonFull} name={'Hackathon'} />}
-      {consultancy.length>0 && <ModeratorViewTable dummyData={consultancy} dummy={consultancy} fullData={consultancyFull} name={'Consultancy'} />}
-      {studentChapters.length>0 && <ModeratorViewTable dummyData={studentChapters} dummy={studentChapters} fullData={studentChaptersFull} name={'Student Chapter Activity'} />}
-      {moocs.length>0 && <ModeratorViewTable dummyData={moocs} dummy={moocs} fullData={moocsFull} name={'Moocs'} />}
-      {trimentor.length>0 && <ModeratorViewTable dummyData={trimentor} dummy={trimentor} fullData={trimentoFull} name={'Tri-Mentoring System'} />}
+      {books.length>0 && <ModeratorViewTable dummyData={books} dummy={books} fullData={booksFull} name={'Book Published'} fetchData={getFaculty}/>}
+      {rp1.length>0 && <ModeratorViewTable dummyData={rp1} dummy={rp1} fullData={rp1Full} name={'Research Paper Published-Journal (Grade-A)'}  fetchData={getFaculty}/>}
+      {rp2.length>0 && <ModeratorViewTable dummyData={rp2} dummy={rp2} fullData={rp2Full} name={'Research Paper Published-Journal (Grade-B)'}  fetchData={getFaculty}/>}
+      {rp3.length>0 && <ModeratorViewTable dummyData={rp3} dummy={rp3} fullData={rp3Full} name={'Research Paper Published-Journal (Grade-C)'}  fetchData={getFaculty}/>}
+      {patents.length>0 && <ModeratorViewTable dummyData={patents} dummy={patents} fullData={patentsFull} name={'Patent'}  fetchData={getFaculty}/>}
+      {projects.length>0 && <ModeratorViewTable dummyData={projects} dummy={projects} fullData={projectsFull} name={'Projects'}  fetchData={getFaculty}/>}
+      {facultyDevelopment.length>0 && <ModeratorViewTable dummyData={facultyDevelopment} dummy={facultyDevelopment}  fetchData={getFaculty} fullData={facultyDevelopmentFull} name={'Faculty Development Programmes'} />}
+      {competition.length>0 && <ModeratorViewTable dummyData={competition} dummy={competition} fullData={competitionFull}  fetchData={getFaculty} name={'Competition'} />}
+      {seminar.length>0 && <ModeratorViewTable dummyData={seminar} dummy={seminar} fullData={seminarFull} name={'Seminar'}  fetchData={getFaculty}/>}
+      {confPub.length>0 && <ModeratorViewTable dummyData={confPub} dummy={confPub} fullData={confPubFull} name={'Conference'}  fetchData={getFaculty}/>}
+      {lecture.length>0 && <ModeratorViewTable dummyData={lecture} dummy={lecture} fullData={lectureFull} name={'Talks & Distinguished Lecture Series'}  fetchData={getFaculty}/>}
+      {workshop.length>0 && <ModeratorViewTable dummyData={workshop} dummy={workshop} fullData={workshopFull} name={'Workshop'}  fetchData={getFaculty}/>}
+      {industrialTour.length>0 && <ModeratorViewTable dummyData={industrialTour} dummy={industrialTour} fullData={industrialTourFull} name={'Industrial Tour'}  fetchData={getFaculty}/>}
+      {hackathon.length>0 && <ModeratorViewTable dummyData={hackathon} dummy={hackathon} fullData={hackathonFull} name={'Hackathon'}  fetchData={getFaculty}/>}
+      {consultancy.length>0 && <ModeratorViewTable dummyData={consultancy} dummy={consultancy} fullData={consultancyFull} name={'Consultancy'}  fetchData={getFaculty}/>}
+      {studentChapters.length>0 && <ModeratorViewTable dummyData={studentChapters} dummy={studentChapters} fullData={studentChaptersFull} name={'Student Chapter Activity'}  fetchData={getFaculty}/>}
+      {moocs.length>0 && <ModeratorViewTable dummyData={moocs} dummy={moocs} fullData={moocsFull} name={'Moocs'}  fetchData={getFaculty}/>}
+      {trimentor.length>0 && <ModeratorViewTable dummyData={trimentor} dummy={trimentor} fullData={trimentoFull} name={'Tri-Mentoring System'}  fetchData={getFaculty}/>}
         </>
       )}
     </>

@@ -52,6 +52,8 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
     try {
         const json = await postReq('api/v1/user/login', data);
         if (json) {
+          console.log(json);
+          console.log("************** faculty login----------------------")
             setAccessToken(json.data.accessToken);
             setHandleLogin(true);
         }
@@ -67,16 +69,16 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
   return (
-    <div className="flex sm:flex-row flex-col sm:ml-0 overflow-hidden h-screen">
-      <div className="w-1/2 sm:block hidden relative ml-2">
+    <div className="flex flex-col h-screen overflow-hidden sm:flex-row sm:ml-0">
+      <div className="relative hidden w-1/2 ml-2 sm:block">
         <img
           src={loginPic}
           alt="login" 
           className="h-[100vh] w-[100vw] lg:w-[50rem] p-8 object-cover rounded-[3rem]"
         />
         <div className="absolute inset-0 left-[-0.3rem] text-[2.25rem] leading-10 md:text-[1.8rem] md:leading-10 text-white p-20">
-          <div className="font-semibold pr-24 font-poppins">Welcome Back</div>
-          <div className="font-semibold mb-2 pr-24 font-poppins">
+          <div className="pr-24 font-semibold font-poppins">Welcome Back</div>
+          <div className="pr-24 mb-2 font-semibold font-poppins">
             Sign In to Your Account
           </div>
           <div className="text-lg 2xl:text-xl max-w-[400px] pr-16 2xl:max-w-[600px] font-poppins">
@@ -87,7 +89,7 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
       <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative inset-0 mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] lg:block flex justify-center items-center">
       {/* <div className="w-[100%] sm:w-[50%] 2xl:w-[40%] relative mt-4 md:ml-[2vw] lg:[5vw] 2xl:ml-[-2rem] "> */}
       <div className="flex flex-col mt-20 gap-12 lg:ml-[-1rem] text-xl sm:w-[80%] w-full xs:w-[24rem] px-5 sm:pr-0 justify-center z-1">
-          <div className="flex lg:flex-row flex-col  items-center lg:gap-0 gap-2">
+          <div className="flex flex-col items-center gap-2 lg:flex-row lg:gap-0">
             <h2 className="font-semibold lg:text-[2.4rem] text-[2rem] font-poppins">Sign In as&nbsp;</h2>
             <h2 className="font-semibold lg:text-[2.4rem] text-[1.5rem] text-[#03A8FD] font-poppins">{" "}Faculty</h2>
           </div>
@@ -112,7 +114,7 @@ function FacultySignInComp({ email, setEmail, password, setPassword, setHandleLo
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {/* <div className="w-full flex justify-end">
+            {/* <div className="flex justify-end w-full">
               <span
                 className="text-[#03A8FD] text-right cursor-pointer"
                 onClick={() => {

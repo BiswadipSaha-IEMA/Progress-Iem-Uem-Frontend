@@ -21,12 +21,15 @@ export default function FacultyBookPublished() {
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
   const [editBpData, setEditBpData] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
   
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
     const getBPData = async () => {
+      setIsLoading(true);
       try {
         const response = await getReq(
           "api/v1/document/getAllPublications",
@@ -35,14 +38,15 @@ export default function FacultyBookPublished() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationType === "Book") arr.push(data);
+            if (data.publicationGrade === "Grade-B" && data.publicationType === "Book Chapter")arr.push(data);
           });
-
           setData(arr);
           setData1(arr);
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getBPData();
@@ -163,29 +167,29 @@ export default function FacultyBookPublished() {
                         {indexOfFirstRow + rowIndex + 1}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
-                        {item.authorType}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.title}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.createdBy.name}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.date}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.name}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.isbn}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.createdBy.email}
-                      </td>
+                            {item.authorType}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.title}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.createdBy.name}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.date}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.name}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.issue}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.status}
+                          </td>
+                          <td className="px-4 py-2 whitespace-nowrap">
+                            {item.createdBy.email}
+                          </td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a

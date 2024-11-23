@@ -144,12 +144,12 @@ export default function FacultyBookPublished() {
                 />
               </div>
               <button
-                className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
-                onClick={() => setShowPopUp(true)}
-              >
-                Publish New Book
-                <VscDiffAdded className="text-[1.3rem]" />
-              </button>
+              className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
+              onClick={() => setShowPopUp(true)}
+            >
+              Publish New Book
+              <VscDiffAdded className="text-[1.3rem]" />
+            </button>
             </div>
 
             {/* Responsive Table */}

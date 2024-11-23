@@ -50,6 +50,7 @@ import MdStreamFacultyList from "./Pages/Moderator/FacultyList/MdStreamFacultyLi
 import FacultyFDPPage from "./Pages/Faculty/FacultyFDP/FacultyFDPPage";
 import FacultyConferenceGradeAPage from "./Pages/Faculty/FacultyConferenceGradeA/FacultyConferenceGradeAPage";
 import { FacultySeminar } from "./Pages/Faculty/FacultySeminar/FacultySeminar";
+import FacultyStudentChapterPage from "./Pages/Faculty/FacultyStudentChapter/FacultyStudentChapterPage";
 import FacultyConferenceGradeBPage from "./Pages/Faculty/FacultyConferenceGradeB/FacultyConferenceGradeBPage";
 import FacultyConferenceGradeCPage from "./Pages/Faculty/FacultyConferenceGradeC/FacultyConferenceGradeCPage";
 
@@ -91,6 +92,7 @@ const AppRouter = () => {
           {/* <Route path="/faculty/viewseminar" element={<FacultyCompetitionPage />} /> */}
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
           <Route path="/faculty/viewconferencegradea" element={<FacultyConferenceGradeAPage/>} />
+          <Route path="/faculty/viewstudentchapter" element={<FacultyStudentChapterPage />} />
           <Route path="/faculty/viewconferencegradeb" element={<FacultyConferenceGradeBPage/>}/>
           <Route  path="/faculty/viewconferencegradec" element={<FacultyConferenceGradeCPage/>}/>
 

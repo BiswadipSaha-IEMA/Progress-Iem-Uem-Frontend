@@ -370,7 +370,7 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
                       
                     </div>
                     <div className="">{storeTempStatus === "Request To Accept" || data.Status === "Approved"?'Accepted':storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'Rejected':data.Status==='RequestToAccept'?'Acceptance Requested':'Rejection Requested'}</div>
-                  {console.log(storeTempStatus,data.Status,'#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')}
+                  {/* {console.log(storeTempStatus,data.Status,'#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')} */}
                   </div>
                 )}
               </p>

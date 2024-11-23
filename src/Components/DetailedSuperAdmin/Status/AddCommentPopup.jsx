@@ -364,12 +364,13 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
                     {storeTempStatus === "Request To Accept"?'Accepted':storeTempStatus === "Request To Reject"?'Rejected':'Acceptance Requested'}
                   </div>
                 ) : (
-                  <div className={`text-[#fff]  ${storeTempStatus === "Request To Accept" || data.Status === "Approved" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'bg-[#f84748]':'bg-[#f84748]'}  flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
+                  <div className={`text-[#fff]  ${storeTempStatus === "Request To Accept" || data.Status === "Approved" ? "bg-[#2e9b32]" : storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'bg-[#f84748]':data.Status==='RequestToAccept'?'bg-[#2e9b32]':'bg-[#f84748]'}  flex rounded-t-lg items-center pl-7 pt-2 pb-2`}>
                     <div className="bg-[#fff] rounded-[50%] mr-2">
-                    {storeTempStatus === "Request To Accept" || data.Status === "Approved"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject" || data.Status === "Rejected"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />}
+                    {storeTempStatus === "Request To Accept" || data.Status === "Approved"?<TiTick className="text-[15px] text-[#2e9b32]" />:storeTempStatus === "Request To Reject" || data.Status === "Rejected"?<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />:data.Status==='RequestToAccept'?<TiTick className="text-[15px] text-[#2e9b32]" />:<RxCross2 className="text-[20px] text-[#f00] font-[700] p-1" />}
                       
                     </div>
-                    <div className="">{storeTempStatus === "Request To Accept" || data.Status === "Approved"?'Accepted':storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'Rejected':'Rejection Requested'}</div>
+                    <div className="">{storeTempStatus === "Request To Accept" || data.Status === "Approved"?'Accepted':storeTempStatus === "Request To Reject" || data.Status === "Rejected"?'Rejected':data.Status==='RequestToAccept'?'Acceptance Requested':'Rejection Requested'}</div>
+                  {console.log(storeTempStatus,data.Status,'#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')}
                   </div>
                 )}
               </p>

@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
+function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -50,6 +50,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
         // isbn: formData.isbn,
         category: formData.category,
         // publisher: formData.publisher,
+        authorType : authorType,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -350,4 +351,4 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default ResearchPaperGradeA;
+export default ResearchPaperGradeAbookChapter;

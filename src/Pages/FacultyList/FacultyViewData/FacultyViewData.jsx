@@ -218,6 +218,7 @@ const FacultyViewData = () => {
         );
       const competition = events
         .filter((event) => event.eventType === "Competition")
+        .filter((event) => event.eventType === "Competiton")
         .map(
           ({
             createdBy,
@@ -567,6 +568,7 @@ const FacultyViewData = () => {
           })
         );
       console.log(conf1,"Conf Rp");
+      console.log(rep1);
       setConfPub(conf);
       setBooks(filteredBooks);
       setRp1(rep1);

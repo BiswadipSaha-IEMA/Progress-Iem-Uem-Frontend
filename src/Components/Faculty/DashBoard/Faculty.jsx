@@ -17,12 +17,16 @@ import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGra
 import ResearchPaperGradeB from "../../../utils/Popup/FormPopUp/ResearchPaperGradeB";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 import WorkShopPopUp from "../../../utils/Popup/FormPopUp/WorkShopPopUp";
+import ResearchPaperGradeAbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeAbookChapter";
+import ResearchPaperGradeBbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeBbookChapter";
+import ResearchPaperGradeCbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeCbookChapter";
 import FDPPopUp from "../../../utils/Popup/FormPopUp/FDPPopUp";
 import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
+import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -37,9 +41,17 @@ export default function Faculty() {
   const [researchData, setResearchData] = useState([]);
   const [seminarOrg, setSeminarOrg] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
+  // const [IndTour, setIndTour] = useState([]);
+  // const [patentData, setPatentData] = useState([]);
+  const [hackathon, setHackathon] = useState([]);
+  const [researchA, setResearchA] = useState([]);
+  const [researchB, setResearchB] = useState([]);
+  const [researchC, setResearchC] = useState([]);
+  const [researchApop, setResearchApop] = useState(false);
+  const [researchBpop, setResearchBpop] = useState(false);
+  const [researchCpop, setResearchCpop] = useState(false);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
-  const [hackathon, setHackathon] = useState([]);
   const [fdpData, setFdpData] = useState([]);
   const [compete, setCompete] = useState([]);
   const [bookPub, setBookPub] = useState(false);
@@ -47,6 +59,7 @@ export default function Faculty() {
   const [conference, setConference] = useState(false);
   const [industrial, setIndustrial] = useState(false);
   const [triMentor, settriMentor] = useState(false);
+  const [StudentChapter, setStudentChapter] = useState([]);
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
@@ -58,6 +71,7 @@ export default function Faculty() {
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
   const [showHackPopup, setShowHackPopup] = useState(false);
+  const [showstudentChapterPopup, setshowstudentChapterPopup] = useState(false);
   const [raConfGa, setRaConfGa] = useState(null);
   const [raConfGb, setRaConfGb] = useState(null);
   const [raConfGc, setRaConfGc] = useState(null);
@@ -155,6 +169,73 @@ export default function Faculty() {
       setIsLoading(false);
     }
   };
+
+  const getResearchpaperAInfo = async () => {
+    try {
+        const response = await getReq(
+            "api/v1/document/getAllPublications",
+            accessToken
+        );
+        console.log(response);
+        if (response.success) {
+
+            const filteredData = response.data.data.filter(
+                (item) => 
+                    item.publicationGrade === "Grade-A" &&
+                    item.publicationType === "Book Chapter"
+            );
+            console.log(filteredData);
+  
+            setResearchA(filteredData); 
+        }
+    } catch (error) {
+        console.error("Error fetching publication info:", error);
+    }
+};
+const getResearchpaperBInfo = async () => {
+  try {
+      const response = await getReq(
+          "api/v1/document/getAllPublications",
+          accessToken
+      );
+      console.log(response);
+      if (response.success) {
+
+          const filteredData = response.data.data.filter(
+              (item) => 
+                  item.publicationGrade === "Grade-B" &&
+                  item.publicationType === "Book Chapter"
+          );
+          console.log(filteredData);
+
+          setResearchB(filteredData); 
+      }
+  } catch (error) {
+      console.error("Error fetching publication info:", error);
+  }
+};
+const getResearchpaperCInfo = async () => {
+  try {
+      const response = await getReq(
+          "api/v1/document/getAllPublications",
+          accessToken
+      );
+      console.log(response);
+      if (response.success) {
+
+          const filteredData = response.data.data.filter(
+              (item) => 
+                  item.publicationGrade === "Grade-C" &&
+                  item.publicationType === "Book Chapter"
+          );
+          console.log(filteredData);
+
+          setResearchC(filteredData); 
+      }
+  } catch (error) {
+      console.error("Error fetching publication info:", error);
+  }
+};
 
   useEffect(() => {
     console.log("-----------------------------------", raConfGa);
@@ -366,6 +447,19 @@ export default function Faculty() {
       console.error("Error fetching seminar data:", error);
     }
   };
+  const getStudentChapterInfo = async () => {
+    try {
+      const response = await getReq("api/v1/document/getAllStudentChapters", accessToken);
+      console.log(response);
+      console.log("StudentChapters");
+      if (response.success) {
+        console.log("responses",response.data.data);
+        setStudentChapter(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
 
   useEffect(() => {
     getSeminarOrgInfo();
@@ -390,6 +484,11 @@ export default function Faculty() {
     getFdpInfo();
     getHack();
     getCompeteInfo();
+    getCompeteInfo();
+    getStudentChapterInfo();
+    getResearchpaperAInfo();
+    getResearchpaperBInfo();
+    getResearchpaperCInfo();
   }, [accessToken]);
 
   const groupResearchByGrade = (grade) => {
@@ -553,6 +652,34 @@ export default function Faculty() {
         status: paper.status,
       })),
     },
+    {
+      title: "Research Paper Published - Book Chapter (Grade A)",
+      details: researchA.map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Published - Book Chapter (Grade B)",
+      details: researchB.map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Research Paper Published - Book Chapter (Grade C)",
+      details: researchC.map((paper) => ({
+        title: paper.title,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Student Chapter Activity",
+      details: StudentChapter.map((paper) => ({
+        title: paper.companyName,
+        status: paper.status,
+      })),
+    },
   ];
 
   const getStatusStyles = (status) => {
@@ -679,11 +806,28 @@ export default function Faculty() {
                   navigate("/faculty/viewconferencegradec");
                 } else if (item.title === "Seminar") {
                   navigate("/faculty/viewseminar");
+                }else if(
+                  item.title === "Research Paper Published - Book Chapter (Grade A)"
+                ){
+                  navigate("/faculty/researchpapergradeabook");
+                }
+                else if(
+                  item.title === "Research Paper Published - Book Chapter (Grade B)"
+                ){
+                  navigate("/faculty/researchpapergradebbook");
+                }
+                else if(
+                  item.title === "Research Paper Published - Book Chapter (Grade C)"
+                ){
+                  navigate("/faculty/researchpapergradecbook");
                 }
 
                 // else if (item.title === "Seminar") {
                 //   navigate("/faculty/viewseminar");
                 // }
+                else if (item.title === "Student Chapter Activity") {
+                  navigate("/faculty/viewstudentchapter");
+                }
               }}
             >
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
@@ -733,6 +877,23 @@ export default function Faculty() {
                     } else if (item.title === "Seminar") {
                       setShowSeminarPopup(true);
                     }
+                    else if (
+                      item.title === "Student Chapter Activity"
+                    ) {
+                      setshowstudentChapterPopup(true);
+                    }else if(
+                       item.title === "Research Paper Published - Book Chapter (Grade A)"
+                    ){
+                      setResearchApop(true);
+                    }else if(
+                      item.title === "Research Paper Published - Book Chapter (Grade B)"
+                   ){
+                     setResearchBpop(true);
+                   }else if(
+                    item.title === "Research Paper Published - Book Chapter (Grade C)"
+                 ){
+                  setResearchCpop(true);
+                 }
                   }}
                 >
                   Add Response
@@ -798,6 +959,24 @@ export default function Faculty() {
         <ResearchPaperGradeC
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeCData}
+          />
+      )}
+      {researchApop && (
+        <ResearchPaperGradeAbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchApop}
+        />
+      )}
+      {researchBpop && (
+        <ResearchPaperGradeBbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchBpop}
+        />
+      )}
+      {researchCpop && (
+        <ResearchPaperGradeCbookChapter
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchCpop}
         />
       )}
       {workshopPopUp && (
@@ -833,6 +1012,12 @@ export default function Faculty() {
       {showSeminarPopup && (
         <SeminarPopUp
           setShowPopup={setShowSeminarPopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {showstudentChapterPopup && (
+        <StudentChapterPopUp
+          setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
         />
       )}

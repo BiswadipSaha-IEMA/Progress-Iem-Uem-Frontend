@@ -4,13 +4,11 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import ResearchPaperGradeBbookChapter from "../../../utils/Popup/FormPopUp/ResearchPaperGradeBbookChapter";
+import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
-// import
-import EditFormPopUp from "./EditFormPopUp";
 
-export default function FacultyBookPublished() {
+export default function FacultyStudentChapter() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
@@ -20,36 +18,25 @@ export default function FacultyBookPublished() {
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
-  const [editBpData, setEditBpData] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
-    const getBPData = async () => {
-      setIsLoading(true);
+    const getStudentChapterData = async () => {
       try {
         const response = await getReq(
-          "api/v1/document/getAllPublications",
+          "api/v1/document/getAllStudentChapters",
           accessToken
         );
-        const arr = [];
         if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-B" && data.publicationType === "Book Chapter")arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
+          setData(response.data.data);
+          setData1(response.data.data);
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
       }
     };
-    getBPData();
+    getStudentChapterData();
   }, [showPopUp]);
 
   const handleSearch = (event) => {
@@ -57,9 +44,11 @@ export default function FacultyBookPublished() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title.toLowerCase().includes(searchData) ||
-        item.name.toLowerCase().includes(searchData) ||
-        item.isbn.toLowerCase().includes(searchData)
+        item.facultyName?.toLowerCase().includes(searchData) ||
+        item.companyName?.toLowerCase().includes(searchData) ||
+        item.orderAmount?.toLowerCase().includes(searchData) ||
+        item.activityStatus?.toLowerCase().includes(searchData) ||
+        item.platformUsed?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);
@@ -78,15 +67,12 @@ export default function FacultyBookPublished() {
   };
 
   const columnHeaders = [
-    "Author Type",
-    "Title",
-    "Faculty",
-    "Published Date",
-    "Publisher Name",
-    "ISBN",
-    "Status",
-    "Email",
-    "Proof of Document",
+    'Faculty Name',
+    'Company Name',
+    'Order Amount',
+    'Order Receive Date',
+    'Status(Ongoing/ Completed',
+    'Proof of Document',
   ];
 
   return (
@@ -97,7 +83,7 @@ export default function FacultyBookPublished() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Research Paper - Book Chapter (Grade B)
+              student Chapter Activity
             </div>
           </div>
 
@@ -105,13 +91,13 @@ export default function FacultyBookPublished() {
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Book Name"
+                placeholder="Search by Module Name"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2
+              <RxCross2 
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -123,7 +109,7 @@ export default function FacultyBookPublished() {
               className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
               onClick={() => setShowPopUp(true)}
             >
-              Add New Paper
+              Add New Activity
               <VscDiffAdded className="text-[1.3rem]" />
             </button>
           </div>
@@ -137,21 +123,18 @@ export default function FacultyBookPublished() {
                 {/* Table Header */}
                 <thead>
                   <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      SL. No
-                    </th>
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
                       </th>
                     ))}
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
                       Action
                     </th>
                   </tr>
                 </thead>
 
-                {/* Table Body */}
                 {/* Table Body */}
                 <tbody>
                   {currentRows.map((item, rowIndex) => (
@@ -163,40 +146,19 @@ export default function FacultyBookPublished() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="px-4 py-2 sticky left-0 bg-white">
-                        {indexOfFirstRow + rowIndex + 1}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.authorType}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.title}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.createdBy.name}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.date}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.name}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.isbn}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status}
-                      </td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        {item.createdBy.email}
-                      </td>
+                      <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.facultyName}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.companyName}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.orderAmount}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.dateOfOrder}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.proofDocument}</td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
                             href={item.proofDocument}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#03A8FD] no-underline"
+                            className="text-blue-500 no-underline"
                           >
                             Link
                           </a>
@@ -204,7 +166,6 @@ export default function FacultyBookPublished() {
                           "NA"
                         )}
                       </td>
-                      {/* New Rejection Reason Column */}
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.status === "Rejected" && (
                           <button
@@ -225,8 +186,8 @@ export default function FacultyBookPublished() {
           </div>
         </div>
 
-        {/* Pagination Controls */}
-        <div className="mt-4 hidden md:flex justify-end">
+        {/* Pagination Controls for large screens */}
+        <div className="hidden sm:flex justify-end mt-4">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -244,7 +205,8 @@ export default function FacultyBookPublished() {
         </div>
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      {/* Pagination Controls for small screens */}
+      <div className="sm:hidden sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
@@ -262,13 +224,12 @@ export default function FacultyBookPublished() {
       </div>
 
       {showPopUp && (
-        <ResearchPaperGradeBbookChapter setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <StudentChapterPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
     </div>
   );
 }

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  dummyData,
-  dummyData as originalDummyData,
-} from "../../../constants/studentData";
+import { dummyData } from "../../../constants/studentData"; // Removed the duplicate import
 import Header from "../../Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
 import ModeratorViewTable from "./ModeratorViewTable";
@@ -14,17 +11,18 @@ const ModeratorTableData = () => {
   const [books, setBooks] = useState([]);
   const [booksFull, setBooksFull] = useState([]);
   const [rp1, setRp1] = useState([]);
-  const [rp1Full, setRp1Full] = useState([]);
-  const [rp2, setRp2] = useState([]);
-  const [rp2Full, setRp2Full] = useState([]);
-  const [rp3, setRp3] = useState([]);
-  const [rp3Full, setRp3Full] = useState([]);
   const [conf1, setConf1] = useState([]);
   const [conf1Full, setConf1Full] = useState([]);
   const [conf2, setConf2] = useState([]);
   const [conf2Full, setConf2Full] = useState([]);
   const [conf3, setConf3] = useState([]);
   const [conf3Full, setConf3Full] = useState([]);
+  // const [rp1, setRp1] = useState([]);
+  const [rp1Full, setRp1Full] = useState([]);
+  const [rp2, setRp2] = useState([]);
+  const [rp2Full, setRp2Full] = useState([]);
+  const [rp3, setRp3] = useState([]);
+  const [rp3Full, setRp3Full] = useState([]);
   const [confPub, setConfPub] = useState([]);
   const [confPubFull, setConfPubFull] = useState([]);
   const [moocs, setMoocs] = useState([]);
@@ -37,7 +35,6 @@ const ModeratorTableData = () => {
   const [consultancyFull, setConsultancyFull] = useState([]);
   const [studentChapters, setStudentChapters] = useState([]);
   const [studentChaptersFull, setStudentChaptersFull] = useState([]);
-
   const [workshop, setWorkshop] = useState([]);
   const [workshopFull, setWorkshopFull] = useState([]);
   const [seminar, setSeminar] = useState([]);
@@ -51,17 +48,14 @@ const ModeratorTableData = () => {
   const [hackathon, setHackathon] = useState([]);
   const [hackathonFull, setHackathonFull] = useState([]);
   const [trimentor, setTrimentor] = useState([]);
-  const [trimentoFull, setTrimentorFull] = useState([]);
+  const [trimentorFull, setTrimentorFull] = useState([]);
   const [lecture, setLecture] = useState([]);
   const [lectureFull, setLectureFull] = useState([]);
   const [industrialTour, setIndustrialTour] = useState([]);
   const [industrialTourFull, setIndustrialTourFull] = useState([]);
-  const [getReq] = useGetReq();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
-  const id = sessionStorage.getItem("userId");
-  // const [btn ]
-  // console.log(typeof(department))
+  const [getReq]= useGetReq()
 
   const getFaculty = async () => {
     try {
@@ -81,6 +75,7 @@ const ModeratorTableData = () => {
     }
   };
   useEffect(() => {
+  
     if (accessToken) {
       getFaculty();
     }
@@ -914,7 +909,7 @@ const ModeratorTableData = () => {
             <ModeratorViewTable
               dummyData={trimentor}
               dummy={trimentor}
-              fullData={trimentoFull}
+              fullData={trimentorFull}
               name={"Tri-Mentoring System"}
             />
           )}

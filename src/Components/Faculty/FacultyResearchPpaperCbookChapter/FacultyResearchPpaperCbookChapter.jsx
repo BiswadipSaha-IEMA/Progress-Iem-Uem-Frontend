@@ -21,12 +21,14 @@ export default function FacultyBookPublished() {
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
   const [editBpData, setEditBpData] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
   useEffect(() => {
     const getBPData = async () => {
+      setIsLoading(true);
       try {
         const response = await getReq(
           "api/v1/document/getAllPublications",
@@ -35,14 +37,15 @@ export default function FacultyBookPublished() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationType === "Book") arr.push(data);
+            if (data.publicationGrade === "Grade-C" && data.publicationType === "Book Chapter")arr.push(data);
           });
-
           setData(arr);
           setData1(arr);
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getBPData();

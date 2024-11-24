@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
+function ResearchPaperGradeCbookChapter({ setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -19,8 +19,8 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
     vol: "",
     issue: "",
     pp: "",
-    publicationGrade: "Grade-A", // Default value
-    publicationType: "Research Paper", // Default value
+    publicationGrade: "Grade-C", // Default value
+    publicationType: "Book Chapter", // Default value
     nationalOrInternational: "National",
     proofDocument: "",
   });
@@ -50,6 +50,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
         // isbn: formData.isbn,
         category: formData.category,
         // publisher: formData.publisher,
+        authorType : authorType,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -79,8 +80,8 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
       vol: "",
       issue: "",
       pp: "",
-      publicationGrade: "Grade-A", // Default value
-      publicationType: "Research Paper", // Default value
+      publicationGrade: "Grade-C", // Default value
+      publicationType: "Book Chapter", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
     });
@@ -100,7 +101,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Research Paper Publication Form
+              Research Paper Publication Form 
             </h2>
 
             {/* Inner container with scroll */}
@@ -350,4 +351,4 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
   );
 }
 
-export default ResearchPaperGradeA;
+export default ResearchPaperGradeCbookChapter;

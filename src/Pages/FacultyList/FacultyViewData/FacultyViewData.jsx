@@ -865,7 +865,7 @@ const FacultyViewData = () => {
               dummyData={confPub}
               dummy={confPub}
               fetchData={fetchData}
-              name="Comference Publication"
+              name="Conference"
             />
           )}
           {trimentor?.length > 0 && (

@@ -63,13 +63,16 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
     },
     {
       nameList: [
-        "Research Paper Published (Grade-A)",
-        "Research Paper Published (Grade-B)",
-        "Research Paper Published (Grade-C)",
-        "Book Published",
-        "Research Paper Published-Journal (Grade-A)",
-        "Research Paper Published-Journal (Grade-B)",
-        "Research Paper Published-Journal (Grade-C)" 
+        name === "Book Published" ,
+          name === "Research Paper Grade-A" ,
+          name === "Research Paper Grade-B" ,
+          name === "Research Paper Grade-C" ,
+          name === "Research Paper Published-Journal (Grade-A)" ,
+          name === "Research Paper Published-Journal (Grade-B)" ,
+          name === "Research Paper Published-Journal (Grade-C)" ,
+          name === "Research Paper Conference (Grade-A)" ,
+          name === "Research Paper Conference (Grade-B)" ,
+          name === "Research Paper Conference (Grade-C)" 
       ],
       api: `/${data._id}/publicationcomment`,
     },
@@ -125,13 +128,16 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
       try {
         const response = await postReq(
           `${
-          name === "Book Published" ||
-          name === "Research Paper Grade-A" ||
-          name === "Research Paper Grade-B" ||
-          name === "Research Paper Grade-C" ||
-          name === "Research Paper Published-Journal (Grade-A)" ||
-          name === "Research Paper Published-Journal (Grade-B)" ||
-          name === "Research Paper Published-Journal (Grade-C)" 
+            name === "Book Published" ||
+            name === "Research Paper Grade-A" ||
+            name === "Research Paper Grade-B" ||
+            name === "Research Paper Grade-C" ||
+            name === "Research Paper Published-Journal (Grade-A)" ||
+            name === "Research Paper Published-Journal (Grade-B)" ||
+            name === "Research Paper Published-Journal (Grade-C)" ||
+            name === "Research Paper Conference (Grade-A)" ||
+            name === "Research Paper Conference (Grade-B)" ||
+            name === "Research Paper Conference (Grade-C)" 
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -184,13 +190,16 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
       try {
         const response = await postReq(
           `${
-          name === "Book Published" ||
-          name === "Research Paper Grade-A" ||
-          name === "Research Paper Grade-B" ||
-          name === "Research Paper Grade-C" ||
-          name === "Research Paper Published-Journal (Grade-A)" ||
-          name === "Research Paper Published-Journal (Grade-B)" ||
-          name === "Research Paper Published-Journal (Grade-C)" 
+            name === "Book Published" ||
+            name === "Research Paper Grade-A" ||
+            name === "Research Paper Grade-B" ||
+            name === "Research Paper Grade-C" ||
+            name === "Research Paper Published-Journal (Grade-A)" ||
+            name === "Research Paper Published-Journal (Grade-B)" ||
+            name === "Research Paper Published-Journal (Grade-C)" ||
+            name === "Research Paper Conference (Grade-A)" ||
+            name === "Research Paper Conference (Grade-B)" ||
+            name === "Research Paper Conference (Grade-C)" 
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -246,13 +255,16 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
 
         const response = await postReq(
           `${
-          name === "Book Published" ||
-          name === "Research Paper Grade-A" ||
-          name === "Research Paper Grade-B" ||
-          name === "Research Paper Grade-C" ||
-          name === "Research Paper Published-Journal (Grade-A)" ||
-          name === "Research Paper Published-Journal (Grade-B)" ||
-          name === "Research Paper Published-Journal (Grade-C)" 
+            name === "Book Published" ||
+            name === "Research Paper Grade-A" ||
+            name === "Research Paper Grade-B" ||
+            name === "Research Paper Grade-C" ||
+            name === "Research Paper Published-Journal (Grade-A)" ||
+            name === "Research Paper Published-Journal (Grade-B)" ||
+            name === "Research Paper Published-Journal (Grade-C)" ||
+            name === "Research Paper Conference (Grade-A)" ||
+            name === "Research Paper Conference (Grade-B)" ||
+            name === "Research Paper Conference (Grade-C)" 
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||

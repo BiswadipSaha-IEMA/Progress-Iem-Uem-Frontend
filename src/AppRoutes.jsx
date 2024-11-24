@@ -79,6 +79,7 @@ const AppRouter = () => {
           <Route path="/faculty/researchpapergradec" element={<FacultyResearchPpaperCPage />} />
           <Route path="/faculty/viewconferenceorganized" element={<FacultyConferenceOrganized />} />
           <Route path="/faculty/viewLecture" element={<Lectureseries />} />
+          {/* <Route path="/faculty/viewHackathon" element={<FacultyHackathonComp />} /> */}
           <Route path="/faculty/viewIndustrialTour" element={<FacultyIndustrialTourPage />} />
           <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />
@@ -92,7 +93,6 @@ const AppRouter = () => {
           {/* <Route path="/faculty/viewseminar" element={<FacultyCompetitionPage />} /> */}
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
           <Route path="/faculty/viewconferencegradea" element={<FacultyConferenceGradeAPage/>} />
-          <Route path="/faculty/viewstudentchapter" element={<FacultyStudentChapterPage />} />
           <Route path="/faculty/viewconferencegradeb" element={<FacultyConferenceGradeBPage/>}/>
           <Route  path="/faculty/viewconferencegradec" element={<FacultyConferenceGradeCPage/>}/>
 

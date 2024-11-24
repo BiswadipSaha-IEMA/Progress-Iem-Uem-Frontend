@@ -96,7 +96,7 @@ export default function FacultyBookPublished() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Research Paper - Book Chapter (Grade C)
+            Research Paper - Book Chapter (Grade A)
             </div>
           </div>
 
@@ -164,31 +164,31 @@ export default function FacultyBookPublished() {
                     >
                       <td className="px-4 py-2 sticky left-0 bg-white">
                         {indexOfFirstRow + rowIndex + 1}
-                        </td>
-                        <td className="px-4 py-2 whitespace-nowrap">
-                            {item.authorType}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.title}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.date}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.issue}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.email}
-                          </td>
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.authorType}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.title}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.date}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.isbn}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.email}
+                      </td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a

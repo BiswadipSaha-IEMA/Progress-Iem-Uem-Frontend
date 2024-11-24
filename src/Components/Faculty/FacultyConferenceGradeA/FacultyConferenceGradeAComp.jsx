@@ -3,24 +3,24 @@ import { MdOutlineSearch } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
-import { useGetReq } from '../../../hooks/useHttp';
-import ResearchPaperGradeA from '../../../utils/Popup/FormPopUp/ResearchPaperGradeA';
-import Header from '../../Header/Header';
+import { useGetReq } from "../../../hooks/useHttp";
+import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
+import Header from "../../Header/Header";
 import ConferenceGradeA from "../../../utils/Popup/FormPopUp/ConferenceGradeA";
 
 export default function FacultyConferenceGradeAComp() {
-    const [showPopUp, setShowPopUp] = useState(false);
-    const [data, setData] = useState([]);
-    const [data1, setData1] = useState([]);
-    const [getReq] = useGetReq();
-    const [currentPage, setCurrentPage] = useState(1);
-    const [detailedClick, setDetailedClick] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
-    const rowsPerPage = 10;
-  
-    const accessToken = sessionStorage.getItem("token").split('"')[1];
-    
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [data, setData] = useState([]);
+  const [data1, setData1] = useState([]);
+  const [getReq] = useGetReq();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [detailedClick, setDetailedClick] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const rowsPerPage = 10;
+
+  const accessToken = sessionStorage.getItem("token").split('"')[1];
+
   useEffect(() => {
     const getBPData = async () => {
       try {
@@ -31,7 +31,11 @@ export default function FacultyConferenceGradeAComp() {
         const arr = [];
         if (response.success) {
           response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-A" && data.publicationType === "Conference") arr.push(data);
+            if (
+              data.publicationGrade === "Grade-A" &&
+              data.publicationType === "Conference"
+            )
+              arr.push(data);
           });
           setData(arr);
           setData1(arr);
@@ -42,19 +46,19 @@ export default function FacultyConferenceGradeAComp() {
     };
     getBPData();
   }, [showPopUp]);
-  
-    const handleSearch = (event) => {
-        const searchData = event.target.value.toLowerCase();
-        setSearchTerm(event.target.value);
-        const filteredData = data1.filter(
-          (item) =>
-            item.title.toLowerCase().includes(searchData) ||
-            item.name.toLowerCase().includes(searchData) ||
-            item.isbn?.toLowerCase().includes(searchData)
-        );
-        setData(filteredData);
-        setCurrentPage(1);
-    };
+
+  const handleSearch = (event) => {
+    const searchData = event.target.value.toLowerCase();
+    setSearchTerm(event.target.value);
+    const filteredData = data1.filter(
+      (item) =>
+        item.title.toLowerCase().includes(searchData) ||
+        item.name.toLowerCase().includes(searchData) ||
+        item.isbn?.toLowerCase().includes(searchData)
+    );
+    setData(filteredData);
+    setCurrentPage(1);
+  };
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -67,21 +71,21 @@ export default function FacultyConferenceGradeAComp() {
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
-    const columnHeaders = [
-        "Author Type",
-        "Title",
-        "Faculty",
-        "Publisher Name",
-        "Published Date",
-        "Issue No",
-        "Status",
-        "Email",
-        "Proof of Document",
-      ];
-    
+  const columnHeaders = [
+    "Author Type",
+    "Title",
+    "Faculty",
+    "Publisher Name",
+    "Published Date",
+    "Issue No",
+    "Status",
+    "Email",
+    "Proof of Document",
+  ];
+
   return (
     <div>
-         <div className="flex-1 px-4 overflow-auto sm:px-10">
+      <div className="flex-1 px-4 overflow-auto sm:px-10">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col justify-between mt-10 mb-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
@@ -101,7 +105,7 @@ export default function FacultyConferenceGradeAComp() {
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
               />
               <MdOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A]" />
-              <RxCross2 
+              <RxCross2
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[1.5rem] text-[#7A7A7A] cursor-pointer"
                 onClick={() => {
                   setSearchTerm("");
@@ -127,7 +131,9 @@ export default function FacultyConferenceGradeAComp() {
                 {/* Table Header */}
                 <thead>
                   <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      SL. No
+                    </th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
                         {header}
@@ -147,15 +153,33 @@ export default function FacultyConferenceGradeAComp() {
                         setDetailedClick(true);
                       }}
                     >
-                      <td className="sticky left-0 px-4 py-2 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.authorType}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.name}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.issue}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.status}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.email}</td>
+                      <td className="sticky left-0 px-4 py-2 bg-white">
+                        {indexOfFirstRow + rowIndex + 1}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.authorType}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.title}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.date}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.issue}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.email}
+                      </td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
@@ -216,8 +240,11 @@ export default function FacultyConferenceGradeAComp() {
       </div>
 
       {showPopUp && (
-        <ConferenceGradeA setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ConferenceGradeA
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setShowPopUp}
+        />
       )}
     </div>
-  )
+  );
 }

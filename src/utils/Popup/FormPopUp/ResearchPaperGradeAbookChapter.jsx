@@ -20,7 +20,7 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
     issue: "",
     pp: "",
     publicationGrade: "Grade-A", // Default value
-    publicationType: "Book Chapter", // Default value
+    publicationType: "Research Paper", // Default value
     nationalOrInternational: "National",
     proofDocument: "",
   });
@@ -81,7 +81,7 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
       issue: "",
       pp: "",
       publicationGrade: "Grade-A", // Default value
-      publicationType: "Book Chapter", // Default value
+      publicationType: "Research Paper", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
     });
@@ -101,7 +101,7 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Research Paper Publication Form 
+              Research Paper Publication Form
             </h2>
 
             {/* Inner container with scroll */}

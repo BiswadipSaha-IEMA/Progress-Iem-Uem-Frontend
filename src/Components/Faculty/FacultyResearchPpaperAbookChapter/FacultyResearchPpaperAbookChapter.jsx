@@ -15,7 +15,7 @@ export default function FacultyBookPublished() {
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
   const [getReq] = useGetReq();
-  const [currentPage, setCurrentPage] = useState(1);git 
+  const [currentPage, setCurrentPage] = useState(1);
   const [detailedClick, setDetailedClick] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -131,100 +131,99 @@ export default function FacultyBookPublished() {
 
         {/* Responsive Table */}
         <div className="mt-5 overflow-x-auto rounded-lg">
-              <div className="min-w-full bg-white rounded-lg overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    {/* Table Header */}
-                    <thead>
-                      <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
-                        <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                          SL. No
-                        </th>
-                        {columnHeaders.map((header, index) => (
-                          <th
-                            key={index}
-                            className="px-4 py-2 whitespace-nowrap"
-                          >
-                            {header}
-                          </th>
-                        ))}
-                        <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
+          <div className="min-w-full bg-white rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                {/* Table Header */}
+                <thead>
+                  <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      SL. No
+                    </th>
+                    {columnHeaders.map((header, index) => (
+                      <th key={index} className="px-4 py-2 whitespace-nowrap">
+                        {header}
+                      </th>
+                    ))}
+                    <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
 
-                    {/* Table Body */}
-                    <tbody>
-                      {currentRows.map((item, rowIndex) => (
-                        <tr
-                          key={rowIndex}
-                          className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
-                            setSelectedData(item);
-                            setDetailedClick(true);
-                          }}
-                        >
-                          <td className="px-4 py-2 sticky left-0 bg-white">
-                            {indexOfFirstRow + rowIndex + 1}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.authorType}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.title}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.date}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.name}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.issue}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.createdBy.email}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.proofDocument ? (
-                              <a
-                                href={item.proofDocument}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 no-underline"
-                              >
-                                Link
-                              </a>
-                            ) : (
-                              "NA"
-                            )}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status === "Rejected" && (
-                              <button
-                                className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                                onClick={() => {
-                                  setEditBpData(true);
-                                }}
-                              >
-                                Edit
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                {/* Table Body */}
+                {/* Table Body */}
+                <tbody>
+                  {currentRows.map((item, rowIndex) => (
+                    <tr
+                      key={rowIndex}
+                      className="border-b h-[50px] text-center cursor-pointer hover:bg-gray-100"
+                      onClick={() => {
+                        setSelectedData(item);
+                        setDetailedClick(true);
+                      }}
+                    >
+                      <td className="px-4 py-2 sticky left-0 bg-white">
+                        {indexOfFirstRow + rowIndex + 1}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.authorType}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.title}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.date}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.name}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.isbn}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.createdBy.email}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.proofDocument ? (
+                          <a
+                            href={item.proofDocument}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#03A8FD] no-underline"
+                          >
+                            Link
+                          </a>
+                        ) : (
+                          "NA"
+                        )}
+                      </td>
+                      {/* New Rejection Reason Column */}
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {item.status === "Rejected" && (
+                          <button
+                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                            onClick={() => {
+                              setEditBpData(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          </div>
+        </div>
 
         {/* Pagination Controls */}
         <div className="mt-4 hidden md:flex justify-end">

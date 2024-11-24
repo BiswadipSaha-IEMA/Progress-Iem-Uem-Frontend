@@ -15,6 +15,9 @@ const FacultyViewData = () => {
   const [rp1, setRp1] = useState([]);
   const [rp2, setRp2] = useState([]);
   const [rp3, setRp3] = useState([]);
+  const [conf1, setConf1] = useState([]);
+  const [conf2, setConf2] = useState([]);
+  const [conf3, setConf3] = useState([]);
   const [confPub, setConfPub] = useState([]);
   const [moocs, setMoocs] = useState([]);
   const [patents, setPatents] = useState([]);
@@ -73,6 +76,9 @@ const FacultyViewData = () => {
     rp1?.length > 0 ||
     rp2?.length > 0 ||
     rp3?.length > 0 ||
+    conf1?.length > 0 ||
+    conf2?.length > 0 ||
+    conf3?.length > 0 ||
     patents?.length > 0 ||
     facultyDevelopment?.length > 0 ||
     competition?.length > 0 ||
@@ -211,6 +217,7 @@ const FacultyViewData = () => {
           })
         );
       const competition = events
+        .filter((event) => event.eventType === "Competition")
         .filter((event) => event.eventType === "Competiton")
         .map(
           ({
@@ -259,7 +266,7 @@ const FacultyViewData = () => {
           })
         );
       const trimentor = events
-        .filter((event) => event.eventType === "Tri-mentoring")
+        .filter((event) => event.eventType === "Tri-Mentoring")
         .map(
           ({
             createdBy,
@@ -339,6 +346,7 @@ const FacultyViewData = () => {
       setTrimentor(trimentor);
       setLecture(lecture);
       setIndustrialTour(itour);
+      console.log(hackathon,"hackathon")
     }
     if (publications) {
       const conf = publications
@@ -474,12 +482,101 @@ const FacultyViewData = () => {
             "Status": status,
           })
         );
+      const conf1 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Conference" &&
+            pub.publicationGrade === "Grade-A"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            reviewedBy,
+            status,
+            // _id,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      const conf2 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Conference" &&
+            pub.publicationGrade === "Grade-B"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            proofDocument,
+            documentLink,
+            __v,
+            status,
+            // _id,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      const conf3 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Conference" &&
+            pub.publicationGrade === "Grade-C"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            status,
+            // _id,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      console.log(conf1,"Conf Rp");
       console.log(rep1);
       setConfPub(conf);
       setBooks(filteredBooks);
       setRp1(rep1);
       setRp2(rep2);
       setRp3(rep3);
+      setConf1(conf1);
+      setConf2(conf2);
+      setConf3(conf3);
     }
 
     const moocs = data?.moocs?.map(
@@ -667,6 +764,27 @@ const FacultyViewData = () => {
               dummy={rp3}
               name="Research Paper Published-Journal (Grade-C)"
               fetchData={fetchData}
+            />
+          )}
+          {conf1?.length > 0 && (
+            <ViewDataTable
+              dummyData={conf1}
+              dummy={conf1}
+              name="Research Paper Conference (Grade-A)"
+            />
+          )}
+          {conf2?.length > 0 && (
+            <ViewDataTable
+              dummyData={conf2}
+              dummy={conf2}
+              name="Research Paper Conference (Grade-B)"
+            />
+          )}
+          {conf3?.length > 0 && (
+            <ViewDataTable
+              dummyData={conf3}
+              dummy={conf3}
+              name="Research Paper Conference (Grade-C)"
             />
           )}
           {patents?.length > 0 && (

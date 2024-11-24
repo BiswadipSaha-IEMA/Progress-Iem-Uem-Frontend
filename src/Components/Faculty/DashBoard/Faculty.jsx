@@ -25,6 +25,7 @@ import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
 import ConferencePopUp from "../../../utils/Popup/FormPopUp/ConferencePopUp";
 import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
+import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
 import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 
 export default function Faculty() {
@@ -40,6 +41,9 @@ export default function Faculty() {
   const [researchData, setResearchData] = useState([]);
   const [seminarOrg, setSeminarOrg] = useState([]);
   const [WorkOrg, setWorkOrg] = useState([]);
+  // const [IndTour, setIndTour] = useState([]);
+  // const [patentData, setPatentData] = useState([]);
+  const [hackathon, setHackathon] = useState([]);
   const [researchA, setResearchA] = useState([]);
   const [researchB, setResearchB] = useState([]);
   const [researchC, setResearchC] = useState([]);
@@ -66,6 +70,7 @@ export default function Faculty() {
   const [showLecturePopup, setShowLecturePopup] = useState(false);
   const [showConferencePopup, setShowConferencePopup] = useState(false);
   const [showCompetitionPopup, setShowCompetitionPopup] = useState(false);
+  const [showHackPopup, setShowHackPopup] = useState(false);
   const [showstudentChapterPopup, setshowstudentChapterPopup] = useState(false);
   const [raConfGa, setRaConfGa] = useState(null);
   const [raConfGb, setRaConfGb] = useState(null);
@@ -325,6 +330,26 @@ const getResearchpaperCInfo = async () => {
       console.error("Error fetching conference info:", error);
     }
   };
+  const getHack = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      // console.log(response);
+      // console.log("Workshop");
+      if (response.success) {
+        const arr = [];
+        response.data.data.forEach((dt) => {
+          if (dt.eventType === "Hackathon") arr.push(dt);
+        });
+        setHackathon(arr);
+        console.log(arr,"Hackathon")
+      }
+    } catch (error) {
+      console.error("Error fetching conference info:", error);
+    }
+  };
 
   const getIndTour = async () => {
     try {
@@ -457,6 +482,8 @@ const getResearchpaperCInfo = async () => {
     getIndTour();
     getPatentInfo();
     getFdpInfo();
+    getHack();
+    getCompeteInfo();
     getCompeteInfo();
     getStudentChapterInfo();
     getResearchpaperAInfo();
@@ -507,7 +534,7 @@ const getResearchpaperCInfo = async () => {
         status: paper.status,
       })),
     },
-    { 
+    {
       title: "Research Paper Grade C",
       details: groupResearchByGrade("Grade-C").map((paper) => ({
         title: paper.title,
@@ -543,6 +570,13 @@ const getResearchpaperCInfo = async () => {
       title: "Industrial Tour",
       details: IndTour.map((paper) => ({
         title: paper.industryName,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Hackathon",
+      details: hackathon.map((paper) => ({
+        title: paper.topicName,
         status: paper.status,
       })),
     },
@@ -744,6 +778,8 @@ const getResearchpaperCInfo = async () => {
                   navigate("/faculty/viewworkshoporganized");
                 } else if (item.title === "Industrial Tour") {
                   navigate("/faculty/viewIndustrialTour");
+                } else if (item.title === "Hackathon") {
+                  navigate("/faculty/viewHackathon");
                 } else if (item.title === "MOOCs") {
                   navigate("/faculty/viewmooc");
                 } else if (item.title === "Tri-Mentoring System") {
@@ -820,6 +856,8 @@ const getResearchpaperCInfo = async () => {
                       setShowConferencePopup(true);
                     } else if (item.title === "Industrial Tour") {
                       setIndustrial(true);
+                    } else if (item.title === "Hackathon") {
+                      setShowHackPopup(true);
                     } else if (item.title === "Tri-Mentoring System") {
                       settriMentor(true);
                     } else if (item.title === "Workshop Organized") {
@@ -917,6 +955,12 @@ const getResearchpaperCInfo = async () => {
           setShowPopup={setResearchPaperGradeBData}
         />
       )}
+      {researchPaperGradeCData && (
+        <ResearchPaperGradeC
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setResearchPaperGradeCData}
+          />
+      )}
       {researchApop && (
         <ResearchPaperGradeAbookChapter
           setUtilFor={"bpAddForm"}
@@ -946,6 +990,9 @@ const getResearchpaperCInfo = async () => {
       )}
       {showFDPPopup && (
         <FDPPopUp setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />
+      )}
+      {showHackPopup && (
+        <HackPopUp setShowPopup={setShowHackPopup} setUtilFor="bpAddForm" />
       )}
       {showLecturePopup && (
         <TalksPopUp setShowPopup={setShowLecturePopup} setUtilFor="bpAddForm" />

@@ -751,166 +751,187 @@ const ModeratorTableData = () => {
               dummy={books}
               fullData={booksFull}
               name={"Book Published"}
-            />
-          )}
+              fetchData={getFaculty}
+              />
+            )}
           {rp1.length > 0 && (
             <ModeratorViewTable
-              dummyData={rp1}
-              dummy={rp1}
-              fullData={rp1Full}
-              name={"Research Paper Published-Journal (Grade-A)"}
+            dummyData={rp1}
+            dummy={rp1}
+            fullData={rp1Full}
+            name={"Research Paper Published-Journal (Grade-A)"}
+            fetchData={getFaculty}
             />
           )}
           {rp2.length > 0 && (
             <ModeratorViewTable
-              dummyData={rp2}
-              dummy={rp2}
-              fullData={rp2Full}
-              name={"Research Paper Published-Journal (Grade-B)"}
+            dummyData={rp2}
+            dummy={rp2}
+            fullData={rp2Full}
+            name={"Research Paper Published-Journal (Grade-B)"}
+            fetchData={getFaculty}
             />
           )}{" "}
           {rp3.length > 0 && (
             <ModeratorViewTable
-              dummyData={rp3}
-              dummy={rp3}
-              fullData={rp3Full}
-              name={"Research Paper Published-Journal (Grade-C)"}
+            dummyData={rp3}
+            dummy={rp3}
+            fullData={rp3Full}
+            name={"Research Paper Published-Journal (Grade-C)"}
+            fetchData={getFaculty}
             />
           )}
           {conf1.length > 0 && (
             <ModeratorViewTable
-              dummyData={conf1}
-              dummy={conf1}
-              fullData={conf1Full}
-              name={"Research Paper Conference (Grade-A)"}
+            dummyData={conf1}
+            dummy={conf1}
+            fullData={conf1Full}
+            name={"Research Paper Conference (Grade-A)"}
+            fetchData={getFaculty}
             />
           )}
           {conf2.length > 0 && (
             <ModeratorViewTable
-              dummyData={conf2}
-              dummy={conf2}
-              fullData={conf2Full}
-              name={"Research Paper Conference (Grade-B)"}
+            dummyData={conf2}
+            dummy={conf2}
+            fullData={conf2Full}
+            name={"Research Paper Conference (Grade-B)"}
+            fetchData={getFaculty}
             />
           )}
           {conf3.length > 0 && (
             <ModeratorViewTable
-              dummyData={conf3}
-              dummy={conf3}
-              fullData={conf3Full}
-              name={"Research Paper Conference (Grade-C)"}
+            dummyData={conf3}
+            dummy={conf3}
+            fullData={conf3Full}
+            name={"Research Paper Conference (Grade-C)"}
+            fetchData={getFaculty}
             />
           )}
           {patents.length > 0 && (
             <ModeratorViewTable
-              dummyData={patents}
-              dummy={patents}
-              fullData={patentsFull}
-              name={"Patent"}
+            dummyData={patents}
+            dummy={patents}
+            fullData={patentsFull}
+            name={"Patent"}
+            fetchData={getFaculty}
             />
           )}
           {projects.length > 0 && (
             <ModeratorViewTable
-              dummyData={projects}
-              dummy={projects}
-              fullData={projectsFull}
-              name={"Projects"}
+            dummyData={projects}
+            dummy={projects}
+            fullData={projectsFull}
+            name={"Projects"}
+            fetchData={getFaculty}
             />
           )}
           {facultyDevelopment.length > 0 && (
             <ModeratorViewTable
-              dummyData={facultyDevelopment}
-              dummy={facultyDevelopment}
-              fullData={facultyDevelopmentFull}
-              name={"Faculty Development Programmes"}
+            dummyData={facultyDevelopment}
+            dummy={facultyDevelopment}
+            fullData={facultyDevelopmentFull}
+            name={"Faculty Development Programmes"}
+            fetchData={getFaculty}
             />
           )}
           {competition.length > 0 && (
             <ModeratorViewTable
-              dummyData={competition}
-              dummy={competition}
-              fullData={competitionFull}
-              name={"Competition"}
+            dummyData={competition}
+            dummy={competition}
+            fullData={competitionFull}
+            name={"Competition"}
+            fetchData={getFaculty}
             />
           )}
           {seminar.length > 0 && (
             <ModeratorViewTable
-              dummyData={seminar}
-              dummy={seminar}
-              fullData={seminarFull}
-              name={"Seminar"}
+            dummyData={seminar}
+            dummy={seminar}
+            fullData={seminarFull}
+            name={"Seminar"}
+            fetchData={getFaculty}
             />
           )}
           {confPub.length > 0 && (
             <ModeratorViewTable
-              dummyData={confPub}
-              dummy={confPub}
-              fullData={confPubFull}
-              name={"Conference"}
+            dummyData={confPub}
+            dummy={confPub}
+            fullData={confPubFull}
+            name={"Conference"}
+            fetchData={getFaculty}
             />
           )}
           {lecture.length > 0 && (
             <ModeratorViewTable
-              dummyData={lecture}
-              dummy={lecture}
-              fullData={lectureFull}
-              name={"Talks & Distinguished Lecture Series"}
+            dummyData={lecture}
+            dummy={lecture}
+            fullData={lectureFull}
+            name={"Talks & Distinguished Lecture Series"}
+            fetchData={getFaculty}
             />
           )}
           {workshop.length > 0 && (
             <ModeratorViewTable
-              dummyData={workshop}
-              dummy={workshop}
-              fullData={workshopFull}
-              name={"Workshop"}
+            dummyData={workshop}
+            dummy={workshop}
+            fullData={workshopFull}
+            name={"Workshop"}
+            fetchData={getFaculty}
             />
           )}
           {industrialTour.length > 0 && (
             <ModeratorViewTable
-              dummyData={industrialTour}
-              dummy={industrialTour}
-              fullData={industrialTourFull}
-              name={"Industrial Tour"}
+            dummyData={industrialTour}
+            dummy={industrialTour}
+            fullData={industrialTourFull}
+            name={"Industrial Tour"}
+            fetchData={getFaculty}
             />
           )}
           {hackathon.length > 0 && (
             <ModeratorViewTable
-              dummyData={hackathon}
-              dummy={hackathon}
-              fullData={hackathonFull}
-              name={"Hackathon"}
+            dummyData={hackathon}
+            dummy={hackathon}
+            fullData={hackathonFull}
+            name={"Hackathon"}
+            fetchData={getFaculty}
             />
           )}
           {consultancy.length > 0 && (
             <ModeratorViewTable
-              dummyData={consultancy}
-              dummy={consultancy}
-              fullData={consultancyFull}
-              name={"Consultancy"}
+            dummyData={consultancy}
+            dummy={consultancy}
+            fullData={consultancyFull}
+            name={"Consultancy"}
+            fetchData={getFaculty}
             />
           )}
           {studentChapters.length > 0 && (
             <ModeratorViewTable
-              dummyData={studentChapters}
-              dummy={studentChapters}
-              fullData={studentChaptersFull}
-              name={"Student Chapter Activity"}
+            dummyData={studentChapters}
+            dummy={studentChapters}
+            fullData={studentChaptersFull}
+            name={"Student Chapter Activity"}
+            fetchData={getFaculty}
             />
           )}
           {moocs.length > 0 && (
             <ModeratorViewTable
-              dummyData={moocs}
-              dummy={moocs}
-              fullData={moocsFull}
-              name={"Moocs"}
+            dummyData={moocs}
+            dummy={moocs}
+            fullData={moocsFull}
+            name={"Moocs"}
+            fetchData={getFaculty}
             />
           )}
           {trimentor.length > 0 && (
             <ModeratorViewTable
-              dummyData={trimentor}
-              dummy={trimentor}
-              fullData={trimentorFull}
-              name={"Tri-Mentoring System"}
+            dummyData={trimentor}
+            dummy={trimentor}
+            fullData={trimentorFull}
+            name={"Tri-Mentoring System"}
+            fetchData={getFaculty}
             />
           )}
         </>

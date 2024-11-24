@@ -42,7 +42,8 @@ const CommentModal = ({
       setStatus(itemData?.status);
     }
   }, [itemData]);
-
+  
+  {console.log(itemData.status)}
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
   };

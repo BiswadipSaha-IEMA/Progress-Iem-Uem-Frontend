@@ -63,16 +63,16 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
     },
     {
       nameList: [
-        name === "Book Published" ,
-          name === "Research Paper Grade-A" ,
-          name === "Research Paper Grade-B" ,
-          name === "Research Paper Grade-C" ,
-          name === "Research Paper Published-Journal (Grade-A)" ,
-          name === "Research Paper Published-Journal (Grade-B)" ,
-          name === "Research Paper Published-Journal (Grade-C)" ,
-          name === "Research Paper Conference (Grade-A)" ,
-          name === "Research Paper Conference (Grade-B)" ,
-          name === "Research Paper Conference (Grade-C)" 
+        "Book Published" ,
+          "Research Paper Grade-A" ,
+          "Research Paper Grade-B" ,
+          "Research Paper Grade-C" ,
+          "Research Paper Published-Journal (Grade-A)" ,
+          "Research Paper Published-Journal (Grade-B)" ,
+          "Research Paper Published-Journal (Grade-C)" ,
+          "Research Paper Conference (Grade-A)" ,
+          "Research Paper Conference (Grade-B)" ,
+          "Research Paper Conference (Grade-C)" 
       ],
       api: `/${data._id}/publicationcomment`,
     },
@@ -389,6 +389,7 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
               <div className="flex justify-between">
                 <p className="pb-5 pt-5 pl-7 text-[#bbb] font-[700] italic">
                   {commentData?.comment}
+                  
                 </p>
                 <div className="flex items-center pr-2">
                   <p className="pb-5 pt-5 text-[#bbb] pr-1 font-[700] italic">

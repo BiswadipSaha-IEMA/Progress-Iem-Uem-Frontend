@@ -57,6 +57,7 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    getAllInfo();
     if (error) {
       // If there is an error, do not submit
       return;

@@ -158,6 +158,7 @@ const FacultyViewData = () => {
             proofDocument,
             documentLink,
             status,
+            reviewedBy,
             // _id,
             hasContentAccess,
             ...rest
@@ -181,6 +182,7 @@ const FacultyViewData = () => {
             updatedAt,
             proofDocument,
             documentLink,
+            reviewedBy,
             status,
             // _id,
             hasContentAccess,
@@ -206,6 +208,7 @@ const FacultyViewData = () => {
             proofDocument,
             documentLink,
             status,
+            reviewedBy,
             // _id,
             hasContentAccess,
             ...rest
@@ -254,6 +257,7 @@ const FacultyViewData = () => {
             updatedAt,
             proofDocument,
             documentLink,
+            reviewedBy,
             status,
             // _id,
             hasContentAccess,
@@ -277,6 +281,7 @@ const FacultyViewData = () => {
             createdAt,
             updatedAt,
             proofDocument,
+            reviewedBy,
             documentLink,
             status,
             // _id,
@@ -302,6 +307,7 @@ const FacultyViewData = () => {
             updatedAt,
             proofDocument,
             documentLink,
+            reviewedBy,
             status,
             // _id,
             hasContentAccess,
@@ -326,6 +332,7 @@ const FacultyViewData = () => {
             updatedAt,
             proofDocument,
             documentLink,
+            reviewedBy,
             status,
             // _id,
             hasContentAccess,
@@ -360,6 +367,8 @@ const FacultyViewData = () => {
             department,
             proofDocument,
             documentLink,
+            reviewedBy,
+            journalName,
             __v,
             status,
             // _id,
@@ -372,11 +381,22 @@ const FacultyViewData = () => {
             "Status": status
           })
         );
-      const filteredBooks = publications
+        const filteredBooks = publications
         .filter((pub) => pub.publicationType === "Book")
         .map(
           ({
+            authorType,
+            name,
+            title,
+            isbn,
+            publisher,
             category,
+            date,
+            vol,
+            issue,
+            pp,
+            nationalorInternational,
+            publicationType,
             collegeName,
             createdBy,
             obtainedScore,
@@ -392,12 +412,19 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "ISBN Number": isbn,
+            "Category": category,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
             "Status": status,
           })
         );
-      const rep1 = publications
+        const rep1 = publications
         .filter(
           (pub) =>
             pub.publicationType === "Research Paper" &&
@@ -405,7 +432,19 @@ const FacultyViewData = () => {
         )
         .map(
           ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
             createdBy,
+            comment,
             collegeName,
             publicationGrade,
             publicationType,
@@ -421,12 +460,23 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
             "Status": status,
           })
         );
-      const rep2 = publications
+        const rep2 = publications
         .filter(
           (pub) =>
             pub.publicationType === "Research Paper" &&
@@ -434,63 +484,19 @@ const FacultyViewData = () => {
         )
         .map(
           ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
             createdBy,
-            collegeName,
-            publicationGrade,
-            publicationType,
-            obtainedScore,
-            department,
-            proofDocument,
-            documentLink,
-            __v,
-            status,
-            // _id,
-            hasContentAccess,
-            ...rest
-          }) => ({
-            ...rest,
-            "Proof Of Document": proofDocument,
-            // "Document Link": documentLink,
-            "Status": status,
-          })
-        );
-      const rep3 = publications
-        .filter(
-          (pub) =>
-            pub.publicationType === "Research Paper" &&
-            pub.publicationGrade === "Grade-C"
-        )
-        .map(
-          ({
-            createdBy,
-            collegeName,
-            publicationGrade,
-            publicationType,
-            obtainedScore,
-            department,
-            __v,
-            proofDocument,
-            documentLink,
-            status,
-            // _id,
-            hasContentAccess,
-            ...rest
-          }) => ({
-            ...rest,
-            "Proof Of Document": proofDocument,
-            // "Document Link": documentLink,
-            "Status": status,
-          })
-        );
-      const conf1 = publications
-        .filter(
-          (pub) =>
-            pub.publicationType === "Conference" &&
-            pub.publicationGrade === "Grade-A"
-        )
-        .map(
-          ({
-            createdBy,
+            comment,
             collegeName,
             publicationGrade,
             publicationType,
@@ -506,9 +512,124 @@ const FacultyViewData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof Of Document": proofDocument,
             // "Document Link": documentLink,
-            "Status": status,
+            Status: status,
+          })
+        );
+        const rep3 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Research Paper" &&
+            pub.publicationGrade === "Grade-C"
+        )
+        .map(
+          ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
+            createdBy,
+            comment,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            reviewedBy,
+            status,
+            // _id,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            Status: status,
+          })
+        );
+        const conf1 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Conference" &&
+            pub.publicationGrade === "Grade-A"
+        )
+        .map(
+          ({
+            authorType,
+            name,
+            title,
+            publisher,
+            category,
+            date,
+            journalName,
+            vol,
+            issue,
+            pp,
+            nationalOrInternational,
+            createdBy,
+            comment,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            reviewedBy,
+            status,
+            // _id,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            Status: status,
           })
         );
       const conf2 = publications
@@ -527,6 +648,8 @@ const FacultyViewData = () => {
             department,
             proofDocument,
             documentLink,
+            reviewedBy,
+            journalName,
             __v,
             status,
             // _id,
@@ -559,6 +682,7 @@ const FacultyViewData = () => {
             status,
             // _id,
             hasContentAccess,
+            reviewedBy,
             ...rest
           }) => ({
             ...rest,
@@ -584,6 +708,7 @@ const FacultyViewData = () => {
         createdAt,
         updatedAt,
         collegeName,
+        comment,
         createdBy,
         department,
         __v,
@@ -597,6 +722,7 @@ const FacultyViewData = () => {
         dateOfLaunch,
         facility,
         eFacility,
+        reviewedBy,
         documentLink,
         status,
         ...rest
@@ -668,6 +794,9 @@ const FacultyViewData = () => {
         status,
         proofDocument,
         documentLink,
+        reviewedBy,
+        // dateOfFilling,
+        // nationalorInternational,
         ...rest
       }) => ({
         ...rest,
@@ -770,21 +899,21 @@ const FacultyViewData = () => {
             <ViewDataTable
               dummyData={conf1}
               dummy={conf1}
-              name="Research Paper Conference (Grade-A)"
+              name="Research Paper Published-Conference (Grade-A)"
             />
           )}
           {conf2?.length > 0 && (
             <ViewDataTable
               dummyData={conf2}
               dummy={conf2}
-              name="Research Paper Conference (Grade-B)"
+              name="Research Paper Published-Conference (Grade-B)"
             />
           )}
           {conf3?.length > 0 && (
             <ViewDataTable
               dummyData={conf3}
               dummy={conf3}
-              name="Research Paper Conference (Grade-C)"
+              name="Research Paper Published-Conference (Grade-C)"
             />
           )}
           {patents?.length > 0 && (

@@ -55,7 +55,7 @@ const ModeratorTableData = () => {
   const [industrialTourFull, setIndustrialTourFull] = useState([]);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
-  const [getReq]= useGetReq()
+  const [getReq] = useGetReq();
 
   const getFaculty = async () => {
     try {
@@ -75,7 +75,6 @@ const ModeratorTableData = () => {
     }
   };
   useEffect(() => {
-  
     if (accessToken) {
       getFaculty();
     }
@@ -133,6 +132,7 @@ const ModeratorTableData = () => {
             comment,
             documentLink,
             collegeName,
+            reviewedBy,
             proofDocument,
             obtainedScore,
             status,
@@ -167,6 +167,7 @@ const ModeratorTableData = () => {
             collegeName,
             proofDocument,
             obtainedScore,
+            reviewedBy,
             status,
             department,
             __v,
@@ -215,6 +216,7 @@ const ModeratorTableData = () => {
             obtainedScore,
             status,
             department,
+            reviewedBy,
             __v,
             hasContentAccess,
             ...rest
@@ -222,6 +224,7 @@ const ModeratorTableData = () => {
             ...rest,
             "Created By": createdBy.name,
             "Proof of Document": proofDocument,
+            // "Event Type": eventType,
             Status: status,
           })
         );
@@ -235,9 +238,21 @@ const ModeratorTableData = () => {
             comment,
             department,
             __v,
+            eventType,
+            obtainedScore,
+            collegeName,
+            proofDocument,
+            reviewedBy,
+            createdAt,
+            updatedAt,
+            documentLink,
             hasContentAccess,
             ...rest
-          }) => ({ ...rest, CreatedBy: createdBy.name })
+          }) => ({
+            ...rest,
+            "Created By": createdBy.name,
+            "Proof of Document": proofDocument
+          })
         );
       const competitionFull = data.events.filter(
         (pub) => pub.eventType === "Competition"
@@ -253,12 +268,17 @@ const ModeratorTableData = () => {
             __v,
             hasContentAccess,
             obtainedScore,
+            reviewedBy,
             documentLink,
             createdAt,
             updatedAt,
             attendedBy,
             ...rest
-          }) => ({ ...rest, participants:attendedBy, createdBy: createdBy.name })
+          }) => ({
+            ...rest,
+            participants: attendedBy,
+            createdBy: createdBy.name,
+          })
         );
       const hackathonFull = data.events.filter(
         (pub) => pub.eventType === "Hackathon"
@@ -269,6 +289,7 @@ const ModeratorTableData = () => {
         .map(
           ({
             createdBy,
+            reviewedBy,
             comment,
             department,
             documentLink,
@@ -294,6 +315,7 @@ const ModeratorTableData = () => {
             documentLink,
             collegeName,
             proofDocument,
+            reviewedBy,
             obtainedScore,
             status,
             department,
@@ -326,6 +348,7 @@ const ModeratorTableData = () => {
             documentLink,
             collegeName,
             proofDocument,
+            reviewedBy,
             obtainedScore,
             status,
             department,
@@ -357,6 +380,7 @@ const ModeratorTableData = () => {
           obtainedScore,
           status,
           department,
+          reviewedBy,
           __v,
           hasContentAccess,
           ...rest
@@ -392,6 +416,8 @@ const ModeratorTableData = () => {
           proofDocument,
           obtainedScore,
           status,
+          reviewedBy,
+          dateOfFiling,
           department,
           nationalOrInternational,
           __v,
@@ -402,7 +428,8 @@ const ModeratorTableData = () => {
           "National/International": nationalOrInternational,
           "Created By": createdBy.name,
           "Proof of Document": proofDocument,
-          Status: status,
+          "Date Of Filling":dateOfFiling,
+          "Status": status,
         })
       );
       const patentsFull = data.patents.map(({ ...rest }) => ({ ...rest }));
@@ -430,6 +457,7 @@ const ModeratorTableData = () => {
             comment,
             obtainedScore,
             department,
+            documentLink,
             __v,
             hasContentAccess,
             ...rest
@@ -443,24 +471,43 @@ const ModeratorTableData = () => {
         .filter((pub) => pub.publicationType === "Book")
         .map(
           ({
+            authorType,
+            name,
+            title,
+            isbn,
+            publisher,
             category,
-            comment,
-            reviewedBy,
-            createdBy,
-            documentLink,
+            date,
+            vol,
+            issue,
+            pp,
+            nationalorInternational,
+            publicationType,
             collegeName,
-            proofDocument,
+            createdBy,
             obtainedScore,
-            status,
             department,
+            reviewedBy,
             __v,
+            proofDocument,
+            documentLink,
+            status,
+            // _id,
+            comment,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            CreatedBy: createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "ISBN Number": isbn,
+            "Category": category,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
 
@@ -485,17 +532,38 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const rep1Full = data.publications.filter(
@@ -521,17 +589,38 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const rep2Full = data.publications.filter(
@@ -557,17 +646,38 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Journal Name":journalName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const rep3Full = data.publications.filter(
@@ -593,17 +703,39 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const conf1Full = data.publications.filter(
@@ -629,17 +761,39 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const conf2Full = data.publications.filter(
@@ -665,17 +819,39 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            authorType,
             department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
             __v,
             nationalOrInternational,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
-            "National/International": nationalOrInternational,
-            "Created By": createdBy.name,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
             "Proof of Document": proofDocument,
-            Status: status,
+            // "Document Link": documentLink,
+            "Status": status,
           })
         );
       const conf3Full = data.publications.filter(
@@ -752,186 +928,186 @@ const ModeratorTableData = () => {
               fullData={booksFull}
               name={"Book Published"}
               fetchData={getFaculty}
-              />
-            )}
+            />
+          )}
           {rp1.length > 0 && (
             <ModeratorViewTable
-            dummyData={rp1}
-            dummy={rp1}
-            fullData={rp1Full}
-            name={"Research Paper Published-Journal (Grade-A)"}
-            fetchData={getFaculty}
+              dummyData={rp1}
+              dummy={rp1}
+              fullData={rp1Full}
+              name={"Research Paper Published-Journal (Grade-A)"}
+              fetchData={getFaculty}
             />
           )}
           {rp2.length > 0 && (
             <ModeratorViewTable
-            dummyData={rp2}
-            dummy={rp2}
-            fullData={rp2Full}
-            name={"Research Paper Published-Journal (Grade-B)"}
-            fetchData={getFaculty}
+              dummyData={rp2}
+              dummy={rp2}
+              fullData={rp2Full}
+              name={"Research Paper Published-Journal (Grade-B)"}
+              fetchData={getFaculty}
             />
           )}{" "}
           {rp3.length > 0 && (
             <ModeratorViewTable
-            dummyData={rp3}
-            dummy={rp3}
-            fullData={rp3Full}
-            name={"Research Paper Published-Journal (Grade-C)"}
-            fetchData={getFaculty}
+              dummyData={rp3}
+              dummy={rp3}
+              fullData={rp3Full}
+              name={"Research Paper Published-Journal (Grade-C)"}
+              fetchData={getFaculty}
             />
           )}
           {conf1.length > 0 && (
             <ModeratorViewTable
-            dummyData={conf1}
-            dummy={conf1}
-            fullData={conf1Full}
-            name={"Research Paper Conference (Grade-A)"}
-            fetchData={getFaculty}
+              dummyData={conf1}
+              dummy={conf1}
+              fullData={conf1Full}
+              name={"Research Paper Conference (Grade-A)"}
+              fetchData={getFaculty}
             />
           )}
           {conf2.length > 0 && (
             <ModeratorViewTable
-            dummyData={conf2}
-            dummy={conf2}
-            fullData={conf2Full}
-            name={"Research Paper Conference (Grade-B)"}
-            fetchData={getFaculty}
+              dummyData={conf2}
+              dummy={conf2}
+              fullData={conf2Full}
+              name={"Research Paper Conference (Grade-B)"}
+              fetchData={getFaculty}
             />
           )}
           {conf3.length > 0 && (
             <ModeratorViewTable
-            dummyData={conf3}
-            dummy={conf3}
-            fullData={conf3Full}
-            name={"Research Paper Conference (Grade-C)"}
-            fetchData={getFaculty}
+              dummyData={conf3}
+              dummy={conf3}
+              fullData={conf3Full}
+              name={"Research Paper Conference (Grade-C)"}
+              fetchData={getFaculty}
             />
           )}
           {patents.length > 0 && (
             <ModeratorViewTable
-            dummyData={patents}
-            dummy={patents}
-            fullData={patentsFull}
-            name={"Patent"}
-            fetchData={getFaculty}
+              dummyData={patents}
+              dummy={patents}
+              fullData={patentsFull}
+              name={"Patent"}
+              fetchData={getFaculty}
             />
           )}
           {projects.length > 0 && (
             <ModeratorViewTable
-            dummyData={projects}
-            dummy={projects}
-            fullData={projectsFull}
-            name={"Projects"}
-            fetchData={getFaculty}
+              dummyData={projects}
+              dummy={projects}
+              fullData={projectsFull}
+              name={"Projects"}
+              fetchData={getFaculty}
             />
           )}
           {facultyDevelopment.length > 0 && (
             <ModeratorViewTable
-            dummyData={facultyDevelopment}
-            dummy={facultyDevelopment}
-            fullData={facultyDevelopmentFull}
-            name={"Faculty Development Programmes"}
-            fetchData={getFaculty}
+              dummyData={facultyDevelopment}
+              dummy={facultyDevelopment}
+              fullData={facultyDevelopmentFull}
+              name={"Faculty Development Programmes"}
+              fetchData={getFaculty}
             />
           )}
           {competition.length > 0 && (
             <ModeratorViewTable
-            dummyData={competition}
-            dummy={competition}
-            fullData={competitionFull}
-            name={"Competition"}
-            fetchData={getFaculty}
+              dummyData={competition}
+              dummy={competition}
+              fullData={competitionFull}
+              name={"Competition"}
+              fetchData={getFaculty}
             />
           )}
           {seminar.length > 0 && (
             <ModeratorViewTable
-            dummyData={seminar}
-            dummy={seminar}
-            fullData={seminarFull}
-            name={"Seminar"}
-            fetchData={getFaculty}
+              dummyData={seminar}
+              dummy={seminar}
+              fullData={seminarFull}
+              name={"Seminar"}
+              fetchData={getFaculty}
             />
           )}
           {confPub.length > 0 && (
             <ModeratorViewTable
-            dummyData={confPub}
-            dummy={confPub}
-            fullData={confPubFull}
-            name={"Conference"}
-            fetchData={getFaculty}
+              dummyData={confPub}
+              dummy={confPub}
+              fullData={confPubFull}
+              name={"Conference"}
+              fetchData={getFaculty}
             />
           )}
           {lecture.length > 0 && (
             <ModeratorViewTable
-            dummyData={lecture}
-            dummy={lecture}
-            fullData={lectureFull}
-            name={"Talks & Distinguished Lecture Series"}
-            fetchData={getFaculty}
+              dummyData={lecture}
+              dummy={lecture}
+              fullData={lectureFull}
+              name={"Talks & Distinguished Lecture Series"}
+              fetchData={getFaculty}
             />
           )}
           {workshop.length > 0 && (
             <ModeratorViewTable
-            dummyData={workshop}
-            dummy={workshop}
-            fullData={workshopFull}
-            name={"Workshop"}
-            fetchData={getFaculty}
+              dummyData={workshop}
+              dummy={workshop}
+              fullData={workshopFull}
+              name={"Workshop"}
+              fetchData={getFaculty}
             />
           )}
           {industrialTour.length > 0 && (
             <ModeratorViewTable
-            dummyData={industrialTour}
-            dummy={industrialTour}
-            fullData={industrialTourFull}
-            name={"Industrial Tour"}
-            fetchData={getFaculty}
+              dummyData={industrialTour}
+              dummy={industrialTour}
+              fullData={industrialTourFull}
+              name={"Industrial Tour"}
+              fetchData={getFaculty}
             />
           )}
           {hackathon.length > 0 && (
             <ModeratorViewTable
-            dummyData={hackathon}
-            dummy={hackathon}
-            fullData={hackathonFull}
-            name={"Hackathon"}
-            fetchData={getFaculty}
+              dummyData={hackathon}
+              dummy={hackathon}
+              fullData={hackathonFull}
+              name={"Hackathon"}
+              fetchData={getFaculty}
             />
           )}
           {consultancy.length > 0 && (
             <ModeratorViewTable
-            dummyData={consultancy}
-            dummy={consultancy}
-            fullData={consultancyFull}
-            name={"Consultancy"}
-            fetchData={getFaculty}
+              dummyData={consultancy}
+              dummy={consultancy}
+              fullData={consultancyFull}
+              name={"Consultancy"}
+              fetchData={getFaculty}
             />
           )}
           {studentChapters.length > 0 && (
             <ModeratorViewTable
-            dummyData={studentChapters}
-            dummy={studentChapters}
-            fullData={studentChaptersFull}
-            name={"Student Chapter Activity"}
-            fetchData={getFaculty}
+              dummyData={studentChapters}
+              dummy={studentChapters}
+              fullData={studentChaptersFull}
+              name={"Student Chapter Activity"}
+              fetchData={getFaculty}
             />
           )}
           {moocs.length > 0 && (
             <ModeratorViewTable
-            dummyData={moocs}
-            dummy={moocs}
-            fullData={moocsFull}
-            name={"Moocs"}
-            fetchData={getFaculty}
+              dummyData={moocs}
+              dummy={moocs}
+              fullData={moocsFull}
+              name={"Moocs"}
+              fetchData={getFaculty}
             />
           )}
           {trimentor.length > 0 && (
             <ModeratorViewTable
-            dummyData={trimentor}
-            dummy={trimentor}
-            fullData={trimentorFull}
-            name={"Tri-Mentoring System"}
-            fetchData={getFaculty}
+              dummyData={trimentor}
+              dummy={trimentor}
+              fullData={trimentorFull}
+              name={"Tri-Mentoring System"}
+              fetchData={getFaculty}
             />
           )}
         </>

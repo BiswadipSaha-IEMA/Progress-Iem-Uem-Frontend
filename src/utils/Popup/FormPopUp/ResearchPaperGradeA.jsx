@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
+function ResearchPaperGradeA({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -64,6 +64,7 @@ function ResearchPaperGradeA({ setUtilFor, setShowPopup }) {
     );
     if (response.success){ 
       setShowPopup(false)
+      getAllInfo()
     };
   };
 

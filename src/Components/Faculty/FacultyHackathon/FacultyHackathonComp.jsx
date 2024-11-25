@@ -8,7 +8,7 @@ import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
 
-// import EditFormPopUp from "../EditFormPopUp";
+import EditFormPopUp from "./EditFormPopUp";
 import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
 
 export default function FacultyHackathonComp() {
@@ -239,7 +239,7 @@ export default function FacultyHackathonComp() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-       {/* {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>} */}
+       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

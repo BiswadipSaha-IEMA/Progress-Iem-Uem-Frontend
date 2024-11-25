@@ -35,7 +35,7 @@ export default function FacultyConference() {
         // console.log(response.data.data);
 
         response.data.data.forEach((data) => {
-          if (data.eventType === "Conference") arr.push(data);
+          if (data.eventType === "Conferencee"||data.eventType === "Conference") arr.push(data);
         });
         console.log(arr)
         setData(arr);

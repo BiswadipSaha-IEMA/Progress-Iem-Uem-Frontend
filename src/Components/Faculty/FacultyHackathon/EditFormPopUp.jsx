@@ -10,18 +10,11 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
   console.log(data);
 
   const [formData, setFormData] = useState({
-    name: data.name || "",
-    title: data.title || "",
-    isbn: data.isbn || "",
-    category: data.category || "",
-    publisher: data.publisher || "",
+    organizedBy: data.organizedBy || "",
+    topicName: data.topicName || "",
+    attendedBy: data.attendedBy || "",
     date: data.date || "",
-    vol: data.vol || "",
-    issue: data.issue || "",
-    pp: data.pp || "",
-    publicationType: data.publicationType || "Book",
-    nationalOrInternational: data.nationalOrInternational || "",
-    proofDocument: data.proofDocument || "",
+    eventType: data.publicationType || "Hackathon",
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -53,16 +46,14 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       if (response.success) setShowPopup(false);
     } else {
       const response = await putReq(
-        "api/v1/document/editPublication",
+        "api/v1/document/editEvent",
         {
-          publicationId:data._id,
-          name: formData.name,
-          title: formData.title,
-          isbn: formData.isbn,
-          category: formData.category,
+          eventId:data._id,
+          topicName: formData.topicName,
+          organizedBy: formData.organizedBy,
+          attendedBy: formData.attendedBy,
           date: formData.date,
-          publicationType: "Book",
-          proofDocument: formData.proofDocument,
+          eventType: "Hackathon",
         },
         accessToken
       );
@@ -102,8 +93,8 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
             <RxCross2 className="text-white" />
           </div>
 
-          <h2 className="pl-4 mb-6 text-2xl font-bold text-gray-800">
-            Book Publication Form
+          <h2 className="pl-4 mb-6 text-2xl text-center font-bold text-gray-800">
+            Hackathon Submission Form
           </h2>
 
           {/* Inner container with scroll */}
@@ -116,96 +107,61 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       `}</style>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
+              {/* Faculty */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  required
-                />
-              </div>
-
-              {/* Title */}
-              <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  required
-                />
-              </div>
-
-              {/* ISBN and Category */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    ISBN
+                  <label className="block text-gray-600 font-medium mb-1">
+                   Organized By
                   </label>
                   <input
                     type="text"
-                    name="isbn"
-                    value={formData.isbn}
+                    name="organizedBy"
+                    value={formData.organizedBy}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
                   />
                 </div>
 
+                {/* Developed Module */}
                 <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    Category
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Event Name 
                   </label>
-                  <select
-                    name="category"
-                    value={formData.category}
+                  <input
+                    type="text"
+                    name="topicName"
+                    value={formData.topicName}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  >
-                    <option value="">Select</option>
-                    <option value="Scopus">Scopus</option>
-                    <option value="UGC-Care">UGC Care</option>
-                    <option value="Other">Other</option>
-                  </select>
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
                 </div>
-              </div>
 
-              {/* Date */}
-              <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                />
-              </div>
-
-              {/* Proof Document */}
-              <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Proof Document
-                </label>
-                <input
-                  type="text"
-                  name="proofDocument"
-                  value={formData.proofDocument}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                />
-              </div>
+                {/* Date of Launch */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Date 
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+                {/* Date of Launch */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    No. Of Participants
+                  </label>
+                  <input
+                    type="number"
+                    name="attendedBy"
+                    value={formData.attendedBy}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
 
               {/* Centered Submit Button */}
               <div className="flex justify-center">

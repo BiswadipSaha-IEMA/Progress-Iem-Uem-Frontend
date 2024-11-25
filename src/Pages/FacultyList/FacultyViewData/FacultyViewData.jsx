@@ -999,6 +999,7 @@ const FacultyViewData = () => {
               dummyData={conf1}
               dummy={conf1}
               name="Research Paper Published-Conference (Grade-A)"
+              fetchData={fetchData}
             />
           )}
           {conf2?.length > 0 && (
@@ -1006,6 +1007,7 @@ const FacultyViewData = () => {
               dummyData={conf2}
               dummy={conf2}
               name="Research Paper Published-Conference (Grade-B)"
+              fetchData={fetchData}
             />
           )}
           {conf3?.length > 0 && (
@@ -1013,6 +1015,7 @@ const FacultyViewData = () => {
               dummyData={conf3}
               dummy={conf3}
               name="Research Paper Published-Conference (Grade-C)"
+              fetchData={fetchData}
             />
           )}
 
@@ -1021,6 +1024,7 @@ const FacultyViewData = () => {
               dummyData={book1}
               dummy={book1}
               name="Research Paper Published-Book Chapter (Grade-A)"
+              fetchData={fetchData}
             />
           )}
           {book2?.length > 0 && (
@@ -1028,6 +1032,7 @@ const FacultyViewData = () => {
               dummyData={book2}
               dummy={book2}
               name="Research Paper Published-Book Chapter (Grade-B)"
+              fetchData={fetchData}
             />
           )}
           {book3?.length > 0 && (
@@ -1035,6 +1040,7 @@ const FacultyViewData = () => {
               dummyData={book3}
               dummy={book3}
               name="Research Paper Published-Book Chapter (Grade-C)"
+              fetchData={fetchData}
             />
           )}
 

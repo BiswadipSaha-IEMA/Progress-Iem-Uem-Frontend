@@ -489,7 +489,7 @@ const getResearchpaperCInfo = async () => {
     getPatentInfo();
     getFdpInfo();
     getHack();
-    getCompeteInfo();
+    // getCompeteInfo();
     getCompeteInfo();
     getStudentChapterInfo();
     getResearchpaperAInfo();
@@ -989,60 +989,67 @@ const getResearchpaperCInfo = async () => {
           setShowPopup={setResearchPaperGradeCData}
           getAllInfo={allInfo}
           />
-      )}
+        )}
       {researchApop && (
         <ResearchPaperGradeAbookChapter
-          setUtilFor={"bpAddForm"}
-          setShowPopup={setResearchApop}
-          
+        setUtilFor={"bpAddForm"}
+        setShowPopup={setResearchApop}
+        getAllInfo={getResearchpaperAInfo}
+        
         />
       )}
       {researchBpop && (
         <ResearchPaperGradeBbookChapter
-          setUtilFor={"bpAddForm"}
-          setShowPopup={setResearchBpop}
+        setUtilFor={"bpAddForm"}
+        setShowPopup={setResearchBpop}
+        getAllInfo={getResearchpaperBInfo}
         />
       )}
       {researchCpop && (
         <ResearchPaperGradeCbookChapter
-          setUtilFor={"bpAddForm"}
-          setShowPopup={setResearchCpop}
+        setUtilFor={"bpAddForm"}
+        setShowPopup={setResearchCpop}
+        getAllInfo={getResearchpaperCInfo}
         />
       )}
       {workshopPopUp && (
         <WorkShopPopUp
-          setUtilFor={"bpAddForm"}
-          setShowPopup={setworkshopPopUp}
+        setUtilFor={"bpAddForm"}
+        setShowPopup={setworkshopPopUp}
+        getAllInfo={getWorkInfo}
         />
       )}
       {showPatentPopup && (
-        <PatentPopUp setShowPopup={setShowPatentPopup} setUtilFor="bpAddForm" />
+        <PatentPopUp getAllInfo={getPatentInfo} setShowPopup={setShowPatentPopup} setUtilFor="bpAddForm" />
       )}
       {showFDPPopup && (
-        <FDPPopUp setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />
+        <FDPPopUp getAllInfo={getFdpInfo} setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />
       )}
       {showHackPopup && (
-        <HackPopUp setShowPopup={setShowHackPopup} setUtilFor="bpAddForm" />
+        <HackPopUp getAllInfo={getHack} setShowPopup={setShowHackPopup} setUtilFor="bpAddForm" />
       )}
       {showLecturePopup && (
-        <TalksPopUp setShowPopup={setShowLecturePopup} setUtilFor="bpAddForm" />
+        <TalksPopUp getAllInfo={getLecture} setShowPopup={setShowLecturePopup} setUtilFor="bpAddForm" />
       )}
       {showCompetitionPopup && (
         <CompetitionPopUp
           setShowPopup={setShowCompetitionPopup}
           setUtilFor="bpAddForm"
-        />
-      )}
+          getAllInfo={getCompeteInfo}
+          />
+        )}
       {showConferencePopup && (
         <ConferencePopUp
-          setShowPopup={setShowConferencePopup}
-          setUtilFor="bpAddForm"
+        setShowPopup={setShowConferencePopup}
+        setUtilFor="bpAddForm"
+        getAllInfo={getConfInfo}
         />
       )}
       {showSeminarPopup && (
         <SeminarPopUp
-          setShowPopup={setShowSeminarPopup}
-          setUtilFor="bpAddForm"
+        setShowPopup={setShowSeminarPopup}
+        setUtilFor="bpAddForm"
+        getAllInfo={getSeminarOrgInfo}
         />
       )}
       {showstudentChapterPopup && (
@@ -1056,21 +1063,21 @@ const getResearchpaperCInfo = async () => {
         <ConferenceGradeA
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfAState}
-          getAllInfo={getResearchpaperAInfo}
+          getAllInfo={allInfo}
         />
       )}
       {confBState && (
         <ConferenceGradeB
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfBState}
-          getAllInfo={getResearchpaperBInfo}
+          getAllInfo={allInfo}
         />
       )}
       {confCState && (
         <ConferenceGradeC
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfBState}
-          getAllInfo={getResearchpaperCInfo}
+          getAllInfo={allInfo}
         />
       )}
     </div>

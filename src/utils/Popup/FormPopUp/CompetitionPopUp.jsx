@@ -4,7 +4,7 @@ import "./styles.css";
 import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function CompetitionPopUp({ setUtilFor, setShowPopup }) {
+function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
   const [dateRange, setDateRange] = useState(["", ""]);
@@ -73,6 +73,7 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

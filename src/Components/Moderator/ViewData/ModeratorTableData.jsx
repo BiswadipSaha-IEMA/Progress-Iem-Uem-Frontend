@@ -78,7 +78,7 @@ const ModeratorTableData = () => {
       );
       if (response.success) {
         console.log("responceeeeeeeeeeeeeeeeeeeeeeeeee");
-        console.log(response.data);
+        console.log("responceeeeeeeeeeeeeeeeeeeeeeeeee",response.data);
         setData(response.data);
       } else {
         console.error("Error:", response.statusText);
@@ -1353,7 +1353,7 @@ const ModeratorTableData = () => {
               fetchData={getFaculty}
             />
           )}
-          {confPub.length > 0 && (
+          {conf.length > 0 && (
             <ModeratorViewTable
             dummyData={conf}
             dummy={conf}

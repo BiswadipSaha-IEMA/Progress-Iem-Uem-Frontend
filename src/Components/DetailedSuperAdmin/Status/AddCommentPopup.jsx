@@ -29,7 +29,7 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
   const [showInputFor, setShowInputFor] = useState("");
   const [afterOperation, setAfterOperation] = useState(false);
 
-  console.log(data.Status);
+  console.log(data);
   console.log(name)
 
   const handleCommentChange = (event) => {
@@ -73,7 +73,10 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
           "Research Paper Published-Journal (Grade-C)" ,
           "Research Paper Conference (Grade-A)" ,
           "Research Paper Conference (Grade-B)" ,
-          "Research Paper Conference (Grade-C)" 
+          "Research Paper Conference (Grade-C)" ,
+          "Research Paper Published-Book Chapter (Grade-A)",
+          "Research Paper Published-Book Chapter (Grade-B)",
+          "Research Paper Published-Book Chapter (Grade-C)"
       ],
       api: `/${data._id}/publicationcomment`,
     },
@@ -83,8 +86,8 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
   const fetchData = async (endpoint) => {
     const token = await sessionStorage.getItem("token").split('"')[1];
     const response = await fetch(
-      // `http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com/api/v1/document${endpoint}`,
-      `http://192.168.90.24:5000/api/v1/document${endpoint}`,
+      `http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com/api/v1/document${endpoint}`,
+      // `http://192.168.90.24:5000/api/v1/document${endpoint}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -139,7 +142,10 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
             name === "Research Paper Published-Journal (Grade-C)" ||
             name === "Research Paper Conference (Grade-A)" ||
             name === "Research Paper Conference (Grade-B)" ||
-            name === "Research Paper Conference (Grade-C)" 
+            name === "Research Paper Conference (Grade-C)" ||
+            name === "Research Paper Published-Book Chapter (Grade-A)" ||
+            name === "Research Paper Published-Book Chapter (Grade-B)" ||
+            name === "Research Paper Published-Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -201,7 +207,10 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
             name === "Research Paper Published-Journal (Grade-C)" ||
             name === "Research Paper Conference (Grade-A)" ||
             name === "Research Paper Conference (Grade-B)" ||
-            name === "Research Paper Conference (Grade-C)" 
+            name === "Research Paper Conference (Grade-C)" ||
+            name === "Research Paper Published-Book Chapter (Grade-A)" ||
+            name === "Research Paper Published-Book Chapter (Grade-B)" ||
+            name === "Research Paper Published-Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -266,7 +275,10 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
             name === "Research Paper Published-Journal (Grade-C)" ||
             name === "Research Paper Conference (Grade-A)" ||
             name === "Research Paper Conference (Grade-B)" ||
-            name === "Research Paper Conference (Grade-C)" 
+            name === "Research Paper Conference (Grade-C)" ||
+            name === "Research Paper Published-Book Chapter (Grade-A)" ||
+            name === "Research Paper Published-Book Chapter (Grade-B)" ||
+            name === "Research Paper Published-Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||

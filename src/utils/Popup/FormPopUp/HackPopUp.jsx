@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function HackPopUp({ setUtilFor, setShowPopup }) {
+function HackPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
@@ -40,6 +40,7 @@ function HackPopUp({ setUtilFor, setShowPopup }) {
     console.log("Hackathon Submission")
     console.log(response)
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

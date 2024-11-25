@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ConferencePopUp({ setUtilFor, setShowPopup }) {
+function ConferencePopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
@@ -43,6 +43,7 @@ function ConferencePopUp({ setUtilFor, setShowPopup }) {
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

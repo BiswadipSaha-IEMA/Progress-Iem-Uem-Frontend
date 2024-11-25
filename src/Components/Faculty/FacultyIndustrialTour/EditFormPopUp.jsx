@@ -17,7 +17,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
     eventType: "Industruial Tour",
         
   });
-
+  
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const handleChangeAuthor = (e) => {
@@ -46,7 +46,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
           attendedBy: formData.attendedBy,
           eventType: "IndustrialTour",
         },
-        accessToken
+        accessToken                                                                                         
       );
       if (response.success) {
         setShowPopup(false);

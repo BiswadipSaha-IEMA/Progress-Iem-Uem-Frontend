@@ -60,7 +60,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
         `api/v1/document/editEvent`,
         {
           eventId: data._id,
-          eventType: formData.eventType,
+          eventType: 'Workshop',
           organizedBy: formData.organizedBy,
           topicName: formData.topicName,
           department: formData.department,

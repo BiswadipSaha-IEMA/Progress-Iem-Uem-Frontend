@@ -957,29 +957,37 @@ const getResearchpaperCInfo = async () => {
       {bookPub && (
         <BookPublished setShowPopup={setBookPub} getAllInfo={allInfo} />
       )}
-      {mooc && <MoocsPopUp setShowPopup={setmooc} setUtilFor="bpAddForm" />}
+      {mooc && <MoocsPopUp 
+    setShowPopup={setmooc} 
+    setUtilFor="bpAddForm" 
+    getAllInfo={getMoocs}
+    />
+}
       {industrial && (
-        <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" />
+        <IndustrialPopup setShowPopup={setIndustrial} setUtilFor="bpAddForm" getAllInfo={getIndTour} />
       )}
       {triMentor && (
-        <TriMentoringPopUp setShowPopup={settriMentor} setUtilFor="bpAddForm" />
+        <TriMentoringPopUp setShowPopup={settriMentor} setUtilFor="bpAddForm" getAllInfo={getTrimentor} />
       )}
       {researchPaperGradeAData && (
         <ResearchPaperGradeA
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeAData}
+          getAllInfo={allInfo}
         />
       )}
       {researchPaperGradeBData && (
         <ResearchPaperGradeB
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeBData}
+          getAllInfo={allInfo}
         />
       )}
       {researchPaperGradeCData && (
         <ResearchPaperGradeC
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchPaperGradeCData}
+          getAllInfo={allInfo}
           />
       )}
       {researchApop && (

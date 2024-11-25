@@ -32,8 +32,15 @@ export default function Component() {
       );
       if (response.success) {
         setData(response.data.data);
-        setData1(response.data.data);
+        
       }
+      response.data.data.forEach((data) => {
+        if (data.eventType === "") arr.push(data);
+      });
+
+      setData(arr);
+      setData1(arr);
+    
     } catch (error) {
       console.log(error);
     }

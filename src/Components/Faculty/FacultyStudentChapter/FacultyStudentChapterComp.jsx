@@ -7,6 +7,7 @@ import { useGetReq } from "../../../hooks/useHttp";
 import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
 import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
+import EditFormPopUp from "./EditFormPopUp";
 
 export default function FacultyStudentChapter() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -15,27 +16,28 @@ export default function FacultyStudentChapter() {
   const [getReq] = useGetReq();
   const [currentPage, setCurrentPage] = useState(1);
   const [detailedClick, setDetailedClick] = useState(false);
+  const [editBpData, setEditBpData] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getStudentChapterData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllStudentChapters",
-          accessToken
-        );
-        if (response.success) {
-          setData(response.data.data);
-          setData1(response.data.data);
-        }
-      } catch (error) {
-        console.log(error);
+  const getStudentChapterData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllStudentChapters",
+        accessToken
+      );
+      if (response.success) {
+        setData(response.data.data);
+        setData1(response.data.data);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     getStudentChapterData();
   }, [showPopUp]);
 
@@ -83,7 +85,7 @@ export default function FacultyStudentChapter() {
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-              student Chapter Activity
+              Student Chapter Activity
             </div>
           </div>
 
@@ -226,6 +228,8 @@ export default function FacultyStudentChapter() {
       {showPopUp && (
         <StudentChapterPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
+
+      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getStudentChapterData} />}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />

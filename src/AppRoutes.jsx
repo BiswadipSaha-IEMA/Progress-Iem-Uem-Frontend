@@ -91,6 +91,7 @@ const AppRouter = () => {
           <Route path="/faculty/researchpapergradebbook" element={<FacultyResearchPpaperBbookChapterPage />} />
           <Route path="/faculty/researchpapergradecbook" element={<FacultyResearchPpaperCbookChapterPage />} />
           <Route path="/faculty/viewseminar" element={<FacultySeminar />} />
+          <Route path="/faculty/viewstudentchapter" element={<FacultyStudentChapterPage />} />
           {/* <Route path="/faculty/viewseminar" element={<FacultyCompetitionPage />} /> */}
           <Route path="/faculty/viewfdp" element={<FacultyFDPPage />} />
           <Route path="/faculty/viewconferencegradea" element={<FacultyConferenceGradeAPage/>} />

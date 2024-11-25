@@ -18,6 +18,9 @@ const FacultyViewData = () => {
   const [conf1, setConf1] = useState([]);
   const [conf2, setConf2] = useState([]);
   const [conf3, setConf3] = useState([]);
+  const [book1, setBook1] = useState([]);
+  const [book2, setBook2] = useState([]);
+  const [book3, setBook3] = useState([]);
   const [confPub, setConfPub] = useState([]);
   const [moocs, setMoocs] = useState([]);
   const [patents, setPatents] = useState([]);
@@ -79,6 +82,9 @@ const FacultyViewData = () => {
     conf1?.length > 0 ||
     conf2?.length > 0 ||
     conf3?.length > 0 ||
+    book1?.length > 0 ||
+    book2?.length > 0 ||
+    book3?.length > 0 ||
     patents?.length > 0 ||
     facultyDevelopment?.length > 0 ||
     competition?.length > 0 ||
@@ -691,6 +697,96 @@ const FacultyViewData = () => {
             "Status": status,
           })
         );
+
+      const book1 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-A"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            status,
+            // _id,
+            hasContentAccess,
+            reviewedBy,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+        const book2 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-B"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            status,
+            // _id,
+            hasContentAccess,
+            reviewedBy,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+        const book3 = publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-C"
+        )
+        .map(
+          ({
+            createdBy,
+            collegeName,
+            publicationGrade,
+            publicationType,
+            obtainedScore,
+            department,
+            __v,
+            proofDocument,
+            documentLink,
+            status,
+            // _id,
+            hasContentAccess,
+            reviewedBy,
+            ...rest
+          }) => ({
+            ...rest,
+            "Proof Of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+
+        
       console.log(conf1,"Conf Rp");
       console.log(rep1);
       setConfPub(conf);
@@ -701,6 +797,9 @@ const FacultyViewData = () => {
       setConf1(conf1);
       setConf2(conf2);
       setConf3(conf3);
+      setBook1(book1);
+      setBook2(book2);
+      setBook3(book3);
     }
 
     const moocs = data?.moocs?.map(
@@ -916,6 +1015,29 @@ const FacultyViewData = () => {
               name="Research Paper Published-Conference (Grade-C)"
             />
           )}
+
+          {book1?.length > 0 && (
+            <ViewDataTable
+              dummyData={book1}
+              dummy={book1}
+              name="Research Paper Published-Book Chapter (Grade-A)"
+            />
+          )}
+          {book2?.length > 0 && (
+            <ViewDataTable
+              dummyData={book2}
+              dummy={book2}
+              name="Research Paper Published-Book Chapter (Grade-B)"
+            />
+          )}
+          {book3?.length > 0 && (
+            <ViewDataTable
+              dummyData={book3}
+              dummy={book3}
+              name="Research Paper Published-Book Chapter (Grade-C)"
+            />
+          )}
+
           {patents?.length > 0 && (
             <ViewDataTable dummyData={patents} dummy={patents} name="Patent" fetchData={fetchData}/>
           )}

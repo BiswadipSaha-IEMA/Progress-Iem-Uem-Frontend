@@ -50,6 +50,7 @@ export default function Faculty() {
   const [researchApop, setResearchApop] = useState(false);
   const [researchBpop, setResearchBpop] = useState(false);
   const [researchCpop, setResearchCpop] = useState(false);
+  const [researchAConfpop, setResearchAConfpop] = useState(false);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
   const [fdpData, setFdpData] = useState([]);
@@ -894,6 +895,11 @@ const getResearchpaperCInfo = async () => {
                  ){
                   setResearchCpop(true);
                  }
+                   else if(
+                    item.title === "Research Paper Published Conference (Grade A)"
+                 ){
+                  setResearchAConfpop(true);
+                 }
                   }}
                 >
                   Add Response
@@ -1020,6 +1026,12 @@ const getResearchpaperCInfo = async () => {
           setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
         />
+      )}
+      {researchAConfpop && (
+        <ResearchPaperGradeAbookChapter
+        setUtilFor={"bpAddForm"}
+        setShowPopup={setResearchAConfpop}
+      />
       )}
     </div>
   );

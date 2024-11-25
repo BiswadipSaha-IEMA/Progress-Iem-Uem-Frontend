@@ -234,7 +234,8 @@ export default function FacultyBookPublished() {
                                   e.stopPropagation();
                                   setEditBpData(true);
                                   setSelectedData(item);
-                                }}
+                                }
+                                }
                               >
                                 Edit
                               </button>

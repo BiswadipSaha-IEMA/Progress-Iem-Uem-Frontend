@@ -7,6 +7,7 @@ import { useGetReq } from "../../../hooks/useHttp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
 import Header from "../../Header/Header";
 import ConferenceGradeA from "../../../utils/Popup/FormPopUp/ConferenceGradeA";
+import EditFormPopUp from "./EditFormPopUp";
 
 export default function FacultyConferenceGradeAComp() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -18,32 +19,33 @@ export default function FacultyConferenceGradeAComp() {
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
+  const [editBpData, setEditBpData] = useState(false);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllPublications",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (
-              data.publicationGrade === "Grade-A" &&
-              data.publicationType === "Conference"
-            )
-              arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (
+            data.publicationGrade === "Grade-A" &&
+            data.publicationType === "Conference"
+          )
+            arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     getBPData();
   }, [showPopUp]);
 
@@ -194,6 +196,21 @@ export default function FacultyConferenceGradeAComp() {
                           "NA"
                         )}
                       </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                            {item.status === "Rejected" && (
+                              <button
+                                className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditBpData(true);
+                                  setSelectedData(item);
+                                }
+                                }
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </td>
                     </tr>
                   ))}
                 </tbody>
@@ -244,6 +261,9 @@ export default function FacultyConferenceGradeAComp() {
           setUtilFor={"bpAddForm"}
           setShowPopup={setShowPopUp}
         />
+      )}
+      {editBpData && (
+        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData} />
       )}
     </div>
   );

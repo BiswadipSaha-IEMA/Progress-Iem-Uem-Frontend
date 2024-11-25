@@ -45,7 +45,8 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
           isbn: formData.isbn,
           category: "",
           date: formData.date,
-          publicationType: "Book",
+          publicationType: "Conference",
+          publicationGrade:'Grade-C',
           proofDocument: formData.proofDocument,
         },
         accessToken
@@ -61,7 +62,8 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
           isbn: formData.isbn,
           category: formData.category,
           date: formData.date,
-          publicationType: "Book",
+          publicationType: "Conference",
+          publicationGrade:'Grade-C',
           proofDocument: formData.proofDocument,
         },
         accessToken

@@ -7,6 +7,7 @@ import { useGetReq } from "../../../hooks/useHttp";
 import ResearchPaperGradeC from "../../../utils/Popup/FormPopUp/ResearchPaperGradeC";
 import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC"
 import Header from "../../Header/Header";
+import EditFormPopUp from "./EditFormPopUp";
 
 function FacultyConferenceGradeCComp() {
     const [showPopUp, setShowPopUp] = useState(false);
@@ -18,10 +19,10 @@ function FacultyConferenceGradeCComp() {
     const [selectedData, setSelectedData] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const rowsPerPage = 10;
+    const [editBpData, setEditBpData] = useState(false);
   
     const accessToken = sessionStorage.getItem("token").split('"')[1];
     
-  useEffect(() => {
     const getBPData = async () => {
       try {
         const response = await getReq(
@@ -40,6 +41,7 @@ function FacultyConferenceGradeCComp() {
         console.log(error);
       }
     };
+  useEffect(() => {
     getBPData();
   }, [showPopUp]);
 
@@ -169,6 +171,21 @@ function FacultyConferenceGradeCComp() {
                           "NA"
                         )}
                       </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                            {item.status === "Rejected" && (
+                              <button
+                                className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditBpData(true);
+                                  setSelectedData(item);
+                                }
+                                }
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </td>
                     </tr>
                   ))}
                 </tbody>
@@ -221,6 +238,9 @@ function FacultyConferenceGradeCComp() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
+      {editBpData && (
+        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData} />
+      )}
     </div>
   )
 }

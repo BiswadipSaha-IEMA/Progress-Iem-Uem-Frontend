@@ -10,8 +10,8 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
   const [authorType, setAuthorType] = useState("");
 
   const [dateRange] = useState({
-    startDate: "2023-11-01",
-    endDate: "2024-11-30",
+    startDate: "2020-11-01",
+    endDate: "2030-11-30",
   });
 
   const [formData, setFormData] = useState({

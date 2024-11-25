@@ -27,6 +27,9 @@ import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
 import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
+import ConferenceGradeA from "../../../utils/Popup/FormPopUp/ConferenceGradeA";
+import ConferenceGradeB from "../../../utils/Popup/FormPopUp/ConferenceGradeB";
+import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC";
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -75,6 +78,9 @@ export default function Faculty() {
   const [raConfGa, setRaConfGa] = useState(null);
   const [raConfGb, setRaConfGb] = useState(null);
   const [raConfGc, setRaConfGc] = useState(null);
+  const [confAState, setConfAState] = useState(false);
+  const [confBState, setConfBState] = useState(false);
+  const [confCState, setConfCState] = useState(false);
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -894,6 +900,21 @@ const getResearchpaperCInfo = async () => {
                  ){
                   setResearchCpop(true);
                  }
+                 else if (
+                  item.title === "Research Paper Published Conference (Grade A)"
+                ) {
+                  setConfAState(true)
+                } 
+                 else if (
+                  item.title === "Research Paper Published Conference (Grade B)"
+                ) {
+                  setConfBState(true)
+                } 
+                 else if (
+                  item.title === "Research Paper Published Conference (Grade C)"
+                ) {
+                  setConfCState(true)
+                } 
                   }}
                 >
                   Add Response
@@ -1019,6 +1040,24 @@ const getResearchpaperCInfo = async () => {
         <StudentChapterPopUp
           setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
+        />
+      )}
+      {confAState && (
+        <ConferenceGradeA
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setConfAState}
+        />
+      )}
+      {confBState && (
+        <ConferenceGradeB
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setConfBState}
+        />
+      )}
+      {confCState && (
+        <ConferenceGradeC
+          setUtilFor={"bpAddForm"}
+          setShowPopup={setConfBState}
         />
       )}
     </div>

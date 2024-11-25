@@ -23,29 +23,29 @@ export default function Competetion() {
   const [editBpData, setEditBpData] = useState(false);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        console.log(response.data.data);
+
+        response.data.data.forEach((data) => {
+          if (data.eventType === "Competition") arr.push(data);
+        });
+
+        setData(arr);
+        setData1(arr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          console.log(response.data.data);
-
-          response.data.data.forEach((data) => {
-            if (data.eventType === "Competition") arr.push(data);
-          });
-
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getBPData();
   }, [showPopUp]);
 
@@ -177,17 +177,21 @@ export default function Competetion() {
                         )}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
-                        {item.status === "Rejected" && (
-                          <button
-                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                            onClick={() => {
-                              setEditBpData(true);
-                            }}
-                          >
-                            Edit
-                          </button>
-                        )}
-                      </td>
+                            {item.status === "Rejected" && (
+                              <button
+                                className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditBpData(true);
+                                  setSelectedData(item);
+                                  console.log(true)
+                                }
+                                }
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </td>
                     </tr>
                   ))}
                 </tbody>
@@ -239,7 +243,7 @@ export default function Competetion() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

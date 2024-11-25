@@ -25,6 +25,12 @@ const ModeratorTableData = () => {
   const [rp3Full, setRp3Full] = useState([]);
   const [confPub, setConfPub] = useState([]);
   const [confPubFull, setConfPubFull] = useState([]);
+  const [bookChapterA, setBookChapterA] = useState([]);
+  const [bookChapterAFull, setBookChapterAFull] = useState([]);
+  const [bookChapterB, setBookChapterB] = useState([]);
+  const [bookChapterBFull, setBookChapterBFull] = useState([]);
+  const [bookChapterC, setBookChapterC] = useState([]);
+  const [bookChapterCFull, setBookChapterCFull] = useState([]);
   const [moocs, setMoocs] = useState([]);
   const [moocsFull, setMoocsFull] = useState([]);
   const [patents, setPatents] = useState([]);
@@ -185,21 +191,21 @@ const ModeratorTableData = () => {
         (pub) => pub.eventType === "Seminar"
       );
 
-      const confEvent = data.events
-        .filter((pub) => pub.eventType === "Conference")
-        .map(
-          ({
-            createdBy,
-            comment,
-            department,
-            __v,
-            hasContentAccess,
-            ...rest
-          }) => ({ ...rest, "Created By": createdBy.name })
-        );
-      const confEventFull = data.events.filter(
-        (pub) => pub.eventType === "Conference"
-      );
+      // const confEvent = data.events
+      //   .filter((pub) => pub.eventType === "Conference")
+      //   .map(
+      //     ({
+      //       createdBy,
+      //       comment,
+      //       department,
+      //       __v,
+      //       hasContentAccess,
+      //       ...rest
+      //     }) => ({ ...rest, "Created By": createdBy.name })
+      //   );
+      // const confEventFull = data.events.filter(
+      //   (pub) => pub.eventType === "Conference"
+      // );
 
       const fdp = data.events
         .filter((pub) => pub.eventType === "FDP")
@@ -421,7 +427,7 @@ const ModeratorTableData = () => {
       );
       const scaFull = data.studentChapters.map(({ ...rest }) => ({ ...rest }));
 
-      const conf = data.events
+      const confData = data.events
         .filter((pub) => pub.eventType === "Conference")
         .map(
           ({
@@ -435,7 +441,7 @@ const ModeratorTableData = () => {
             ...rest
           }) => ({ ...rest, "Created By": createdBy.name })
         );
-      const confFull = data.events.filter(
+      const confDataFull = data.events.filter(
         (pub) => pub.eventType === "Conference"
       );
 
@@ -684,13 +690,49 @@ const ModeratorTableData = () => {
           pub.publicationGrade === "Grade-C"
       );
 
+      const bc1 = data.publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-A"
+        )
+        .map(
+          ({
+            createdBy,
+            comment,
+            publicationGrade,
+            publicationType,
+            documentLink,
+            collegeName,
+            proofDocument,
+            obtainedScore,
+            status,
+            department,
+            __v,
+            nationalOrInternational,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "National/International": nationalOrInternational,
+            "Created By": createdBy.name,
+            "Proof of Document": proofDocument,
+            Status: status,
+          })
+        );
+      const bc1Full = data.publications.filter(
+        (pub) =>
+          pub.publicationType === "Book Chapter" &&
+          pub.publicationGrade === "Grade-A"
+      );
+
       // console.log("Trimentor",trimentor)
       setWorkshop(workshop);
       setWorkshopFull(workshopFull);
       setSeminar(seminar);
       setSeminarFull(seminarFull);
-      setConf(confEvent);
-      setConfFull(confEventFull);
+      setConf(confData);
+      setConfFull(confDataFull);
       setFacultyDevelopment(fdp);
       setFacultyDevelopmentFull(fdpFull);
       setCompetition(competition);
@@ -729,6 +771,8 @@ const ModeratorTableData = () => {
       setConf2Full(conf2Full);
       setConf3(conf3);
       setConf3Full(conf3Full);
+      setBookChapterA(bc1)
+      setBookChapterAFull(bc1Full)
     }
   }, [data]);
 
@@ -808,6 +852,17 @@ const ModeratorTableData = () => {
             fetchData={getFaculty}
             />
           )}
+
+          {bookChapterA.length > 0 && (
+            <ModeratorViewTable
+            dummyData={bookChapterA}
+            dummy={bookChapterA}
+            fullData={bookChapterAFull}
+            name={"Research Paper- Book Chapter (Grade-A)"}
+            fetchData={getFaculty}
+            />
+          )}
+
           {patents.length > 0 && (
             <ModeratorViewTable
             dummyData={patents}
@@ -855,9 +910,9 @@ const ModeratorTableData = () => {
           )}
           {confPub.length > 0 && (
             <ModeratorViewTable
-            dummyData={confPub}
-            dummy={confPub}
-            fullData={confPubFull}
+            dummyData={conf}
+            dummy={conf}
+            fullData={confFull}
             name={"Conference"}
             fetchData={getFaculty}
             />

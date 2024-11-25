@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 // import "./styles.css";
-import { usePostReq } from "../../../hooks/useHttp";
+import { usePostReq, usePutReq } from "../../../hooks/useHttp";
 
-function EditFormPopUp({ setShowPopup }) {
+function EditFormPopUp({ setShowPopup,data, fetchData }) {
   const [postReq] = usePostReq();
+  const [putReq] = usePutReq();
+  const [orgType, setOrgType] = useState("");
+
 
   const [formData, setFormData] = useState({
-    name: "",
-    title: "",
-    isbn: "",
-    category: "",
-    publisher: "",
-    date: "",
-    vol: "",
-    issue: "",
-    pp: "",
-    publicationType: "Book",
-    nationalOrInternational: "",
-    proofDocument: "",
+    faculty:data.faculty|| "",
+    developedModule:data.developedModule|| "",
+    platformUsed:data.platformUsed|| "",  
+    dateOfLaunch:data.dateOfLaunch|| "",
+    proofDocument: data.proofDocument || "",
+    eFacility:data.eFacility|| "",
+    facility:data.facility||  ""
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -34,20 +32,23 @@ function EditFormPopUp({ setShowPopup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await postReq(
-      "api/v1/document/createPublication",
+      "api/v1/document/createMooc",
       {
-        name: formData.name,
-        title: formData.title,
-        isbn: formData.isbn,
-        category: "",
-        date: formData.date,
-        publicationType: "Book",
+        faculty: formData.faculty,
+        developedModule: formData.developedModule,
+        platformUsed: formData.platformUsed,
+        dateOfLaunch: formData.dateOfLaunch,
         proofDocument: formData.proofDocument,
+        eFacility: formData.eFacility,
+        facility: formData.facility,
       },
       accessToken
     );
-    if (response.success) setShowPopup(false);
-  };
+    if (response.success) {
+      setShowPopup(false);
+      fetchData();
+    }
+  }
 
   const handleClose = () => {
     setFormData({
@@ -95,7 +96,7 @@ function EditFormPopUp({ setShowPopup }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
-        <div>
+        {/* <div>
           <label className="block text-gray-600 font-medium mb-1">
             Name
           </label>
@@ -107,7 +108,20 @@ function EditFormPopUp({ setShowPopup }) {
             className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
             required
           />
-        </div>
+        </div> */}
+        {/* Platform Used */}
+        <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Platform Used
+                  </label>
+                  <input
+                    type="text"
+                    name="platformUsed"
+                    value={formData.platformUsed}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
 
         {/* Title */}
         <div>
@@ -125,7 +139,7 @@ function EditFormPopUp({ setShowPopup }) {
         </div>
 
         {/* ISBN and Category */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-600 font-medium mb-1">
               ISBN
@@ -137,9 +151,21 @@ function EditFormPopUp({ setShowPopup }) {
               onChange={handleInputChange}
               className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
             />
-          </div>
-
-          <div>
+          </div> */}
+ {/* Date of Launch */}
+ <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Date of Launch
+                  </label>
+                  <input
+                    type="date"
+                    name="dateOfLaunch"
+                    value={formData.dateOfLaunch}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  />
+                </div>
+          {/* <div>
             <label className="block text-gray-600 font-medium mb-1">
               Category
             </label>
@@ -155,10 +181,26 @@ function EditFormPopUp({ setShowPopup }) {
               <option value="Other">Other</option>
             </select>
           </div>
-        </div>
-
+        </div> */}
+<div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Link of Relevent Document & Facility Available
+                  </label>
+                  <select
+                    name="facility"
+                    value={formData.facility}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  >
+                    <option value="">Select Facility</option>
+                    <option value="Facility 1">Facility 1</option>
+                    <option value="Facility 2">Facility 2</option>
+                    <option value="Facility 3">Facility 3</option>
+                    {/* Add more options as needed */}
+                  </select>
+                </div>
         {/* Date */}
-        <div>
+        {/* <div>
           <label className="block text-gray-600 font-medium mb-1">
             Date
           </label>
@@ -169,7 +211,21 @@ function EditFormPopUp({ setShowPopup }) {
             onChange={handleInputChange}
             className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
           />
-        </div>
+        </div> */}
+        {/* Faculty */}
+        <div>
+                <label className="block text-gray-600 font-medium mb-1">
+                    E Facility
+                  </label>
+                <input
+                  type="text"
+                  name="eFacility"
+                  value={formData.eFacility}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  required
+                />
+                </div>
 
         {/* Proof Document */}
         <div>

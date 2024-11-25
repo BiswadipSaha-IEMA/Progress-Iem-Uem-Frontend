@@ -19,7 +19,7 @@ const CommentModal = ({
   comment,
   itemData,
   name,
-  fetchDataTable
+  fetchDataTable,
 }) => {
   const [commentText, setCommentText] = useState("");
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -31,19 +31,21 @@ const CommentModal = ({
   const [nameAuthor, setNameAuthor] = useState("");
   const [status, setStatus] = useState(itemData?.status || ""); // To track the current status (Accept/Reject)
   const [handleBtnVissible, setHandleBtnVissible] = useState(false);
-  console.log(itemData,"sdhfbjsdfhbsd")
+  console.log(itemData, "sdhfbjsdfhbsd");
 
-  useEffect(()=>{
-    console.log('----------------------------------', name)
-  })
+  useEffect(() => {
+    console.log("----------------------------------", name);
+  });
 
   useEffect(() => {
     if (itemData?.status) {
       setStatus(itemData?.status);
     }
   }, [itemData]);
-  
-  {console.log(itemData.status)}
+
+  {
+    console.log(itemData.status);
+  }
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
   };
@@ -68,7 +70,8 @@ const CommentModal = ({
           name === "Research Paper Published-Journal (Grade-C)" ||
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
-          name === "Research Paper Conference (Grade-C)" 
+          name === "Research Paper Conference (Grade-C)" ||
+          name === "Research Paper- Book Chapter (Grade-A)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -78,17 +81,17 @@ const CommentModal = ({
               name === "Talks & Distinguished Lecture Series" ||
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
-              name  === 'Webinar' ||
-              name === 'Hackathon' ||
-              name === 'Competition'
+              name === "Webinar" ||
+              name === "Hackathon" ||
+              name === "Competition"
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"
             : name === "Student Chapter Activity"
             ? "api/v1/document/reviewStudentChapter"
-            :name === 'Patent' ?
-            'api/v1/document/reviewPatent' 
-            :''
+            : name === "Patent"
+            ? "api/v1/document/reviewPatent"
+            : ""
         }`,
         {
           id: id,
@@ -101,9 +104,8 @@ const CommentModal = ({
       setCommentStore("Acceptance Requested");
       setNameAuthor(response.data.name);
       setHandleBtnVissible(true);
-      console.log(response,"requestaccept");
-      if(response.success)
-        fetchDataTable()
+      console.log(response, "requestaccept");
+      if (response.success) fetchDataTable();
     } catch (error) {
       console.error("Error accepting request", error);
     } finally {
@@ -125,7 +127,8 @@ const CommentModal = ({
           name === "Research Paper Published-Journal (Grade-C)" ||
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
-          name === "Research Paper Conference (Grade-C)" 
+          name === "Research Paper Conference (Grade-C)" ||
+          name === "Research Paper- Book Chapter (Grade-A)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -135,17 +138,17 @@ const CommentModal = ({
               name === "Talks & Distinguished Lecture Series" ||
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
-              name  === 'Webinar' ||
-              name === 'Hackathon' ||
-              name === 'Competition'
+              name === "Webinar" ||
+              name === "Hackathon" ||
+              name === "Competition"
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"
             : name === "Student Chapter Activity"
             ? "api/v1/document/reviewStudentChapter"
-            :name === 'Patent' ?
-            'api/v1/document/reviewPatent' 
-            :''
+            : name === "Patent"
+            ? "api/v1/document/reviewPatent"
+            : ""
         }`,
         {
           id: id,
@@ -159,8 +162,7 @@ const CommentModal = ({
       setNameAuthor(response.data.name);
       setHandleBtnVissible(true);
       console.log(response);
-      if(response.success)
-        fetchDataTable()
+      if (response.success) fetchDataTable();
     } catch (error) {
       console.error("Error rejecting request", error);
     } finally {
@@ -183,7 +185,8 @@ const CommentModal = ({
           name === "Research Paper Published-Journal (Grade-C)" ||
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
-          name === "Research Paper Conference (Grade-C)" 
+          name === "Research Paper Conference (Grade-C)" ||
+          name === "Research Paper- Book Chapter (Grade-A)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -193,17 +196,17 @@ const CommentModal = ({
               name === "Talks & Distinguished Lecture Series" ||
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
-              name  === 'Webinar' ||
-              name === 'Hackathon' ||
-              name === 'Competition'
+              name === "Webinar" ||
+              name === "Hackathon" ||
+              name === "Competition"
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"
             : name === "Student Chapter Activity"
             ? "api/v1/document/reviewStudentChapter"
-            :name === 'Patent' ?
-            'api/v1/document/reviewPatent' 
-            :''
+            : name === "Patent"
+            ? "api/v1/document/reviewPatent"
+            : ""
         }`,
         {
           id: id,
@@ -218,8 +221,7 @@ const CommentModal = ({
       setCommentStore(commentText);
       setHandleBtnVissible(true);
       console.log(response);
-      if(response.success)
-        fetchDataTable()
+      if (response.success) fetchDataTable();
     } catch (error) {
       console.error("Error posting comment", error);
     } finally {
@@ -242,6 +244,13 @@ const CommentModal = ({
             className="bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-1"
             onClick={() => {
               onClose();
+              setStatus("");
+              const [isSend, setIsSend] = useState(false);
+              setLoading(false);
+              setCommentStore("");
+              setNameAuthor("");
+              setStatus(itemData?.status || "");
+              setHandleBtnVissible(false);
               setCommentText("");
             }}
           >
@@ -331,7 +340,7 @@ const CommentModal = ({
           )}
         </div>
 
-        {itemData.status === "Pending" && handleBtnVissible === false && (
+        {!itemData.hasOwnProperty('comment') && (
           <>
             <div className="flex gap-5 mt-6 justify-start mb-5">
               <div

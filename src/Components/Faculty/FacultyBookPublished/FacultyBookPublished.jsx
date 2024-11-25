@@ -28,31 +28,32 @@ export default function FacultyBookPublished() {
   const [isLoading, setIsLoading] = useState(true);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBookData = async () => {
+    // lottie
+    setIsLoading(true);
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (data.publicationType === "Book") arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
+        // console.log(arr)
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // lottie
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getBookData = async () => {
-      // lottie
-      setIsLoading(true);
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllPublications",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.publicationType === "Book") arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        // lottie
-        setIsLoading(false);
-      }
-    };
     getBookData();
   }, [showPopUp]);
 
@@ -129,7 +130,7 @@ export default function FacultyBookPublished() {
               <div className="relative w-full sm:w-[300px] lg:w-[500px] mr-4">
                 <input
                   type="text"
-                  placeholder="Search by Tri-Mentoring System"
+                  placeholder="Search by Book Published"
                   onChange={handleSearch}
                   value={searchTerm}
                   className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
@@ -290,7 +291,7 @@ export default function FacultyBookPublished() {
       )}
 
       {editBpData && (
-        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} />
+        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBookData} />
       )}
     </div>
   );

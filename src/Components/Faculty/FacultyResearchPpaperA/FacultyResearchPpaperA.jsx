@@ -27,29 +27,30 @@ export default function Component() {
   const [isLoading, setIsLoading] = useState(true);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBPData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (data.publicationGrade === "Grade-A" && data.publicationType==="Research Paper") arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
+        console.log(arr)
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getBPData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllPublications",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-A") arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getBPData();
   }, [showPopUp]);
 
@@ -127,7 +128,7 @@ export default function Component() {
               <div className="relative w-full sm:w-[300px] lg:w-[500px] mr-4">
                 <input
                   type="text"
-                  placeholder="Search by Tri-Mentoring System"
+                  placeholder="Search by Research Paper (Grade-A)"
                   onChange={handleSearch}
                   value={searchTerm}
                   className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
@@ -145,7 +146,7 @@ export default function Component() {
                 className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
                 onClick={() => setShowPopUp(true)}
               >
-                Add New Tri-Mentoring System
+                Add New Research Paper
                 <VscDiffAdded className="text-[1.3rem]" />
               </button>
             </div>
@@ -231,8 +232,10 @@ export default function Component() {
                             {item.status === "Rejected" && (
                               <button
                                 className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation()
                                   setEditBpData(true);
+                                  setSelectedData(item);
                                 }}
                               >
                                 Edit
@@ -296,7 +299,7 @@ export default function Component() {
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
       {editBpData && (
-        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} />
+        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData} />
       )}
     </div>
   );

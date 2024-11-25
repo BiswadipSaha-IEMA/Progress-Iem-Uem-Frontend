@@ -24,19 +24,19 @@ export default function FacultyPatent() {
 
     const accessToken = sessionStorage.getItem('token').split('"')[1]
 
-    useEffect(() => {
-        const getPatentsData = async () => {
-            try {
-                const response = await getReq('api/v1/document/getAllPatents', accessToken)
-                if (response.success) {
-                    console.log(response.data.data)
-                    setData(response.data.data)
-                    setData1(response.data.data)
-                }
-            } catch (error) {
-                console.log(error)
+    const getPatentsData = async () => {
+        try {
+            const response = await getReq('api/v1/document/getAllPatents', accessToken)
+            if (response.success) {
+                console.log(response.data.data)
+                setData(response.data.data)
+                setData1(response.data.data)
             }
+        } catch (error) {
+            console.log(error)
         }
+    }
+    useEffect(() => {
         getPatentsData()
     }, [showPopUp])
 
@@ -227,7 +227,7 @@ export default function FacultyPatent() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-         {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+         {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getPatentsData}/>}
     </div>
     )
     

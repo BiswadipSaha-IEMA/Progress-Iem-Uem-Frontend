@@ -24,28 +24,28 @@ export default function FacultyConference() {
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          console.log(response.data.data);
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        // console.log(response.data.data);
 
-          response.data.data.forEach((data) => {
-            if (data.eventType === "Conference") arr.push(data);
-          });
-
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
+        response.data.data.forEach((data) => {
+          if (data.eventType === "Conference") arr.push(data);
+        });
+        console.log(arr)
+        setData(arr);
+        setData1(arr);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     getBPData();
   }, [showPopUp]);
 
@@ -182,8 +182,10 @@ export default function FacultyConference() {
                         {item.status === "Rejected" && (
                           <button
                             className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation()
                               setEditBpData(true);
+                              setSelectedData(item);
                             }}
                           >
                             Edit
@@ -241,7 +243,7 @@ export default function FacultyConference() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-         {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+         {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

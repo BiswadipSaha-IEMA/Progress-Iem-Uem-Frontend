@@ -7,23 +7,17 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
   const [postReq] = usePostReq();
   const [putReq] = usePutReq();
 
-  console.log(data);
-
+  
   const [formData, setFormData] = useState({
-    name: data.name || "",
-    title: data.title || "",
-    isbn: data.isbn || "",
-    category: data.category || "",
-    publisher: data.publisher || "",
+    eventType: "Lecture",
+    organizedBy: data.organizedBy || "",
+    topicName: data.topicName || "",
     date: data.date || "",
-    vol: data.vol || "",
-    issue: data.issue || "",
-    pp: data.pp || "",
-    publicationType: data.publicationType || "Book",
-    nationalOrInternational: data.nationalOrInternational || "",
+    attendedBy: data.attendedBy || "Book",
     proofDocument: data.proofDocument || "",
   });
-
+  
+  console.log(formData);
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const handleInputChange = (e) => {
@@ -53,9 +47,9 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       if (response.success) setShowPopup(false);
     } else {
       const response = await putReq(
-        "api/v1/document/editPublication",
+        "api/v1/document/editEvent",
         {
-          publicationId:data._id,
+          eventId:data._id,
           name: formData.name,
           title: formData.title,
           isbn: formData.isbn,
@@ -96,92 +90,84 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
         <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
           <div
-            className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
+            className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
             onClick={() => setShowPopup(false)}
           >
             <RxCross2 className="text-white" />
           </div>
 
-          <h2 className="pl-4 mb-6 text-2xl font-bold text-gray-800">
-            Book Publication Form
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 ml-4">
+            Talks and Distinguished Lecture Series
           </h2>
 
           {/* Inner container with scroll */}
-          <div className="overflow-y-auto max-h-[calc(80vh-100px)] p-4">
+          <div
+            className="overflow-y-scroll h-[calc(800px-160px)] p-4"
+            style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
+          >
             {/* Hide scrollbar for Firefox and Internet Explorer */}
             <style>{`
-        ::-webkit-scrollbar {
-          display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-        }
-      `}</style>
+          ::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+          }
+        `}</style>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
+              {/* Event Type Dropdown */}
+              {/* <div>
+            <label className="block text-gray-600 font-medium mb-1">Event Type</label>
+            <select
+              name="eventType"
+              value={formData.eventType}
+              onChange={handleInputChange}
+              className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+              required
+            >
+              <option value="">Select Event Type</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Seminar">Seminar</option>
+              <option value="Conference">Conference</option>
+              <option value="FDP">FDP</option>
+              <option value="Webinar">Webinar</option>
+              <option value="Competition">Competition</option>
+              <option value="Lecture">Lecture</option>
+              <option value="Industrial Tour">Industrial Tour</option>
+              <option value="Hackathon">Hackathon</option>
+              <option value="Tri-Mentoring">Tri-Mentoring</option>
+            </select>
+          </div> */}
+
+              {/* Organized By */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Name
+                <label className="block text-gray-600 font-medium mb-1">
+                  Personality Name & Organization
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="organizedBy"
+                  value={formData.organizedBy}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  required
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
               </div>
 
-              {/* Title */}
+              {/* Topic Name */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Title
+                <label className="block text-gray-600 font-medium mb-1">
+                  Topic Name
                 </label>
                 <input
                   type="text"
-                  name="title"
-                  value={formData.title}
+                  name="topicName"
+                  value={formData.topicName}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  required
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
-              </div>
-
-              {/* ISBN and Category */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    ISBN
-                  </label>
-                  <input
-                    type="text"
-                    name="isbn"
-                    value={formData.isbn}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  />
-                </div>
-
-                <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    Category
-                  </label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                  >
-                    <option value="">Select</option>
-                    <option value="Scopus">Scopus</option>
-                    <option value="UGC-Care">UGC Care</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
               </div>
 
               {/* Date */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
+                <label className="block text-gray-600 font-medium mb-1">
                   Date
                 </label>
                 <input
@@ -189,13 +175,39 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
                   name="date"
                   value={formData.date}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
               </div>
 
+              {/* Attended By */}
+              <div>
+                <label className="block text-gray-600 font-medium mb-1">
+                  Attended By
+                </label>
+                <input
+                  type="text"
+                  name="attendedBy"
+                  value={formData.attendedBy}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                />
+              </div>
+
+              {/* Department */}
+              {/* <div>
+            <label className="block text-gray-600 font-medium mb-1">Department</label>
+            <input
+              type="text"
+              name="department"
+              value={formData.department}
+              onChange={handleInputChange}
+              className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+            />
+          </div> */}
+
               {/* Proof Document */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
+                <label className="block text-gray-600 font-medium mb-1">
                   Proof Document
                 </label>
                 <input
@@ -203,7 +215,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
                   name="proofDocument"
                   value={formData.proofDocument}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
               </div>
 
@@ -211,7 +223,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="w-full sm:w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
+                  className="w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
                 >
                   Submit
                 </button>

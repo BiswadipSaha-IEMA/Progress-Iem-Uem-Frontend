@@ -29,28 +29,28 @@ export default function Component() {
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getBPData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.eventType === "Tri-Mentoring") arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+  const getBPData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (data.eventType === "Tri-Mentoring") arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
     getBPData();
   }, [showPopUp]);
 
@@ -292,7 +292,7 @@ export default function Component() {
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
       {editBpData && (
-        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} />
+        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData} />
       )}
     </div>
   );

@@ -24,29 +24,30 @@ export default function FacultyHackathonComp() {
   const [editBpData, setEditBpData] = useState(false);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        // console.log(response.data.data);
+
+        response.data.data.forEach((data) => {
+          if (data.eventType === "Hackathon") arr.push(data);
+        });
+
+        setData(arr);
+        setData1(arr);
+        console.log(arr)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          console.log(response.data.data);
-
-          response.data.data.forEach((data) => {
-            if (data.eventType === "Hackathon") arr.push(data);
-          });
-
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getBPData();
   }, [showPopUp]);
 

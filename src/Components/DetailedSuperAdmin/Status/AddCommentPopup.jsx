@@ -30,6 +30,7 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
   const [afterOperation, setAfterOperation] = useState(false);
 
   console.log(data.Status);
+  console.log(name)
 
   const handleCommentChange = (event) => {
     setCommentText(event.target.value);
@@ -82,7 +83,8 @@ const AddCommentPopup = ({ setShowPopup, data, name, fetchTableData }) => {
   const fetchData = async (endpoint) => {
     const token = await sessionStorage.getItem("token").split('"')[1];
     const response = await fetch(
-      `http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com/api/v1/document${endpoint}`,
+      // `http://iemuemprogressbackend-env.eba-tvmdqzzp.ap-south-1.elasticbeanstalk.com/api/v1/document${endpoint}`,
+      `http://192.168.90.24:5000/api/v1/document${endpoint}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

@@ -79,7 +79,8 @@ const CommentModal = ({
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
               name  === 'Webinar' ||
-              name === 'Hackathon'
+              name === 'Hackathon' ||
+              name === 'Competition'
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"
@@ -135,7 +136,8 @@ const CommentModal = ({
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
               name  === 'Webinar' ||
-              name === 'Hackathon'
+              name === 'Hackathon' ||
+              name === 'Competition'
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"
@@ -192,7 +194,8 @@ const CommentModal = ({
               name === "Industrial Tour" ||
               name === "Tri-Mentoring System" ||
               name  === 'Webinar' ||
-              name === 'Hackathon'
+              name === 'Hackathon' ||
+              name === 'Competition'
             ? "api/v1/document/reviewEvent"
             : name === "Moocs"
             ? "api/v1/document/reviewMooc"

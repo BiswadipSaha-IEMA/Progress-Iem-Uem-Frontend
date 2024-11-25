@@ -16,7 +16,7 @@ function EditFormPopUp({ setShowPopup }) {
     vol: "",
     issue: "",
     pp: "",
-    publicationType: "Book",
+    publicationType: "Seminar",
     nationalOrInternational: "",
     proofDocument: "",
   });

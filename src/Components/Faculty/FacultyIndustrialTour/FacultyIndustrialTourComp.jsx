@@ -24,28 +24,28 @@ export default function IndustrialTour() {
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllEvents",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          console.log(response.data.data);
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllEvents",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        console.log(response.data.data);
 
-          response.data.data.forEach((data) => {
-            if (data.eventType === "IndustrialTour") arr.push(data);
-          });
+        response.data.data.forEach((data) => {
+          if (data.eventType === "IndustrialTour") arr.push(data);
+        });
 
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
+        setData(arr);
+        setData1(arr);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     getBPData();
   }, [showPopUp]);
 
@@ -238,7 +238,7 @@ export default function IndustrialTour() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

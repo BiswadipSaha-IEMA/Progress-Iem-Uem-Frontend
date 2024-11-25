@@ -113,20 +113,6 @@ function HackPopUp({ setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                {/* Platform Used */}
-                {/* <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                  Attended by
-                  </label>
-                  <input
-                    type="text"
-                    name="attendedBy"
-                    value={formData.attendedBy}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div> */}
-
                 {/* Date of Launch */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
@@ -140,8 +126,8 @@ function HackPopUp({ setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-                 {/* Date of Launch */}
-                 <div>
+                {/* Date of Launch */}
+                <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     No. Of Participants
                   </label>

@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 // import "./styles.css";
 import { usePostReq, usePutReq } from "../../../hooks/useHttp";
 
-function EditFormPopUp({ setShowPopup, data }) {
+function EditFormPopUp({ setShowPopup, data, fetchData }) {
   const [postReq] = usePostReq();
   const [putReq] = usePutReq();
 
@@ -66,7 +66,10 @@ function EditFormPopUp({ setShowPopup, data }) {
         },
         accessToken
       );
-      if (response.success) setShowPopup(false);
+      if (response.success) {
+        setShowPopup(false)
+        fetchData()
+      };
     }
   };
 

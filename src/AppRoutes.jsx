@@ -79,7 +79,7 @@ const AppRouter = () => {
           <Route path="/faculty/researchpapergradec" element={<FacultyResearchPpaperCPage />} />
           <Route path="/faculty/viewconferenceorganized" element={<FacultyConferenceOrganized />} />
           <Route path="/faculty/viewLecture" element={<Lectureseries />} />
-          {/* <Route path="/faculty/viewHackathon" element={<FacultyHackathonComp />} /> */}
+          <Route path="/faculty/viewHackathon" element={<FacultyHackathonComp />} />
           <Route path="/faculty/viewIndustrialTour" element={<FacultyIndustrialTourPage />} />
           <Route path="/faculty/viewworkshoporganized" element={<FacultyWorkshopOrganizedPage />} />
           <Route path="/faculty/viewmooc" element={<FacultyMOOCPage />} />

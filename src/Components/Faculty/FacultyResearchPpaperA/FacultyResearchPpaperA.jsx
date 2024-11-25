@@ -27,29 +27,30 @@ export default function Component() {
   const [isLoading, setIsLoading] = useState(true);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBPData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (data.publicationGrade === "Grade-A" && data.publicationType==="Research Paper") arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
+        console.log(arr)
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getBPData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllPublications",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-A") arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getBPData();
   }, [showPopUp]);
 

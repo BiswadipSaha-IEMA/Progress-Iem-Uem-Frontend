@@ -31,9 +31,10 @@ function EditFormPopUp({ setShowPopup,data, fetchData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await postReq(
-      "api/v1/document/createMooc",
+    const response = await putReq(
+      "api/v1/document/editMooc",
       {
+        moocId: data._id,
         faculty: formData.faculty,
         developedModule: formData.developedModule,
         platformUsed: formData.platformUsed,

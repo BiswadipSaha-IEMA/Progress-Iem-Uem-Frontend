@@ -920,7 +920,7 @@ const getResearchpaperCInfo = async () => {
                         book.status === "RequestToReject" ? (
                           <p className={`${text}`}>{book.title}</p>
                         ) : (
-                          <p className={`${text}`}>{book.status}</p>
+                          <p className={`${text}`}>{book.status=== "RequestToAccept" || "RequestToReject"  ? "Pending" : book.status}</p>
                         )}
                       </div>
                     </div>

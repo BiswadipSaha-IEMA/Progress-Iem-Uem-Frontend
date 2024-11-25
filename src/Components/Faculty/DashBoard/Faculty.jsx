@@ -27,6 +27,11 @@ import TalksPopUp from "../../../utils/Popup/FormPopUp/TalksPopUp";
 import SeminarPopUp from "../../../utils/Popup/FormPopUp/SeminarPopUp";
 import HackPopUp from "../../../utils/Popup/FormPopUp/HackPopUp";
 import StudentChapterPopUp from "../../../utils/Popup/FormPopUp/StudentChapterPopUp";
+import ConferenceGradeA from "../../../utils/Popup/FormPopUp/ConferenceGradeA";
+import ConferenceGradeB from "../../../utils/Popup/FormPopUp/ConferenceGradeB";
+import ConferenceGradeC from "../../../utils/Popup/FormPopUp/ConferenceGradeC";
+
+ConferenceGradeA
 
 export default function Faculty() {
   const [showPopUp, setShowPopUp] = useState(false);
@@ -63,6 +68,9 @@ export default function Faculty() {
   const [researchPaperGradeAData, setResearchPaperGradeAData] = useState(false);
   const [researchPaperGradeBData, setResearchPaperGradeBData] = useState(false);
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
+  const [confernceAPopUp, setShowconfernceAPopUp] = useState(false);
+  const [confernceBPopUp, setShowconfernceBPopUp] = useState(false);
+  const [confernceCPopUp, setShowconfernceCPopUp] = useState(false);
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
@@ -894,6 +902,20 @@ const getResearchpaperCInfo = async () => {
                  ){
                   setResearchCpop(true);
                  }
+                 else if (
+                  item.title === "Research Paper Published Conference (Grade A)"
+                ) {
+                  setShowconfernceAPopUp(true);
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade B)"
+                ) {
+                  setShowconfernceBPopUp(true);
+                } else if (
+                  item.title === "Research Paper Published Conference (Grade C)"
+                ) {
+                  setShowconfernceCPopUp(true);
+                } 
+                 
                   }}
                 >
                   Add Response
@@ -1018,6 +1040,24 @@ const getResearchpaperCInfo = async () => {
       {showstudentChapterPopup && (
         <StudentChapterPopUp
           setShowPopup={setshowstudentChapterPopup}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {confernceAPopUp && (
+        <ConferenceGradeA
+          setShowPopup={setShowconfernceAPopUp}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {confernceBPopUp && (
+        <ConferenceGradeB
+          setShowPopup={setShowconfernceBPopUp}
+          setUtilFor="bpAddForm"
+        />
+      )}
+      {confernceCPopUp && (
+        <ConferenceGradeC
+          setShowPopup={setShowconfernceCPopUp}
           setUtilFor="bpAddForm"
         />
       )}

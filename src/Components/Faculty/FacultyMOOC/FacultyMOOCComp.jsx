@@ -24,21 +24,28 @@ export default function Component() {
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
 
-  useEffect(() => {
-    const getMoocsData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllMoocs",
-          accessToken
-        );
-        if (response.success) {
-          setData(response.data.data);
-          setData1(response.data.data);
-        }
-      } catch (error) {
-        console.log(error);
+  const getMoocsData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllMoocs",
+        accessToken
+      );
+      if (response.success) {
+        setData(response.data.data);
+        
       }
-    };
+      response.data.data.forEach((data) => {
+        if (data.eventType === "") arr.push(data);
+      });
+
+      setData(arr);
+      setData1(arr);
+    
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     getMoocsData();
   }, [showPopUp]);
 
@@ -238,7 +245,9 @@ export default function Component() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getMoocsData}/>}
+
+
     </div>
   );
 }

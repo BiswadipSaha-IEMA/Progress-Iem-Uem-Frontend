@@ -986,6 +986,7 @@ const getResearchpaperCInfo = async () => {
         <ResearchPaperGradeAbookChapter
           setUtilFor={"bpAddForm"}
           setShowPopup={setResearchApop}
+          
         />
       )}
       {researchBpop && (
@@ -1040,24 +1041,28 @@ const getResearchpaperCInfo = async () => {
         <StudentChapterPopUp
           setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
+          getAllInfo={getStudentChapterInfo}
         />
       )}
       {confAState && (
         <ConferenceGradeA
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfAState}
+          getAllInfo={getResearchpaperAInfo}
         />
       )}
       {confBState && (
         <ConferenceGradeB
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfBState}
+          getAllInfo={getResearchpaperBInfo}
         />
       )}
       {confCState && (
         <ConferenceGradeC
           setUtilFor={"bpAddForm"}
           setShowPopup={setConfBState}
+          getAllInfo={getResearchpaperCInfo}
         />
       )}
     </div>

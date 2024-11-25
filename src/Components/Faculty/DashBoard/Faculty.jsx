@@ -50,9 +50,6 @@ export default function Faculty() {
   const [researchApop, setResearchApop] = useState(false);
   const [researchBpop, setResearchBpop] = useState(false);
   const [researchCpop, setResearchCpop] = useState(false);
-  const [researchAConfpop, setResearchAConfpop] = useState(false);
-  const [researchBConfpop, setResearchBConfpop] = useState(false);
-  const [researchCConfpop, setResearchCConfpop] = useState(false);
   const [IndTour, setIndTour] = useState([]);
   const [patentData, setPatentData] = useState([]);
   const [fdpData, setFdpData] = useState([]);
@@ -737,7 +734,7 @@ const getResearchpaperCInfo = async () => {
           aria-label="Toggle profile"
         >
           {showProfile ? (
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 z-500" />
           ) : (
             <Menu className="w-5 h-5" />
           )}
@@ -833,9 +830,9 @@ const getResearchpaperCInfo = async () => {
                 }
               }}
             >
-              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff]  p-4">
                 <div className="flex items-center gap-2">
-                  <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8" />
+                  <FaBookBookmark className="w-6 h-6 text-blue-700 sm:w-8 sm:h-8 " />
                   <h1 className="text-lg font-semibold sm:text-xl">
                     {item.title}
                   </h1>
@@ -897,21 +894,6 @@ const getResearchpaperCInfo = async () => {
                  ){
                   setResearchCpop(true);
                  }
-                   else if(
-                    item.title === "Research Paper Published Conference (Grade A)"
-                 ){
-                  setResearchAConfpop(true);
-                 }
-                   else if(
-                    item.title === "Research Paper Published Conference (Grade B)"
-                 ){
-                  setResearchBConfpop(true);
-                 }
-                   else if(
-                    item.title === "Research Paper Published Conference (Grade C)"
-                 ){
-                  setResearchCConfpop(true);
-                 }
                   }}
                 >
                   Add Response
@@ -938,7 +920,7 @@ const getResearchpaperCInfo = async () => {
                         book.status === "RequestToReject" ? (
                           <p className={`${text}`}>{book.title}</p>
                         ) : (
-                          <p className={`${text}`}>{book.status=== "RequestToAccept" || "RequestToReject"  ? "Pending" : book.status}</p>
+                          <p className={`${text}`}>{book.status=== "RequestToAccept" || book.status=== "RequestToReject"  ? "Pending" : book.status}</p>
                         )}
                       </div>
                     </div>
@@ -1038,24 +1020,6 @@ const getResearchpaperCInfo = async () => {
           setShowPopup={setshowstudentChapterPopup}
           setUtilFor="bpAddForm"
         />
-      )}
-      {researchAConfpop && (
-        <ResearchPaperGradeAbookChapter
-        setUtilFor={"bpAddForm"}
-        setShowPopup={setResearchAConfpop}
-      />
-      )}
-      {researchBConfpop && (
-        <ResearchPaperGradeAbookChapter
-        setUtilFor={"bpAddForm"}
-        setShowPopup={setResearchBConfpop}
-      />
-      )}
-      {researchCConfpop && (
-        <ResearchPaperGradeAbookChapter
-        setUtilFor={"bpAddForm"}
-        setShowPopup={setResearchCConfpop}
-      />
       )}
     </div>
   );

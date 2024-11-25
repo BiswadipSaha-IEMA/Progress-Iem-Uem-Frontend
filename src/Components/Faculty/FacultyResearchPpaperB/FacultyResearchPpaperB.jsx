@@ -23,27 +23,27 @@ export default function Component() {
   const [editBpData, setEditBpData] = useState(false);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
+  const getBPData = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllPublications",
+        accessToken
+      );
+      const arr = [];
+      if (response.success) {
+        response.data.data.forEach((data) => {
+          if (data.publicationGrade === "Grade-B"&&data.publicationType==="Research Paper") arr.push(data);
+        });
+        setData(arr);
+        setData1(arr);
+        console.log(arr)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getBPData = async () => {
-      try {
-        const response = await getReq(
-          "api/v1/document/getAllPublications",
-          accessToken
-        );
-        const arr = [];
-        if (response.success) {
-          response.data.data.forEach((data) => {
-            if (data.publicationGrade === "Grade-B") arr.push(data);
-          });
-          setData(arr);
-          setData1(arr);
-          console.log("Hello Grade B data is coming")
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getBPData();
   }, [showPopUp]);
 
@@ -241,7 +241,7 @@ export default function Component() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

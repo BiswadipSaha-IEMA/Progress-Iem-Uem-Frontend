@@ -7,26 +7,19 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
   const [postReq] = usePostReq();
   const [putReq] = usePutReq();
 
-  // console.log(data);
-
-  const [orgType, setOrgType] = useState("");
+  console.log(data);
 
   const [formData, setFormData] = useState({
-    eventType: "Conferencee",
-    topicName: data.topicName || "",
-    organizedBy: data.organizedBy || "",
-    date: data.date || "",
-    attendedBy: data.attendedBy || "",
-    type:orgType,
+    facultyName: data.facultyName || "",
+    companyName: data.companyName || "",
+    orderAmount: data.orderAmount || "",
+    dateOfOrder: data.dateOfOrder || "",
+    activityStatus: data.activityStatus || "",
     proofDocument: data.proofDocument || "",
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
-  const handleChangeOrg = (e) => {
-    setOrgType(e.target.value);
-  };
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -41,39 +34,37 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       const response = await postReq(
         "api/v1/document/createEvent",
         {
+          // publicationId: data._id,
           eventType: formData.eventType,
           organizedBy: formData.organizedBy,
-         
           topicName: formData.topicName,
+          department: formData.department,
           date: formData.date,
+          type: orgType,
           attendedBy: formData.attendedBy,
+          proofDocument: formData.proofDocument,
+        },
+        accessToken
+      );
+      if (response.success) setShowPopup(false);
+    } else {
+      const response = await putReq(
+        `api/v1/document/editStudentChapter`,
+        {
+          studentChapterId: data._id,
+          facultyName: formData.facultyName,
+          companyName: formData.companyName,
+          orderAmount: formData.orderAmount,
+          dateOfOrder: formData.dateOfOrder,
+          activityStatus: formData.activityStatus,
           proofDocument: formData.proofDocument,
         },
         accessToken
       );
       if (response.success) {
         setShowPopup(false);
-        fetchData()
+        fetchData();
       }
-    } else {
-      const response = await putReq(
-        "api/v1/document/editEvent",
-        {
-          eventId: data._id,
-          eventType: formData.eventType,
-          organizedBy: formData.organizedBy,
-          type: orgType,
-          topicName: formData.topicName,
-          date: formData.date,
-          attendedBy: formData.attendedBy,
-          proofDocument: formData.proofDocument,
-        },
-        accessToken
-      );
-      if (response.success) {
-        setShowPopup(false)
-        fetchData()
-      };
     }
   };
 
@@ -100,111 +91,114 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer">
         <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
           <div
-            className="absolute p-2 transition-colors duration-200 bg-red-500 rounded-full cursor-pointer right-5 top-5 hover:bg-red-600"
+            className="absolute right-5 top-5 bg-red-500 hover:bg-red-600 transition-colors duration-200 rounded-full p-2 cursor-pointer"
             onClick={() => setShowPopup(false)}
           >
             <RxCross2 className="text-white" />
           </div>
 
-          <h2 className="pl-4 mb-6 text-2xl font-bold text-gray-800">
-            Conference
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            Student Chapter Activity Form
           </h2>
 
           {/* Inner container with scroll */}
-          <div className="overflow-y-auto max-h-[calc(80vh-100px)] p-4">
+          <div
+            className="overflow-y-scroll h-[calc(800px-160px)] p-4"
+            style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
+          >
             {/* Hide scrollbar for Firefox and Internet Explorer */}
             <style>{`
-        ::-webkit-scrollbar {
-          display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-        }
-      `}</style>
+          ::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+          }
+        `}</style>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              
-              {/* Attended/Organized */}
-              <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Attended/Conducted
-                </label>
-                <select
-                  name="category"
-                  value={orgType}
-                  onChange={handleChangeOrg}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                >
-                  <option value="">Select</option>
-                  <option value="Student">Attended</option>
-                  <option value="Faculty">Conducted</option>
-                </select>
-              </div>
-
-              {/* Organized By */}
-              <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Organizing Institute
-                  </label>
-                  <input
-                    type="text"
-                    name="organizedBy"
-                    value={formData.organizedBy}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-              </div>
-
-              {/* Topic Name */}
+              {/* Faculty */}
               <div>
                 <label className="block text-gray-600 font-medium mb-1">
-                  Topic Name
+                Faculty Name
                 </label>
                 <input
                   type="text"
-                  name="topicName"
-                  value={formData.topicName}
+                  name="facultyName"
+                  value={formData.facultyName}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                  required
+                />
+              </div>
+
+              {/* Company Name */}
+              <div>
+                <label className="block text-gray-600 font-medium mb-1">
+                Company Name
+                </label>
+                <input
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
               </div>
 
-              {/* Date */}
+              {/* orderAmount */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Date
+                <label className="block text-gray-600 font-medium mb-1">
+                Order Amount
+                </label>
+                <input
+                  type="text"
+                  name="orderAmount"
+                  value={formData.orderAmount}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                />
+              </div>
+
+              {/* Order Receive Date */}
+              <div>
+                <label className="block text-gray-600 font-medium mb-1">
+                Order Receive Date
                 </label>
                 <input
                   type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                />
-              </div>
-
-              {/* Attended By */}
-              <div>
-                <label className="block text-gray-600 font-medium mb-1">
-                  Attended By
-                </label>
-                <input
-                  type="text"
-                  name="attendedBy"
-                  value={formData.attendedBy}
+                  name="dateOfOrder"
+                  value={formData.dateOfOrder}
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
+              </div>
+
+
+              {/* Status */}
+              <div>
+              <label className="block text-gray-600 font-medium mb-1">
+              Status (Ongoing/ Completed)
+
+                </label>
+              <input
+                type="text"
+                name="activityStatus"
+                value={formData.activityStatus}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                required
+              />
               </div>
 
               {/* Proof Document */}
               <div>
-                <label className="block mb-1 font-medium text-gray-600">
-                  Proof Document
+                <label className="block text-gray-600 font-medium mb-1">
+                  Proof of Document
                 </label>
                 <input
                   type="text"
                   name="proofDocument"
                   value={formData.proofDocument}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                 />
               </div>
 
@@ -212,7 +206,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="w-full sm:w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
+                  className="w-[200px] bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all duration-200"
                 >
                   Submit
                 </button>
@@ -222,7 +216,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
         </div>
       </div>
     </>
-  );
+    )
 }
 
 export default EditFormPopUp;

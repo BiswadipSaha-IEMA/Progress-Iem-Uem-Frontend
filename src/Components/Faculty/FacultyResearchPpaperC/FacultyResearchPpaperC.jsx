@@ -239,7 +239,7 @@ export default function Component() {
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData}/>}
+      {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

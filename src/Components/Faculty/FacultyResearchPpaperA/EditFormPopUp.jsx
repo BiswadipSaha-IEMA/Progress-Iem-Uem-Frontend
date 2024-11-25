@@ -9,6 +9,8 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
 
   console.log(data);
 
+  const [authorType, setAuthorType] = useState("");
+
   const [formData, setFormData] = useState({
     name: data.name || "",
     title: data.title || "",
@@ -28,6 +30,10 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
+  const handleChangeAuthor = (e) => {
+    setAuthorType(e.target.value);
+  };
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -52,7 +58,10 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
         },
         accessToken
       );
-      if (response.success) setShowPopup(false);
+      if (response.success) {
+        setShowPopup(false);
+        fetchData()
+      }
     } else {
       const response = await putReq(
         "api/v1/document/editPublication",
@@ -60,10 +69,17 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
           publicationId:data._id,
           name: formData.name,
           title: formData.title,
-          isbn: formData.isbn,
+          // isbn: formData.isbn,
           category: formData.category,
           date: formData.date,
-          publicationType: "Book",
+          journalName: formData.journalName,
+          vol: formData.vol,
+          pp: formData.pp,
+          issue: formData.issue,
+          publicationGrade: formData.publicationGrade,
+          publicationType: formData.publicationType,
+          nationalOrInternational: formData.nationalOrInternational,
+          authorType : authorType,
           proofDocument: formData.proofDocument,
         },
         accessToken
@@ -118,6 +134,24 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
       `}</style>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              
+              {/* Author Type */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-600">
+                  Author Type
+                </label>
+                <select
+                  name="category"
+                  value={authorType}
+                  onChange={handleChangeAuthor}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                >
+                  <option value="">Select</option>
+                  <option value="Student">Student</option>
+                  <option value="Faculty">Faculty</option>
+                </select>
+              </div>
+
               {/* Name */}
               <div>
                 <label className="block mb-1 font-medium text-gray-600">
@@ -136,7 +170,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
               {/* Title */}
               <div>
                 <label className="block mb-1 font-medium text-gray-600">
-                  Title
+                  Paper Name
                 </label>
                 <input
                   type="text"
@@ -150,7 +184,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
 
               {/* ISBN and Category */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
+                {/* <div>
                   <label className="block mb-1 font-medium text-gray-600">
                     ISBN
                   </label>
@@ -161,7 +195,7 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <label className="block mb-1 font-medium text-gray-600">
@@ -174,9 +208,12 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                   >
                     <option value="">Select</option>
+                    <option value="SCI">SCI</option>
+                    <option value="SCIE">SCIE</option>
                     <option value="Scopus">Scopus</option>
-                    <option value="UGC-Care">UGC Care</option>
-                    <option value="Other">Other</option>
+                    <option value="WoS">WoS</option>
+                    <option value="ESCI">ESCI</option>
+                    <option value="Nature">Nature</option>
                   </select>
                 </div>
               </div>
@@ -193,6 +230,64 @@ function EditFormPopUp({ setShowPopup, data, fetchData }) {
                   onChange={handleInputChange}
                   className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
                 />
+              </div>
+              
+              {/* Volume, Issue, and Pages */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div>
+                    <label className="block mb-1 font-medium text-gray-600">
+                      Volume
+                    </label>
+                    <input
+                      type="text"
+                      name="vol"
+                      value={formData.vol}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block mb-1 font-medium text-gray-600">
+                      Issue Number
+                    </label>
+                    <input
+                      type="text"
+                      name="issue"
+                      value={formData.issue}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block mb-1 font-medium text-gray-600">
+                      pp. No.
+                    </label>
+                    <input
+                      type="text"
+                      name="pp"
+                      value={formData.pp}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    />
+                  </div>
+                </div>
+
+              {/* National or International Dropdown */}
+              <div>
+                <label className="block mb-1 font-medium text-gray-600">
+                  National or International
+                </label>
+                <select
+                  name="nationalOrInternational"
+                  value={formData.nationalOrInternational}
+                  onChange={handleInputChange}
+                  className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                >
+                  <option value="National">National</option>
+                  <option value="International">International</option>
+                </select>
               </div>
 
               {/* Proof Document */}

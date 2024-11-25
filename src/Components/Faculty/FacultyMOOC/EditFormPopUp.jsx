@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { usePostReq } from "../../../hooks/useHttp";
+import { usePostReq, usePutReq } from "../../../hooks/useHttp";
 
 function EditFormPopUp({ setShowPopup, data, fetchData }) {
   const [postReq] = usePostReq();
+  const [putReq] = usePutReq();
   const [formData, setFormData] = useState({
     faculty: data.faculty || "",
     developedModule: data.developedModule || "",

@@ -174,6 +174,9 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             reviewedBy,
+            eventType,
+            topicName,
+            date,
             status,
             department,
             __v,
@@ -182,6 +185,9 @@ const ModeratorTableData = () => {
           }) => ({
             ...rest,
             "Organized By": organizedBy,
+            "Event Type":eventType,
+            "Date":date,
+            "Topic Name":topicName,
             "Attended By": attendedBy,
             "Created By": createdBy.name,
             "Proof of Document": proofDocument,
@@ -221,13 +227,23 @@ const ModeratorTableData = () => {
             proofDocument,
             obtainedScore,
             status,
+            date,
+            topicName,
             department,
+            organizedBy,
+            attendedBy,
+            eventType,
             reviewedBy,
             __v,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
+            "Organised By":organizedBy,
+            "Date":date,
+            "Topic Name	":topicName,	
+            "Attended By":attendedBy,
+            "Event Type":eventType,
             "Created By": createdBy.name,
             "Proof of Document": proofDocument,
             // "Event Type": eventType,
@@ -240,24 +256,35 @@ const ModeratorTableData = () => {
         .filter((pub) => pub.eventType === "Competition")
         .map(
           ({
-            createdBy,
+            
             comment,
             department,
             __v,
             eventType,
             obtainedScore,
             collegeName,
+            topicName,
             proofDocument,
             reviewedBy,
             createdAt,
+            organizedBy,
             updatedAt,
+            date,
+            createdBy,
+            status,
             documentLink,
             hasContentAccess,
             ...rest
           }) => ({
             ...rest,
+            "Organized By":organizedBy,
+            "Topic Name":topicName,	
+            "Date":date,
+            "Created By":createdBy,
+            
             "Created By": createdBy.name,
-            "Proof of Document": proofDocument
+            "Proof of Document": proofDocument,
+            "Status": status,
           })
         );
       const competitionFull = data.events.filter(
@@ -312,17 +339,20 @@ const ModeratorTableData = () => {
         .filter((pub) => pub.eventType === "Lecture")
         .map(
           ({
-            attendedBy,
-            organizedBy,
             createdAt,
             updatedAt,
+            organizedBy,
+            attendedBy,
             createdBy,
             comment,
             documentLink,
             collegeName,
             proofDocument,
-            reviewedBy,
             obtainedScore,
+            reviewedBy,
+            eventType,
+            topicName,
+            date,
             status,
             department,
             __v,
@@ -331,6 +361,9 @@ const ModeratorTableData = () => {
           }) => ({
             ...rest,
             "Organized By": organizedBy,
+            "Event Type":eventType,
+            "Date":date,
+            "Topic Name":topicName,
             "Attended By": attendedBy,
             "Created By": createdBy.name,
             "Proof of Document": proofDocument,
@@ -424,6 +457,9 @@ const ModeratorTableData = () => {
           status,
           reviewedBy,
           dateOfFiling,
+          topicName,
+          designation,
+          name,
           department,
           nationalOrInternational,
           __v,
@@ -431,10 +467,15 @@ const ModeratorTableData = () => {
           ...rest
         }) => ({
           ...rest,
-          "National/International": nationalOrInternational,
+          "Department":department,
+          "Name":name,
+          "Designation":designation,
           "Created By": createdBy.name,
-          "Proof of Document": proofDocument,
+          
+          "Topic Name":topicName,
           "Date Of Filling":dateOfFiling,
+          "Proof of Document": proofDocument,
+          "National/International": nationalOrInternational,
           "Status": status,
         })
       );
@@ -463,11 +504,17 @@ const ModeratorTableData = () => {
             comment,
             obtainedScore,
             department,
+            reviewedBy,
+            organizedBy,
+            eventType,
             documentLink,
             __v,
             hasContentAccess,
             ...rest
-          }) => ({ ...rest, "Created By": createdBy.name })
+          }) => ({ ...rest, 
+            "Organized By":organizedBy,
+            "Created By": createdBy.name,
+           })
         );
       const confDataFull = data.events.filter(
         (pub) => pub.eventType === "Conference"
@@ -882,6 +929,8 @@ const ModeratorTableData = () => {
             collegeName,
             proofDocument,
             obtainedScore,
+            reviewedBy,
+            journalName,
             status,
             department,
             __v,
@@ -890,6 +939,7 @@ const ModeratorTableData = () => {
             ...rest
           }) => ({
             ...rest,
+            "Book Chapter Name":journalName,
             "National/International": nationalOrInternational,
             "Created By": createdBy.name,
             "Proof of Document": proofDocument,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ViewDataTable from "../../../Components/ViewData/ViewDataTable";
 // import {
 //   dummyData,
@@ -8,6 +8,7 @@ import Header from "../../../Components/Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
 import Lottie from "react-lottie";
 import noDataFound from "../../../Lottie/noDataFound.json";
+import gsap from "gsap";
 
 const FacultyViewData = () => {
   const [data, setData] = useState([]);
@@ -40,6 +41,7 @@ const FacultyViewData = () => {
   const [getReq] = useGetReq();
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
+  const noRecordAnimation = useRef(null);
   // const id=sessionStorage.getItem("userId")
 
   // let check;
@@ -698,7 +700,7 @@ const FacultyViewData = () => {
           })
         );
 
-      const book1 = publications
+        const book1 = publications
         .filter(
           (pub) =>
             pub.publicationType === "Book Chapter" &&
@@ -785,8 +787,6 @@ const FacultyViewData = () => {
             "Status": status,
           })
         );
-
-        
       console.log(conf1,"Conf Rp");
       console.log(rep1);
       setConfPub(conf);
@@ -937,14 +937,23 @@ const FacultyViewData = () => {
     // }
   }, [data, check]);
 
+  useEffect(()=>{
+    gsap.from(noRecordAnimation.current, {
+      opacity: 0,
+      ease: "expo",
+      scale: 0.5,
+      duration: 2,
+    })
+  },[])
+  
   return (
     <>
       <Header backPage="/" />
-      {!isLoading&&isAllDataEmpty ? (
+      {isAllDataEmpty ? (
         <div className="flex flex-col justify-center items-center py-8 m-10 bg-white  rounded-lg font-poppins">
           <Lottie options={options} height={400} width={400} />
-          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">
-            No records available
+          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center" ref={noRecordAnimation}>
+            No records dound
           </p>
         </div>
       ) : (

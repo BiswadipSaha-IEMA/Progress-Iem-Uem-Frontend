@@ -12,7 +12,6 @@ function ConferencePopUp({getAllInfo, setUtilFor, setShowPopup }) {
     topicName:'',
     date: "",
     attendedBy: "",
-   
     type: "Attended",
     proofDocument: "",
   });
@@ -34,7 +33,7 @@ function ConferencePopUp({getAllInfo, setUtilFor, setShowPopup }) {
       {
         eventType: formData.eventType,
         organizedBy: formData.organizedBy,
-       
+       type: formData.type,
         topicName: formData.topicName,
         date: formData.date,
         attendedBy: formData.attendedBy,
@@ -92,10 +91,10 @@ function ConferencePopUp({getAllInfo, setUtilFor, setShowPopup }) {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Event Type Dropdown */}
-                {/* <div>
+                <div>
               <label className="block text-gray-600 font-medium mb-1">Event Type</label>
               <select
-                name="eventType"
+                name="type"
                 value={formData.type}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
@@ -105,7 +104,7 @@ function ConferencePopUp({getAllInfo, setUtilFor, setShowPopup }) {
                 <option value="Attended">Attended</option>
                 <option value="Conducted">Conducted</option>
               </select>
-            </div> */}
+            </div>
 
                 {/* Organized By */}
                 <div>

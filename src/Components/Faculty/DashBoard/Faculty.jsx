@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import BookPublished from "../../../utils/Popup/FormPopUp/BookPublished";
 import MoocsPopUp from "../../../utils/Popup/FormPopUp/MoocsPopUp";
 import PatentPopUp from "../../../utils/Popup/FormPopUp/PatentPopUp";
+import ProjectPopUp from "../../../utils/Popup/FormPopUp/ProjectPopUp";
 import IndustrialPopup from "../../../utils/Popup/FormPopUp/IndustrialPopup";
 import TriMentoringPopUp from "../../../utils/Popup/FormPopUp/TriMentoringPopUp";
 import ResearchPaperGradeA from "../../../utils/Popup/FormPopUp/ResearchPaperGradeA";
@@ -68,6 +69,7 @@ export default function Faculty() {
   const [researchPaperGradeCData, setResearchPaperGradeCData] = useState(false);
   const [workshopPopUp, setworkshopPopUp] = useState(false);
   const [showPatentPopup, setShowPatentPopup] = useState(false);
+  const [showProjectPopup, setShowProjectPopup] = useState(false);
   const [showFDPPopup, setShowFDPPopup] = useState(false);
   const [showSeminarPopup, setShowSeminarPopup] = useState(false);
   const [showLecturePopup, setShowLecturePopup] = useState(false);
@@ -81,6 +83,7 @@ export default function Faculty() {
   const [confAState, setConfAState] = useState(false);
   const [confBState, setConfBState] = useState(false);
   const [confCState, setConfCState] = useState(false);
+  const [projectData, setProjectData]= useState(null)
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const navigate = useNavigate();
 
@@ -392,6 +395,30 @@ const getResearchpaperCInfo = async () => {
       console.error("Error fetching patent info:", error);
     }
   };
+  
+  const getProjectInfo = async () => {
+    try {
+      const response = await getReq(
+        "api/v1/document/getAllProjects",
+        accessToken
+      );
+      // console.log(response);
+      console.log("Project");
+      if (response.success) {
+        console.log("this is project",response.data)
+        setProjectData(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching patent info:", error);
+    }
+  };
+
+
+  useEffect(()=>{
+    // getProjectInfo();
+  })
+
+
 
   const getFdpInfo = async () => {
     try {
@@ -489,6 +516,7 @@ const getResearchpaperCInfo = async () => {
     getPatentInfo();
     getFdpInfo();
     getHack();
+    getProjectInfo();
     // getCompeteInfo();
     getCompeteInfo();
     getStudentChapterInfo();
@@ -604,6 +632,13 @@ const getResearchpaperCInfo = async () => {
       title: "Patent",
       details: patentData.map((paper) => ({
         title: paper.name,
+        status: paper.status,
+      })),
+    },
+    {
+      title: "Projects",
+      details: projectData?.map((paper) => ({
+        title: paper.title,
         status: paper.status,
       })),
     },
@@ -834,6 +869,10 @@ const getResearchpaperCInfo = async () => {
                 else if (item.title === "Student Chapter Activity") {
                   navigate("/faculty/viewstudentchapter");
                 }
+                else if (item.title === "Projects") {
+                  navigate("/faculty/viewproject");
+                }
+
               }}
             >
               <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sticky top-0 bg-[#fff] z-10 p-4">
@@ -870,6 +909,8 @@ const getResearchpaperCInfo = async () => {
                       setworkshopPopUp(true);
                     } else if (item.title === "Patent") {
                       setShowPatentPopup(true);
+                    } else if (item.title === "Project") {
+                      setShowProjectPopup(true);
                     } else if (
                       item.title === "Faculty Development Programmes/ MDP"
                     ) {
@@ -914,6 +955,11 @@ const getResearchpaperCInfo = async () => {
                   item.title === "Research Paper Published Conference (Grade C)"
                 ) {
                   setConfCState(true)
+                } 
+                 else if (
+                  item.title === "Projects"
+                ) {
+                  setShowProjectPopup(true)
                 } 
                   }}
                 >
@@ -1021,6 +1067,9 @@ const getResearchpaperCInfo = async () => {
       )}
       {showPatentPopup && (
         <PatentPopUp getAllInfo={getPatentInfo} setShowPopup={setShowPatentPopup} setUtilFor="bpAddForm" />
+      )}
+      {showProjectPopup && (
+        <ProjectPopUp setShowPopup={setShowProjectPopup} setUtilFor="projectAddForm" getAllInfo={getProjectInfo}/>
       )}
       {showFDPPopup && (
         <FDPPopUp getAllInfo={getFdpInfo} setShowPopup={setShowFDPPopup} setUtilFor="bpAddForm" />

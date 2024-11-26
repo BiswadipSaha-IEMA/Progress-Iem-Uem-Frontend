@@ -3,17 +3,22 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
+function ProjectPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
-    department: "",
-    name: "",
-    designation: "",
-    dateOfFiling: "",
-    nationalOrInternational: "National",
-    proofDocument:"",
-    topicName: "",
+    title: "",
+    principleInvestigator:"",
+    coPrincipleInvestigator:"",
+    grantAmount: "",
+    dateOfSubmission: "",
+    dateOfGranting:"",
+    // department: "",
+    // name: "",
+    // designation: "",
+    // dateOfFiling: "",
+    // nationalOrInternational: "",
+    // topicName: "",
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -29,38 +34,49 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await postReq(
-      "api/v1/document/createPatent",
+      "api/v1/document/createProject",
       {
-        department: formData.department,
-        name: formData.name,
-        nationalOrInternational: formData.nationalOrInternational,
-        dateOfFiling: formData.dateOfFiling,
-        proofDocument: formData.proofDocument,
-        designation: formData.designation,
-        topicName: formData.topicName,
+        title: formData.title,
+        principleInvestigator: formData.principleInvestigator,
+        coPrincipleInvestigator: formData.coPrincipleInvestigator,
+        grantAmount: formData.grantAmount,
+        dateOfSubmission: formData.dateOfSubmission,
+        dateOfGranting: formData.dateOfGranting,
+        // department: formData.department,
+        // name: formData.name,
+        // nationalOrInternational: formData.nationalOrInternational,
+        // dateOfFiling: formData.dateOfFiling,
+        // designation: formData.designation,
+        // topicName: formData.topicName,
       },
       accessToken
     );
     if (response.success){ 
-      getAllInfo()
-      setShowPopup(false)
+        setShowPopup(false)
+        getAllInfo()
     };
   };
 
   const handleClose = () => {
     setFormData({
-      department: "",
-      name: "",
-      designation: "",
-      dateOfFiling: "",
-      nationalOrInternational: "",
-      topicName: "",
+        title: "",
+        principleInvestigator:"",
+        principleInvestigator:"",
+        grantAmount: "",
+        dateOfSubmission: "",
+        dateOfGranting:"",
+    //   department: "",
+    //   name: "",
+    //   designation: "",
+    //   dateOfFiling: "",
+    //   nationalOrInternational: "",
+    //   topicName: "",
     });
     setShowPopup(false);
   };
 
   return (
-    setUtilFor === "bpAddForm" && (
+    setUtilFor === "projectAddForm" && (
       <>
         <div className="flex bg-[#00000034] backdrop-blur-md fixed justify-center items-center w-full h-full top-0 left-0 z-40 alertcontainer font-poppins">
           <div className="bg-white rounded-xl shadow-lg relative mx-4 p-4 sm:p-8 w-full max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] h-auto sm:h-[80vh] overflow-y-auto">
@@ -72,7 +88,7 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
             </div>
 
             <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Patent Submission Form
+              Project Submission Form
             </h2>
 
             <div
@@ -88,12 +104,12 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Department
+                    Title of Project
                   </label>
                   <input
                     type="text"
-                    name="department"
-                    value={formData.department}
+                    name="title"
+                    value={formData.title}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
@@ -102,12 +118,12 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
 
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Name 
+                    Name of Principle Investigator
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="principleInvestigator"
+                    value={formData.principleInvestigator}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
@@ -116,12 +132,26 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
 
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Designation
+                  Name of Co-Principle Investigator
                   </label>
                   <input
                     type="text"
-                    name="designation"
-                    value={formData.designation}
+                    name="coPrincipleInvestigator"
+                    value={formData.coPrincipleInvestigator}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                  Amount of Grant
+                  </label>
+                  <input
+                    type="number"
+                    name="grantAmount"
+                    value={formData.grantAmount}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
@@ -130,74 +160,30 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
 
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Date of Filing
+                    Date of Submission
                   </label>
                   <input
                     type="date"
-                    name="dateOfFiling"
-                    value={formData.dateOfFiling}
+                    name="dateOfSubmission"
+                    value={formData.dateOfSubmission}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
                   />
                 </div>
-
-                {/* <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    National or International
-                  </label>
-                  <input
-                    type="text"
-                    name="nationalOrInternational"
-                    value={formData.nationalOrInternational}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    required
-                  />
-                </div> */}
-
-                {/* Event Type Dropdown */}
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">National or International</label>
-                  <select
-                    name="nationalOrInternational"
-                    value={formData.nationalOrInternational}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    required
-                  >
-                    <option value="">Select Event Type</option>
-                    <option value="National">National</option>
-                    <option value="International">International</option>
-                  </select>
-                </div>
-
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Topic Name
+                    Date of Granting
                   </label>
                   <input
-                    type="text"
-                    name="topicName"
-                    value={formData.topicName}
+                    type="date"
+                    name="dateOfGranting"
+                    value={formData.dateOfGranting}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
                   />
                 </div>
-
-                <div>
-              <label className="block text-gray-600 font-medium mb-1">
-                Proof Of Document
-              </label>
-              <input
-                type="text"
-                name="proofDocument"
-                value={formData.proofDocument}
-                onChange={handleInputChange}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
-              />
-            </div>
 
                 <div className="flex justify-center">
                   <button
@@ -216,4 +202,4 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   );
 }
 
-export default PatentPopUp;
+export default ProjectPopUp;

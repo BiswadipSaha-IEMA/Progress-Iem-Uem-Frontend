@@ -11,13 +11,14 @@ import EditFormPopUp from "./EditFormPopUp";
 
 // lottie
 import Lottie from "react-lottie";
-import NoDataFaculty from '../../../Lottie/NoDataFaculty.json'
+import NoDataFaculty from "../../../Lottie/NoDataFaculty.json";
+// import noDataFound from "../../../Lottie/noDataFound.json"
 
 export default function FacultyBookPublished() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
-  const [getReq] = useGetReq(); 
+  const [getReq] = useGetReq();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -85,12 +86,12 @@ export default function FacultyBookPublished() {
   const columnHeaders = [
     "Author Type",
     "Title",
-    "Faculty",
+    "Faculty Name",
     "Published Date",
     "Publisher Name",
-    "ISBN",
+    "ISBN Number",
+    "Email Address",
     "Status",
-    "Email",
     "Proof of Document",
   ];
 
@@ -105,7 +106,7 @@ export default function FacultyBookPublished() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen font-poppins">
       <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
@@ -121,8 +122,8 @@ export default function FacultyBookPublished() {
           <div className="flex justify-center items-center"></div>
         ) : data.length === 0 ? (
           <div className="flex flex-col justify-center items-center py-8 m-10 bg-white rounded-lg font-poppins">
-            <Lottie options={lottieOptions} height={250} width={250}  />
-          
+            {/* <Lottie options={lottieOptions} height={250} width={250} /> */}
+            <p>No results found. Please try searching with different keywords.</p>
           </div>
         ) : (
           <>
@@ -160,7 +161,7 @@ export default function FacultyBookPublished() {
                   <table className="min-w-full">
                     {/* Table Header */}
                     <thead>
-                      <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
+                      <tr className="bg-[#DEF4FF] h-12 text-center text-[#1A1A1D] font-semibold">
                         <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
                           SL. No
                         </th>
@@ -173,7 +174,7 @@ export default function FacultyBookPublished() {
                           </th>
                         ))}
                         <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                          Action
+                          Any Update
                         </th>
                       </tr>
                     </thead>
@@ -207,10 +208,18 @@ export default function FacultyBookPublished() {
                             {item.isbn}
                           </td>
                           <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status}
-                          </td>
-                          <td className="px-4 py-2 whitespace-nowrap">
                             {item.createdBy.email}
+                          </td>
+                          <td
+                            className={`px-4 py-2 whitespace-nowrap ${
+                              item.status === "Approved"
+                                ? "text-green-600"
+                                : item.status === "Rejected"
+                                ? "text-red-600"
+                                : "text-yellow-600"
+                            }`}
+                          >
+                            {item.status}
                           </td>
                           <td className="px-4 py-2 whitespace-nowrap">
                             {item.proofDocument ? (
@@ -218,7 +227,7 @@ export default function FacultyBookPublished() {
                                 href={item.proofDocument}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-500 no-underline"
+                                className="text-[#3FBDFE] no-underline"
                               >
                                 Link
                               </a>
@@ -227,16 +236,19 @@ export default function FacultyBookPublished() {
                             )}
                           </td>
                           <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status === "Rejected" && (
+                            {item.status === "Rejected" ? (
                               <button
                                 className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setEditBpData(true);
                                   setSelectedData(item);
-                                }
-                                }
+                                }}
                               >
+                                Edit
+                              </button>
+                            ) : (
+                              <button className="bg-[#C7C8CC] text-[#F9F3F3] px-10 py-2 rounded-lg cursor-not-allowed" >
                                 Edit
                               </button>
                             )}
@@ -292,7 +304,11 @@ export default function FacultyBookPublished() {
       )}
 
       {editBpData && (
-        <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBookData} />
+        <EditFormPopUp
+          data={selectedData}
+          setShowPopup={setEditBpData}
+          fetchData={getBookData}
+        />
       )}
     </div>
   );

@@ -4,49 +4,41 @@ import { RxCross2 } from "react-icons/rx";
 import { VscDiffAdded } from "react-icons/vsc";
 import { FaBookBookmark } from "react-icons/fa6";
 import { useGetReq } from "../../../hooks/useHttp";
-import CompetitionPopUp from "../../../utils/Popup/FormPopUp/CompetitionPopUp";
-import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
+import ProjectPopUp from "../../../utils/Popup/FormPopUp/ProjectPopUp";
+// import FacultyPopup from "../../DetailedSuperAdmin/FacultyPopup";
 import Header from "../../../Components/Header/Header";
-
 import EditFormPopUp from "./EditFormPopUp";
 
-export default function Competetion() {
+export default function FacultyProjectComp() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
   const [getReq] = useGetReq();
   const [currentPage, setCurrentPage] = useState(1);
   const [detailedClick, setDetailedClick] = useState(false);
+  const [editProjectData, setEditProjectData] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const rowsPerPage = 10;
-  const [editBpData, setEditBpData] = useState(false);
 
   const accessToken = sessionStorage.getItem("token").split('"')[1];
-  const getBPData = async () => {
+
+  const getProjectData = async () => {
     try {
       const response = await getReq(
-        "api/v1/document/getAllEvents",
+        "api/v1/document/getAllProjects",
         accessToken
       );
-      const arr = [];
       if (response.success) {
-        console.log(response.data.data);
-
-        response.data.data.forEach((data) => {
-          if (data.eventType === "Competition") arr.push(data);
-        });
-
-        setData(arr);
-        setData1(arr);
+        setData(response.data.data);
+        setData1(response.data.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    getBPData();
+    getProjectData();
   }, [showPopUp]);
 
   const handleSearch = (event) => {
@@ -54,9 +46,11 @@ export default function Competetion() {
     setSearchTerm(event.target.value);
     const filteredData = data1.filter(
       (item) =>
-        item.title?.toLowerCase().includes(searchData) ||
-        item.name?.toLowerCase().includes(searchData) ||
-        item.isbn?.toLowerCase().includes(searchData)
+        item.facultyName?.toLowerCase().includes(searchData) ||
+        item.companyName?.toLowerCase().includes(searchData) ||
+        item.orderAmount?.toLowerCase().includes(searchData) ||
+        item.activityStatus?.toLowerCase().includes(searchData) ||
+        item.platformUsed?.toLowerCase().includes(searchData)
     );
     setData(filteredData);
     setCurrentPage(1);
@@ -75,23 +69,25 @@ export default function Competetion() {
   };
 
   const columnHeaders = [
-    "Faculty",
-    "Event Date",
-    "Competition Name",
-    "Competition Type",
-    "Status",
-    "Proof of Document",
+    'Title of Project',
+    'Name of Principal Investigator',
+    'Name of Co-Principal Investigator',
+    'Amount of Grant',
+    'Date of Submission',
+    'Date of Granting',
+    'Status',
+    'Proof of Document',
   ];
 
   return (
-    <div className="flex flex-col min-h-screen font-poppins">
-          <div className="flex-1 overflow-auto px-4 sm:px-10 pb-16 md:pb-2">
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-1 overflow-auto px-4 sm:px-10">
         <Header backPage="/faculty/dashboard" />
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 mt-10">
           <div className="flex items-center gap-5 mb-4 sm:mb-0">
             <FaBookBookmark className="text-[2rem] text-[#03A8FD]" />
             <div className="text-[20px] sm:text-[25px] font-semibold">
-            Competition Organized
+              Project
             </div>
           </div>
 
@@ -99,7 +95,7 @@ export default function Competetion() {
             <div className="relative w-full sm:w-[300px] lg:w-[500px]">
               <input
                 type="text"
-                placeholder="Search by Tour Name"
+                placeholder="Search by Module Name"
                 onChange={handleSearch}
                 value={searchTerm}
                 className="w-full h-[50px] font-semibold py-2 pl-10 outline-none pr-10 rounded-[10px] border border-[#03A8FD] backdrop-blur-lg shadow-[0_0_10px_3px_rgba(3,168,253,0.7)]"
@@ -117,7 +113,7 @@ export default function Competetion() {
               className="bg-[#03A8FD] text-white px-4 py-2 rounded-md flex items-center justify-center gap-2"
               onClick={() => setShowPopUp(true)}
             >
-              Add New Competition
+              Add New Activity
               <VscDiffAdded className="text-[1.3rem]" />
             </button>
           </div>
@@ -130,7 +126,7 @@ export default function Competetion() {
               <table className="min-w-full">
                 {/* Table Header */}
                 <thead>
-                  <tr className="bg-[#DEF4FF] h-12 text-center text-[#1A1A1D] font-semibold">
+                  <tr className="bg-[#DEF4FF] h-12 text-center text-[#575757] font-semibold">
                     <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">SL. No</th>
                     {columnHeaders.map((header, index) => (
                       <th key={index} className="px-4 py-2 whitespace-nowrap">
@@ -138,7 +134,7 @@ export default function Competetion() {
                       </th>
                     ))}
                       <th className="px-4 py-2 sticky left-0 bg-[#DEF4FF] z-10">
-                      Action
+                      Any Update
                     </th>
                   </tr>
                 </thead>
@@ -155,19 +151,14 @@ export default function Competetion() {
                       }}
                     >
                       <td className="px-4 py-2 sticky left-0 bg-white">{indexOfFirstRow + rowIndex + 1}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.createdBy.name}</td>
-            
-                      <td className="px-4 py-2 whitespace-nowrap">{item.date}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.topicName}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">{item.organizedBy}</td>
-                      <td className={`px-4 py-2 whitespace-nowrap ${
-                              item.status === "Approved"
-                                ? "text-green-600"
-                                : item.status === "Rejected"
-                                ? "text-red-600"
-                                : "text-yellow-600"
-                            }`}>{item.status}</td>
-                     
+                      <td className="px-4 py-2 whitespace-nowrap">{item.title}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.principleInvestigator}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.coPrincipleInvestigator}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.grantAmount}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.dateofSubmission}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.dateofGranting}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.projectStatus}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{item.proofDocument}</td>
                       <td className="px-4 py-2 whitespace-nowrap">
                         {item.proofDocument ? (
                           <a
@@ -183,25 +174,17 @@ export default function Competetion() {
                         )}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
-                            {item.status === "Rejected" ? (
-                              <button
-                                className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setEditBpData(true);
-                                  setSelectedData(item);
-                                  console.log(true)
-                                }
-                                }
-                              >
-                                Edit
-                              </button>
-                            ) : (
-                              <button className="bg-[#C7C8CC] text-[#F9F3F3] px-10 py-2 rounded-lg cursor-not-allowed" >
-                                Edit
-                              </button>
-                            )}
-                          </td>
+                        {item.status === "Rejected" && (
+                          <button
+                            className="bg-[#03A8FD] text-[#fff] px-10 py-2 rounded-lg"
+                            onClick={() => {
+                              setEditProjectData(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -211,7 +194,7 @@ export default function Competetion() {
         </div>
 
         {/* Pagination Controls for large screens */}
-        <div className="mt-4 hidden md:flex justify-end">
+        <div className="hidden sm:flex justify-end mt-4">
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
@@ -229,7 +212,8 @@ export default function Competetion() {
         </div>
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
+      {/* Pagination Controls for small screens */}
+      <div className="sm:hidden sticky bottom-0 left-0 right-0 bg-white py-2 px-4 shadow-md flex justify-end z-20">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
@@ -247,13 +231,14 @@ export default function Competetion() {
       </div>
 
       {showPopUp && (
-        <CompetitionPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
+        <ProjectPopUp setUtilFor={"bpAddForm"} setShowPopup={setShowPopUp} />
       )}
+
+      {editProjectData && <EditFormPopUp data={selectedData} setShowPopup={setEditProjectData} fetchData={getProjectData} />}
 
       {/* {detailedClick && (
         <FacultyPopup setShowPopup={setDetailedClick} data={selectedData} />
       )} */}
-       {editBpData && <EditFormPopUp data={selectedData} setShowPopup={setEditBpData} fetchData={getBPData}/>}
     </div>
   );
 }

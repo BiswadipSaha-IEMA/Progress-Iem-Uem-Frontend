@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { dummyData } from "../../../constants/studentData"; // Removed the duplicate import
 import Header from "../../Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
 import ModeratorViewTable from "./ModeratorViewTable";
 import Lottie from "react-lottie";
 import noDataFound from "../../../Lottie/noDataFound.json";
+import gsap from "gsap";
 
 const ModeratorTableData = () => {
   const [data, setData] = useState([]);
@@ -69,6 +70,7 @@ const ModeratorTableData = () => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const [getReq] = useGetReq();
+  const noRecordAnimation = useRef(null)
 
   const getFaculty = async () => {
     try {
@@ -1193,6 +1195,15 @@ const ModeratorTableData = () => {
     }
   }, [data]);
 
+  useEffect(()=>{
+    gsap.from(noRecordAnimation.current, {
+      opacity: 0,
+      ease: "expo",
+      scale: 0.5,
+      duration: 2,
+    })
+  },[])
+
   return (
     <>
       <Header backPage="/moderator/dashboard" />
@@ -1200,7 +1211,7 @@ const ModeratorTableData = () => {
       {isAllDataEmpty ? (
         <div className="flex flex-col items-center justify-center py-8 m-10 bg-white rounded-lg font-poppins">
           <Lottie options={options} height={400} width={400} />
-          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">
+          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center" ref={noRecordAnimation}>
             No records available
           </p>
         </div>

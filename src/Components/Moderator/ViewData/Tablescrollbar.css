@@ -1,0 +1,13 @@
+.table-scrollbar::-webkit-scrollbar{
+    height:10px;
+}
+.table-scrollbar::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+.table-scrollbar::-webkit-scrollbar-thumb{
+    background: 0 0 10px 3px,rgba(3,168,253,0.7);
+    border-radius: 10px;
+}
+.table-scrollbar::-webkit-scrollbar-thumb:hover{
+    background: 0 0 10px 3px,rgba(3,168,253,0.5);
+}

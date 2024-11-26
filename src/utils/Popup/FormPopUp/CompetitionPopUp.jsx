@@ -4,11 +4,11 @@ import "./styles.css";
 import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
+function CompetitionPopUp({ getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
   const [dateRange, setDateRange] = useState(["", ""]);
-  const [getReq]= useGetReq();
+  const [getReq] = useGetReq();
 
   const getDates = async () => {
     try {
@@ -26,13 +26,12 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   };
 
   const [formData, setFormData] = useState({
-   
-    topicName:"",
-    
+    topicName: "",
+
     date: "",
-    
-    
-    organizedBy:"",
+
+    proofDocument: "",
+    organizedBy: "",
     proofDocument: "",
   });
 
@@ -60,33 +59,30 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createEvent",
       {
-        
         topicName: formData.topicName,
-       
+
         date: formData.date,
-       
+        proofDocument: formData.proofDocument,
         organizedBy: formData.organizedBy,
         proofDocument: formData.proofDocument,
-        eventType:"Competition",
-        
+        eventType: "Competition",
       },
       accessToken
     );
-    if (response.success){ 
-      getAllInfo()
-      setShowPopup(false)
-    };
+    if (response.success) {
+      getAllInfo();
+      setShowPopup(false);
+    }
   };
 
   const handleClose = () => {
     setFormData({
-       
-        name: "",
-       
-        date: "",
-       
-        topicName:"",
-        proofDocument: "",
+      name: "",
+
+      date: "",
+
+      topicName: "",
+      proofDocument: "",
     });
     console.log("Form closed");
   };
@@ -127,12 +123,10 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-               
-
                 {/* Competetion Name  */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Competetion Name 
+                    Competetion Name
                   </label>
                   <input
                     type="text"
@@ -142,8 +136,6 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-
-              
 
                 {/* Date of Launch */}
                 <div>
@@ -157,14 +149,13 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
-                 />
+                  />
                 </div>
-
 
                 {/*  */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                  Competetion Type
+                    Competetion Type
                   </label>
                   <input
                     type="text"
@@ -174,10 +165,10 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-                 {/* Proof Document */}
-                 <div>
+                {/* Proof Document */}
+                <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                   Proof of Document
+                    Proof of Document
                   </label>
                   <input
                     type="text"
@@ -186,6 +177,19 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Proof Of Document
+                  </label>
+                  <input
+                    type="text"
+                    name="proofDocument"
+                    value={formData.proofDocument}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
                   />
                 </div>
 
@@ -202,12 +206,12 @@ function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
             </div>
           </div>
           {error && (
-        <ManagePopUp
-          setUtilFor={"error"}
-          setPopupShow={setError}
-          takeData={"Not a valid date"}
-        />
-      )}
+            <ManagePopUp
+              setUtilFor={"error"}
+              setPopupShow={setError}
+              takeData={"Not a valid date"}
+            />
+          )}
         </div>
       </>
     )

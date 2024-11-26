@@ -28,7 +28,7 @@ function IndustrialPopup({ setUtilFor, setShowPopup, getAllInfo }) {
 
   const [formData, setFormData] = useState({
     organizedBy: "",
-
+    proofDocument:"",
     date: "",
     industryName: "",
     attendedBy : "",
@@ -59,7 +59,7 @@ function IndustrialPopup({ setUtilFor, setShowPopup, getAllInfo }) {
       "api/v1/document/createEvent",
       {
         organizedBy: formData.organizedBy,
-
+        proofDocument: formData.proofDocument,
         date: formData.date,
         industryName: formData.industryName,
         attendedBy: formData.attendedBy,
@@ -165,6 +165,18 @@ function IndustrialPopup({ setUtilFor, setShowPopup, getAllInfo }) {
                 type="text"
                 name="attendedBy"
                 value={formData.attendedBy}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Proof Of Document
+              </label>
+              <input
+                type="text"
+                name="proofDocument"
+                value={formData.proofDocument}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
               />

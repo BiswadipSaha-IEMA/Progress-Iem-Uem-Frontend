@@ -16,7 +16,7 @@ function TriMentoringPopUp({ setUtilFor, setShowPopup, getAllInfo }) {
 
   const [formData, setFormData] = useState({
     organizingInstitute: "",
-    
+    proofDocument:"",
     date: "",
     takenBy : "",
         attendedBy: "",
@@ -51,6 +51,7 @@ function TriMentoringPopUp({ setUtilFor, setShowPopup, getAllInfo }) {
         takenBy : formData.takenBy,
         attendedBy: formData.attendedBy,
         eventType: "Tri-Mentoring",
+        proofDocument: formData.proofDocument,
       },
       accessToken
     );
@@ -154,6 +155,19 @@ function TriMentoringPopUp({ setUtilFor, setShowPopup, getAllInfo }) {
                 type="text"
                 name="attendedBy"
                 value={formData.attendedBy}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Proof Of Document
+              </label>
+              <input
+                type="text"
+                name="proofDocument"
+                value={formData.proofDocument}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
               />

@@ -11,7 +11,8 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
     name: "",
     designation: "",
     dateOfFiling: "",
-    nationalOrInternational: "",
+    nationalOrInternational: "National",
+    proofDocument:"",
     topicName: "",
   });
 
@@ -34,6 +35,7 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
         name: formData.name,
         nationalOrInternational: formData.nationalOrInternational,
         dateOfFiling: formData.dateOfFiling,
+        proofDocument: formData.proofDocument,
         designation: formData.designation,
         topicName: formData.topicName,
       },
@@ -140,7 +142,7 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     National or International
                   </label>
@@ -152,6 +154,22 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required
                   />
+                </div> */}
+
+                {/* Event Type Dropdown */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">National or International</label>
+                  <select
+                    name="nationalOrInternational"
+                    value={formData.nationalOrInternational}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="National">National</option>
+                    <option value="International">International</option>
+                  </select>
                 </div>
 
                 <div>
@@ -167,6 +185,19 @@ function PatentPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     required
                   />
                 </div>
+
+                <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Proof Of Document
+              </label>
+              <input
+                type="text"
+                name="proofDocument"
+                value={formData.proofDocument}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              />
+            </div>
 
                 <div className="flex justify-center">
                   <button

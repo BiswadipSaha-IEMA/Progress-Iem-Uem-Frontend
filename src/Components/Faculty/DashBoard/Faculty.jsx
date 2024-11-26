@@ -1125,7 +1125,7 @@ const getResearchpaperCInfo = async () => {
       {confCState && (
         <ConferenceGradeC
           setUtilFor={"bpAddForm"}
-          setShowPopup={setConfBState}
+          setShowPopup={setConfCState}
           getAllInfo={allInfo}
         />
       )}

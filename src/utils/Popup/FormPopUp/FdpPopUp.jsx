@@ -93,6 +93,24 @@ function FDPPopUp({getAllInfo, setUtilFor, setShowPopup }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+
+              {/* Event Type Dropdown */}
+              <div>
+                  <label className="block text-gray-600 font-medium mb-1">Event Type</label>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="Attended">Attended</option>
+                    <option value="Conducted">Conducted</option>
+                  </select>
+                </div>
+
+
                 {/* Faculty */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
@@ -193,6 +211,19 @@ function FDPPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div> */}
+
+                <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Proof Of Document
+              </label>
+              <input
+                type="text"
+                name="proofDocument"
+                value={formData.proofDocument}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              />
+            </div>
 
                 {/* Centered Submit Button */}
                 <div className="flex justify-center">

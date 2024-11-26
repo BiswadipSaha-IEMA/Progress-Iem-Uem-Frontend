@@ -11,6 +11,7 @@ function HackPopUp({getAllInfo, setUtilFor, setShowPopup }) {
     eventName: "",
     date: "",
     participants: "",
+    proofDocument:"",
    
   });
 
@@ -34,6 +35,7 @@ function HackPopUp({getAllInfo, setUtilFor, setShowPopup }) {
         topicName: formData.eventName,
         attendedBy: formData.participants,
         date: formData.date,        
+        proofDocument: formData.proofDocument,
       },
       accessToken
     );
@@ -140,6 +142,19 @@ function HackPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
+
+                <div>
+              <label className="block text-gray-600 font-medium mb-1">
+                Proof Of Document
+              </label>
+              <input
+                type="text"
+                name="proofDocument"
+                value={formData.proofDocument}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+              />
+            </div>
 
 
 

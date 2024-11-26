@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ConferenceGradeC({ setUtilFor, setShowPopup }) {
+function ConferenceGradeC({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -62,6 +62,7 @@ function ConferenceGradeC({ setUtilFor, setShowPopup }) {
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

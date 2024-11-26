@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { dummyData } from "../../../constants/studentData"; // Removed the duplicate import
 import Header from "../../Header/Header";
 import { useGetReq } from "../../../hooks/useHttp";
 import ModeratorViewTable from "./ModeratorViewTable";
 import Lottie from "react-lottie";
 import noDataFound from "../../../Lottie/noDataFound.json";
+import gsap from "gsap";
 
 const ModeratorTableData = () => {
   const [data, setData] = useState([]);
@@ -17,6 +18,13 @@ const ModeratorTableData = () => {
   const [conf2Full, setConf2Full] = useState([]);
   const [conf3, setConf3] = useState([]);
   const [conf3Full, setConf3Full] = useState([]);
+  const [book1, setBook1] = useState([]);
+  const [book1Full, setBook1Full] = useState([]);
+  const [book2, setBook2] = useState([]);
+  const [book2Full, setBook2Full] = useState([]);
+  const [book3, setBook3] = useState([]);
+  const [book3Full, setBook3Full] = useState([]);
+  
   // const [rp1, setRp1] = useState([]);
   const [rp1Full, setRp1Full] = useState([]);
   const [rp2, setRp2] = useState([]);
@@ -62,6 +70,7 @@ const ModeratorTableData = () => {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
   const department = sessionStorage.getItem("dept");
   const [getReq] = useGetReq();
+  const noRecordAnimation = useRef(null)
 
   const getFaculty = async () => {
     try {
@@ -71,7 +80,7 @@ const ModeratorTableData = () => {
       );
       if (response.success) {
         console.log("responceeeeeeeeeeeeeeeeeeeeeeeeee");
-        console.log(response.data);
+        console.log("responceeeeeeeeeeeeeeeeeeeeeeeeee",response.data);
         setData(response.data);
       } else {
         console.error("Error:", response.statusText);
@@ -95,6 +104,9 @@ const ModeratorTableData = () => {
     conf1?.length > 0 ||
     conf2?.length > 0 ||
     conf3?.length > 0 ||
+    book1?.length > 0 ||
+    book2?.length > 0 ||
+    book3?.length > 0 ||
     patents?.length > 0 ||
     facultyDevelopment?.length > 0 ||
     competition?.length > 0 ||
@@ -912,6 +924,181 @@ const ModeratorTableData = () => {
           pub.publicationType === "Conference" &&
           pub.publicationGrade === "Grade-C"
       );
+      //hehe
+      const book1 = data.publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-A"
+        )
+        .map(
+          ({
+            createdBy,
+            comment,
+            publicationGrade,
+            publicationType,
+            documentLink,
+            collegeName,
+            proofDocument,
+            obtainedScore,
+            status,
+            authorType,
+            department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
+            __v,
+            nationalOrInternational,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
+            "Proof of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      const book1Full = data.publications.filter(
+        (pub) =>
+          pub.publicationType === "Book Chapter" &&
+          pub.publicationGrade === "Grade-A"
+      );
+
+      const book2 = data.publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-B"
+        )
+        .map(
+          ({
+            createdBy,
+            comment,
+            publicationGrade,
+            publicationType,
+            documentLink,
+            collegeName,
+            proofDocument,
+            obtainedScore,
+            status,
+            authorType,
+            department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
+            __v,
+            nationalOrInternational,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
+            "Proof of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      const book2Full = data.publications.filter(
+        (pub) =>
+          pub.publicationType === "Book Chapter" &&
+          pub.publicationGrade === "Grade-B"
+      );
+
+
+      const book3 = data.publications
+        .filter(
+          (pub) =>
+            pub.publicationType === "Book Chapter" &&
+            pub.publicationGrade === "Grade-C"
+        )
+        .map(
+          ({
+            createdBy,
+            comment,
+            publicationGrade,
+            publicationType,
+            documentLink,
+            collegeName,
+            proofDocument,
+            obtainedScore,
+            status,
+            authorType,
+            department,
+            journalName,
+            name,
+            vol,
+            issue,
+            pp,
+            date,
+            publisher,
+            conferenceName,
+            category,
+            title,
+            reviewedBy,
+            __v,
+            nationalOrInternational,
+            hasContentAccess,
+            ...rest
+          }) => ({
+            ...rest,
+            "Author Type": authorType,
+            "Author Name": name,
+            "Book Name": title,
+            "Conference Name":conferenceName,
+            "Category": category,
+            "Volume No.":vol,
+            "Issue No.":issue,
+            "Paper No.":pp,
+            "National/International":nationalOrInternational,
+            "Publisher Name": publisher,
+            "Date": date,
+            "Proof of Document": proofDocument,
+            // "Document Link": documentLink,
+            "Status": status,
+          })
+        );
+      const book3Full = data.publications.filter(
+        (pub) =>
+          pub.publicationType === "Book Chapter" &&
+          pub.publicationGrade === "Grade-C"
+      );
 
       const bc1 = data.publications
         .filter(
@@ -997,10 +1184,25 @@ const ModeratorTableData = () => {
       setConf2Full(conf2Full);
       setConf3(conf3);
       setConf3Full(conf3Full);
+      setBook1(book1);
+      setBook1Full(book1Full);
+      setBook2(book2);
+      setBook2Full(book2Full);
+      setBook3(book3);
+      setBook3Full(book3Full);
       setBookChapterA(bc1)
       setBookChapterAFull(bc1Full)
     }
   }, [data]);
+
+  useEffect(()=>{
+    gsap.from(noRecordAnimation.current, {
+      opacity: 0,
+      ease: "expo",
+      scale: 0.5,
+      duration: 2,
+    })
+  },[])
 
   return (
     <>
@@ -1009,7 +1211,7 @@ const ModeratorTableData = () => {
       {isAllDataEmpty ? (
         <div className="flex flex-col items-center justify-center py-8 m-10 bg-white rounded-lg font-poppins">
           <Lottie options={options} height={400} width={400} />
-          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center">
+          <p className="text-[#1A1A1D] mt-2 text-4xl font-semibold text-center" ref={noRecordAnimation}>
             No records available
           </p>
         </div>
@@ -1078,8 +1280,36 @@ const ModeratorTableData = () => {
               fetchData={getFaculty}
             />
           )}
+          
+          {book1.length > 0 && (
+            <ModeratorViewTable
+              dummyData={book1}
+              dummy={book1}
+              fullData={book1Full}
+              name={"Research Paper Published- Book Chapter (Grade-A)"}
+              fetchData={getFaculty}
+            />
+          )}
+          {book2.length > 0 && (
+            <ModeratorViewTable
+              dummyData={book2}
+              dummy={book2}
+              fullData={book2Full}
+              name={"Research Paper Published- Book Chapter (Grade-B)"}
+              fetchData={getFaculty}
+            />
+          )}
+          {book3.length > 0 && (
+            <ModeratorViewTable
+              dummyData={book3}
+              dummy={book3}
+              fullData={book3Full}
+              name={"Research Paper Published- Book Chapter (Grade-C)"}
+              fetchData={getFaculty}
+            />
+          )}
 
-          {bookChapterA.length > 0 && (
+          {/* {bookChapterA.length > 0 && (
             <ModeratorViewTable
             dummyData={bookChapterA}
             dummy={bookChapterA}
@@ -1087,7 +1317,7 @@ const ModeratorTableData = () => {
             name={"Research Paper- Book Chapter (Grade-A)"}
             fetchData={getFaculty}
             />
-          )}
+          )} */}
 
           {patents.length > 0 && (
             <ModeratorViewTable
@@ -1134,7 +1364,7 @@ const ModeratorTableData = () => {
               fetchData={getFaculty}
             />
           )}
-          {confPub.length > 0 && (
+          {conf.length > 0 && (
             <ModeratorViewTable
             dummyData={conf}
             dummy={conf}

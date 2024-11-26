@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
+function ResearchPaperGradeAbookChapter({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -20,7 +19,7 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
     issue: "",
     pp: "",
     publicationGrade: "Grade-A", // Default value
-    publicationType: "Research Paper", // Default value
+    publicationType: "Book Chapter", // Default value
     nationalOrInternational: "National",
     proofDocument: "",
   });
@@ -45,25 +44,25 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
     const response = await postReq(
       "api/v1/document/createPublication",
       {
-        name: formData.name,
-        title: formData.title,
-        // isbn: formData.isbn,
-        category: formData.category,
-        // publisher: formData.publisher,
-        authorType : authorType,
-        date: formData.date,
-        journalName: formData.journalName,
-        vol: formData.vol,
-        pp: formData.pp,
-        issue: formData.issue,
-        publicationGrade: formData.publicationGrade,
-        publicationType: formData.publicationType,
-        nationalOrInternational: formData.nationalOrInternational,
-        proofDocument: formData.proofDocument,
+        name: "",
+        title: "",
+        isbn: "",
+        category: "",
+        publisher: "",
+        date: "",
+        journalName: "",
+        vol: "",
+        issue: "",
+        pp: "",
+        publicationGrade: "Grade-A", // Default value
+        publicationType: "Book Chapter", // Default value
+        nationalOrInternational: "National",
+        proofDocument: "",
       },
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };
@@ -81,7 +80,7 @@ function ResearchPaperGradeAbookChapter({ setUtilFor, setShowPopup }) {
       issue: "",
       pp: "",
       publicationGrade: "Grade-A", // Default value
-      publicationType: "Research Paper", // Default value
+      publicationType: "Book Chapter", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
     });

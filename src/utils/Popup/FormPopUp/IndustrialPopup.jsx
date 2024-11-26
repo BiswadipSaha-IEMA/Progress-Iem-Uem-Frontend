@@ -4,7 +4,7 @@ import "./styles.css";
 import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function IndustrialPopup({ setUtilFor, setShowPopup }) {
+function IndustrialPopup({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
   const [getReq] = useGetReq();
   const [error, setError] = useState(false);
@@ -69,6 +69,7 @@ function IndustrialPopup({ setUtilFor, setShowPopup }) {
     );
     if (response.success){ 
       setShowPopup(false)
+      getAllInfo()
     };
   };
 

@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ResearchPaperGradeBbookChapter({ setUtilFor, setShowPopup }) {
+function ResearchPaperGradeBbookChapter({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
@@ -64,6 +64,7 @@ function ResearchPaperGradeBbookChapter({ setUtilFor, setShowPopup }) {
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

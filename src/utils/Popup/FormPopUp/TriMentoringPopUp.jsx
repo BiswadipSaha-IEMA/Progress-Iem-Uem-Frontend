@@ -4,7 +4,7 @@ import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function TriMentoringPopUp({ setUtilFor, setShowPopup }) {
+function TriMentoringPopUp({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
   const[error, setError]= useState(false)
 
@@ -56,6 +56,7 @@ function TriMentoringPopUp({ setUtilFor, setShowPopup }) {
     );
     if (response.success){ 
       setShowPopup(false)
+      getAllInfo()
     };
   };
 

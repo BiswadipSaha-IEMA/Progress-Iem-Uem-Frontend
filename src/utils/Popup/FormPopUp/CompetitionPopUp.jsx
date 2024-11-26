@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
-import { usePostReq } from "../../../hooks/useHttp";
+import { useGetReq, usePostReq } from "../../../hooks/useHttp";
 import ManagePopUp from "./ManagePopUp";
 
-function CompetitionPopUp({ setUtilFor, setShowPopup }) {
+function CompetitionPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
   const [dateRange, setDateRange] = useState(["", ""]);
+  const [getReq]= useGetReq();
 
   const getDates = async () => {
     try {
@@ -72,6 +73,7 @@ function CompetitionPopUp({ setUtilFor, setShowPopup }) {
       accessToken
     );
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

@@ -71,7 +71,9 @@ const CommentModal = ({
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
           name === "Research Paper Conference (Grade-C)" ||
-          name === "Research Paper- Book Chapter (Grade-A)"
+          name === "Research Paper Published- Book Chapter (Grade-A)" ||
+          name === "Research Paper Published- Book Chapter (Grade-B)" ||
+          name === "Research Paper Published- Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -128,7 +130,9 @@ const CommentModal = ({
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
           name === "Research Paper Conference (Grade-C)" ||
-          name === "Research Paper- Book Chapter (Grade-A)"
+          name === "Research Paper Published- Book Chapter (Grade-A)" ||
+          name === "Research Paper Published- Book Chapter (Grade-B)" ||
+          name === "Research Paper Published- Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||
@@ -186,7 +190,9 @@ const CommentModal = ({
           name === "Research Paper Conference (Grade-A)" ||
           name === "Research Paper Conference (Grade-B)" ||
           name === "Research Paper Conference (Grade-C)" ||
-          name === "Research Paper- Book Chapter (Grade-A)"
+          name === "Research Paper Published- Book Chapter (Grade-A)" ||
+          name === "Research Paper Published- Book Chapter (Grade-B)" ||
+          name === "Research Paper Published- Book Chapter (Grade-C)"
             ? "api/v1/document/reviewPublication"
             : name === "Workshop" ||
               name === "Seminar" ||

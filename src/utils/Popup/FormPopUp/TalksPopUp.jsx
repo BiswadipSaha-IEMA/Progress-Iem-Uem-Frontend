@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function TalksPopUp({ setUtilFor, setShowPopup }) {
+function TalksPopUp({getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
 
   const [formData, setFormData] = useState({
@@ -46,6 +46,7 @@ function TalksPopUp({ setUtilFor, setShowPopup }) {
     console.log("Lecture Submission")
     console.log(response)
     if (response.success){ 
+      getAllInfo()
       setShowPopup(false)
     };
   };

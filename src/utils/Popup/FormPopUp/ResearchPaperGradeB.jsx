@@ -12,9 +12,9 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
     title: "",
     isbn: "",
     category: "",
-    // publisher: "",
+    publisher: "", // Added publisher field
     date: "",
-    journalName: "",
+    journalName: "", // Added journalName field
     vol: "",
     issue: "",
     pp: "",
@@ -27,9 +27,10 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
 
   const handleChangeAuthor = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     setAuthorType(e.target.value);
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -46,11 +47,11 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
         authorType: authorType,
         name: formData.name,
         title: formData.title,
-        // isbn: formData.isbn,
+        isbn: formData.isbn,
         category: formData.category,
-        // publisher: formData.publisher,
+        publisher: formData.publisher, // Added publisher field
         date: formData.date,
-        journalName: formData.journalName,
+        journalName: formData.journalName, // Added journalName field
         vol: formData.vol,
         pp: formData.pp,
         issue: formData.issue,
@@ -61,10 +62,10 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
       },
       accessToken
     );
-    if (response.success){ 
-      setShowPopup(false)
-      getAllInfo()
-    };
+    if (response.success) {
+      setShowPopup(false);
+      getAllInfo();
+    }
   };
 
   const handleClose = () => {
@@ -73,9 +74,9 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
       title: "",
       isbn: "",
       category: "",
-      // publisher: "",
+      publisher: "", // Reset publisher field
       date: "",
-      journalName: "",
+      journalName: "", // Reset journalName field
       vol: "",
       issue: "",
       pp: "",
@@ -116,22 +117,23 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
           `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Author Type */}
-            <div>
-              <label className="block text-gray-600 font-medium mb-1">
-                Author Type
-              </label>
-              <select
-                name="category"
-                value={authorType}
-                onChange={handleChangeAuthor}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
-              >
-                <option value="">Select</option>
-                <option value="Student">Student</option>
-                <option value="Faculty">Faculty</option>
-              </select>
-            </div>
+                {/* Author Type */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                    Author Type
+                  </label>
+                  <select
+                    name="category"
+                    value={authorType}
+                    onChange={handleChangeAuthor}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
+                  >
+                    <option value="">Select</option>
+                    <option value="Student">Student</option>
+                    <option value="Faculty">Faculty</option>
+                  </select>
+                </div>
+
                 {/* Name */}
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">
@@ -164,7 +166,8 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
 
                 {/* ISBN and Category */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* <div>
+                  {/* ISBN */}
+                  <div>
                     <label className="block text-gray-600 font-medium mb-1">
                       ISBN
                     </label>
@@ -175,7 +178,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                       onChange={handleInputChange}
                       className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     />
-                  </div> */}
+                  </div>
 
                   <div>
                     <label className="block text-gray-600 font-medium mb-1">
@@ -193,10 +196,10 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                   </div>
                 </div>
 
-                {/* Publisher */}
-                {/* <div>
+                {/* Publisher Name */}
+                <div>
                   <label className="block text-gray-600 font-medium mb-1">
-                    Publisher
+                    Publisher Name
                   </label>
                   <input
                     type="text"
@@ -204,8 +207,9 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                     value={formData.publisher}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
                   />
-                </div> */}
+                </div>
 
                 {/* Date */}
                 <div>
@@ -222,7 +226,7 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                 </div>
 
                 {/* Journal Name */}
-                {/* <div>
+                <div>
                   <label className="block text-gray-600 font-medium mb-1">
                     Journal Name
                   </label>
@@ -232,8 +236,9 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                     value={formData.journalName}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
                   />
-                </div> */}
+                </div>
 
                 {/* Volume, Issue, and Pages */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -276,23 +281,6 @@ function ResearchPaperGradeB({ setUtilFor, setShowPopup, getAllInfo }) {
                     />
                   </div>
                 </div>
-
-                {/* Publication Grade Dropdown */}
-                {/* <div>
-                  <label className="block text-gray-600 font-medium mb-1">
-                    Publication Grade
-                  </label>
-                  <select
-                    name="publicationGrade"
-                    value={formData.publicationGrade}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  >
-                    <option value="Grade-A">Grade-A</option>
-                    <option value="Grade-B">Grade-B</option>
-                    <option value="Grade-C">Grade-C</option>
-                  </select>
-                </div> */}
 
                 {/* National or International Dropdown */}
                 <div>

@@ -3,17 +3,16 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.css";
 import { usePostReq } from "../../../hooks/useHttp";
 
-function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
+function ConferenceGradeA({ getAllInfo, setUtilFor, setShowPopup }) {
   const [postReq] = usePostReq();
   const [authorType, setAuthorType] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
-    // aut
     title: "",
     isbn: "",
     category: "",
-    publisher: "",
+    publisher: "", // Added publisher field
     date: "",
     journalName: "",
     vol: "",
@@ -31,7 +30,6 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
     setAuthorType(e.target.value);
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -47,10 +45,8 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
       {
         name: formData.name,
         title: formData.title,
-        // isbn: formData.isbn,
         category: formData.category,
-        // publisher: formData.publisher,
-        authorType : authorType,
+        authorType: authorType,
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -60,13 +56,14 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
         publicationType: formData.publicationType,
         nationalOrInternational: formData.nationalOrInternational,
         proofDocument: formData.proofDocument,
+        publisher: formData.publisher, // Include publisher in the API request
       },
       accessToken
     );
-    if (response.success){ 
-      getAllInfo()
-      setShowPopup(false)
-    };
+    if (response.success) {
+      getAllInfo();
+      setShowPopup(false);
+    }
   };
 
   const handleClose = () => {
@@ -75,7 +72,7 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
       title: "",
       isbn: "",
       category: "",
-      publisher: "",
+      publisher: "", // Reset publisher field
       date: "",
       journalName: "",
       vol: "",
@@ -110,7 +107,6 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
               className="overflow-y-scroll h-[calc(800px-160px)] p-4"
               style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
             >
-              {/* Hide scrollbar for Firefox and Internet Explorer */}
               <style>{`
             ::-webkit-scrollbar {
               display: none; /* Hide scrollbar for Chrome, Safari and Opera */
@@ -119,23 +115,22 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
 
               <form onSubmit={handleSubmit} className="space-y-4">
 
-              {/* Author Type */}
-            <div>
-              <label className="block mb-1 font-medium text-gray-600">
-                Author Type
-              </label>
-              <select
-                name="category"
-                value={authorType}
-                onChange={handleChangeAuthor}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-              >
-                <option value="">Select</option>
-                <option value="Student">Student</option>
-                <option value="Faculty">Faculty</option>
-              </select>
-            </div>
-
+                {/* Author Type */}
+                <div>
+                  <label className="block mb-1 font-medium text-gray-600">
+                    Author Type
+                  </label>
+                  <select
+                    name="category"
+                    value={authorType}
+                    onChange={handleChangeAuthor}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  >
+                    <option value="">Select</option>
+                    <option value="Student">Student</option>
+                    <option value="Faculty">Faculty</option>
+                  </select>
+                </div>
 
                 {/* Name */}
                 <div>
@@ -167,46 +162,31 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
                   />
                 </div>
 
-                {/* ISBN and Category */}
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {/* <div>
-                    <label className="block mb-1 font-medium text-gray-600">
-                      ISBN
-                    </label>
-                    <input
-                      type="text"
-                      name="isbn"
-                      value={formData.isbn}
-                      onChange={handleInputChange}
-                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    />
-                  </div> */}
-
-                  <div>
-                    <label className="block mb-1 font-medium text-gray-600">
-                      Category
-                    </label>
-                    <select
-                      name="category"
-                      value={formData.category}
-                      onChange={handleInputChange}
-                      className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-                    >
-                      <option value="">Select</option>
-                      <option value="SCI">SCI</option>
-                      <option value="SCIE">SCIE</option>
-                      <option value="Scopus">Scopus</option>
-                      <option value="WoS">WoS</option>
-                      <option value="ESCI">ESCI</option>
-                      <option value="Nature">Nature</option>
-                    </select>
-                  </div>
+                {/* Category */}
+                <div>
+                  <label className="block mb-1 font-medium text-gray-600">
+                    Category
+                  </label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  >
+                    <option value="">Select</option>
+                    <option value="SCI">SCI</option>
+                    <option value="SCIE">SCIE</option>
+                    <option value="Scopus">Scopus</option>
+                    <option value="WoS">WoS</option>
+                    <option value="ESCI">ESCI</option>
+                    <option value="Nature">Nature</option>
+                  </select>
                 </div>
 
                 {/* Publisher */}
-                {/* <div>
+                <div>
                   <label className="block mb-1 font-medium text-gray-600">
-                    Publisher
+                    Publisher Name
                   </label>
                   <input
                     type="text"
@@ -215,7 +195,7 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
-                </div> */}
+                </div>
 
                 {/* Date */}
                 <div>
@@ -230,20 +210,6 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   />
                 </div>
-
-                {/* Journal Name */}
-                {/* <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    Journal Name
-                  </label>
-                  <input
-                    type="text"
-                    name="journalName"
-                    value={formData.journalName}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  />
-                </div> */}
 
                 {/* Volume, Issue, and Pages */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -287,24 +253,7 @@ function ConferenceGradeA({getAllInfo, setUtilFor, setShowPopup }) {
                   </div>
                 </div>
 
-                {/* Publication Grade Dropdown */}
-                {/* <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    Publication Grade
-                  </label>
-                  <select
-                    name="publicationGrade"
-                    value={formData.publicationGrade}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  >
-                    <option value="Grade-A">Grade-A</option>
-                    <option value="Grade-B">Grade-B</option>
-                    <option value="Grade-C">Grade-C</option>
-                  </select>
-                </div> */}
-
-                {/* National or International Dropdown */}
+                {/* National or International */}
                 <div>
                   <label className="block mb-1 font-medium text-gray-600">
                     National or International

@@ -5,10 +5,6 @@ import { usePostReq } from "../../../hooks/useHttp";
 
 function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
-  const [authorType, setAuthorType] = useState("");
-  const handleChangeAuthor = (e) => {
-    setAuthorType(e.target.value);
-  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,6 +21,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
     publicationType: "Research Paper", // Default value
     nationalOrInternational: "National",
     proofDocument: "",
+    authorType: ""  // Added authorType here
   });
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -44,10 +41,9 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
       {
         name: formData.name,
         title: formData.title,
-        // isbn: formData.isbn,
         category: formData.category,
         publisher: formData.publisher,
-        authorType : authorType,
+        authorType: formData.authorType,  // Using formData's authorType
         date: formData.date,
         journalName: formData.journalName,
         vol: formData.vol,
@@ -60,10 +56,10 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
       },
       accessToken
     );
-    if (response.success){ 
-      setShowPopup(false)
-      getAllInfo()
-    };
+    if (response.success) {
+      setShowPopup(false);
+      getAllInfo();
+    }
   };
 
   const handleClose = () => {
@@ -82,6 +78,7 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
       publicationType: "Research Paper", // Default value
       nationalOrInternational: "National",
       proofDocument: "",
+      authorType: ""  // Reset authorType here
     });
     console.log("Form closed");
   };
@@ -109,28 +106,29 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
             >
               {/* Hide scrollbar for Firefox and Internet Explorer */}
               <style>{`
-            ::-webkit-scrollbar {
-              display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-            }
-          `}</style>
+                ::-webkit-scrollbar {
+                  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+                }
+              `}</style>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                 {/* Author Type */}
-            <div>
-              <label className="block mb-1 font-medium text-gray-600">
-                Author Type
-              </label>
-              <select
-                name="category"
-                value={authorType}
-                onChange={handleChangeAuthor}
-                className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
-              >
-                <option value="">Select</option>
-                <option value="Student">Student</option>
-                <option value="Faculty">Faculty</option>
-              </select>
-            </div>
+                {/* Author Type */}
+                <div>
+                  <label className="block mb-1 font-medium text-gray-600">
+                    Author Type
+                  </label>
+                  <select
+                    name="authorType"
+                    value={formData.authorType}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg outline-none focus:ring-0"
+                  >
+                    <option value="">Select</option>
+                    <option value="Student">Student</option>
+                    <option value="Faculty">Faculty</option>
+                  </select>
+                </div>
+
                 {/* Name */}
                 <div>
                   <label className="block mb-1 font-medium text-gray-600">
@@ -163,19 +161,6 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
 
                 {/* ISBN and Category */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {/* <div>
-                    <label className="block mb-1 font-medium text-gray-600">
-                      ISBN
-                    </label>
-                    <input
-                      type="text"
-                      name="isbn"
-                      value={formData.isbn}
-                      onChange={handleInputChange}
-                      className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                    />
-                  </div> */}
-
                   <div>
                     <label className="block mb-1 font-medium text-gray-600">
                       Category
@@ -275,23 +260,6 @@ function ResearchPaperGradeC({ setUtilFor, setShowPopup, getAllInfo }) {
                     />
                   </div>
                 </div>
-
-                {/* Publication Grade Dropdown */}
-                {/* <div>
-                  <label className="block mb-1 font-medium text-gray-600">
-                    Publication Grade
-                  </label>
-                  <select
-                    name="publicationGrade"
-                    value={formData.publicationGrade}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
-                  >
-                    <option value="Grade-A">Grade-A</option>
-                    <option value="Grade-B">Grade-B</option>
-                    <option value="Grade-C">Grade-C</option>
-                  </select>
-                </div> */}
 
                 {/* National or International Dropdown */}
                 <div>

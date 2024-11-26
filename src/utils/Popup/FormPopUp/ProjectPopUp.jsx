@@ -13,6 +13,7 @@ function ProjectPopUp({getAllInfo, setUtilFor, setShowPopup }) {
     grantAmount: "",
     dateOfSubmission: "",
     dateOfGranting:"",
+    proofDocument:''
     // department: "",
     // name: "",
     // designation: "",
@@ -37,17 +38,12 @@ function ProjectPopUp({getAllInfo, setUtilFor, setShowPopup }) {
       "api/v1/document/createProject",
       {
         title: formData.title,
-        principleInvestigator: formData.principleInvestigator,
-        coPrincipleInvestigator: formData.coPrincipleInvestigator,
+        principalInvestigator: formData.principleInvestigator,
+        coPrincipalInvestigator: formData.coPrincipleInvestigator,
         grantAmount: formData.grantAmount,
         dateOfSubmission: formData.dateOfSubmission,
         dateOfGranting: formData.dateOfGranting,
-        // department: formData.department,
-        // name: formData.name,
-        // nationalOrInternational: formData.nationalOrInternational,
-        // dateOfFiling: formData.dateOfFiling,
-        // designation: formData.designation,
-        // topicName: formData.topicName,
+        proofDocument: formData.proofDocument
       },
       accessToken
     );
@@ -65,6 +61,7 @@ function ProjectPopUp({getAllInfo, setUtilFor, setShowPopup }) {
         grantAmount: "",
         dateOfSubmission: "",
         dateOfGranting:"",
+        proofDocument:'',
     //   department: "",
     //   name: "",
     //   designation: "",
@@ -179,6 +176,20 @@ function ProjectPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                     type="date"
                     name="dateOfGranting"
                     value={formData.dateOfGranting}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">
+                  Proof Of Document
+                  </label>
+                  <input
+                    type="text"
+                    name="proofDocument"
+                    value={formData.proofDocument}
                     onChange={handleInputChange}
                     className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                     required

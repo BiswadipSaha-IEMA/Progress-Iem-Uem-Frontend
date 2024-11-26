@@ -446,15 +446,40 @@ const ModeratorTableData = () => {
 
       const projects = data.projects.map(
         ({
-          createdAt,
-          createdBy,
-          comment,
-          department,
-          __v,
-          hasContentAccess,
-          ...rest
-        }) => ({ ...rest, "Created By": createdBy.name })
+        createdAt,
+        collegeName,
+        createdBy,
+        department,
+        __v,
+        hasContentAccess,
+        title,
+        obtainedScore,
+        principalInvestigator,
+        coPrincipalInvestigator,
+        grantAmount,
+        dateOfSubmission,
+        dateOfGranting,
+        projectStatus,
+        status,
+        proofDocument,
+        documentLink,
+        ...rest
+        }) => ({
+          ...rest,
+        "Title of Project": title,
+        "Name of Principal Investigator": principalInvestigator,
+        "Name of Co-Principal Investigator": coPrincipalInvestigator,
+        "Amount of Grant": grantAmount,
+        "Date of Submission": dateOfSubmission,
+        "Date of Granting": dateOfGranting,
+        // "ProjectStatus": projectStatus,
+        "Status":status,
+        "Proof Of Document": proofDocument,
+        // "Document Link": documentLink,
+        })
       );
+
+
       const projectsFull = data.projects.map(({ ...rest }) => ({ ...rest }));
 
       const patents = data.patents.map(
@@ -562,7 +587,7 @@ const ModeratorTableData = () => {
             hasContentAccess,
             ...rest
           }) => ({
-            ...rest,
+            // ...rest,
             "Author Type": authorType,
             "Author Name": name,
             "Book Name": title,
@@ -777,7 +802,6 @@ const ModeratorTableData = () => {
             pp,
             date,
             publisher,
-            conferenceName,
             category,
             title,
             reviewedBy,
@@ -790,7 +814,7 @@ const ModeratorTableData = () => {
             "Author Type": authorType,
             "Author Name": name,
             "Book Name": title,
-            "Conference Name":conferenceName,
+            "Conference Name":journalName,
             "Category": category,
             "Volume No.":vol,
             "Issue No.":issue,

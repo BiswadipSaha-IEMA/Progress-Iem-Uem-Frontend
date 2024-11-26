@@ -7,14 +7,8 @@ import ManagePopUp from "./ManagePopUp";
 function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
   const [postReq] = usePostReq();
   const [error, setError] = useState(false);
-  const [authorType, setAuthorType] = useState("");
-
-  const [dateRange] = useState({
-    startDate: "2020-11-01",
-    endDate: "2030-11-30",
-  });
-
   const [formData, setFormData] = useState({
+    authorType: "",
     name: "",
     title: "",
     isbn: "",
@@ -29,8 +23,9 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
     proofDocument: "",
   });
 
-  const handleChangeAuthor = (e) => {
-    setAuthorType(e.target.value);
+  const dateRange = {
+    startDate: "2020-11-01",
+    endDate: "2030-11-30",
   };
 
   const accessToken = sessionStorage.getItem("token")?.trim().split('"')[1];
@@ -57,16 +52,23 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    getAllInfo();
+
+    // Check if there is any error before submitting
     if (error) {
-      // If there is an error, do not submit
+      return; // Do not submit if there is an error
+    }
+
+    // Ensure required fields are filled
+    if (!formData.authorType || !formData.name || !formData.title || !formData.publisher || !formData.date) {
+      setError(true); // Set an error if any required field is missing
       return;
     }
 
+    // If no error, proceed to submit
     const response = await postReq(
       "api/v1/document/createPublication",
       {
-        authorType: authorType,
+        authorType: formData.authorType,
         name: formData.name,
         title: formData.title,
         isbn: formData.isbn,
@@ -74,18 +76,20 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
         date: formData.date,
         publicationType: "Book",
         proofDocument: formData.proofDocument,
-        publisher: formData.publisher
+        publisher: formData.publisher,
       },
       accessToken
     );
+
     if (response.success) {
       setShowPopup(false);
-      getAllInfo()
+      getAllInfo();
     }
   };
 
   const handleClose = () => {
     setFormData({
+      authorType: "",
       name: "",
       title: "",
       isbn: "",
@@ -134,9 +138,9 @@ function BookPublished({ setUtilFor, setShowPopup, getAllInfo }) {
                 Author Type
               </label>
               <select
-                name="category"
-                value={authorType}
-                onChange={handleChangeAuthor}
+                name="authorType"
+                value={formData.authorType}
+                onChange={handleInputChange}
                 className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0 outline-none"
               >
                 <option value="">Select</option>

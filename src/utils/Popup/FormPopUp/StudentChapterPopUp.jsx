@@ -11,7 +11,7 @@ function StudentChapterPopUp({getAllInfo, setUtilFor, setShowPopup }) {
     companyName: "",
     orderAmount: "",
     dateOfOrder: "",
-    activityStatus:"",
+    activityStatus:"Ongoing",
     proofDocument: "",
     
   });
@@ -147,7 +147,7 @@ function StudentChapterPopUp({getAllInfo, setUtilFor, setShowPopup }) {
 
 
                 {/* Status */}
-                <div>
+                {/* <div>
                 <label className="block text-gray-600 font-medium mb-1">
                 Status (Ongoing/ Completed)
 
@@ -160,6 +160,22 @@ function StudentChapterPopUp({getAllInfo, setUtilFor, setShowPopup }) {
                   className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
                   required
                 />
+                </div> */}
+
+                {/* Event Type Dropdown */}
+                <div>
+                  <label className="block text-gray-600 font-medium mb-1">Status (Ongoing/ Completed)</label>
+                  <select
+                    name="activityStatus"
+                    value={formData.activityStatus}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-gray-100 border-none rounded-lg focus:ring-0"
+                    required
+                  >
+                    <option value="">Select Event Type</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                  </select>
                 </div>
 
                 {/* Proof Document */}

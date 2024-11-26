@@ -44,20 +44,20 @@ function ResearchPaperGradeAbookChapter({getAllInfo, setUtilFor, setShowPopup })
     const response = await postReq(
       "api/v1/document/createPublication",
       {
-        name: "",
-        title: "",
-        isbn: "",
-        category: "",
-        publisher: "",
-        date: "",
-        journalName: "",
-        vol: "",
-        issue: "",
-        pp: "",
+        name: formData.name,
+        title: formData.title,
+        isbn: formData.isbn,
+        category: formData.category,
+        publisher: formData.publisher,
+        date: formData.date,
+        journalName: formData.journalName,
+        vol: formData.vol,
+        issue: formData.issue,
+        pp: formData.pp,
         publicationGrade: "Grade-A", // Default value
         publicationType: "Book Chapter", // Default value
-        nationalOrInternational: "National",
-        proofDocument: "",
+        nationalOrInternational: formData.nationalOrInternational,
+        proofDocument: formData.proofDocument,
       },
       accessToken
     );

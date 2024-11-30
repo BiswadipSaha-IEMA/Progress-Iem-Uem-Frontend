@@ -152,7 +152,7 @@ const ViewDataTable = ({ name, dummyData, fetchData }) => {
                         )}
                       </div>
                     ))}
-                    <div className="table-cell px-4 py-2">
+                    <div className="flex justify-center align-middle items-center">
                       <span
                         className="flex items-center text-[#03A8FD] cursor-pointer pl-3 sm:w-[300px] md:w-[150px] lg:w-[150px] h-[30px] rounded-[10px] border backdrop-blur-lg s px-2 gap-2 justify-center text-sm sm:text-wrap"
                         onClick={() => handleCommentClick(item)}
